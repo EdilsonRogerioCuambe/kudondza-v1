@@ -31,6 +31,7 @@ import MediaForm from "./form/media-form";
 import PrerequisitesForm from "./form/prerequisites-form";
 import SeoForm from "./form/seo-form";
 import SettingsForm from "./form/settings-form";
+import StructureForm from "./form/structure-form";
 
 function mapCourseToForm(course: Course): CreateCourseInput {
   return {
@@ -282,6 +283,7 @@ export function CourseUpsertForm({
               <SelectContent>
                 <SelectItem value="basic">Básico</SelectItem>
                 <SelectItem value="content">Conteúdo</SelectItem>
+                <SelectItem value="structure">Estrutura</SelectItem>
                 <SelectItem value="media">Mídia</SelectItem>
                 <SelectItem value="settings">Configurações</SelectItem>
                 <SelectItem value="seo">SEO</SelectItem>
@@ -289,23 +291,47 @@ export function CourseUpsertForm({
               </SelectContent>
             </Select>
           </div>
-          <TabsList className="hidden md:grid w-full grid-cols-6">
-            <TabsTrigger className="flex-shrink-0" value="basic">
+          <TabsList className="hidden md:flex w-full overflow-x-auto whitespace-nowrap gap-2">
+            <TabsTrigger
+              className="flex-shrink-0 min-w-max px-3 py-2 text-sm"
+              value="basic"
+            >
               Básico
             </TabsTrigger>
-            <TabsTrigger className="flex-shrink-0" value="content">
+            <TabsTrigger
+              className="flex-shrink-0 min-w-max px-3 py-2 text-sm"
+              value="content"
+            >
               Conteúdo
             </TabsTrigger>
-            <TabsTrigger className="flex-shrink-0" value="media">
+            <TabsTrigger
+              className="flex-shrink-0 min-w-max px-3 py-2 text-sm"
+              value="structure"
+            >
+              Estrutura
+            </TabsTrigger>
+            <TabsTrigger
+              className="flex-shrink-0 min-w-max px-3 py-2 text-sm"
+              value="media"
+            >
               Mídia
             </TabsTrigger>
-            <TabsTrigger className="flex-shrink-0" value="settings">
+            <TabsTrigger
+              className="flex-shrink-0 min-w-max px-3 py-2 text-sm"
+              value="settings"
+            >
               Configurações
             </TabsTrigger>
-            <TabsTrigger className="flex-shrink-0" value="seo">
+            <TabsTrigger
+              className="flex-shrink-0 min-w-max px-3 py-2 text-sm"
+              value="seo"
+            >
               SEO
             </TabsTrigger>
-            <TabsTrigger className="flex-shrink-0" value="prerequisites">
+            <TabsTrigger
+              className="flex-shrink-0 min-w-max px-3 py-2 text-sm"
+              value="prerequisites"
+            >
               Pré-requisitos
             </TabsTrigger>
           </TabsList>
@@ -320,29 +346,37 @@ export function CourseUpsertForm({
           </TabsContent>
 
           {/* Aba Conteúdo */}
-          <TabsContent value="content" className="space-y-4">
+          <TabsContent value="content" className="space-y-4 px-4">
             <ContentForm />
           </TabsContent>
 
+          {/* Aba Estrutura */}
+          <TabsContent value="structure" className="space-y-4 px-4">
+            <StructureForm
+              courseId={mode === "edit" ? initialCourse?.id : undefined}
+              courseSlug={mode === "edit" ? initialCourse?.slug : undefined}
+            />
+          </TabsContent>
+
           {/* Aba Mídia */}
-          <TabsContent value="media" className="space-y-4">
+          <TabsContent value="media" className="space-y-4 px-4">
             <MediaForm
               courseId={mode === "edit" ? initialCourse?.id : undefined}
             />
           </TabsContent>
 
           {/* Aba Configurações */}
-          <TabsContent value="settings" className="space-y-4">
+          <TabsContent value="settings" className="space-y-4 px-4">
             <SettingsForm />
           </TabsContent>
 
           {/* Aba SEO */}
-          <TabsContent value="seo" className="space-y-4">
+          <TabsContent value="seo" className="space-y-4 px-4">
             <SeoForm />
           </TabsContent>
 
           {/* Aba Pré-requisitos */}
-          <TabsContent value="prerequisites" className="space-y-4">
+          <TabsContent value="prerequisites" className="space-y-4 px-4">
             <PrerequisitesForm />
           </TabsContent>
         </Tabs>
