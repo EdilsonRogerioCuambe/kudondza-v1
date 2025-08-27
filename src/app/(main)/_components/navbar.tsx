@@ -81,7 +81,7 @@ export default function Navbar() {
                   Entrar
                 </Link>
                 <Link
-                  href="/auth/signup"
+                  href="/auth/signin"
                   className={buttonVariants({
                     variant: "default",
                   })}
