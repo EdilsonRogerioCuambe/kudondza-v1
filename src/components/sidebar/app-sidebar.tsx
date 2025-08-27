@@ -22,6 +22,11 @@ import Link from "next/link";
 const data = navData;
 
 export function AppSidebar({ ...props }: React.ComponentProps<typeof Sidebar>) {
+  const [mounted, setMounted] = React.useState(false);
+  React.useEffect(() => setMounted(true), []);
+
+  if (!mounted) return null;
+
   return (
     <Sidebar collapsible="offcanvas" {...props}>
       <SidebarHeader>
