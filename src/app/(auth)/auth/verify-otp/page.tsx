@@ -16,10 +16,10 @@ import {
 import { authClient } from "@/lib/auth-client";
 import { Loader } from "lucide-react";
 import { useRouter, useSearchParams } from "next/navigation";
-import React, { useState, useTransition } from "react";
+import { Suspense, useState, useTransition } from "react";
 import { toast } from "sonner";
 
-export default function Page() {
+function VerifyOtpContent() {
   const [otp, setOtp] = useState<string>("");
   const [isPending, startTransition] = useTransition();
   const params = useSearchParams();
@@ -119,5 +119,25 @@ export default function Page() {
         </Button>
       </CardContent>
     </Card>
+  );
+}
+
+export default function Page() {
+  return (
+    <Suspense
+      fallback={
+        <Card className="w-full mx-auto">
+          <CardHeader className="text-center">
+            <CardTitle className="text-2xl font-bold">Carregando…</CardTitle>
+            <CardDescription>Preparando verificação de código.</CardDescription>
+          </CardHeader>
+          <CardContent className="flex items-center justify-center py-8">
+            <Loader className="animate-spin h-5 w-5 text-muted-foreground" />
+          </CardContent>
+        </Card>
+      }
+    >
+      <VerifyOtpContent />
+    </Suspense>
   );
 }
