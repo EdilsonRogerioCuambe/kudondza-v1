@@ -438,6 +438,33 @@ export const CourseFormSchema = z.object({
   status: CourseStatusSchema.default("DRAFT"),
 });
 
+// ================================
+// SCHEMAS PARA MÓDULOS
+// ================================
+
+export const CreateModuleSchema = z.object({
+  courseId: z.string().min(1, "ID do curso é obrigatório"),
+  title: z
+    .string()
+    .min(3, "Título deve ter pelo menos 3 caracteres")
+    .max(200, "Título deve ter no máximo 200 caracteres"),
+  slug: z
+    .string()
+    .min(3, "Slug deve ter pelo menos 3 caracteres")
+    .max(100, "Slug deve ter no máximo 100 caracteres")
+    .regex(
+      /^[a-z0-9-]+$/,
+      "Slug deve conter apenas letras minúsculas, números e hífens"
+    )
+    .optional(),
+  description: z.string().max(1000).optional(),
+  isRequired: z.boolean().default(true),
+  isPublic: z.boolean().default(false),
+  xpReward: z.number().int().min(0).default(100),
+});
+
+export type CreateModuleInput = z.infer<typeof CreateModuleSchema>;
+
 // Schema para upload de arquivos do curso
 export const CourseFileUploadSchema = z.object({
   file: z
