@@ -27,82 +27,87 @@ export const navData = {
   navMain: [
     {
       title: "Dashboard",
-      url: "/dashboard",
+      url: "/admin/dashboard",
       icon: IconDashboard,
     },
     {
       title: "Cursos",
-      url: "/dashboard/courses",
+      url: "/admin/dashboard/courses",
       icon: IconBook,
     },
     {
+      title: "Categorias",
+      url: "/admin/dashboard/categories",
+      icon: IconDatabase,
+    },
+    {
       title: "Meu Progresso",
-      url: "/dashboard/progress",
+      url: "/admin/dashboard/progress",
       icon: IconTrendingUp,
     },
     {
       title: "Gamificação",
-      url: "/dashboard/gamification",
+      url: "/admin/dashboard/gamification",
       icon: IconTrophy,
     },
     {
       title: "Rede Social",
-      url: "/dashboard/social",
+      url: "/admin/dashboard/social",
       icon: IconShare,
     },
     {
       title: "Comunidades",
-      url: "/dashboard/communities",
+      url: "/admin/dashboard/communities",
       icon: IconUsersGroup,
     },
     {
       title: "Mensagens",
-      url: "/dashboard/messages",
+      url: "/admin/dashboard/messages",
       icon: IconMessage,
     },
     {
       title: "Certificados",
-      url: "/dashboard/certificates",
+      url: "/admin/dashboard/certificates",
       icon: IconCertificate,
     },
     {
       title: "Quizzes",
-      url: "/dashboard/quizzes",
+      url: "/admin/dashboard/quizzes",
       icon: IconBrain,
     },
     {
       title: "Avaliações",
-      url: "/dashboard/reviews",
+      url: "/admin/dashboard/reviews",
       icon: IconStar,
     },
     {
       title: "Notificações",
-      url: "/dashboard/notifications",
+      url: "/admin/dashboard/notifications",
       icon: IconBell,
     },
     {
       title: "Playlists",
-      url: "/dashboard/playlists",
+      url: "/admin/dashboard/playlists",
       icon: IconPlaylist,
     },
     {
       title: "Analytics",
-      url: "/dashboard/analytics",
+      url: "/admin/dashboard/analytics",
       icon: IconChartBar,
     },
     {
       title: "Projetos",
-      url: "/dashboard/projects",
+      url: "/admin/dashboard/projects",
       icon: IconTarget,
     },
     {
       title: "Mentoria",
-      url: "/dashboard/mentorship",
+      url: "/admin/dashboard/mentorship",
       icon: IconUserCheck,
     },
     {
       title: "Competições",
-      url: "/dashboard/competitions",
+      url: "/admin/dashboard/competitions",
       icon: IconMedal,
     },
   ],
@@ -111,57 +116,57 @@ export const navData = {
       title: "Cursos Ativos",
       icon: IconBook,
       isActive: true,
-      url: "/dashboard/courses/active",
+      url: "/admin/dashboard/courses/active",
       items: [
         {
           title: "Em Andamento",
-          url: "/dashboard/courses/in-progress",
+          url: "/admin/dashboard/courses/in-progress",
         },
         {
           title: "Concluídos",
-          url: "/dashboard/courses/completed",
+          url: "/admin/dashboard/courses/completed",
         },
         {
           title: "Favoritos",
-          url: "/dashboard/courses/favorites",
+          url: "/admin/dashboard/courses/favorites",
         },
       ],
     },
     {
       title: "Conquistas",
       icon: IconTrophy,
-      url: "/dashboard/achievements",
+      url: "/admin/dashboard/achievements",
       items: [
         {
           title: "Badges",
-          url: "/dashboard/achievements/badges",
+          url: "/admin/dashboard/achievements/badges",
         },
         {
           title: "Níveis",
-          url: "/dashboard/achievements/levels",
+          url: "/admin/dashboard/achievements/levels",
         },
         {
           title: "Histórico XP",
-          url: "/dashboard/achievements/xp",
+          url: "/admin/dashboard/achievements/xp",
         },
       ],
     },
     {
       title: "Comunidades",
       icon: IconUsersGroup,
-      url: "/dashboard/communities",
+      url: "/admin/dashboard/communities",
       items: [
         {
           title: "Minhas Comunidades",
-          url: "/dashboard/communities/my",
+          url: "/admin/dashboard/communities/my",
         },
         {
           title: "Descobrir",
-          url: "/dashboard/communities/discover",
+          url: "/admin/dashboard/communities/discover",
         },
         {
           title: "Criar Comunidade",
-          url: "/dashboard/communities/create",
+          url: "/admin/dashboard/communities/create",
         },
       ],
     },
@@ -169,34 +174,34 @@ export const navData = {
   navSecondary: [
     {
       title: "Configurações",
-      url: "/dashboard/settings",
+      url: "/admin/dashboard/settings",
       icon: IconSettings,
     },
     {
       title: "Ajuda",
-      url: "/dashboard/help",
+      url: "/admin/dashboard/help",
       icon: IconHelp,
     },
     {
       title: "Buscar",
-      url: "/dashboard/search",
+      url: "/admin/dashboard/search",
       icon: IconSearch,
     },
   ],
   documents: [
     {
       name: "Biblioteca de Recursos",
-      url: "/dashboard/resources",
+      url: "/admin/dashboard/resources",
       icon: IconDatabase,
     },
     {
       name: "Relatórios",
-      url: "/dashboard/reports",
+      url: "/admin/dashboard/reports",
       icon: IconReport,
     },
     {
       name: "Assistente de Estudo",
-      url: "/dashboard/assistant",
+      url: "/admin/dashboard/assistant",
       icon: IconFileAi,
     },
   ],
