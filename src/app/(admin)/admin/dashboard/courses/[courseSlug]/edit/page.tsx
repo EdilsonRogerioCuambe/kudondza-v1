@@ -31,7 +31,8 @@ function toUnlockCriteria(value: unknown): UnlockCriteria | undefined {
 }
 
 export default async function EditCourseRoute({ params }: EditCoursePageProps) {
-  const { courseSlug } = params;
+  const resolved = await params;
+  const { courseSlug } = resolved;
 
   // Buscar dados do curso e séries
   const [courseResult, seriesResult] = await Promise.all([
