@@ -1,0 +1,1729 @@
+// This is your Prisma schema file,
+// learn more about it in the docs: https://pris.ly/d/prisma-schema
+
+// Looking for ways to speed up your queries, or scale easily with your serverless or edge functions?
+// Try Prisma Accelerate: https://pris.ly/cli/accelerate-init
+
+generator client {
+  provider = "prisma-client-js"
+  output   = "../src/generated/prisma"
+}
+
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+}
+
+model User {
+  id            String        @id @default(uuid())
+  name          String
+  email         String
+  emailVerified Boolean
+  image         String?
+  createdAt     DateTime
+  updatedAt     DateTime
+  sessions      Session[]
+  accounts      Account[]
+  role          UserRole      @default(STUDENT)
+  status        UserStatus    @default(ACTIVE)
+  bio           String?       @db.Text
+  location      String?
+  website       String?
+  socialLinks   Json? // Links para redes sociais (Twitter, LinkedIn, etc)
+  preferences   Json?
+  playlists     Playlist[]
+  gamification  Gamification?
+
+  // Relações de cursos
+  coursesCreated Course[]
+  enrollments    Enrollment[]
+  progress       Progress[]
+  reviews        Review[]
+  certificates   Certificate[]
+
+  // Relações de roadmaps e trilhas
+  roadmapsCreated       Roadmap[]
+  roadmapEnrollments    RoadmapEnrollment[]
+  courseSeriesCreated   CourseSeries[]
+  learningPathsCreated  LearningPath[]
+  learningPathsFollowed LearningPathFollower[]
+  courseRecommendations CourseRecommendation[]
+
+  // Relações de rede social
+  posts     Post[]
+  comments  Comment[]
+  reactions Reaction[]
+  following Follow[]   @relation("UserFollowing")
+  followers Follow[]   @relation("UserFollowers")
+
+  // Relações de grupos
+  groupsCreated Group[]
+  groupMembers  GroupMember[]
+
+  // Relações de mensagens
+  messagesSent      Message[]
+  messageRecipients MessageRecipient[]
+
+  // Relações de notificações
+  notifications Notification[]
+
+  // Relações de mentoria
+  mentorSessions MentorSession[] @relation("MentorSessions")
+  menteeSessions MentorSession[] @relation("MenteeSessions")
+
+  // Relações de competições
+  competitionParticipants CompetitionParticipant[]
+
+  // Relações de analytics
+  userAnalytics UserAnalytics[]
+
+  // Relações de assignments
+  submissions Submission[]
+  userBadges  UserBadge[]
+
+  // Relações de arquivos
+  fileUploads FileUpload[]
+
+  // Relações de atividade
+  activities UserActivity[]
+
+  // Campos adicionais para dashboard
+  lastLoginAt DateTime?
+  loginCount  Int       @default(0)
+  isOnline    Boolean   @default(false)
+  timezone    String?   @default("UTC")
+  language    String    @default("pt")
+  theme       String    @default("light")
+
+  @@unique([email])
+  @@map("user")
+}
+
+model Session {
+  id        String   @id @default(uuid())
+  expiresAt DateTime
+  token     String
+  createdAt DateTime
+  updatedAt DateTime
+  ipAddress String?
+  userAgent String?
+  userId    String
+  user      User     @relation(fields: [userId], references: [id], onDelete: Cascade)
+
+  @@unique([token])
+  @@map("session")
+}
+
+model Account {
+  id                    String    @id @default(uuid())
+  accountId             String
+  providerId            String
+  userId                String
+  user                  User      @relation(fields: [userId], references: [id], onDelete: Cascade)
+  accessToken           String?
+  refreshToken          String?
+  idToken               String?
+  accessTokenExpiresAt  DateTime?
+  refreshTokenExpiresAt DateTime?
+  scope                 String?
+  password              String?
+  createdAt             DateTime
+  updatedAt             DateTime
+
+  @@map("account")
+}
+
+model Verification {
+  id         String    @id @default(uuid())
+  identifier String
+  value      String
+  expiresAt  DateTime
+  createdAt  DateTime?
+  updatedAt  DateTime?
+
+  @@map("verification")
+}
+
+// ================================
+// MÓDULO: CURSOS E CONTEÚDO
+// ================================
+
+// Sistema de categorias hierárquicas
+model Category {
+  id          String  @id @default(cuid())
+  name        String
+  slug        String  @unique
+  description String? @db.Text
+  icon        String? // Ícone da categoria
+  color       String? // Cor da categoria
+  image       String? // Imagem de capa da categoria
+
+  // Configurações
+  isActive   Boolean @default(true)
+  isFeatured Boolean @default(false)
+  sortOrder  Int     @default(0)
+
+  // SEO
+  seoTitle       String?
+  seoDescription String?
+  seoKeywords    String[]
+
+  // Estatísticas
+  courseCount Int @default(0)
+
+  // Datas
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  // Relacionamentos
+  parentId      String?
+  parent        Category?      @relation("CategoryHierarchy", fields: [parentId], references: [id])
+  children      Category[]     @relation("CategoryHierarchy")
+  courses       Course[]
+  subcategories Subcategory[]
+  courseSeries  CourseSeries[]
+  roadmaps      Roadmap[]
+
+  @@map("categories")
+}
+
+// Subcategorias para organização mais granular
+model Subcategory {
+  id          String  @id @default(cuid())
+  name        String
+  slug        String  @unique
+  description String? @db.Text
+  icon        String?
+  color       String?
+
+  // Configurações
+  isActive  Boolean @default(true)
+  sortOrder Int     @default(0)
+
+  // Estatísticas
+  courseCount Int @default(0)
+
+  // Datas
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  // Relacionamentos
+  categoryId String
+  category   Category  @relation(fields: [categoryId], references: [id], onDelete: Cascade)
+  courses    Course[]
+  roadmaps   Roadmap[]
+
+  @@map("subcategories")
+}
+
+model Course {
+  id               String  @id @default(cuid())
+  title            String
+  slug             String  @unique
+  description      String? @db.Text
+  shortDescription String?
+  thumbnail        String?
+  trailer          String?
+  courseMaterials  String? // URL para materiais do curso (PDFs, documentos)
+
+  // Metadados do curso
+  categoryId    String
+  category      Category     @relation(fields: [categoryId], references: [id])
+  subcategoryId String?
+  subcategory   Subcategory? @relation(fields: [subcategoryId], references: [id])
+  tags          String[]
+  level         CourseLevel
+  language      String       @default("pt")
+  duration      Int? // em minutos
+
+  // Preços e configurações
+  price         Decimal  @default(0) @db.Decimal(10, 2)
+  originalPrice Decimal? @db.Decimal(10, 2)
+  currency      String   @default("MZN")
+  isPublic      Boolean  @default(false)
+  isPremium     Boolean  @default(false)
+  allowDownload Boolean  @default(false)
+
+  // Configurações de acesso
+  hasPrerequisites Boolean              @default(false)
+  roadmapCourses   RoadmapCourse[]
+  prerequisites    CoursePrerequisite[] @relation("CoursePrerequisites")
+  dependentCourses CoursePrerequisite[] @relation("DependentCourses")
+  seriesId         String?
+  series           CourseSeries?        @relation(fields: [seriesId], references: [id])
+
+  // Relacionamentos com outros cursos
+  relatedCourses CourseRelation[] @relation("SourceCourse")
+  relatedTo      CourseRelation[] @relation("TargetCourse")
+  unlockCriteria Json? // Critérios customizados
+
+  // Status e datas
+  status      CourseStatus @default(DRAFT)
+  publishedAt DateTime?
+  createdAt   DateTime     @default(now())
+  updatedAt   DateTime     @updatedAt
+
+  // SEO e marketing
+  seoTitle       String?
+  seoDescription String?
+  seoKeywords    String[]
+
+  // Configurações de gamificação
+  xpReward Int     @default(500)
+  badgeId  String?
+
+  // Relacionamentos
+  instructorId String
+  instructor   User              @relation(fields: [instructorId], references: [id])
+  modules      Module[]
+  enrollments  Enrollment[]
+  reviews      Review[]
+  certificates Certificate[]
+  analytics    CourseAnalytics[]
+  socialPosts  Post[]
+  fileUploads  FileUpload[]
+
+  // Relações adicionais
+  courseRecommendations CourseRecommendation[]
+  learningPathCourses   LearningPathCourse[]
+  playlistItems         PlaylistItem[]
+  groups                Group[]
+
+  // Relações de atividade
+  activities UserActivity[]
+
+  // Campos adicionais para dashboard
+  viewCount     Int       @default(0)
+  downloadCount Int       @default(0)
+  shareCount    Int       @default(0)
+  favoriteCount Int       @default(0)
+  isFeatured    Boolean   @default(false)
+  featuredAt    DateTime?
+  trendingScore Decimal   @default(0) @db.Decimal(5, 2)
+
+  @@map("courses")
+}
+
+// Sistema de pré-requisitos mais robusto
+model CoursePrerequisite {
+  id              String  @id @default(cuid())
+  isRequired      Boolean @default(true)
+  minimumProgress Int     @default(100) // Porcentagem mínima necessária
+
+  // Relacionamentos
+  courseId       String
+  course         Course @relation("CoursePrerequisites", fields: [courseId], references: [id])
+  prerequisiteId String
+  prerequisite   Course @relation("DependentCourses", fields: [prerequisiteId], references: [id])
+
+  @@unique([courseId, prerequisiteId], name: "unique_course_prerequisite")
+  @@map("course_prerequisites")
+}
+
+// Séries de cursos (ex: "React do Zero ao Avançado")
+model CourseSeries {
+  id          String  @id @default(cuid())
+  title       String
+  description String? @db.Text
+  thumbnail   String?
+
+  // Configurações
+  isSequential Boolean     @default(true) // Deve ser feito em ordem
+  level        CourseLevel
+  categoryId   String
+  category     Category    @relation(fields: [categoryId], references: [id])
+
+  // Relacionamentos
+  courses   Course[]
+  creatorId String
+  creator   User     @relation(fields: [creatorId], references: [id])
+
+  // Datas
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  @@map("course_series")
+}
+
+// Relacionamentos entre cursos (similar, complementar, etc.)
+model CourseRelation {
+  id       String             @id @default(cuid())
+  type     CourseRelationType
+  strength Int                @default(5) // 1-10, força da relação
+
+  // Relacionamentos
+  sourceCourseId String
+  sourceCourse   Course @relation("SourceCourse", fields: [sourceCourseId], references: [id])
+  targetCourseId String
+  targetCourse   Course @relation("TargetCourse", fields: [targetCourseId], references: [id])
+
+  @@unique([sourceCourseId, targetCourseId, type], name: "unique_course_relation")
+  @@map("course_relations")
+}
+
+// ================================
+// SISTEMA DE TRILHAS PERSONALIZADAS
+// ================================
+
+// Trilhas criadas pelos usuários
+model LearningPath {
+  id          String  @id @default(cuid())
+  title       String
+  description String? @db.Text
+
+  // Configurações
+  isPublic   Boolean @default(false)
+  isTemplate Boolean @default(false) // Pode ser usado como template por outros
+
+  // Relacionamentos
+  creatorId String
+  creator   User                   @relation(fields: [creatorId], references: [id])
+  courses   LearningPathCourse[]
+  followers LearningPathFollower[]
+
+  // Datas
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  @@map("learning_paths")
+}
+
+// Cursos na trilha personalizada
+model LearningPathCourse {
+  id    String  @id @default(cuid())
+  order Int
+  notes String? @db.Text // Anotações pessoais
+
+  // Relacionamentos
+  pathId   String
+  path     LearningPath @relation(fields: [pathId], references: [id], onDelete: Cascade)
+  courseId String
+  course   Course       @relation(fields: [courseId], references: [id])
+
+  @@unique([pathId, order], name: "unique_learning_path_course_order")
+  @@map("learning_path_courses")
+}
+
+// Usuários seguindo trilhas de outros
+model LearningPathFollower {
+  id         String   @id @default(cuid())
+  followedAt DateTime @default(now())
+
+  // Relacionamentos
+  userId String
+  user   User         @relation(fields: [userId], references: [id])
+  pathId String
+  path   LearningPath @relation(fields: [pathId], references: [id])
+
+  @@unique([userId, pathId], name: "unique_learning_path_follower")
+  @@map("learning_path_followers")
+}
+
+// ================================
+// SISTEMA DE RECOMENDAÇÕES
+// ================================
+
+// Recomendações de cursos baseadas em IA/algoritmos
+model CourseRecommendation {
+  id      String               @id @default(cuid())
+  score   Decimal              @db.Decimal(5, 2) // 0-100
+  reason  RecommendationReason
+  context Json? // Contexto adicional da recomendação
+
+  // Relacionamentos
+  userId   String
+  user     User   @relation(fields: [userId], references: [id])
+  courseId String
+  course   Course @relation(fields: [courseId], references: [id])
+
+  // Controle
+  isViewed   Boolean   @default(false)
+  isAccepted Boolean? // null = não decidiu, true = aceito, false = rejeitado
+  createdAt  DateTime  @default(now())
+  expiresAt  DateTime?
+
+  @@unique([userId, courseId], name: "unique_course_recommendation")
+  @@map("course_recommendations")
+}
+
+// ================================
+// ADIÇÕES AO MODELO USER
+// ================================
+
+// As relações já foram adicionadas ao modelo User principal
+
+// ================================
+// NOVOS ENUMS
+// ================================
+
+enum RoadmapStatus {
+  DRAFT
+  REVIEW
+  PUBLISHED
+  ARCHIVED
+  DEPRECATED
+}
+
+enum CourseRelationType {
+  PREREQUISITE // Pré-requisito direto
+  RECOMMENDED // Recomendado fazer depois
+  SIMILAR // Curso similar
+  COMPLEMENTARY // Complementa o conteúdo
+  ALTERNATIVE // Alternativa ao curso
+  SEQUEL // Sequência natural
+  PART_OF_SERIES // Parte da mesma série
+}
+
+enum RecommendationReason {
+  SIMILAR_INTERESTS
+  COMPLETION_PATTERN
+  POPULAR_COMBINATION
+  SKILL_GAP
+  CAREER_PATH
+  TRENDING
+  INSTRUCTOR_RECOMMENDATION
+  AI_SUGGESTION
+}
+
+// ================================
+// MÓDULO: ROADMAPS E TRILHAS DE APRENDIZADO
+// ================================
+
+// Modelo principal para roadmaps/trilhas
+model Roadmap {
+  id               String  @id @default(cuid())
+  title            String
+  slug             String  @unique
+  description      String? @db.Text
+  shortDescription String?
+  thumbnail        String?
+
+  // Metadados do roadmap
+  categoryId    String
+  category      Category     @relation(fields: [categoryId], references: [id])
+  subcategoryId String?
+  subcategory   Subcategory? @relation(fields: [subcategoryId], references: [id])
+  tags          String[]
+  level         CourseLevel
+  language      String       @default("pt")
+
+  // Estimativas
+  estimatedDuration Int? // em horas
+  totalCourses      Int  @default(0)
+
+  // Configurações
+  isPublic   Boolean @default(false)
+  isPremium  Boolean @default(false)
+  isOfficial Boolean @default(false) // Roadmap oficial da plataforma
+
+  // Status
+  status      RoadmapStatus @default(DRAFT)
+  publishedAt DateTime?
+  createdAt   DateTime      @default(now())
+  updatedAt   DateTime      @updatedAt
+
+  // SEO
+  seoTitle       String?
+  seoDescription String?
+  seoKeywords    String[]
+
+  // Relacionamentos
+  creatorId   String
+  creator     User                @relation(fields: [creatorId], references: [id])
+  paths       RoadmapPath[]
+  enrollments RoadmapEnrollment[]
+  analytics   RoadmapAnalytics[]
+
+  @@map("roadmaps")
+}
+
+// Caminhos dentro do roadmap (sequência de cursos)
+model RoadmapPath {
+  id          String  @id @default(cuid())
+  title       String
+  description String? @db.Text
+  order       Int
+
+  // Configurações do caminho
+  isRequired     Boolean @default(true)
+  isParallel     Boolean @default(false) // Pode ser feito em paralelo com outros
+  unlockCriteria Json? // Critérios para desbloquear este caminho
+
+  // Relacionamentos
+  roadmapId String
+  roadmap   Roadmap         @relation(fields: [roadmapId], references: [id], onDelete: Cascade)
+  courses   RoadmapCourse[]
+
+  @@unique([roadmapId, order], name: "unique_path_order")
+  @@map("roadmap_paths")
+}
+
+// Cursos dentro dos caminhos do roadmap
+model RoadmapCourse {
+  id    String @id @default(cuid())
+  order Int
+
+  // Configurações específicas do curso no roadmap
+  isRequired     Boolean @default(true)
+  isOptional     Boolean @default(false)
+  unlockCriteria Json? // Critérios específicos para este curso
+
+  // Relacionamentos
+  pathId   String
+  path     RoadmapPath @relation(fields: [pathId], references: [id], onDelete: Cascade)
+  courseId String
+  course   Course      @relation(fields: [courseId], references: [id])
+
+  @@unique([pathId, order], name: "unique_course_order_in_path")
+  @@unique([pathId, courseId], name: "unique_course_in_path")
+  @@map("roadmap_courses")
+}
+
+// Matrículas em roadmaps
+model RoadmapEnrollment {
+  id          String    @id @default(cuid())
+  enrolledAt  DateTime  @default(now())
+  completedAt DateTime?
+
+  // Progresso
+  progress         Decimal @default(0) @db.Decimal(5, 2) // porcentagem geral
+  coursesStarted   Int     @default(0)
+  coursesCompleted Int     @default(0)
+
+  // Status
+  status          EnrollmentStatus @default(ACTIVE)
+  currentPathId   String? // Caminho atual
+  currentCourseId String? // Curso atual
+
+  // Relacionamentos
+  userId    String
+  user      User    @relation(fields: [userId], references: [id])
+  roadmapId String
+  roadmap   Roadmap @relation(fields: [roadmapId], references: [id])
+
+  @@unique([userId, roadmapId], name: "unique_roadmap_enrollment")
+  @@map("roadmap_enrollments")
+}
+
+// Analytics para roadmaps
+model RoadmapAnalytics {
+  id   String   @id @default(cuid())
+  date DateTime @db.Date
+
+  // Métricas
+  views             Int     @default(0)
+  enrollments       Int     @default(0)
+  completions       Int     @default(0)
+  avgCompletionTime Int     @default(0) // em dias
+  dropoffRate       Decimal @default(0) @db.Decimal(5, 2)
+
+  // Relacionamentos
+  roadmapId String
+  roadmap   Roadmap @relation(fields: [roadmapId], references: [id])
+
+  @@unique([roadmapId, date], name: "unique_roadmap_analytics")
+  @@map("roadmap_analytics")
+}
+
+model Module {
+  id          String  @id @default(cuid())
+  title       String
+  slug        String?
+  description String? @db.Text
+  order       Int
+
+  // Configurações do módulo
+  isRequired     Boolean @default(true)
+  isPublic       Boolean @default(false) // Visibilidade do módulo
+  unlockCriteria Json? // Critérios para desbloquear
+  xpReward       Int     @default(100)
+
+  // Datas
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  // Relacionamentos
+  courseId    String
+  course      Course       @relation(fields: [courseId], references: [id], onDelete: Cascade)
+  lessons     Lesson[]
+  quizzes     Quiz[]
+  assignments Assignment[]
+
+  @@unique([courseId, order], name: "unique_module_order")
+  @@unique([courseId, slug], name: "unique_module_slug")
+  @@map("modules")
+}
+
+model Lesson {
+  id               String  @id @default(cuid())
+  title            String
+  description      String? @db.Text
+  shortDescription String?
+  order            Int
+  slug             String?
+
+  // Conteúdo da aula
+  videoId       String? // ID do Panda Video
+  videoUrl      String?
+  videoDuration Int? // em segundos
+  transcript    String? @db.Text
+
+  // Recursos adicionais
+  resources Resource[]
+
+  // Configurações
+  isPreview      Boolean @default(false)
+  isRequired     Boolean @default(true)
+  isPublic       Boolean @default(false) // Visibilidade da lição
+  unlockCriteria Json?
+  xpReward       Int     @default(50)
+
+  // Datas
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  // Relacionamentos
+  moduleId   String
+  module     Module            @relation(fields: [moduleId], references: [id], onDelete: Cascade)
+  progress   Progress[]
+  analytics  LessonAnalytics[]
+  activities UserActivity[]
+
+  @@unique([moduleId, order], name: "unique_lesson_order")
+  @@unique([moduleId, slug], name: "unique_lesson_slug")
+  @@map("lessons")
+}
+
+model Resource {
+  id           String       @id @default(cuid())
+  title        String
+  description  String?
+  type         ResourceType
+  url          String
+  fileSize     Int? // em bytes
+  mimeType     String?
+  downloadable Boolean      @default(true)
+
+  // Relacionamentos
+  lessonId  String?
+  lesson    Lesson?  @relation(fields: [lessonId], references: [id], onDelete: Cascade)
+  createdAt DateTime @default(now())
+
+  @@map("resources")
+}
+
+// ================================
+// MÓDULO: PROGRESSO E CONCLUSÕES
+// ================================
+
+model Enrollment {
+  id          String    @id @default(cuid())
+  enrolledAt  DateTime  @default(now())
+  completedAt DateTime?
+  expiresAt   DateTime?
+
+  // Status da matrícula
+  status   EnrollmentStatus @default(ACTIVE)
+  progress Decimal          @default(0) @db.Decimal(5, 2) // porcentagem
+
+  // Configurações
+  notifications Boolean @default(true)
+  allowTracking Boolean @default(true)
+
+  // Relacionamentos
+  userId   String
+  user     User   @relation(fields: [userId], references: [id])
+  courseId String
+  course   Course @relation(fields: [courseId], references: [id])
+
+  @@unique([userId, courseId], name: "unique_enrollment")
+  @@map("enrollments")
+}
+
+model Progress {
+  id            String    @id @default(cuid())
+  completed     Boolean   @default(false)
+  completedAt   DateTime?
+  timeSpent     Int       @default(0) // em segundos
+  lastAccessed  DateTime  @default(now())
+  watchProgress Decimal   @default(0) @db.Decimal(5, 2) // porcentagem do vídeo
+
+  // Relacionamentos
+  userId   String
+  user     User   @relation(fields: [userId], references: [id])
+  lessonId String
+  lesson   Lesson @relation(fields: [lessonId], references: [id])
+
+  @@unique([userId, lessonId], name: "unique_progress")
+  @@map("progress")
+}
+
+// ================================
+// MÓDULO: GAMIFICAÇÃO
+// ================================
+
+model Gamification {
+  id            String @id @default(cuid())
+  totalXP       Int    @default(0)
+  currentLevel  Int    @default(1)
+  xpToNextLevel Int    @default(500)
+
+  // Streaks
+  currentStreak Int       @default(0)
+  longestStreak Int       @default(0)
+  lastStudyDate DateTime?
+
+  // Estatísticas
+  coursesCompleted   Int @default(0)
+  lessonsCompleted   Int @default(0)
+  quizzesCompleted   Int @default(0)
+  certificatesEarned Int @default(0)
+
+  // Relacionamentos
+  userId    String      @unique
+  user      User        @relation(fields: [userId], references: [id])
+  badges    UserBadge[]
+  xpHistory XPHistory[]
+
+  @@map("gamification")
+}
+
+model Badge {
+  id          String      @id @default(cuid())
+  name        String      @unique
+  description String
+  icon        String
+  color       String      @default("#3B82F6")
+  rarity      BadgeRarity @default(COMMON)
+  xpReward    Int         @default(100)
+
+  // Critérios para conquistar
+  criteria  Json // Critérios flexíveis em JSON
+  isActive  Boolean @default(true)
+  isLimited Boolean @default(false) // Badges limitados no tempo
+
+  // Datas
+  createdAt DateTime  @default(now())
+  expiresAt DateTime? // Para badges temporários
+
+  // Relacionamentos
+  userBadges UserBadge[]
+
+  @@map("badges")
+}
+
+model UserBadge {
+  id       String   @id @default(cuid())
+  earnedAt DateTime @default(now())
+
+  // Relacionamentos
+  userId         String
+  user           User         @relation(fields: [userId], references: [id])
+  badgeId        String
+  badge          Badge        @relation(fields: [badgeId], references: [id])
+  gamificationId String
+  gamification   Gamification @relation(fields: [gamificationId], references: [id])
+
+  @@unique([userId, badgeId], name: "unique_user_badge")
+  @@map("user_badges")
+}
+
+model XPHistory {
+  id       String   @id @default(cuid())
+  amount   Int
+  reason   String
+  source   XPSource
+  sourceId String? // ID da fonte (lesson, quiz, etc)
+  earnedAt DateTime @default(now())
+
+  // Relacionamentos
+  userId         String
+  gamificationId String
+  gamification   Gamification @relation(fields: [gamificationId], references: [id])
+
+  @@map("xp_history")
+}
+
+// ================================
+// MÓDULO: REDE SOCIAL
+// ================================
+
+model Post {
+  id      String   @id @default(cuid())
+  content String   @db.Text
+  type    PostType @default(TEXT)
+
+  // Conteúdo estruturado
+  media    String[] // URLs de imagens/vídeos
+  metadata Json? // Dados estruturados do post
+
+  // Configurações
+  isPublic      Boolean @default(true)
+  allowComments Boolean @default(true)
+
+  // Estatísticas
+  viewCount     Int @default(0)
+  reactionCount Int @default(0)
+  commentCount  Int @default(0)
+  shareCount    Int @default(0)
+
+  // Datas
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  // Relacionamentos
+  authorId  String
+  author    User       @relation(fields: [authorId], references: [id])
+  courseId  String? // Post relacionado a um curso
+  course    Course?    @relation(fields: [courseId], references: [id])
+  comments  Comment[]
+  reactions Reaction[]
+
+  @@map("posts")
+}
+
+model Comment {
+  id      String @id @default(cuid())
+  content String @db.Text
+
+  // Hierarquia de comentários
+  parentId String?
+  parent   Comment?  @relation("CommentReplies", fields: [parentId], references: [id])
+  replies  Comment[] @relation("CommentReplies")
+
+  // Estatísticas
+  reactionCount Int @default(0)
+
+  // Datas
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  // Relacionamentos
+  authorId  String
+  author    User       @relation(fields: [authorId], references: [id])
+  postId    String
+  post      Post       @relation(fields: [postId], references: [id], onDelete: Cascade)
+  reactions Reaction[]
+
+  @@map("comments")
+}
+
+model Reaction {
+  id        String       @id @default(cuid())
+  type      ReactionType @default(LIKE)
+  createdAt DateTime     @default(now())
+
+  // Relacionamentos
+  userId    String
+  user      User     @relation(fields: [userId], references: [id])
+  postId    String?
+  post      Post?    @relation(fields: [postId], references: [id], onDelete: Cascade)
+  commentId String?
+  comment   Comment? @relation(fields: [commentId], references: [id], onDelete: Cascade)
+
+  // Uma reação deve ser para um post OU um comentário, não ambos
+  @@map("reactions")
+}
+
+model Follow {
+  id        String   @id @default(cuid())
+  createdAt DateTime @default(now())
+
+  // Relacionamentos
+  followerId  String
+  follower    User   @relation("UserFollowing", fields: [followerId], references: [id])
+  followingId String
+  following   User   @relation("UserFollowers", fields: [followingId], references: [id])
+
+  @@unique([followerId, followingId], name: "unique_follow")
+  @@map("follows")
+}
+
+// ================================
+// MÓDULO: GRUPOS E COMUNIDADES
+// ================================
+
+model Group {
+  id          String  @id @default(cuid())
+  name        String
+  description String? @db.Text
+  avatar      String?
+  cover       String?
+
+  // Configurações
+  type            GroupType @default(PUBLIC)
+  maxMembers      Int       @default(50)
+  allowInvites    Boolean   @default(true)
+  requireApproval Boolean   @default(false)
+
+  // Relacionamentos com cursos
+  courseId String?
+  course   Course? @relation(fields: [courseId], references: [id])
+
+  // Estatísticas
+  memberCount Int @default(0)
+  postCount   Int @default(0)
+
+  // Datas
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  // Relacionamentos
+  creatorId String
+  creator   User          @relation(fields: [creatorId], references: [id])
+  members   GroupMember[]
+
+  @@map("groups")
+}
+
+model GroupMember {
+  id       String    @id @default(cuid())
+  role     GroupRole @default(MEMBER)
+  joinedAt DateTime  @default(now())
+
+  // Relacionamentos
+  userId  String
+  user    User   @relation(fields: [userId], references: [id])
+  groupId String
+  group   Group  @relation(fields: [groupId], references: [id], onDelete: Cascade)
+
+  @@unique([userId, groupId], name: "unique_group_member")
+  @@map("group_members")
+}
+
+// ================================
+// MÓDULO: MENSAGENS
+// ================================
+
+model Message {
+  id      String      @id @default(cuid())
+  content String      @db.Text
+  type    MessageType @default(TEXT)
+
+  // Conteúdo adicional
+  attachments String[] // URLs de arquivos
+  metadata    Json? // Dados estruturados
+
+  // Estado da mensagem
+  isEdited  Boolean @default(false)
+  isDeleted Boolean @default(false)
+
+  // Datas
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  // Relacionamentos
+  senderId   String
+  sender     User               @relation(fields: [senderId], references: [id])
+  recipients MessageRecipient[]
+
+  @@map("messages")
+}
+
+model MessageRecipient {
+  id     String    @id @default(cuid())
+  isRead Boolean   @default(false)
+  readAt DateTime?
+
+  // Relacionamentos
+  messageId   String
+  message     Message @relation(fields: [messageId], references: [id], onDelete: Cascade)
+  recipientId String
+  recipient   User    @relation(fields: [recipientId], references: [id])
+
+  @@unique([messageId, recipientId], name: "unique_message_recipient")
+  @@map("message_recipients")
+}
+
+// ================================
+// MÓDULO: CERTIFICADOS
+// ================================
+
+model Certificate {
+  id                String @id @default(cuid())
+  certificateNumber String @unique
+  verificationCode  String @unique
+
+  // Conteúdo do certificado
+  title          String
+  description    String?
+  templateData   Json // Dados para gerar o certificado
+  certificateUrl String? // URL do PDF gerado
+
+  // Validação
+  isValid    Boolean   @default(true)
+  validUntil DateTime?
+
+  // Datas
+  issuedAt  DateTime @default(now())
+  createdAt DateTime @default(now())
+
+  // Relacionamentos
+  userId   String
+  user     User   @relation(fields: [userId], references: [id])
+  courseId String
+  course   Course @relation(fields: [courseId], references: [id])
+
+  @@map("certificates")
+}
+
+// ================================
+// MÓDULO: QUIZZES E AVALIAÇÕES
+// ================================
+
+model Quiz {
+  id          String  @id @default(cuid())
+  title       String
+  description String? @db.Text
+  order       Int
+
+  // Configurações
+  timeLimit        Int? // em minutos
+  passingScore     Int     @default(70) // porcentagem
+  maxAttempts      Int     @default(3)
+  shuffleQuestions Boolean @default(true)
+  showResults      Boolean @default(true)
+
+  // Gamificação
+  xpReward Int @default(100)
+
+  // Datas
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  // Relacionamentos
+  moduleId  String
+  module    Module        @relation(fields: [moduleId], references: [id], onDelete: Cascade)
+  questions Question[]
+  attempts  QuizAttempt[]
+
+  @@map("quizzes")
+}
+
+model Question {
+  id          String       @id @default(cuid())
+  title       String       @db.Text
+  type        QuestionType @default(MULTIPLE_CHOICE)
+  explanation String?      @db.Text
+  points      Int          @default(1)
+  order       Int
+
+  // Conteúdo da questão
+  options        Json // Array de opções para multiple choice
+  correctAnswers Json // Respostas corretas
+
+  // Relacionamentos
+  quizId String
+  quiz   Quiz   @relation(fields: [quizId], references: [id], onDelete: Cascade)
+
+  @@unique([quizId, order], name: "unique_question_order")
+  @@map("questions")
+}
+
+model QuizAttempt {
+  id        String  @id @default(cuid())
+  answers   Json // Respostas do usuário
+  score     Decimal @db.Decimal(5, 2) // porcentagem
+  timeSpent Int // em segundos
+
+  // Datas
+  startedAt   DateTime  @default(now())
+  completedAt DateTime?
+
+  // Relacionamentos
+  userId String
+  quizId String
+  quiz   Quiz   @relation(fields: [quizId], references: [id])
+
+  @@map("quiz_attempts")
+}
+
+// ================================
+// MÓDULO: AVALIAÇÕES E REVIEWS
+// ================================
+
+model Review {
+  id      String  @id @default(cuid())
+  rating  Int // 1-5 estrelas
+  title   String?
+  comment String? @db.Text
+
+  // Configurações
+  isPublic   Boolean @default(true)
+  isVerified Boolean @default(false) // Review de compra verificada
+
+  // Datas
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  // Relacionamentos
+  userId   String
+  user     User   @relation(fields: [userId], references: [id])
+  courseId String
+  course   Course @relation(fields: [courseId], references: [id])
+
+  @@unique([userId, courseId], name: "unique_review")
+  @@map("reviews")
+}
+
+// ================================
+// MÓDULO: NOTIFICAÇÕES
+// ================================
+
+model Notification {
+  id      String           @id @default(cuid())
+  title   String
+  message String           @db.Text
+  type    NotificationType @default(INFO)
+
+  // Conteúdo estruturado
+  data      Json? // Dados adicionais da notificação
+  actionUrl String? // URL para ação
+
+  // Estado
+  isRead Boolean   @default(false)
+  readAt DateTime?
+
+  // Datas
+  createdAt DateTime  @default(now())
+  expiresAt DateTime?
+
+  // Relacionamentos
+  userId String
+  user   User   @relation(fields: [userId], references: [id])
+
+  @@map("notifications")
+}
+
+// ================================
+// MÓDULO: PLAYLISTS PESSOAIS
+// ================================
+
+model Playlist {
+  id          String  @id @default(cuid())
+  name        String
+  description String?
+  isPublic    Boolean @default(false)
+
+  // Configurações
+  autoRemoveCompleted Boolean @default(false)
+
+  // Datas
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  // Relacionamentos
+  userId String
+  user   User           @relation(fields: [userId], references: [id])
+  items  PlaylistItem[]
+
+  @@map("playlists")
+}
+
+model PlaylistItem {
+  id    String @id @default(cuid())
+  order Int
+
+  // Item pode ser aula, curso ou recurso
+  lessonId String?
+  courseId String?
+
+  // Datas
+  addedAt DateTime @default(now())
+
+  // Relacionamentos
+  playlistId String
+  playlist   Playlist @relation(fields: [playlistId], references: [id], onDelete: Cascade)
+  course     Course?  @relation(fields: [courseId], references: [id])
+
+  @@unique([playlistId, order], name: "unique_playlist_item_order")
+  @@map("playlist_items")
+}
+
+// ================================
+// MÓDULO: ANALYTICS
+// ================================
+
+model UserAnalytics {
+  id   String   @id @default(cuid())
+  date DateTime @db.Date
+
+  // Métricas de atividade
+  timeSpent      Int @default(0) // segundos
+  lessonsWatched Int @default(0)
+  xpEarned       Int @default(0)
+  loginCount     Int @default(0)
+
+  // Relacionamentos
+  userId String
+  user   User   @relation(fields: [userId], references: [id])
+
+  @@unique([userId, date], name: "unique_user_analytics")
+  @@map("user_analytics")
+}
+
+model CourseAnalytics {
+  id   String   @id @default(cuid())
+  date DateTime @db.Date
+
+  // Métricas do curso
+  views       Int      @default(0)
+  enrollments Int      @default(0)
+  completions Int      @default(0)
+  revenue     Decimal  @default(0) @db.Decimal(10, 2)
+  avgRating   Decimal? @db.Decimal(3, 2)
+
+  // Relacionamentos
+  courseId String
+  course   Course @relation(fields: [courseId], references: [id])
+
+  @@unique([courseId, date], name: "unique_course_analytics")
+  @@map("course_analytics")
+}
+
+model LessonAnalytics {
+  id   String   @id @default(cuid())
+  date DateTime @db.Date
+
+  // Métricas da aula
+  views        Int     @default(0)
+  completions  Int     @default(0)
+  avgWatchTime Int     @default(0) // segundos
+  dropoffRate  Decimal @default(0) @db.Decimal(5, 2) // porcentagem
+
+  // Relacionamentos
+  lessonId String
+  lesson   Lesson @relation(fields: [lessonId], references: [id])
+
+  @@unique([lessonId, date], name: "unique_lesson_analytics")
+  @@map("lesson_analytics")
+}
+
+// ================================
+// MÓDULO: ASSIGNMENTS E PROJETOS
+// ================================
+
+model Assignment {
+  id           String @id @default(cuid())
+  title        String
+  description  String @db.Text
+  instructions String @db.Text
+
+  // Configurações
+  dueDate             DateTime?
+  maxSubmissions      Int       @default(3)
+  allowLateSubmission Boolean   @default(false)
+
+  // Avaliação
+  maxPoints Int   @default(100)
+  rubric    Json? // Critérios de avaliação
+
+  // Gamificação
+  xpReward Int @default(150)
+
+  // Relacionamentos
+  moduleId    String
+  module      Module       @relation(fields: [moduleId], references: [id], onDelete: Cascade)
+  submissions Submission[]
+
+  @@map("assignments")
+}
+
+model Submission {
+  id          String   @id @default(cuid())
+  content     String   @db.Text
+  attachments String[] // URLs dos arquivos
+
+  // Avaliação
+  score    Int?
+  feedback String?   @db.Text
+  gradedAt DateTime?
+
+  // Estado
+  status SubmissionStatus @default(SUBMITTED)
+
+  // Datas
+  submittedAt DateTime @default(now())
+  updatedAt   DateTime @updatedAt
+
+  // Relacionamentos
+  userId       String
+  user         User       @relation(fields: [userId], references: [id])
+  assignmentId String
+  assignment   Assignment @relation(fields: [assignmentId], references: [id])
+
+  @@unique([userId, assignmentId], name: "unique_submission")
+  @@map("submissions")
+}
+
+// ================================
+// MÓDULO: MENTORIA
+// ================================
+
+model MentorSession {
+  id          String  @id @default(cuid())
+  title       String
+  description String? @db.Text
+
+  // Configurações da sessão
+  duration   Int // em minutos
+  price      Decimal? @db.Decimal(10, 2)
+  meetingUrl String?
+
+  // Agendamento
+  scheduledAt DateTime
+  startedAt   DateTime?
+  endedAt     DateTime?
+
+  // Estado
+  status SessionStatus @default(SCHEDULED)
+
+  // Avaliações
+  mentorRating   Int? // 1-5
+  menteeRating   Int? // 1-5
+  mentorFeedback String? @db.Text
+  menteeFeedback String? @db.Text
+
+  // Relacionamentos
+  mentorId String
+  mentor   User   @relation("MentorSessions", fields: [mentorId], references: [id])
+  menteeId String
+  mentee   User   @relation("MenteeSessions", fields: [menteeId], references: [id])
+
+  @@map("mentor_sessions")
+}
+
+// ================================
+// MÓDULO: COMPETIÇÕES
+// ================================
+
+model Competition {
+  id          String @id @default(cuid())
+  name        String
+  description String @db.Text
+  rules       String @db.Text
+
+  // Configurações
+  type            CompetitionType @default(SPEED_LEARNING)
+  maxParticipants Int?
+
+  // Prêmios
+  prizes Json // Estrutura de prêmios
+
+  // Datas
+  startDate       DateTime
+  endDate         DateTime
+  registrationEnd DateTime
+
+  // Estado
+  status CompetitionStatus @default(UPCOMING)
+
+  // Relacionamentos
+  participants CompetitionParticipant[]
+
+  @@map("competitions")
+}
+
+model CompetitionParticipant {
+  id    String  @id @default(cuid())
+  score Decimal @default(0) @db.Decimal(10, 2)
+  rank  Int?
+
+  // Métricas específicas
+  metrics Json // Métricas específicas da competição
+
+  // Datas
+  joinedAt DateTime @default(now())
+
+  // Relacionamentos
+  userId        String
+  user          User        @relation(fields: [userId], references: [id])
+  competitionId String
+  competition   Competition @relation(fields: [competitionId], references: [id])
+
+  @@unique([userId, competitionId], name: "unique_competition_participant")
+  @@map("competition_participants")
+}
+
+// ================================
+// MÓDULO: LOGS E AUDITORIA
+// ================================
+
+model AuditLog {
+  id       String @id @default(cuid())
+  action   String
+  entity   String // Nome da tabela/modelo
+  entityId String
+
+  // Dados da ação
+  oldValues Json?
+  newValues Json?
+  changes   Json?
+
+  // Contexto
+  userAgent String?
+  ipAddress String?
+
+  // Relacionamentos
+  userId    String?
+  timestamp DateTime @default(now())
+
+  @@map("audit_logs")
+}
+
+// ================================
+// ENUMS
+// ================================
+
+enum UserRole {
+  STUDENT
+  INSTRUCTOR
+  ADMIN
+  MODERATOR
+}
+
+enum UserStatus {
+  ACTIVE
+  INACTIVE
+  SUSPENDED
+  BANNED
+}
+
+enum CourseLevel {
+  BEGINNER
+  INTERMEDIATE
+  ADVANCED
+  EXPERT
+}
+
+enum CourseStatus {
+  DRAFT
+  REVIEW
+  PUBLISHED
+  ARCHIVED
+  SUSPENDED
+}
+
+enum ResourceType {
+  PDF
+  DOCUMENT
+  IMAGE
+  VIDEO
+  AUDIO
+  LINK
+  CODE
+}
+
+enum EnrollmentStatus {
+  ACTIVE
+  COMPLETED
+  SUSPENDED
+  EXPIRED
+}
+
+enum BadgeRarity {
+  COMMON
+  UNCOMMON
+  RARE
+  EPIC
+  LEGENDARY
+}
+
+enum XPSource {
+  LESSON_COMPLETED
+  QUIZ_COMPLETED
+  COURSE_COMPLETED
+  STREAK_MILESTONE
+  BADGE_EARNED
+  REVIEW_POSTED
+  REFERRAL
+  PROJECT_SUBMITTED
+  COMPETITION_REWARD
+}
+
+enum PostType {
+  TEXT
+  ACHIEVEMENT
+  COURSE_COMPLETION
+  BADGE_EARNED
+  PROJECT_SHARE
+  QUESTION
+  TIP
+}
+
+enum ReactionType {
+  LIKE
+  LOVE
+  WOW
+  THINKING
+  CELEBRATE
+}
+
+enum GroupType {
+  PUBLIC
+  PRIVATE
+  COURSE_BASED
+}
+
+enum GroupRole {
+  OWNER
+  MODERATOR
+  MEMBER
+}
+
+enum MessageType {
+  TEXT
+  VOICE
+  FILE
+  IMAGE
+  SYSTEM
+}
+
+enum QuestionType {
+  MULTIPLE_CHOICE
+  MULTIPLE_SELECT
+  TRUE_FALSE
+  SHORT_ANSWER
+  ESSAY
+  CODE
+  ORDERING
+}
+
+enum NotificationType {
+  INFO
+  SUCCESS
+  WARNING
+  ERROR
+  ACHIEVEMENT
+  SOCIAL
+  SYSTEM
+}
+
+enum DashboardType {
+  STUDENT
+  INSTRUCTOR
+  ADMIN
+}
+
+enum SubmissionStatus {
+  SUBMITTED
+  UNDER_REVIEW
+  GRADED
+  RETURNED
+}
+
+enum SessionStatus {
+  SCHEDULED
+  IN_PROGRESS
+  COMPLETED
+  CANCELLED
+  NO_SHOW
+}
+
+enum CompetitionType {
+  SPEED_LEARNING
+  QUIZ_BATTLE
+  PROJECT_CHALLENGE
+  STREAK_CHALLENGE
+}
+
+enum CompetitionStatus {
+  UPCOMING
+  REGISTRATION_OPEN
+  IN_PROGRESS
+  FINISHED
+  CANCELLED
+}
+
+enum ActivityType {
+  COURSE_VIEW
+  COURSE_ENROLLMENT
+  COURSE_COMPLETION
+  LESSON_VIEW
+  LESSON_COMPLETION
+  QUIZ_ATTEMPT
+  QUIZ_COMPLETION
+  ASSIGNMENT_SUBMISSION
+  REVIEW_POSTED
+  CERTIFICATE_EARNED
+  MENTOR_SESSION
+  RESOURCE_DOWNLOAD
+  POST_CREATED
+  COMMENT_POSTED
+  REACTION_ADDED
+  BADGE_EARNED
+  LOGIN
+  LOGOUT
+  PROFILE_UPDATE
+  SETTINGS_CHANGE
+}
+
+// Modelo para logs de atividade do usuário
+model UserActivity {
+  id     String @id @default(cuid())
+  userId String
+  user   User   @relation(fields: [userId], references: [id], onDelete: Cascade)
+
+  // Tipo de atividade
+  type    ActivityType
+  action  String
+  details Json? // Detalhes adicionais da atividade
+
+  // Contexto
+  courseId String?
+  course   Course? @relation(fields: [courseId], references: [id])
+  lessonId String?
+  lesson   Lesson? @relation(fields: [lessonId], references: [id])
+
+  // Metadados
+  ipAddress String?
+  userAgent String?
+  createdAt DateTime @default(now())
+
+  @@map("user_activities")
+}
+
+// Modelo para rastrear uploads de arquivos
+model FileUpload {
+  id            String @id @default(uuid())
+  fileName      String // Nome original do arquivo
+  fileKey       String // Chave única no S3
+  fileUrl       String // URL pública do arquivo
+  fileType      String // image, video, document
+  fileSize      Int // Tamanho em bytes
+  contentType   String // MIME type
+  fileExtension String // Extensão do arquivo
+
+  // Metadados
+  description String?
+  tags        String[]
+
+  // Status e tracking
+  uploadStatus UploadStatus @default(PENDING)
+  uploadedAt   DateTime?
+  expiresAt    DateTime? // Para URLs pré-assinadas
+  tempUpload   Boolean      @default(false) // Marca se é upload temporário
+
+  // Relacionamentos
+  userId String
+  user   User   @relation(fields: [userId], references: [id], onDelete: Cascade)
+
+  // Relacionamento opcional com curso
+  courseId String?
+  course   Course? @relation(fields: [courseId], references: [id], onDelete: SetNull)
+
+  // Timestamps
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  @@map("file_uploads")
+}
+
+// Enum para status de upload
+enum UploadStatus {
+  PENDING
+  UPLOADING
+  COMPLETED
+  FAILED
+  EXPIRED
+}
