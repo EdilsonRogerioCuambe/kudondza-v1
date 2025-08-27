@@ -72,7 +72,7 @@ export default function UserDropdown({
             </Link>
           </DropdownMenuItem>
           <DropdownMenuItem asChild>
-            <Link href="/dashboard">
+            <Link href="/admin/dashboard">
               <LayoutDashboard
                 size={16}
                 className="opacity-60"
