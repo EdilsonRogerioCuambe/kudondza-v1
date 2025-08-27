@@ -1,6 +1,7 @@
 @import "tailwindcss";
 @import "tw-animate-css";
 
+@plugin "@tailwindcss/typography";
 @custom-variant dark (&:is(.dark *));
 
 :root {
@@ -42,11 +43,15 @@
   --radius: 0.5rem;
   --shadow-2xs: 0 1px 3px 0px hsl(0 0% 0% / 0.05);
   --shadow-xs: 0 1px 3px 0px hsl(0 0% 0% / 0.05);
-  --shadow-sm: 0 1px 3px 0px hsl(0 0% 0% / 0.10), 0 1px 2px -1px hsl(0 0% 0% / 0.10);
-  --shadow: 0 1px 3px 0px hsl(0 0% 0% / 0.10), 0 1px 2px -1px hsl(0 0% 0% / 0.10);
-  --shadow-md: 0 1px 3px 0px hsl(0 0% 0% / 0.10), 0 2px 4px -1px hsl(0 0% 0% / 0.10);
-  --shadow-lg: 0 1px 3px 0px hsl(0 0% 0% / 0.10), 0 4px 6px -1px hsl(0 0% 0% / 0.10);
-  --shadow-xl: 0 1px 3px 0px hsl(0 0% 0% / 0.10), 0 8px 10px -1px hsl(0 0% 0% / 0.10);
+  --shadow-sm: 0 1px 3px 0px hsl(0 0% 0% / 0.1),
+    0 1px 2px -1px hsl(0 0% 0% / 0.1);
+  --shadow: 0 1px 3px 0px hsl(0 0% 0% / 0.1), 0 1px 2px -1px hsl(0 0% 0% / 0.1);
+  --shadow-md: 0 1px 3px 0px hsl(0 0% 0% / 0.1),
+    0 2px 4px -1px hsl(0 0% 0% / 0.1);
+  --shadow-lg: 0 1px 3px 0px hsl(0 0% 0% / 0.1),
+    0 4px 6px -1px hsl(0 0% 0% / 0.1);
+  --shadow-xl: 0 1px 3px 0px hsl(0 0% 0% / 0.1),
+    0 8px 10px -1px hsl(0 0% 0% / 0.1);
   --shadow-2xl: 0 1px 3px 0px hsl(0 0% 0% / 0.25);
   --tracking-normal: 0em;
   --spacing: 0.25rem;
@@ -91,11 +96,15 @@
   --radius: 0.5rem;
   --shadow-2xs: 0 1px 3px 0px hsl(0 0% 0% / 0.05);
   --shadow-xs: 0 1px 3px 0px hsl(0 0% 0% / 0.05);
-  --shadow-sm: 0 1px 3px 0px hsl(0 0% 0% / 0.10), 0 1px 2px -1px hsl(0 0% 0% / 0.10);
-  --shadow: 0 1px 3px 0px hsl(0 0% 0% / 0.10), 0 1px 2px -1px hsl(0 0% 0% / 0.10);
-  --shadow-md: 0 1px 3px 0px hsl(0 0% 0% / 0.10), 0 2px 4px -1px hsl(0 0% 0% / 0.10);
-  --shadow-lg: 0 1px 3px 0px hsl(0 0% 0% / 0.10), 0 4px 6px -1px hsl(0 0% 0% / 0.10);
-  --shadow-xl: 0 1px 3px 0px hsl(0 0% 0% / 0.10), 0 8px 10px -1px hsl(0 0% 0% / 0.10);
+  --shadow-sm: 0 1px 3px 0px hsl(0 0% 0% / 0.1),
+    0 1px 2px -1px hsl(0 0% 0% / 0.1);
+  --shadow: 0 1px 3px 0px hsl(0 0% 0% / 0.1), 0 1px 2px -1px hsl(0 0% 0% / 0.1);
+  --shadow-md: 0 1px 3px 0px hsl(0 0% 0% / 0.1),
+    0 2px 4px -1px hsl(0 0% 0% / 0.1);
+  --shadow-lg: 0 1px 3px 0px hsl(0 0% 0% / 0.1),
+    0 4px 6px -1px hsl(0 0% 0% / 0.1);
+  --shadow-xl: 0 1px 3px 0px hsl(0 0% 0% / 0.1),
+    0 8px 10px -1px hsl(0 0% 0% / 0.1);
   --shadow-2xl: 0 1px 3px 0px hsl(0 0% 0% / 0.25);
 }
 
@@ -161,6 +170,105 @@
   }
 }
 
+/* ByteMD x Shadcn theme (scoped) */
+.bytemd-shadcn {
+  max-width: 100%;
+  border: none;
+  border-radius: var(--radius);
+  background: var(--card);
+  box-shadow: var(--shadow-xs);
+  overflow: hidden;
+}
+
+.CodeMirror-scroll {
+  overflow: auto !important;
+  background-color: transparent !important;
+}
+
+.bytemd-shadcn .bytemd {
+  background: var(--card) !important;
+}
+
+.bytemd-shadcn .bytemd-toolbar {
+  background: var(--card) !important;
+  border-bottom: none !important;
+}
+.bytemd-shadcn .bytemd-toolbar-icon {
+  color: var(--muted-foreground) !important;
+}
+.bytemd-shadcn .bytemd-toolbar-icon:hover {
+  color: var(--foreground) !important;
+  background: var(--accent) !important;
+}
+
+.bytemd-shadcn .bytemd-tabs {
+  background: var(--card) !important;
+  border-bottom: none !important;
+}
+.bytemd-shadcn .bytemd-tab {
+  color: var(--muted-foreground) !important;
+}
+.bytemd-shadcn .bytemd-tab-active {
+  color: var(--foreground) !important;
+  border-bottom: 2px solid var(--primary) !important;
+}
+
+.bytemd-shadcn .bytemd-editor,
+.bytemd-shadcn .bytemd-preview {
+  background: var(--card) !important;
+}
+.bytemd-shadcn .bytemd-editor {
+  border-right: none !important;
+}
+.bytemd-shadcn .bytemd-body {
+  height: 520px;
+  background-color: var(--card) !important;
+}
+.bytemd-shadcn .cm-editor,
+.bytemd-shadcn .cm-scroller,
+.bytemd-shadcn .cm-content {
+  background: var(--card) !important;
+  color: var(--foreground) !important;
+}
+.bytemd-shadcn .cm-editor {
+  font-family: var(--font-mono) !important;
+  font-size: 14px !important;
+}
+.bytemd-shadcn .cm-activeLine {
+  background: color-mix(in oklab, var(--accent) 35%, transparent) !important;
+}
+.bytemd-shadcn .cm-selectionBackground {
+  background: color-mix(in oklab, var(--primary) 25%, transparent) !important;
+}
+
+.bytemd-shadcn .bytemd-status {
+  background: var(--card) !important;
+  border-top: none !important;
+  color: var(--muted-foreground) !important;
+}
+
+.bytemd-shadcn .markdown-body {
+  color: var(--foreground) !important;
+}
+.bytemd-shadcn .markdown-body a {
+  color: var(--primary) !important;
+}
+.bytemd-shadcn .markdown-body code {
+  background: var(--accent) !important;
+}
+.bytemd-shadcn .markdown-body pre {
+  background: var(--accent) !important;
+}
+
+.bytemd-shadcn *::-webkit-scrollbar {
+  height: 10px !important;
+  width: 10px !important;
+}
+.bytemd-shadcn *::-webkit-scrollbar-thumb {
+  background: var(--muted) !important;
+  border-radius: 8px !important;
+}
+
 /* Custom Selection Colors */
 ::selection {
   background-color: #d97757;
@@ -181,4 +289,30 @@
 .dark ::-moz-selection {
   background-color: #d97757;
   color: white;
+}
+
+.CodeMirror .cm-s-default .CodeMirror-wrap .CodeMirror-empty {
+  background-color: transparent !important;
+}
+
+/* ByteMD CodeMirror v5 overrides to respect theme */
+.bytemd-shadcn .CodeMirror,
+.bytemd-shadcn .CodeMirror-scroll,
+.bytemd-shadcn .CodeMirror-gutters,
+.bytemd-shadcn .CodeMirror-lines,
+.bytemd-shadcn .CodeMirror pre {
+  background: var(--card) !important;
+  color: var(--foreground) !important;
+}
+.bytemd-shadcn .CodeMirror-gutters {
+  border-right: 1px solid var(--border) !important;
+}
+.bytemd-shadcn .CodeMirror-linenumber {
+  color: var(--muted-foreground) !important;
+}
+.bytemd-shadcn .CodeMirror-cursor {
+  border-left-color: var(--foreground) !important;
+}
+.bytemd-shadcn .CodeMirror-placeholder {
+  color: var(--muted-foreground) !important;
 }
