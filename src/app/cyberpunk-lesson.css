@@ -1,0 +1,287 @@
+/* Cyberpunk Lesson Page Styles */
+
+/* Custom scrollbar */
+.cyberpunk-scrollbar::-webkit-scrollbar {
+  width: 8px;
+}
+
+.cyberpunk-scrollbar::-webkit-scrollbar-track {
+  background: rgba(15, 23, 42, 0.5);
+  border-radius: 4px;
+}
+
+.cyberpunk-scrollbar::-webkit-scrollbar-thumb {
+  background: linear-gradient(180deg, #06b6d4, #8b5cf6);
+  border-radius: 4px;
+}
+
+.cyberpunk-scrollbar::-webkit-scrollbar-thumb:hover {
+  background: linear-gradient(180deg, #0891b2, #7c3aed);
+}
+
+/* Glitch effect for text */
+@keyframes glitch {
+  0% {
+    transform: translate(0);
+  }
+  20% {
+    transform: translate(-2px, 2px);
+  }
+  40% {
+    transform: translate(-2px, -2px);
+  }
+  60% {
+    transform: translate(2px, 2px);
+  }
+  80% {
+    transform: translate(2px, -2px);
+  }
+  100% {
+    transform: translate(0);
+  }
+}
+
+.glitch-text {
+  animation: glitch 0.3s infinite;
+}
+
+/* Neon glow effects */
+.neon-glow {
+  box-shadow: 0 0 5px currentColor, 0 0 10px currentColor, 0 0 15px currentColor,
+    0 0 20px currentColor;
+}
+
+.neon-glow-cyan {
+  box-shadow: 0 0 5px #06b6d4, 0 0 10px #06b6d4, 0 0 15px #06b6d4,
+    0 0 20px #06b6d4;
+}
+
+.neon-glow-purple {
+  box-shadow: 0 0 5px #8b5cf6, 0 0 10px #8b5cf6, 0 0 15px #8b5cf6,
+    0 0 20px #8b5cf6;
+}
+
+/* Matrix rain effect */
+@keyframes matrix-rain {
+  0% {
+    transform: translateY(-100%);
+    opacity: 0;
+  }
+  10% {
+    opacity: 1;
+  }
+  90% {
+    opacity: 1;
+  }
+  100% {
+    transform: translateY(100vh);
+    opacity: 0;
+  }
+}
+
+.matrix-rain {
+  position: absolute;
+  color: #00ff00;
+  font-family: "Courier New", monospace;
+  font-size: 14px;
+  text-shadow: 0 0 5px #00ff00;
+  animation: matrix-rain 3s linear infinite;
+  pointer-events: none;
+  z-index: 1;
+}
+
+/* Holographic effect */
+@keyframes holographic {
+  0% {
+    background-position: 0% 50%;
+  }
+  50% {
+    background-position: 100% 50%;
+  }
+  100% {
+    background-position: 0% 50%;
+  }
+}
+
+.holographic {
+  background: linear-gradient(
+    45deg,
+    rgba(6, 182, 212, 0.1),
+    rgba(139, 92, 246, 0.1),
+    rgba(6, 182, 212, 0.1),
+    rgba(139, 92, 246, 0.1)
+  );
+  background-size: 400% 400%;
+  animation: holographic 3s ease infinite;
+}
+
+/* Scan line effect */
+@keyframes scan-line {
+  0% {
+    transform: translateY(-100%);
+  }
+  100% {
+    transform: translateY(100vh);
+  }
+}
+
+.scan-line {
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  height: 2px;
+  background: linear-gradient(90deg, transparent, #06b6d4, transparent);
+  animation: scan-line 2s linear infinite;
+  pointer-events: none;
+  z-index: 2;
+}
+
+/* Data stream effect */
+@keyframes data-stream {
+  0% {
+    transform: translateX(-100%);
+    opacity: 0;
+  }
+  50% {
+    opacity: 1;
+  }
+  100% {
+    transform: translateX(100%);
+    opacity: 0;
+  }
+}
+
+.data-stream {
+  position: absolute;
+  top: 50%;
+  left: 0;
+  right: 0;
+  height: 1px;
+  background: linear-gradient(90deg, transparent, #8b5cf6, transparent);
+  animation: data-stream 4s ease-in-out infinite;
+  pointer-events: none;
+  z-index: 1;
+}
+
+/* Power grid effect */
+.power-grid {
+  background-image: linear-gradient(rgba(6, 182, 212, 0.1) 1px, transparent 1px),
+    linear-gradient(90deg, rgba(6, 182, 212, 0.1) 1px, transparent 1px);
+  background-size: 20px 20px;
+  animation: holographic 10s ease infinite;
+}
+
+/* Energy pulse */
+@keyframes energy-pulse {
+  0% {
+    transform: scale(1);
+    opacity: 1;
+  }
+  50% {
+    transform: scale(1.05);
+    opacity: 0.8;
+  }
+  100% {
+    transform: scale(1);
+    opacity: 1;
+  }
+}
+
+.energy-pulse {
+  animation: energy-pulse 2s ease-in-out infinite;
+}
+
+/* Circuit board pattern */
+.circuit-board {
+  background-image: radial-gradient(
+      circle at 25% 25%,
+      rgba(6, 182, 212, 0.1) 2px,
+      transparent 2px
+    ),
+    radial-gradient(
+      circle at 75% 75%,
+      rgba(139, 92, 246, 0.1) 2px,
+      transparent 2px
+    );
+  background-size: 30px 30px;
+}
+
+/* Digital distortion */
+@keyframes digital-distortion {
+  0% {
+    clip-path: inset(0 0 0 0);
+  }
+  25% {
+    clip-path: inset(10% 0 20% 0);
+  }
+  50% {
+    clip-path: inset(5% 0 15% 0);
+  }
+  75% {
+    clip-path: inset(15% 0 5% 0);
+  }
+  100% {
+    clip-path: inset(0 0 0 0);
+  }
+}
+
+.digital-distortion {
+  animation: digital-distortion 0.5s ease-in-out infinite;
+}
+
+/* Responsive adjustments */
+@media (max-width: 768px) {
+  .cyberpunk-scrollbar::-webkit-scrollbar {
+    width: 4px;
+  }
+
+  .matrix-rain {
+    font-size: 12px;
+  }
+
+  .power-grid {
+    background-size: 15px 15px;
+  }
+
+  .circuit-board {
+    background-size: 20px 20px;
+  }
+}
+
+/* Dark mode enhancements */
+@media (prefers-color-scheme: dark) {
+  .neon-glow {
+    filter: brightness(1.2);
+  }
+
+  .holographic {
+    filter: contrast(1.1);
+  }
+}
+
+/* High contrast mode */
+@media (prefers-contrast: high) {
+  .neon-glow {
+    box-shadow: 0 0 10px currentColor, 0 0 20px currentColor,
+      0 0 30px currentColor;
+  }
+
+  .matrix-rain {
+    text-shadow: 0 0 10px #00ff00;
+  }
+}
+
+/* Reduced motion */
+@media (prefers-reduced-motion: reduce) {
+  .glitch-text,
+  .matrix-rain,
+  .scan-line,
+  .data-stream,
+  .holographic,
+  .power-grid,
+  .energy-pulse,
+  .digital-distortion {
+    animation: none;
+  }
+}
