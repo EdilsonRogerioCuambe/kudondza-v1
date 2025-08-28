@@ -74,6 +74,7 @@ export async function getUserGamification() {
   }
 }
 
+// eslint-disable-next-line @typescript-eslint/no-explicit-any
 function formatGamificationData(gamification: any) {
   // Calcular XP atual do nível
   const currentXP = gamification.totalXP % gamification.xpToNextLevel;
