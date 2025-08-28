@@ -1,3 +1,14 @@
+import {
+  AlertDialog,
+  AlertDialogAction,
+  AlertDialogCancel,
+  AlertDialogContent,
+  AlertDialogDescription,
+  AlertDialogFooter,
+  AlertDialogHeader,
+  AlertDialogTitle,
+  AlertDialogTrigger,
+} from "@/components/ui/alert-dialog";
 import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent } from "@/components/ui/card";
@@ -27,22 +38,26 @@ import { useRouter } from "next/navigation";
 import { toast } from "sonner";
 import { LessonData } from "../page";
 
-export default function LessonHeader({ lesson, module, course }: LessonData) {
+interface LessonHeaderProps extends LessonData {
+  onDeleteLesson?: () => void;
+  isDeleting?: boolean;
+  showDeleteDialog?: boolean;
+  setShowDeleteDialog?: (show: boolean) => void;
+}
+
+export default function LessonHeader({
+  lesson,
+  module,
+  course,
+  onDeleteLesson,
+  isDeleting = false,
+  showDeleteDialog = false,
+  setShowDeleteDialog,
+}: LessonHeaderProps) {
   const router = useRouter();
 
   const handleDuplicateLesson = async () => {
     toast.info("Funcionalidade de duplicação em desenvolvimento");
-  };
-
-  const handleDeleteLesson = async () => {
-    if (
-      !confirm(
-        "Tem certeza que deseja deletar esta aula? Esta ação não pode ser desfeita."
-      )
-    ) {
-      return;
-    }
-    toast.info("Funcionalidade de exclusão em desenvolvimento");
   };
 
   const formatDuration = (seconds?: number | null) => {
@@ -135,13 +150,46 @@ export default function LessonHeader({ lesson, module, course }: LessonData) {
                     Duplicar Aula
                   </DropdownMenuItem>
                   <DropdownMenuSeparator />
-                  <DropdownMenuItem
-                    onClick={handleDeleteLesson}
-                    className="text-red-600"
+                  <AlertDialog
+                    open={showDeleteDialog}
+                    onOpenChange={setShowDeleteDialog}
                   >
-                    <Trash2 className="mr-2 h-4 w-4" />
-                    Deletar Aula
-                  </DropdownMenuItem>
+                    <AlertDialogTrigger asChild>
+                      <DropdownMenuItem
+                        className="text-red-600"
+                        onSelect={(e) => {
+                          e.preventDefault();
+                          setShowDeleteDialog?.(true);
+                        }}
+                      >
+                        <Trash2 className="mr-2 h-4 w-4" />
+                        Deletar Aula
+                      </DropdownMenuItem>
+                    </AlertDialogTrigger>
+                    <AlertDialogContent>
+                      <AlertDialogHeader>
+                        <AlertDialogTitle>Confirmar exclusão</AlertDialogTitle>
+                        <AlertDialogDescription>
+                          Tem certeza que deseja deletar a aula &quot;
+                          {lesson.title}&quot;? Esta ação não pode ser desfeita
+                          e todos os dados da aula serão perdidos
+                          permanentemente.
+                        </AlertDialogDescription>
+                      </AlertDialogHeader>
+                      <AlertDialogFooter>
+                        <AlertDialogCancel disabled={isDeleting}>
+                          Cancelar
+                        </AlertDialogCancel>
+                        <AlertDialogAction
+                          onClick={onDeleteLesson}
+                          disabled={isDeleting}
+                          className="bg-red-600 hover:bg-red-700 text-white"
+                        >
+                          {isDeleting ? "Deletando..." : "Deletar Aula"}
+                        </AlertDialogAction>
+                      </AlertDialogFooter>
+                    </AlertDialogContent>
+                  </AlertDialog>
                 </DropdownMenuContent>
               </DropdownMenu>
             </div>
