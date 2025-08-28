@@ -90,6 +90,10 @@ model User {
   // Relações de metas
   goals UserGoal[]
 
+  // Relações de desafios e recompensas
+  challenges   UserChallenge[]
+  levelRewards UserLevelReward[]
+
   // Campos adicionais para dashboard
   lastLoginAt DateTime?
   loginCount  Int       @default(0)
@@ -1479,6 +1483,83 @@ model UserGoal {
 }
 
 // ================================
+// MÓDULO: DESAFIOS E RECOMPENSAS
+// ================================
+
+model DailyChallenge {
+  id          String        @id @default(cuid())
+  title       String
+  description String?       @db.Text
+  type        ChallengeType
+  target      Int // Valor alvo do desafio
+  reward      Int // XP ganho ao completar
+
+  // Configurações
+  isActive    Boolean @default(true)
+  isRecurring Boolean @default(true) // Desafio que se repete diariamente
+
+  // Datas
+  createdAt     DateTime        @default(now())
+  expiresAt     DateTime? // Para desafios temporários
+  UserChallenge UserChallenge[]
+
+  @@map("daily_challenges")
+}
+
+model UserChallenge {
+  id          String    @id @default(cuid())
+  progress    Int       @default(0)
+  completed   Boolean   @default(false)
+  completedAt DateTime?
+
+  // Datas
+  startedAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  // Relacionamentos
+  userId      String
+  user        User           @relation(fields: [userId], references: [id], onDelete: Cascade)
+  challengeId String
+  challenge   DailyChallenge @relation(fields: [challengeId], references: [id], onDelete: Cascade)
+
+  @@unique([userId, challengeId], name: "unique_user_challenge")
+  @@map("user_challenges")
+}
+
+model LevelReward {
+  id          String     @id @default(cuid())
+  level       Int
+  title       String
+  description String?    @db.Text
+  type        RewardType
+  value       String // Valor da recompensa (badge, título, XP, etc.)
+  xpReward    Int        @default(0)
+
+  // Configurações
+  isActive Boolean @default(true)
+
+  // Relacionamentos
+  userRewards UserLevelReward[]
+
+  @@unique([level], name: "unique_level_reward")
+  @@map("level_rewards")
+}
+
+model UserLevelReward {
+  id       String   @id @default(cuid())
+  earnedAt DateTime @default(now())
+
+  // Relacionamentos
+  userId        String
+  user          User        @relation(fields: [userId], references: [id], onDelete: Cascade)
+  levelRewardId String
+  levelReward   LevelReward @relation(fields: [levelRewardId], references: [id], onDelete: Cascade)
+
+  @@unique([userId, levelRewardId], name: "unique_user_level_reward")
+  @@map("user_level_rewards")
+}
+
+// ================================
 // MÓDULO: LOGS E AUDITORIA
 // ================================
 
@@ -1685,6 +1766,26 @@ enum GoalPeriod {
   WEEKLY
   MONTHLY
   YEARLY
+}
+
+enum ChallengeType {
+  STUDY_TIME
+  EXERCISE_COMPLETION
+  LOGIN_STREAK
+  COURSE_COMPLETION
+  LESSON_COMPLETION
+  QUIZ_COMPLETION
+  PROJECT_SUBMISSION
+  SOCIAL_INTERACTION
+}
+
+enum RewardType {
+  BADGE
+  TITLE
+  XP_BONUS
+  FEATURE_UNLOCK
+  CUSTOM_AVATAR
+  CERTIFICATE
 }
 
 enum ActivityType {
