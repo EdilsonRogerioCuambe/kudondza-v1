@@ -833,6 +833,48 @@ exports.Prisma.UserGoalScalarFieldEnum = {
   userId: 'userId'
 };
 
+exports.Prisma.DailyChallengeScalarFieldEnum = {
+  id: 'id',
+  title: 'title',
+  description: 'description',
+  type: 'type',
+  target: 'target',
+  reward: 'reward',
+  isActive: 'isActive',
+  isRecurring: 'isRecurring',
+  createdAt: 'createdAt',
+  expiresAt: 'expiresAt'
+};
+
+exports.Prisma.UserChallengeScalarFieldEnum = {
+  id: 'id',
+  progress: 'progress',
+  completed: 'completed',
+  completedAt: 'completedAt',
+  startedAt: 'startedAt',
+  updatedAt: 'updatedAt',
+  userId: 'userId',
+  challengeId: 'challengeId'
+};
+
+exports.Prisma.LevelRewardScalarFieldEnum = {
+  id: 'id',
+  level: 'level',
+  title: 'title',
+  description: 'description',
+  type: 'type',
+  value: 'value',
+  xpReward: 'xpReward',
+  isActive: 'isActive'
+};
+
+exports.Prisma.UserLevelRewardScalarFieldEnum = {
+  id: 'id',
+  earnedAt: 'earnedAt',
+  userId: 'userId',
+  levelRewardId: 'levelRewardId'
+};
+
 exports.Prisma.AuditLogScalarFieldEnum = {
   id: 'id',
   action: 'action',
@@ -1112,6 +1154,26 @@ exports.GoalPeriod = exports.$Enums.GoalPeriod = {
   YEARLY: 'YEARLY'
 };
 
+exports.ChallengeType = exports.$Enums.ChallengeType = {
+  STUDY_TIME: 'STUDY_TIME',
+  EXERCISE_COMPLETION: 'EXERCISE_COMPLETION',
+  LOGIN_STREAK: 'LOGIN_STREAK',
+  COURSE_COMPLETION: 'COURSE_COMPLETION',
+  LESSON_COMPLETION: 'LESSON_COMPLETION',
+  QUIZ_COMPLETION: 'QUIZ_COMPLETION',
+  PROJECT_SUBMISSION: 'PROJECT_SUBMISSION',
+  SOCIAL_INTERACTION: 'SOCIAL_INTERACTION'
+};
+
+exports.RewardType = exports.$Enums.RewardType = {
+  BADGE: 'BADGE',
+  TITLE: 'TITLE',
+  XP_BONUS: 'XP_BONUS',
+  FEATURE_UNLOCK: 'FEATURE_UNLOCK',
+  CUSTOM_AVATAR: 'CUSTOM_AVATAR',
+  CERTIFICATE: 'CERTIFICATE'
+};
+
 exports.ActivityType = exports.$Enums.ActivityType = {
   COURSE_VIEW: 'COURSE_VIEW',
   COURSE_ENROLLMENT: 'COURSE_ENROLLMENT',
@@ -1197,6 +1259,10 @@ exports.Prisma.ModelName = {
   Competition: 'Competition',
   CompetitionParticipant: 'CompetitionParticipant',
   UserGoal: 'UserGoal',
+  DailyChallenge: 'DailyChallenge',
+  UserChallenge: 'UserChallenge',
+  LevelReward: 'LevelReward',
+  UserLevelReward: 'UserLevelReward',
   AuditLog: 'AuditLog',
   UserActivity: 'UserActivity',
   FileUpload: 'FileUpload'
