@@ -44,19 +44,6 @@ export async function getAchievementsWithProgress() {
     startOfWeek.setDate(startOfWeek.getDate() - startOfWeek.getDay());
     startOfWeek.setHours(0, 0, 0, 0);
 
-    const weeklyAnalytics = await prisma.userAnalytics.findMany({
-      where: {
-        userId,
-        date: {
-          gte: startOfWeek,
-        },
-      },
-    });
-
-    const weeklyStudyTime =
-      weeklyAnalytics.reduce((acc, analytics) => acc + analytics.timeSpent, 0) /
-      3600; // Converter para horas
-
     // Mapear conquistas com progresso
     const achievements = allBadges.map((badge) => {
       const userBadge = userBadges.find((ub) => ub.badgeId === badge.id);
