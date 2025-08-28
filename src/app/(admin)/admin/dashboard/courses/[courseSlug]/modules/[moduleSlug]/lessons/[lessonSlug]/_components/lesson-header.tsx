@@ -56,31 +56,31 @@ export default function LessonHeader({ lesson, module, course }: LessonData) {
     <Card className="overflow-hidden">
       <CardContent className="p-0">
         {/* Header Principal */}
-        <div className="p-6 pb-4">
-          <div className="flex items-start justify-between gap-4">
+        <div className="p-4 md:p-6 pb-4">
+          <div className="flex flex-col lg:flex-row lg:items-start lg:justify-between gap-4">
             {/* Informações Principais */}
             <div className="flex-1 min-w-0">
               {/* Breadcrumb */}
-              <div className="flex items-center gap-2 text-sm text-muted-foreground mb-2">
-                <BookOpen className="h-4 w-4" />
-                <span>{course.title}</span>
-                <span>•</span>
-                <span>{module.title}</span>
-                <span>•</span>
+              <div className="flex flex-wrap items-center gap-2 text-xs md:text-sm text-muted-foreground mb-2">
+                <BookOpen className="h-3 w-3 md:h-4 md:w-4" />
+                <span className="truncate">{course.title}</span>
+                <span className="hidden sm:inline">•</span>
+                <span className="truncate">{module.title}</span>
+                <span className="hidden sm:inline">•</span>
                 <span className="font-medium text-foreground">
                   Aula {lesson.order}
                 </span>
               </div>
 
               {/* Título */}
-              <h1 className="text-3xl font-bold tracking-tight mb-3">
+              <h1 className="text-xl md:text-2xl lg:text-3xl font-bold tracking-tight mb-3">
                 {lesson.title}
               </h1>
 
               {/* Metadados */}
-              <div className="flex items-center gap-4 text-sm text-muted-foreground mb-4">
+              <div className="flex flex-wrap items-center gap-2 md:gap-4 text-xs md:text-sm text-muted-foreground mb-4">
                 <div className="flex items-center gap-1">
-                  <Calendar className="h-4 w-4" />
+                  <Calendar className="h-3 w-3 md:h-4 md:w-4" />
                   <span>
                     Criada em{" "}
                     {new Date(lesson.createdAt).toLocaleDateString("pt-BR")}
@@ -88,43 +88,45 @@ export default function LessonHeader({ lesson, module, course }: LessonData) {
                 </div>
                 {lesson.videoDuration && (
                   <div className="flex items-center gap-1">
-                    <Clock className="h-4 w-4" />
+                    <Clock className="h-3 w-3 md:h-4 md:w-4" />
                     <span>{formatDuration(lesson.videoDuration)}</span>
                   </div>
                 )}
                 <div className="flex items-center gap-1">
-                  <Trophy className="h-4 w-4" />
+                  <Trophy className="h-3 w-3 md:h-4 md:w-4" />
                   <span>{lesson.xpReward} XP</span>
                 </div>
               </div>
 
               {/* Descrição Curta */}
               {lesson.shortDescription && (
-                <p className="text-sm leading-relaxed text-muted-foreground max-w-2xl">
+                <p className="text-xs md:text-sm leading-relaxed text-muted-foreground max-w-2xl">
                   {lesson.shortDescription}
                 </p>
               )}
             </div>
 
             {/* Ações */}
-            <div className="flex items-center gap-2">
+            <div className="flex items-center gap-2 lg:flex-col lg:items-stretch lg:gap-2">
               <Button
                 variant="outline"
                 size="sm"
+                className="flex-1 lg:flex-none"
                 onClick={() =>
                   router.push(
                     `/admin/dashboard/courses/${course.slug}/modules/${module.slug}/lessons/${lesson.slug}/edit`
                   )
                 }
               >
-                <Edit className="h-4 w-4 mr-2" />
-                Editar
+                <Edit className="h-3 w-3 md:h-4 md:w-4 mr-1 md:mr-2" />
+                <span className="hidden sm:inline">Editar</span>
+                <span className="sm:hidden">Editar</span>
               </Button>
 
               <DropdownMenu>
                 <DropdownMenuTrigger asChild>
-                  <Button variant="outline" size="sm">
-                    <MoreHorizontal className="h-4 w-4" />
+                  <Button variant="outline" size="sm" className="lg:w-full">
+                    <MoreHorizontal className="h-3 w-3 md:h-4 md:w-4" />
                   </Button>
                 </DropdownMenuTrigger>
                 <DropdownMenuContent align="end">
@@ -149,22 +151,24 @@ export default function LessonHeader({ lesson, module, course }: LessonData) {
         <Separator />
 
         {/* Status e Badges */}
-        <div className="p-6 pt-4">
-          <div className="flex flex-wrap items-center gap-3">
+        <div className="p-4 md:p-6 pt-4">
+          <div className="flex flex-wrap items-center gap-2 md:gap-3">
             {/* Status Principal */}
             <div className="flex items-center gap-2">
               {lesson.isPreview ? (
                 <Badge
                   variant="default"
-                  className="bg-blue-100 text-blue-800 hover:bg-blue-100"
+                  className="bg-blue-100 text-blue-800 hover:bg-blue-100 text-xs"
                 >
                   <Eye className="h-3 w-3 mr-1" />
-                  Preview
+                  <span className="hidden sm:inline">Preview</span>
+                  <span className="sm:hidden">Prev</span>
                 </Badge>
               ) : (
-                <Badge variant="secondary">
+                <Badge variant="secondary" className="text-xs">
                   <Play className="h-3 w-3 mr-1" />
-                  Aula Completa
+                  <span className="hidden sm:inline">Aula Completa</span>
+                  <span className="sm:hidden">Completa</span>
                 </Badge>
               )}
             </div>
@@ -174,18 +178,20 @@ export default function LessonHeader({ lesson, module, course }: LessonData) {
               {lesson.isPublic ? (
                 <Badge
                   variant="outline"
-                  className="text-green-700 border-green-200"
+                  className="text-green-700 border-green-200 text-xs"
                 >
                   <Eye className="h-3 w-3 mr-1" />
-                  Pública
+                  <span className="hidden sm:inline">Pública</span>
+                  <span className="sm:hidden">Pública</span>
                 </Badge>
               ) : (
                 <Badge
                   variant="outline"
-                  className="text-orange-700 border-orange-200"
+                  className="text-orange-700 border-orange-200 text-xs"
                 >
                   <Lock className="h-3 w-3 mr-1" />
-                  Privada
+                  <span className="hidden sm:inline">Privada</span>
+                  <span className="sm:hidden">Privada</span>
                 </Badge>
               )}
             </div>
@@ -195,12 +201,16 @@ export default function LessonHeader({ lesson, module, course }: LessonData) {
               {lesson.isRequired ? (
                 <Badge
                   variant="destructive"
-                  className="bg-red-100 text-red-800 hover:bg-red-100"
+                  className="bg-red-100 text-red-800 hover:bg-red-100 text-xs"
                 >
-                  Obrigatória
+                  <span className="hidden sm:inline">Obrigatória</span>
+                  <span className="sm:hidden">Obrig</span>
                 </Badge>
               ) : (
-                <Badge variant="outline">Opcional</Badge>
+                <Badge variant="outline" className="text-xs">
+                  <span className="hidden sm:inline">Opcional</span>
+                  <span className="sm:hidden">Opc</span>
+                </Badge>
               )}
             </div>
 
@@ -208,10 +218,11 @@ export default function LessonHeader({ lesson, module, course }: LessonData) {
             {lesson.videoUrl && (
               <Badge
                 variant="outline"
-                className="text-blue-700 border-blue-200"
+                className="text-blue-700 border-blue-200 text-xs"
               >
                 <Video className="h-3 w-3 mr-1" />
-                Com Vídeo
+                <span className="hidden sm:inline">Com Vídeo</span>
+                <span className="sm:hidden">Vídeo</span>
               </Badge>
             )}
 
@@ -219,10 +230,13 @@ export default function LessonHeader({ lesson, module, course }: LessonData) {
             {lesson.resources.length > 0 && (
               <Badge
                 variant="outline"
-                className="text-purple-700 border-purple-200"
+                className="text-purple-700 border-purple-200 text-xs"
               >
-                {lesson.resources.length} Recurso
-                {lesson.resources.length > 1 ? "s" : ""}
+                <span className="hidden sm:inline">
+                  {lesson.resources.length} Recurso
+                  {lesson.resources.length > 1 ? "s" : ""}
+                </span>
+                <span className="sm:hidden">{lesson.resources.length} Rec</span>
               </Badge>
             )}
           </div>
