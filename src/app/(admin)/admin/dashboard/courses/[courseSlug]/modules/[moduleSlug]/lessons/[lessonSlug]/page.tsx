@@ -5,10 +5,22 @@ import {
   updateLessonContent,
   updateLessonTranscript,
 } from "@/actions/courses/modules";
+import { deleteLesson } from "@/actions/courses/modules/delete-lesson";
 import ByteMDEditor from "@/components/byte-md-editor";
 import CyberpunkResources from "@/components/cyberpunk-resources";
 import CyberpunkTranscriptEditor from "@/components/cyberpunk-transcript-editor";
 import CyberpunkVideoPlayer from "@/components/cyberpunk-video-player";
+import {
+  AlertDialog,
+  AlertDialogAction,
+  AlertDialogCancel,
+  AlertDialogContent,
+  AlertDialogDescription,
+  AlertDialogFooter,
+  AlertDialogHeader,
+  AlertDialogTitle,
+  AlertDialogTrigger,
+} from "@/components/ui/alert-dialog";
 import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
@@ -92,6 +104,8 @@ export default function LessonPage() {
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState<string | null>(null);
   const [activeTab, setActiveTab] = useState("overview");
+  const [isDeleting, setIsDeleting] = useState(false);
+  const [showDeleteDialog, setShowDeleteDialog] = useState(false);
   const isMobile = useIsMobile();
 
   const courseSlug = params.courseSlug as string;
@@ -185,6 +199,32 @@ export default function LessonPage() {
     }
   };
 
+  const handleDeleteLesson = async () => {
+    if (!lessonData?.lesson.id || !lessonData?.module.id) return;
+
+    setIsDeleting(true);
+    try {
+      const result = await deleteLesson(
+        lessonData.lesson.id,
+        lessonData.module.id
+      );
+      if (result.success) {
+        toast.success("Aula deletada com sucesso!");
+        router.push(
+          `/admin/dashboard/courses/${courseSlug}/modules/${moduleSlug}`
+        );
+      } else {
+        toast.error(result.error || "Erro ao deletar aula");
+      }
+    } catch (error) {
+      toast.error("Erro inesperado ao deletar aula");
+      console.error("Erro ao deletar aula:", error);
+    } finally {
+      setIsDeleting(false);
+      setShowDeleteDialog(false);
+    }
+  };
+
   if (loading) {
     return (
       <main className="flex-1 space-y-4 p-4 md:p-8 pt-6">
@@ -270,7 +310,13 @@ export default function LessonPage() {
                 </Button>
               </DropdownMenuTrigger>
               <DropdownMenuContent align="end">
-                <DropdownMenuItem>
+                <DropdownMenuItem
+                  onClick={() =>
+                    router.push(
+                      `/admin/dashboard/courses/${courseSlug}/modules/${moduleSlug}/lessons/${lessonSlug}/edit`
+                    )
+                  }
+                >
                   <Edit className="mr-2 h-4 w-4" />
                   Editar
                 </DropdownMenuItem>
@@ -279,17 +325,61 @@ export default function LessonPage() {
                   Duplicar
                 </DropdownMenuItem>
                 <DropdownMenuSeparator />
-                <DropdownMenuItem className="text-red-600">
-                  <Trash2 className="mr-2 h-4 w-4" />
-                  Deletar
-                </DropdownMenuItem>
+                <AlertDialog
+                  open={showDeleteDialog}
+                  onOpenChange={setShowDeleteDialog}
+                >
+                  <AlertDialogTrigger asChild>
+                    <DropdownMenuItem
+                      className="text-red-600"
+                      onSelect={(e) => {
+                        e.preventDefault();
+                        setShowDeleteDialog(true);
+                      }}
+                    >
+                      <Trash2 className="mr-2 h-4 w-4" />
+                      Deletar
+                    </DropdownMenuItem>
+                  </AlertDialogTrigger>
+                  <AlertDialogContent>
+                    <AlertDialogHeader>
+                      <AlertDialogTitle>Confirmar exclusão</AlertDialogTitle>
+                      <AlertDialogDescription>
+                        Tem certeza que deseja deletar a aula &quot;
+                        {lessonData?.lesson.title}&quot;? Esta ação não pode ser
+                        desfeita e todos os dados da aula serão perdidos
+                        permanentemente.
+                      </AlertDialogDescription>
+                    </AlertDialogHeader>
+                    <AlertDialogFooter>
+                      <AlertDialogCancel disabled={isDeleting}>
+                        Cancelar
+                      </AlertDialogCancel>
+                      <AlertDialogAction
+                        onClick={handleDeleteLesson}
+                        disabled={isDeleting}
+                        className="bg-red-600 hover:bg-red-700 text-white"
+                      >
+                        {isDeleting ? "Deletando..." : "Deletar Aula"}
+                      </AlertDialogAction>
+                    </AlertDialogFooter>
+                  </AlertDialogContent>
+                </AlertDialog>
               </DropdownMenuContent>
             </DropdownMenu>
           </div>
         </div>
 
         {/* Header da aula */}
-        <LessonHeader lesson={lesson} module={module} course={course} />
+        <LessonHeader
+          lesson={lesson}
+          module={module}
+          course={course}
+          onDeleteLesson={handleDeleteLesson}
+          isDeleting={isDeleting}
+          showDeleteDialog={showDeleteDialog}
+          setShowDeleteDialog={setShowDeleteDialog}
+        />
 
         {/* Estatísticas */}
         <LessonStats lesson={lesson} />
