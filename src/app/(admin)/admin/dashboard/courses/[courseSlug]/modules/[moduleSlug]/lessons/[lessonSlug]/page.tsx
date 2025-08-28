@@ -19,8 +19,16 @@ import {
   DropdownMenuSeparator,
   DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu";
+import {
+  Select,
+  SelectContent,
+  SelectItem,
+  SelectTrigger,
+  SelectValue,
+} from "@/components/ui/select";
 import { Separator } from "@/components/ui/separator";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
+import { useIsMobile } from "@/hooks/use-mobile";
 import {
   ArrowLeft,
   BookOpen,
@@ -31,11 +39,11 @@ import {
 } from "lucide-react";
 import { useParams, useRouter } from "next/navigation";
 import { useEffect, useState } from "react";
+import ReactMarkdown from "react-markdown";
+import remarkGfm from "remark-gfm";
 import { toast } from "sonner";
 import LessonHeader from "./_components/lesson-header";
 import LessonStats from "./_components/lesson-stats";
-import ReactMarkdown from "react-markdown";
-import remarkGfm from "remark-gfm";
 
 export interface LessonData {
   lesson: {
@@ -84,6 +92,7 @@ export default function LessonPage() {
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState<string | null>(null);
   const [activeTab, setActiveTab] = useState("overview");
+  const isMobile = useIsMobile();
 
   const courseSlug = params.courseSlug as string;
   const moduleSlug = params.moduleSlug as string;
@@ -223,31 +232,31 @@ export default function LessonPage() {
   const { lesson, module, course } = lessonData;
 
   const renderDescription = () => {
-      if (!lesson.description) return null;
-      const hasHtml = /<[^>]+>/.test(lesson.description);
-      if (hasHtml) {
-        return (
-          <div
-            className="prose prose-sm dark:prose-invert max-w-none break-words"
-            dangerouslySetInnerHTML={{ __html: lesson.description }}
-          />
-        );
-      }
+    if (!lesson.description) return null;
+    const hasHtml = /<[^>]+>/.test(lesson.description);
+    if (hasHtml) {
       return (
-        <div className="prose prose-sm dark:prose-invert max-w-none break-words">
-          <ReactMarkdown remarkPlugins={[remarkGfm]}>
-            {lesson.description}
-          </ReactMarkdown>
-        </div>
+        <div
+          className="prose prose-sm dark:prose-invert max-w-none break-words"
+          dangerouslySetInnerHTML={{ __html: lesson.description }}
+        />
       );
-    };
+    }
+    return (
+      <div className="prose prose-sm dark:prose-invert max-w-none break-words">
+        <ReactMarkdown remarkPlugins={[remarkGfm]}>
+          {lesson.description}
+        </ReactMarkdown>
+      </div>
+    );
+  };
 
   return (
-    <main className="flex-1 space-y-4 p-4 md:p-8 pt-6">
-      <div className="space-y-6">
+    <main className="flex-1 space-y-4 p-3 md:p-6 lg:p-8 pt-4 md:pt-6">
+      <div className="space-y-4 md:space-y-6">
         {/* Header com navegação */}
         <div className="flex items-center justify-between">
-          <div className="flex items-center gap-4">
+          <div className="flex items-center gap-2 md:gap-4">
             <Button variant="outline" size="icon" onClick={() => router.back()}>
               <ArrowLeft className="h-4 w-4" />
             </Button>
@@ -255,9 +264,9 @@ export default function LessonPage() {
           <div className="md:hidden">
             <DropdownMenu>
               <DropdownMenuTrigger asChild>
-                <Button variant="outline">
-                  <MoreHorizontal className="mr-2 h-4 w-4" />
-                  Ações
+                <Button variant="outline" size="sm">
+                  <MoreHorizontal className="mr-1 md:mr-2 h-4 w-4" />
+                  <span className="hidden sm:inline">Ações</span>
                 </Button>
               </DropdownMenuTrigger>
               <DropdownMenuContent align="end">
@@ -287,31 +296,49 @@ export default function LessonPage() {
 
         {/* Conteúdo em abas */}
         <Card>
-          <CardHeader>
-            <CardTitle>Conteúdo da Aula</CardTitle>
+          <CardHeader className="pb-3 md:pb-6">
+            <CardTitle className="text-lg md:text-xl">
+              Conteúdo da Aula
+            </CardTitle>
           </CardHeader>
-          <CardContent>
+          <CardContent className="p-3 md:p-6">
             <Tabs
               value={activeTab}
               onValueChange={setActiveTab}
               className="w-full"
             >
-              <TabsList className="grid w-full grid-cols-4">
-                <TabsTrigger value="overview">Visão Geral</TabsTrigger>
-                <TabsTrigger value="video">Vídeo</TabsTrigger>
-                <TabsTrigger value="content">Conteúdo</TabsTrigger>
-                <TabsTrigger value="resources">Recursos</TabsTrigger>
-              </TabsList>
+              {isMobile ? (
+                <div className="mb-4">
+                  <Select onValueChange={setActiveTab} value={activeTab}>
+                    <SelectTrigger className="w-full">
+                      <SelectValue placeholder="Selecione uma aba" />
+                    </SelectTrigger>
+                    <SelectContent>
+                      <SelectItem value="overview">Visão Geral</SelectItem>
+                      <SelectItem value="video">Vídeo</SelectItem>
+                      <SelectItem value="content">Conteúdo</SelectItem>
+                      <SelectItem value="resources">Recursos</SelectItem>
+                    </SelectContent>
+                  </Select>
+                </div>
+              ) : (
+                <TabsList className="grid w-full grid-cols-4">
+                  <TabsTrigger value="overview">Visão Geral</TabsTrigger>
+                  <TabsTrigger value="video">Vídeo</TabsTrigger>
+                  <TabsTrigger value="content">Conteúdo</TabsTrigger>
+                  <TabsTrigger value="resources">Recursos</TabsTrigger>
+                </TabsList>
+              )}
 
-              <TabsContent value="overview" className="space-y-6">
-                <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
+              <TabsContent value="overview" className="space-y-4 md:space-y-6">
+                <div className="grid grid-cols-1 lg:grid-cols-2 gap-4 md:gap-6">
                   {/* Informações Técnicas */}
-                  <div className="space-y-6">
+                  <div className="space-y-4 md:space-y-6">
                     <div>
-                      <h4 className="text-sm font-medium text-muted-foreground mb-3">
+                      <h4 className="text-sm font-medium text-muted-foreground mb-2 md:mb-3">
                         Status da Aula
                       </h4>
-                      <div className="space-y-3">
+                      <div className="space-y-2 md:space-y-3">
                         <div className="flex items-center justify-between p-3 bg-muted/30 rounded-lg">
                           <span className="text-sm">Preview</span>
                           <Badge
@@ -342,10 +369,10 @@ export default function LessonPage() {
                     </div>
 
                     <div>
-                      <h4 className="text-sm font-medium text-muted-foreground mb-3">
+                      <h4 className="text-sm font-medium text-muted-foreground mb-2 md:mb-3">
                         Informações Técnicas
                       </h4>
-                      <div className="space-y-3">
+                      <div className="space-y-2 md:space-y-3">
                         <div className="p-3 bg-muted/30 rounded-lg">
                           <div className="font-mono text-xs break-all">
                             {lesson.videoId || "Não definido"}
@@ -364,11 +391,11 @@ export default function LessonPage() {
                   </div>
 
                   {/* Critérios de Desbloqueio e Metadados */}
-                  <div className="space-y-6">
+                  <div className="space-y-4 md:space-y-6">
                     {/* Critérios de Desbloqueio */}
                     {lesson.unlockCriteria && (
                       <div>
-                        <h4 className="text-sm font-medium text-muted-foreground mb-3">
+                        <h4 className="text-sm font-medium text-muted-foreground mb-2 md:mb-3">
                           Critérios de Desbloqueio
                         </h4>
                         <div className="p-3 bg-muted/30 rounded-lg">
@@ -390,10 +417,10 @@ export default function LessonPage() {
 
                     {/* Metadados da Aula */}
                     <div>
-                      <h4 className="text-sm font-medium text-muted-foreground mb-3">
+                      <h4 className="text-sm font-medium text-muted-foreground mb-2 md:mb-3">
                         Metadados
                       </h4>
-                      <div className="space-y-3">
+                      <div className="space-y-2 md:space-y-3">
                         <div className="p-3 bg-muted/30 rounded-lg">
                           <div className="text-xs text-muted-foreground mb-1">
                             Criada em
@@ -434,7 +461,7 @@ export default function LessonPage() {
                 </div>
               </TabsContent>
 
-              <TabsContent value="video" className="space-y-6">
+              <TabsContent value="video" className="space-y-4 md:space-y-6">
                 {lesson.videoUrl || lesson.videoId ? (
                   <>
                     {/* Player de Vídeo */}
@@ -479,7 +506,7 @@ export default function LessonPage() {
                 )}
               </TabsContent>
 
-              <TabsContent value="content" className="space-y-6">
+              <TabsContent value="content" className="space-y-4 md:space-y-6">
                 {lesson.description ? (
                   <>
                     {/* Visualização do Conteúdo */}
@@ -520,7 +547,7 @@ export default function LessonPage() {
                 )}
               </TabsContent>
 
-              <TabsContent value="resources" className="space-y-6">
+              <TabsContent value="resources" className="space-y-4 md:space-y-6">
                 {lesson.resources.length > 0 ? (
                   <div>
                     <h3 className="text-lg font-semibold mb-4">
