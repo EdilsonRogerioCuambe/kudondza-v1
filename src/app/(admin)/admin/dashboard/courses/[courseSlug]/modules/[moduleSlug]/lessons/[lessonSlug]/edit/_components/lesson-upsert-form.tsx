@@ -141,72 +141,94 @@ export function LessonUpsertForm({
 
   return (
     <Form {...form}>
-      <div className="space-y-6">
+      <div className="space-y-4 md:space-y-6">
         {/* Header do formulário */}
-        <div className="border-b px-6 py-4">
-          <div className="flex items-center justify-between">
-            <div>
-              <h3 className="text-lg font-semibold">
+        <div className="border-b px-3 md:px-6 py-3 md:py-4">
+          <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-3 sm:gap-4">
+            <div className="flex-1 min-w-0">
+              <h3 className="text-lg md:text-xl font-semibold">
                 {mode === "edit" ? "Editar Aula" : "Nova Aula"}
               </h3>
-              <p className="text-sm text-muted-foreground">
+              <p className="text-sm text-muted-foreground mt-1">
                 {mode === "edit"
                   ? "Atualize as informações da aula"
                   : "Preencha as informações da nova aula"}
               </p>
             </div>
-            <div className="flex items-center gap-2">
+            <div className="flex items-center gap-2 w-full sm:w-auto">
               <Button
                 variant="outline"
                 onClick={onCancel}
                 disabled={isPending}
-                className="flex items-center gap-2"
+                className="flex-1 sm:flex-none flex items-center gap-2"
+                size="sm"
               >
                 <XCircle className="h-4 w-4" />
-                Cancelar
+                <span className="hidden sm:inline">Cancelar</span>
+                <span className="sm:hidden">Cancelar</span>
               </Button>
               <Button
                 onClick={form.handleSubmit(onSubmit)}
                 disabled={isPending}
-                className="flex items-center gap-2"
+                className="flex-1 sm:flex-none flex items-center gap-2"
+                size="sm"
               >
                 <Save className="h-4 w-4" />
-                {isPending ? "Salvando..." : "Salvar"}
+                <span className="hidden sm:inline">
+                  {isPending ? "Salvando..." : "Salvar"}
+                </span>
+                <span className="sm:hidden">
+                  {isPending ? "..." : "Salvar"}
+                </span>
               </Button>
             </div>
           </div>
         </div>
 
         {/* Conteúdo do formulário */}
-        <div className="px-6 pb-6">
+        <div className="px-3 md:px-6 pb-4 md:pb-6">
           <Tabs
             value={activeTab}
             onValueChange={setActiveTab}
             className="w-full"
           >
             <TabsList className="grid w-full grid-cols-4">
-              <TabsTrigger value="basic">Básico</TabsTrigger>
-              <TabsTrigger value="video">Vídeo</TabsTrigger>
-              <TabsTrigger value="content">Conteúdo</TabsTrigger>
-              <TabsTrigger value="settings">Configurações</TabsTrigger>
+              <TabsTrigger value="basic" className="text-xs md:text-sm">
+                Básico
+              </TabsTrigger>
+              <TabsTrigger value="video" className="text-xs md:text-sm">
+                Vídeo
+              </TabsTrigger>
+              <TabsTrigger value="content" className="text-xs md:text-sm">
+                Conteúdo
+              </TabsTrigger>
+              <TabsTrigger value="settings" className="text-xs md:text-sm">
+                Config
+              </TabsTrigger>
             </TabsList>
 
-            <TabsContent value="basic" className="space-y-6 mt-6">
+            <TabsContent
+              value="basic"
+              className="space-y-4 md:space-y-6 mt-4 md:mt-6"
+            >
               <Card>
-                <CardHeader>
-                  <CardTitle>Informações Básicas</CardTitle>
+                <CardHeader className="pb-3 md:pb-6">
+                  <CardTitle className="text-base md:text-lg">
+                    Informações Básicas
+                  </CardTitle>
                 </CardHeader>
-                <CardContent className="space-y-4">
-                  <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+                <CardContent className="space-y-3 md:space-y-4 p-3 md:p-6">
+                  <div className="grid grid-cols-1 md:grid-cols-2 gap-3 md:gap-4">
                     <FormField
                       control={form.control}
                       name="title"
                       render={({ field }) => (
                         <FormItem>
-                          <FormLabel>Título</FormLabel>
+                          <FormLabel className="text-sm">Título</FormLabel>
                           <FormControl>
                             <Input
                               placeholder="Digite o título da aula"
+                              className="text-sm"
                               {...field}
                             />
                           </FormControl>
@@ -219,9 +241,14 @@ export function LessonUpsertForm({
                       name="slug"
                       render={({ field }) => (
                         <FormItem>
-                          <FormLabel>Slug</FormLabel>
+                          <FormLabel className="text-sm">Slug</FormLabel>
                           <FormControl>
-                            <Input placeholder="slug-da-aula" value={field.value ?? ""} onChange={field.onChange} />
+                            <Input
+                              placeholder="slug-da-aula"
+                              value={field.value ?? ""}
+                              onChange={field.onChange}
+                              className="text-sm"
+                            />
                           </FormControl>
                           <FormMessage />
                         </FormItem>
@@ -234,11 +261,13 @@ export function LessonUpsertForm({
                     name="shortDescription"
                     render={({ field }) => (
                       <FormItem>
-                        <FormLabel>Descrição Curta</FormLabel>
+                        <FormLabel className="text-sm">
+                          Descrição Curta
+                        </FormLabel>
                         <FormControl>
                           <Textarea
                             placeholder="Digite uma descrição curta da aula"
-                            className="resize-none"
+                            className="resize-none text-sm min-h-[80px] md:min-h-[100px]"
                             value={field.value || ""}
                             onChange={field.onChange}
                           />
@@ -251,24 +280,32 @@ export function LessonUpsertForm({
               </Card>
             </TabsContent>
 
-            <TabsContent value="video" className="space-y-6 mt-6">
+            <TabsContent
+              value="video"
+              className="space-y-4 md:space-y-6 mt-4 md:mt-6"
+            >
               <Card>
-                <CardHeader>
-                  <CardTitle>Vídeo da Aula</CardTitle>
+                <CardHeader className="pb-3 md:pb-6">
+                  <CardTitle className="text-base md:text-lg">
+                    Vídeo da Aula
+                  </CardTitle>
                 </CardHeader>
-                <CardContent className="space-y-4">
-                  <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+                <CardContent className="space-y-3 md:space-y-4 p-3 md:p-6">
+                  <div className="grid grid-cols-1 md:grid-cols-2 gap-3 md:gap-4">
                     <FormField
                       control={form.control}
                       name="videoId"
                       render={({ field }) => (
                         <FormItem>
-                          <FormLabel>ID do Vídeo (Panda Video)</FormLabel>
+                          <FormLabel className="text-sm">
+                            ID do Vídeo (Panda Video)
+                          </FormLabel>
                           <FormControl>
                             <Input
                               placeholder="ID do vídeo no Panda Video"
                               value={field.value || ""}
                               onChange={field.onChange}
+                              className="text-sm"
                             />
                           </FormControl>
                           <FormMessage />
@@ -280,7 +317,9 @@ export function LessonUpsertForm({
                       name="videoDuration"
                       render={({ field }) => (
                         <FormItem>
-                          <FormLabel>Duração (segundos)</FormLabel>
+                          <FormLabel className="text-sm">
+                            Duração (segundos)
+                          </FormLabel>
                           <FormControl>
                             <Input
                               type="number"
@@ -290,6 +329,7 @@ export function LessonUpsertForm({
                               onChange={(e) =>
                                 field.onChange(Number(e.target.value))
                               }
+                              className="text-sm"
                             />
                           </FormControl>
                           <FormMessage />
@@ -317,11 +357,11 @@ export function LessonUpsertForm({
                     name="transcript"
                     render={({ field }) => (
                       <FormItem>
-                        <FormLabel>Transcrição</FormLabel>
+                        <FormLabel className="text-sm">Transcrição</FormLabel>
                         <FormControl>
                           <Textarea
                             placeholder="Transcrição do vídeo..."
-                            className="resize-none min-h-[200px]"
+                            className="resize-none min-h-[150px] md:min-h-[200px] text-sm"
                             value={field.value || ""}
                             onChange={field.onChange}
                           />
@@ -334,25 +374,32 @@ export function LessonUpsertForm({
               </Card>
             </TabsContent>
 
-            <TabsContent value="content" className="space-y-6 mt-6">
+            <TabsContent
+              value="content"
+              className="space-y-4 md:space-y-6 mt-4 md:mt-6"
+            >
               <Card>
-                <CardHeader>
-                  <CardTitle>Conteúdo da Aula</CardTitle>
+                <CardHeader className="pb-3 md:pb-6">
+                  <CardTitle className="text-base md:text-lg">
+                    Conteúdo da Aula
+                  </CardTitle>
                 </CardHeader>
-                <CardContent className="space-y-4">
+                <CardContent className="space-y-3 md:space-y-4 p-3 md:p-6">
                   <FormField
                     control={form.control}
                     name="description"
                     render={({ field }) => (
                       <FormItem>
-                        <FormLabel>Descrição Detalhada</FormLabel>
+                        <FormLabel className="text-sm">
+                          Descrição Detalhada
+                        </FormLabel>
                         <FormControl>
                           <div className="border rounded-md">
                             <ByteMDEditor
                               value={field.value || ""}
                               onChange={field.onChange}
                               placeholder="Digite a descrição detalhada da aula..."
-                              className="min-h-[400px]"
+                              className="min-h-[300px] md:min-h-[400px]"
                             />
                           </div>
                         </FormControl>
@@ -364,19 +411,26 @@ export function LessonUpsertForm({
               </Card>
             </TabsContent>
 
-            <TabsContent value="settings" className="space-y-6 mt-6">
+            <TabsContent
+              value="settings"
+              className="space-y-4 md:space-y-6 mt-4 md:mt-6"
+            >
               <Card>
-                <CardHeader>
-                  <CardTitle>Configurações</CardTitle>
+                <CardHeader className="pb-3 md:pb-6">
+                  <CardTitle className="text-base md:text-lg">
+                    Configurações
+                  </CardTitle>
                 </CardHeader>
-                <CardContent className="space-y-4">
-                  <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+                <CardContent className="space-y-3 md:space-y-4 p-3 md:p-6">
+                  <div className="grid grid-cols-1 md:grid-cols-2 gap-3 md:gap-4">
                     <FormField
                       control={form.control}
                       name="xpReward"
                       render={({ field }) => (
                         <FormItem>
-                          <FormLabel>XP de Recompensa</FormLabel>
+                          <FormLabel className="text-sm">
+                            XP de Recompensa
+                          </FormLabel>
                           <FormControl>
                             <Input
                               type="number"
@@ -385,6 +439,7 @@ export function LessonUpsertForm({
                               onChange={(e) =>
                                 field.onChange(Number(e.target.value))
                               }
+                              className="text-sm"
                             />
                           </FormControl>
                           <FormMessage />
@@ -393,11 +448,13 @@ export function LessonUpsertForm({
                     />
                   </div>
 
-                  <div className="space-y-6">
-                    <div className="flex items-center justify-between">
-                      <div className="space-y-0.5">
-                        <FormLabel>Aula de Preview</FormLabel>
-                        <p className="text-sm text-muted-foreground">
+                  <div className="space-y-4 md:space-y-6">
+                    <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-3 sm:gap-4">
+                      <div className="space-y-0.5 flex-1">
+                        <FormLabel className="text-sm">
+                          Aula de Preview
+                        </FormLabel>
+                        <p className="text-xs md:text-sm text-muted-foreground">
                           Permite que esta aula seja visualizada sem estar
                           inscrito no curso
                         </p>
@@ -418,10 +475,12 @@ export function LessonUpsertForm({
                       />
                     </div>
 
-                    <div className="flex items-center justify-between">
-                      <div className="space-y-0.5">
-                        <FormLabel>Aula Obrigatória</FormLabel>
-                        <p className="text-sm text-muted-foreground">
+                    <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-3 sm:gap-4">
+                      <div className="space-y-0.5 flex-1">
+                        <FormLabel className="text-sm">
+                          Aula Obrigatória
+                        </FormLabel>
+                        <p className="text-xs md:text-sm text-muted-foreground">
                           Esta aula deve ser concluída para avançar no curso
                         </p>
                       </div>
@@ -441,10 +500,10 @@ export function LessonUpsertForm({
                       />
                     </div>
 
-                    <div className="flex items-center justify-between">
-                      <div className="space-y-0.5">
-                        <FormLabel>Aula Pública</FormLabel>
-                        <p className="text-sm text-muted-foreground">
+                    <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-3 sm:gap-4">
+                      <div className="space-y-0.5 flex-1">
+                        <FormLabel className="text-sm">Aula Pública</FormLabel>
+                        <p className="text-xs md:text-sm text-muted-foreground">
                           Esta aula pode ser acessada por qualquer usuário
                         </p>
                       </div>
