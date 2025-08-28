@@ -56,7 +56,7 @@ interface RecentCourse {
 
 export default async function ProgressoPage() {
   // Buscar dados reais do banco de dados
-  const [progressData, achievements, communityRanking, userGoals] =
+  const [progressData, achievements, communityRanking] =
     await Promise.all([
       getUserProgress(),
       getUserAchievements(),
