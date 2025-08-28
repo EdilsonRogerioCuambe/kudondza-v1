@@ -31,7 +31,7 @@ export default function CyberpunkVideoPlayer({
   const [duration, setDuration] = useState(0);
   const [showControls, setShowControls] = useState(true);
   const videoRef = useRef<HTMLVideoElement>(null);
-  const controlsTimeoutRef = useRef<NodeJS.Timeout>();
+  const controlsTimeoutRef = useRef<NodeJS.Timeout>(null);
 
   useEffect(() => {
     const video = videoRef.current;
@@ -141,7 +141,7 @@ export default function CyberpunkVideoPlayer({
       <video
         ref={videoRef}
         className="w-full h-full object-cover"
-        src={videoUrl}
+        src={videoUrl || ""}
         poster={`https://cdn.pandavideo.com/embed/${videoId}.jpg`}
         onClick={togglePlay}
       />
