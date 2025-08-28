@@ -64,7 +64,7 @@ export async function getDailyChallenges() {
       );
 
       let progress = 0;
-      let target = challenge.target;
+      const target = challenge.target;
 
       // Calcular progresso baseado no tipo de desafio
       switch (challenge.type) {
