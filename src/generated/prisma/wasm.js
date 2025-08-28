@@ -816,6 +816,23 @@ exports.Prisma.CompetitionParticipantScalarFieldEnum = {
   competitionId: 'competitionId'
 };
 
+exports.Prisma.UserGoalScalarFieldEnum = {
+  id: 'id',
+  title: 'title',
+  description: 'description',
+  type: 'type',
+  target: 'target',
+  current: 'current',
+  unit: 'unit',
+  isActive: 'isActive',
+  isRecurring: 'isRecurring',
+  period: 'period',
+  startDate: 'startDate',
+  endDate: 'endDate',
+  completedAt: 'completedAt',
+  userId: 'userId'
+};
+
 exports.Prisma.AuditLogScalarFieldEnum = {
   id: 'id',
   action: 'action',
@@ -1076,6 +1093,25 @@ exports.CompetitionStatus = exports.$Enums.CompetitionStatus = {
   CANCELLED: 'CANCELLED'
 };
 
+exports.GoalType = exports.$Enums.GoalType = {
+  STUDY_TIME: 'STUDY_TIME',
+  COURSES_COMPLETED: 'COURSES_COMPLETED',
+  LESSONS_COMPLETED: 'LESSONS_COMPLETED',
+  XP_EARNED: 'XP_EARNED',
+  STREAK_DAYS: 'STREAK_DAYS',
+  CERTIFICATES_EARNED: 'CERTIFICATES_EARNED',
+  BADGES_EARNED: 'BADGES_EARNED',
+  QUIZZES_COMPLETED: 'QUIZZES_COMPLETED',
+  PROJECTS_SUBMITTED: 'PROJECTS_SUBMITTED'
+};
+
+exports.GoalPeriod = exports.$Enums.GoalPeriod = {
+  DAILY: 'DAILY',
+  WEEKLY: 'WEEKLY',
+  MONTHLY: 'MONTHLY',
+  YEARLY: 'YEARLY'
+};
+
 exports.ActivityType = exports.$Enums.ActivityType = {
   COURSE_VIEW: 'COURSE_VIEW',
   COURSE_ENROLLMENT: 'COURSE_ENROLLMENT',
@@ -1160,6 +1196,7 @@ exports.Prisma.ModelName = {
   MentorSession: 'MentorSession',
   Competition: 'Competition',
   CompetitionParticipant: 'CompetitionParticipant',
+  UserGoal: 'UserGoal',
   AuditLog: 'AuditLog',
   UserActivity: 'UserActivity',
   FileUpload: 'FileUpload'

@@ -87,6 +87,9 @@ model User {
   // Relações de atividade
   activities UserActivity[]
 
+  // Relações de metas
+  goals UserGoal[]
+
   // Campos adicionais para dashboard
   lastLoginAt DateTime?
   loginCount  Int       @default(0)
@@ -1446,6 +1449,36 @@ model CompetitionParticipant {
 }
 
 // ================================
+// MÓDULO: METAS E OBJETIVOS
+// ================================
+
+model UserGoal {
+  id          String   @id @default(cuid())
+  title       String
+  description String?  @db.Text
+  type        GoalType
+  target      Int // Valor alvo da meta
+  current     Int      @default(0) // Valor atual
+  unit        String // Unidade da meta (horas, cursos, etc.)
+
+  // Configurações
+  isActive    Boolean     @default(true)
+  isRecurring Boolean     @default(false) // Meta que se repete (semanal, mensal)
+  period      GoalPeriod? // Período para metas recorrentes
+
+  // Datas
+  startDate   DateTime  @default(now())
+  endDate     DateTime?
+  completedAt DateTime?
+
+  // Relacionamentos
+  userId String
+  user   User   @relation(fields: [userId], references: [id], onDelete: Cascade)
+
+  @@map("user_goals")
+}
+
+// ================================
 // MÓDULO: LOGS E AUDITORIA
 // ================================
 
@@ -1633,6 +1666,25 @@ enum CompetitionStatus {
   IN_PROGRESS
   FINISHED
   CANCELLED
+}
+
+enum GoalType {
+  STUDY_TIME
+  COURSES_COMPLETED
+  LESSONS_COMPLETED
+  XP_EARNED
+  STREAK_DAYS
+  CERTIFICATES_EARNED
+  BADGES_EARNED
+  QUIZZES_COMPLETED
+  PROJECTS_SUBMITTED
+}
+
+enum GoalPeriod {
+  DAILY
+  WEEKLY
+  MONTHLY
+  YEARLY
 }
 
 enum ActivityType {
