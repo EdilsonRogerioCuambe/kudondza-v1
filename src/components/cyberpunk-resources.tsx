@@ -35,6 +35,7 @@ const getResourceIcon = (type: string) => {
     case "video":
       return <Video className="w-5 h-5" />;
     case "image":
+      // eslint-disable-next-line jsx-a11y/alt-text
       return <Image className="w-5 h-5" />;
     case "link":
       return <Link className="w-5 h-5" />;
