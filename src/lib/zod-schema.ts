@@ -761,3 +761,124 @@ export type ValidateCategorySlugInput = z.infer<
 export type ValidateSubcategorySlugInput = z.infer<
   typeof ValidateSubcategorySlugSchema
 >;
+
+// ================================
+// SCHEMAS DE CERTIFICADOS
+// ================================
+
+// Schema para criação de certificado
+export const CreateCertificateSchema = z.object({
+  userId: z.string().min(1, "Usuário é obrigatório"),
+  courseId: z.string().min(1, "Curso é obrigatório"),
+  title: z
+    .string()
+    .min(3, "Título deve ter pelo menos 3 caracteres")
+    .max(200, "Título deve ter no máximo 200 caracteres"),
+  description: z.string().optional(),
+  templateData: z.record(z.string(), z.any()),
+  validUntil: z.date().optional(),
+  certificateUrl: z.string().url().optional(),
+});
+
+// Schema para atualização de certificado
+export const UpdateCertificateSchema = z.object({
+  title: z
+    .string()
+    .min(3, "Título deve ter pelo menos 3 caracteres")
+    .max(200, "Título deve ter no máximo 200 caracteres")
+    .optional(),
+  description: z.string().optional(),
+  templateData: z.record(z.string(), z.any()).optional(),
+  isValid: z.boolean().optional(),
+  validUntil: z.date().optional(),
+  certificateUrl: z.string().url().optional(),
+});
+
+// Schema para filtros de certificados
+export const CertificateFiltersSchema = z.object({
+  search: z.string().optional(),
+  userId: z.string().optional(),
+  courseId: z.string().optional(),
+  isValid: z.boolean().optional(),
+  sortBy: z.enum(["issuedAt", "createdAt", "title"]).default("issuedAt"),
+  sortOrder: z.enum(["asc", "desc"]).default("desc"),
+  page: z.number().int().positive().default(1),
+  limit: z.number().int().positive().max(100).default(20),
+});
+
+// Schema para resposta de certificado
+export const CertificateResponseSchema = z.object({
+  success: z.boolean(),
+  data: z.object({
+    id: z.string(),
+    certificateNumber: z.string(),
+    verificationCode: z.string(),
+    title: z.string(),
+    description: z.string().nullable(),
+    templateData: z.record(z.string(), z.any()),
+    certificateUrl: z.string().nullable(),
+    isValid: z.boolean(),
+    validUntil: z.date().nullable(),
+    issuedAt: z.date(),
+    createdAt: z.date(),
+    userId: z.string(),
+    courseId: z.string(),
+    user: z.object({
+      id: z.string(),
+      name: z.string(),
+      email: z.string(),
+      avatar: z.string().nullable(),
+    }),
+    course: z.object({
+      id: z.string(),
+      title: z.string(),
+      slug: z.string(),
+      thumbnail: z.string().nullable(),
+      category: z
+        .object({
+          id: z.string(),
+          name: z.string(),
+          slug: z.string(),
+        })
+        .nullable(),
+    }),
+  }),
+  error: z.string().optional(),
+});
+
+// Schema para resposta de lista de certificados
+export const CertificateListResponseSchema = z.object({
+  success: z.boolean(),
+  data: z.object({
+    certificates: z.array(CertificateResponseSchema.shape.data),
+    pagination: z.object({
+      page: z.number(),
+      limit: z.number(),
+      total: z.number(),
+      totalPages: z.number(),
+      hasNextPage: z.boolean(),
+      hasPrevPage: z.boolean(),
+    }),
+  }),
+  error: z.string().optional(),
+});
+
+// Schema para verificação de certificado
+export const CertificateVerificationSchema = z.object({
+  verificationCode: z.string().min(1, "Código de verificação é obrigatório"),
+});
+
+// ================================
+// TIPOS DE CERTIFICADOS
+// ================================
+
+export type CreateCertificateInput = z.infer<typeof CreateCertificateSchema>;
+export type UpdateCertificateInput = z.infer<typeof UpdateCertificateSchema>;
+export type CertificateFilters = z.infer<typeof CertificateFiltersSchema>;
+export type CertificateResponse = z.infer<typeof CertificateResponseSchema>;
+export type CertificateListResponse = z.infer<
+  typeof CertificateListResponseSchema
+>;
+export type CertificateVerificationInput = z.infer<
+  typeof CertificateVerificationSchema
+>;
