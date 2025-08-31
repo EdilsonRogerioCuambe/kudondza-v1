@@ -3,28 +3,29 @@ import "server-only";
 import { S3Client } from "@aws-sdk/client-s3";
 import { env } from "./env";
 
-console.log("🔧 Configurando cliente S3 para Tigris...");
-console.log("📍 Região:", env.AWS_REGION);
+console.log("🔧 Configurando cliente S3 para Cloudflare R2...");
+console.log("📍 Região:", env.R2_REGION);
 console.log(
-  "🔑 Access Key ID:",
-  env.AWS_ACCESS_KEY_ID
-    ? `${env.AWS_ACCESS_KEY_ID.substring(0, 8)}...`
+  "🔑 R2 Access Key ID:",
+  env.R2_ACCESS_KEY_ID
+    ? `${env.R2_ACCESS_KEY_ID.substring(0, 8)}...`
     : "NÃO CONFIGURADO"
 );
 console.log(
-  "🔑 Secret Access Key:",
-  env.AWS_SECRET_ACCESS_KEY ? "CONFIGURADO" : "NÃO CONFIGURADO"
+  "🔑 R2 Secret Access Key:",
+  env.R2_SECRET_ACCESS_KEY ? "CONFIGURADO" : "NÃO CONFIGURADO"
 );
-console.log("🌐 Endpoint Tigris:", env.AWS_ENDPOINT_URL_S3);
+console.log("🌐 Endpoint R2:", env.R2_ENDPOINT_URL);
+console.log("🪣 Bucket R2:", env.R2_BUCKET_NAME);
 
 export const S3 = new S3Client({
-  endpoint: env.AWS_ENDPOINT_URL_S3,
-  region: env.AWS_REGION === "auto" ? "us-east-1" : env.AWS_REGION, // Tigris precisa de uma região válida
-  forcePathStyle: true, // Tigris usa path-style URLs
+  endpoint: env.R2_ENDPOINT_URL,
+  region: env.R2_REGION === "auto" ? "auto" : env.R2_REGION,
+  forcePathStyle: false, // R2 usa virtual-hosted-style URLs
   credentials: {
-    accessKeyId: env.AWS_ACCESS_KEY_ID,
-    secretAccessKey: env.AWS_SECRET_ACCESS_KEY,
+    accessKeyId: env.R2_ACCESS_KEY_ID,
+    secretAccessKey: env.R2_SECRET_ACCESS_KEY,
   },
 });
 
-console.log("✅ Cliente S3 configurado para Tigris com sucesso");
+console.log("✅ Cliente S3 configurado para Cloudflare R2 com sucesso");

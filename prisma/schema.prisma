@@ -60,6 +60,17 @@ model User {
   groupsCreated Group[]
   groupMembers  GroupMember[]
 
+  // Relações de comunidades
+  communitiesCreated Community[]         @relation("CommunityCreator")
+  communityMembers   CommunityMember[]
+  communityPosts     CommunityPost[]
+  communityComments  CommunityComment[]
+  communityReactions CommunityReaction[]
+  communityEvents    CommunityEvent[]
+  eventAttendees     EventAttendee[]
+  communityPolls     CommunityPoll[]
+  pollVotes          PollVote[]
+
   // Relações de mensagens
   messagesSent      Message[]
   messageRecipients MessageRecipient[]
@@ -190,6 +201,7 @@ model Category {
   subcategories Subcategory[]
   courseSeries  CourseSeries[]
   roadmaps      Roadmap[]
+  communities   Community[]
 
   @@map("categories")
 }
@@ -216,9 +228,10 @@ model Subcategory {
 
   // Relacionamentos
   categoryId String
-  category   Category  @relation(fields: [categoryId], references: [id], onDelete: Cascade)
+  category   Category    @relation(fields: [categoryId], references: [id], onDelete: Cascade)
   courses    Course[]
   roadmaps   Roadmap[]
+  Community  Community[]
 
   @@map("subcategories")
 }
@@ -947,7 +960,309 @@ model Follow {
 }
 
 // ================================
-// MÓDULO: GRUPOS E COMUNIDADES
+// MÓDULO: COMUNIDADES
+// ================================
+
+model Community {
+  id               String  @id @default(cuid())
+  name             String
+  slug             String  @unique
+  description      String? @db.Text
+  shortDescription String?
+  avatar           String? // Emoji ou URL da imagem
+  cover            String? // Imagem de capa
+  banner           String? // Banner da comunidade
+
+  // Configurações
+  type            CommunityType  @default(PUBLIC)
+  level           CommunityLevel @default(ALL_LEVELS)
+  maxMembers      Int?
+  allowInvites    Boolean        @default(true)
+  requireApproval Boolean        @default(false)
+  isPrivate       Boolean        @default(false)
+  isFeatured      Boolean        @default(false)
+  isVerified      Boolean        @default(false)
+
+  // Categorização
+  categoryId    String?
+  category      Category?    @relation(fields: [categoryId], references: [id])
+  subcategoryId String?
+  subcategory   Subcategory? @relation(fields: [subcategoryId], references: [id])
+  tags          String[]
+
+  // Estatísticas
+  memberCount Int @default(0)
+  postCount   Int @default(0)
+  eventCount  Int @default(0)
+  viewCount   Int @default(0)
+
+  // Configurações de moderação
+  allowPosts   Boolean @default(true)
+  allowEvents  Boolean @default(true)
+  allowPolls   Boolean @default(true)
+  autoModerate Boolean @default(false)
+
+  // SEO
+  seoTitle       String?
+  seoDescription String?
+  seoKeywords    String[]
+
+  // Datas
+  createdAt  DateTime  @default(now())
+  updatedAt  DateTime  @updatedAt
+  featuredAt DateTime?
+
+  // Relacionamentos
+  creatorId String
+  creator   User                 @relation("CommunityCreator", fields: [creatorId], references: [id])
+  members   CommunityMember[]
+  posts     CommunityPost[]
+  events    CommunityEvent[]
+  polls     CommunityPoll[]
+  rules     CommunityRule[]
+  analytics CommunityAnalytics[]
+
+  @@map("communities")
+}
+
+model CommunityMember {
+  id       String        @id @default(cuid())
+  role     CommunityRole @default(MEMBER)
+  status   MemberStatus  @default(ACTIVE)
+  joinedAt DateTime      @default(now())
+  leftAt   DateTime?
+
+  // Configurações do membro
+  notifications Boolean @default(true)
+  isModerator   Boolean @default(false)
+
+  // Estatísticas do membro na comunidade
+  postsCount  Int @default(0)
+  eventsCount Int @default(0)
+  reputation  Int @default(0)
+
+  // Relacionamentos
+  userId      String
+  user        User      @relation(fields: [userId], references: [id])
+  communityId String
+  community   Community @relation(fields: [communityId], references: [id], onDelete: Cascade)
+
+  @@unique([userId, communityId], name: "unique_community_member")
+  @@map("community_members")
+}
+
+model CommunityPost {
+  id      String   @id @default(cuid())
+  title   String
+  content String   @db.Text
+  type    PostType @default(TEXT)
+
+  // Conteúdo estruturado
+  media    String[] // URLs de imagens/vídeos
+  metadata Json? // Dados estruturados do post
+
+  // Configurações
+  isPinned       Boolean @default(false)
+  isAnnouncement Boolean @default(false)
+  allowComments  Boolean @default(true)
+  isModerated    Boolean @default(false)
+
+  // Estatísticas
+  viewCount     Int @default(0)
+  reactionCount Int @default(0)
+  commentCount  Int @default(0)
+  shareCount    Int @default(0)
+
+  // Datas
+  createdAt DateTime  @default(now())
+  updatedAt DateTime  @updatedAt
+  pinnedAt  DateTime?
+
+  // Relacionamentos
+  authorId    String
+  author      User                @relation(fields: [authorId], references: [id])
+  communityId String
+  community   Community           @relation(fields: [communityId], references: [id], onDelete: Cascade)
+  comments    CommunityComment[]
+  reactions   CommunityReaction[]
+
+  @@map("community_posts")
+}
+
+model CommunityComment {
+  id      String @id @default(cuid())
+  content String @db.Text
+
+  // Hierarquia de comentários
+  parentId String?
+  parent   CommunityComment?  @relation("CommentReplies", fields: [parentId], references: [id])
+  replies  CommunityComment[] @relation("CommentReplies")
+
+  // Configurações
+  isModerated Boolean @default(false)
+
+  // Estatísticas
+  reactionCount Int @default(0)
+
+  // Datas
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  // Relacionamentos
+  authorId  String
+  author    User                @relation(fields: [authorId], references: [id])
+  postId    String
+  post      CommunityPost       @relation(fields: [postId], references: [id], onDelete: Cascade)
+  reactions CommunityReaction[]
+
+  @@map("community_comments")
+}
+
+model CommunityReaction {
+  id        String       @id @default(cuid())
+  type      ReactionType @default(LIKE)
+  createdAt DateTime     @default(now())
+
+  // Relacionamentos
+  userId    String
+  user      User              @relation(fields: [userId], references: [id])
+  postId    String?
+  post      CommunityPost?    @relation(fields: [postId], references: [id], onDelete: Cascade)
+  commentId String?
+  comment   CommunityComment? @relation(fields: [commentId], references: [id], onDelete: Cascade)
+
+  @@map("community_reactions")
+}
+
+model CommunityEvent {
+  id          String    @id @default(cuid())
+  title       String
+  description String?   @db.Text
+  type        EventType @default(ONLINE)
+
+  // Configurações do evento
+  location     String?
+  meetingUrl   String?
+  maxAttendees Int?
+  isFree       Boolean  @default(true)
+  price        Decimal? @db.Decimal(10, 2)
+
+  // Datas
+  startDate DateTime
+  endDate   DateTime
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  // Status
+  status EventStatus @default(UPCOMING)
+
+  // Estatísticas
+  attendeeCount Int @default(0)
+  viewCount     Int @default(0)
+
+  // Relacionamentos
+  creatorId   String
+  creator     User            @relation(fields: [creatorId], references: [id])
+  communityId String
+  community   Community       @relation(fields: [communityId], references: [id], onDelete: Cascade)
+  attendees   EventAttendee[]
+
+  @@map("community_events")
+}
+
+model EventAttendee {
+  id       String         @id @default(cuid())
+  status   AttendeeStatus @default(REGISTERED)
+  joinedAt DateTime       @default(now())
+
+  // Relacionamentos
+  userId  String
+  user    User           @relation(fields: [userId], references: [id])
+  eventId String
+  event   CommunityEvent @relation(fields: [eventId], references: [id], onDelete: Cascade)
+
+  @@unique([userId, eventId], name: "unique_event_attendee")
+  @@map("event_attendees")
+}
+
+model CommunityPoll {
+  id          String  @id @default(cuid())
+  question    String
+  description String? @db.Text
+  options     Json // Array de opções
+
+  // Configurações
+  allowMultipleVotes Boolean   @default(false)
+  isAnonymous        Boolean   @default(false)
+  endDate            DateTime?
+
+  // Estatísticas
+  voteCount Int @default(0)
+
+  // Datas
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  // Relacionamentos
+  creatorId   String
+  creator     User       @relation(fields: [creatorId], references: [id])
+  communityId String
+  community   Community  @relation(fields: [communityId], references: [id], onDelete: Cascade)
+  votes       PollVote[]
+
+  @@map("community_polls")
+}
+
+model PollVote {
+  id      String   @id @default(cuid())
+  option  Int // Índice da opção escolhida
+  votedAt DateTime @default(now())
+
+  // Relacionamentos
+  userId String
+  user   User          @relation(fields: [userId], references: [id])
+  pollId String
+  poll   CommunityPoll @relation(fields: [pollId], references: [id], onDelete: Cascade)
+
+  @@unique([userId, pollId], name: "unique_poll_vote")
+  @@map("poll_votes")
+}
+
+model CommunityRule {
+  id          String @id @default(cuid())
+  title       String
+  description String @db.Text
+  order       Int
+
+  // Relacionamentos
+  communityId String
+  community   Community @relation(fields: [communityId], references: [id], onDelete: Cascade)
+
+  @@unique([communityId, order], name: "unique_community_rule_order")
+  @@map("community_rules")
+}
+
+model CommunityAnalytics {
+  id   String   @id @default(cuid())
+  date DateTime @db.Date
+
+  // Métricas
+  views      Int     @default(0)
+  newMembers Int     @default(0)
+  posts      Int     @default(0)
+  events     Int     @default(0)
+  engagement Decimal @default(0) @db.Decimal(5, 2) // porcentagem
+
+  // Relacionamentos
+  communityId String
+  community   Community @relation(fields: [communityId], references: [id])
+
+  @@unique([communityId, date], name: "unique_community_analytics")
+  @@map("community_analytics")
+}
+
+// ================================
+// MÓDULO: GRUPOS (Legacy - manter para compatibilidade)
 // ================================
 
 model Group {
@@ -1683,6 +1998,66 @@ enum GroupRole {
   OWNER
   MODERATOR
   MEMBER
+}
+
+enum CommunityType {
+  PUBLIC
+  PRIVATE
+  COURSE_BASED
+  PROFESSIONAL
+  HOBBY
+  ACADEMIC
+}
+
+enum CommunityLevel {
+  BEGINNER
+  INTERMEDIATE
+  ADVANCED
+  ALL_LEVELS
+  EXPERT
+}
+
+enum CommunityRole {
+  OWNER
+  ADMIN
+  MODERATOR
+  MEMBER
+  GUEST
+}
+
+enum MemberStatus {
+  ACTIVE
+  INACTIVE
+  SUSPENDED
+  BANNED
+  PENDING
+}
+
+enum EventType {
+  ONLINE
+  IN_PERSON
+  HYBRID
+  WORKSHOP
+  MEETUP
+  CONFERENCE
+  HACKATHON
+}
+
+enum EventStatus {
+  DRAFT
+  UPCOMING
+  IN_PROGRESS
+  COMPLETED
+  CANCELLED
+  POSTPONED
+}
+
+enum AttendeeStatus {
+  REGISTERED
+  CONFIRMED
+  ATTENDED
+  NO_SHOW
+  CANCELLED
 }
 
 enum MessageType {

@@ -49,27 +49,39 @@ export async function handlePresignedUrl(
   });
 
   // Verificar configuração
-  if (!env.NEXT_PUBLIC_AWS_S3_BUCKET_NAME) {
-    console.error("❌ AWS_S3_BUCKET_NAME não configurado");
+  if (!env.NEXT_PUBLIC_R2_BUCKET_NAME) {
+    console.error("❌ R2_BUCKET_NAME não configurado");
     return NextResponse.json(
-      { error: "Configuração AWS não encontrada" },
+      { error: "Configuração R2 não encontrada" },
       { status: 500 }
     );
   }
 
   // Usar bucket privado para uploads
-  const privateBucketName =
-    `${env.NEXT_PUBLIC_AWS_S3_BUCKET_NAME}-private` || "kudondza-private";
-  console.log("🪣 Usando bucket privado para uploads:", privateBucketName);
+  const privateBucketName = `${env.NEXT_PUBLIC_R2_BUCKET_NAME}-private`;
+  const fallbackBucketName = env.NEXT_PUBLIC_R2_BUCKET_NAME;
 
-  // Verificar/criar bucket privado
-  await ensurePrivateBucket(privateBucketName);
+  console.log("🪣 Tentando usar bucket privado:", privateBucketName);
+
+  // Verificar se bucket privado existe, senão usar o principal
+  let bucketToUse = privateBucketName;
+  try {
+    await ensurePrivateBucket(privateBucketName);
+    console.log("✅ Usando bucket privado:", privateBucketName);
+  } catch (error) {
+    console.log("⚠️  Erro ao acessar bucket privado:", error);
+    console.log(
+      "⚠️  Bucket privado não existe, usando bucket principal:",
+      fallbackBucketName
+    );
+    bucketToUse = fallbackBucketName;
+  }
 
   const uniqueKey = `${v4()}-${fileName}`;
   console.log("🔑 Chave única gerada:", uniqueKey);
 
   const command = new PutObjectCommand({
-    Bucket: privateBucketName,
+    Bucket: bucketToUse,
     ContentType: contentType,
     ContentLength: size,
     Key: uniqueKey,
@@ -83,7 +95,7 @@ export async function handlePresignedUrl(
   console.log("✅ URL pré-assinada gerada");
 
   // URL interna do arquivo
-  const fileUrl = `${env.AWS_ENDPOINT_URL_S3}/${privateBucketName}/${uniqueKey}`;
+  const fileUrl = `${env.R2_ENDPOINT_URL}/${bucketToUse}/${uniqueKey}`;
 
   console.log("💾 Salvando metadados no banco...");
   const fileUpload = await prisma.fileUpload.create({

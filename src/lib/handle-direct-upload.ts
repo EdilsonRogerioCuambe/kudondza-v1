@@ -42,30 +42,42 @@ export async function handleDirectUpload(
     const fileExtension = file.name.split(".").pop() || "";
 
     // Verificar configuração
-    if (!env.NEXT_PUBLIC_AWS_S3_BUCKET_NAME) {
-      console.error("❌ AWS_S3_BUCKET_NAME não configurado");
+    if (!env.NEXT_PUBLIC_R2_BUCKET_NAME) {
+      console.error("❌ R2_BUCKET_NAME não configurado");
       return NextResponse.json(
-        { error: "Configuração AWS não encontrada" },
+        { error: "Configuração R2 não encontrada" },
         { status: 500 }
       );
     }
 
     // Usar bucket privado para uploads (não o público "kudondza")
-    const privateBucketName =
-      `${env.NEXT_PUBLIC_AWS_S3_BUCKET_NAME}-private` || "kudondza-private";
-    console.log("🪣 Usando bucket privado para uploads:", privateBucketName);
+    const privateBucketName = `${env.NEXT_PUBLIC_R2_BUCKET_NAME}-private`;
+    const fallbackBucketName = env.NEXT_PUBLIC_R2_BUCKET_NAME;
 
-    // Verificar/criar bucket privado
-    await ensurePrivateBucket(privateBucketName);
+    console.log("🪣 Tentando usar bucket privado:", privateBucketName);
+
+    // Verificar se bucket privado existe, senão usar o principal
+    let bucketToUse = privateBucketName;
+    try {
+      await ensurePrivateBucket(privateBucketName);
+      console.log("✅ Usando bucket privado:", privateBucketName);
+    } catch (error) {
+      console.log("⚠️  Erro ao acessar bucket privado:", error);
+      console.log(
+        "⚠️  Bucket privado não existe, usando bucket principal:",
+        fallbackBucketName
+      );
+      bucketToUse = fallbackBucketName;
+    }
 
     const uniqueKey = `${v4()}-${file.name}`;
     console.log("🔑 Chave única gerada:", uniqueKey);
 
-    // Fazer upload direto para S3 (agora com permissões corretas)
+    // Fazer upload direto para R2 (agora com permissões corretas)
     console.log("📤 Fazendo upload direto para bucket privado...");
 
     const uploadCommand = new PutObjectCommand({
-      Bucket: privateBucketName,
+      Bucket: bucketToUse,
       Key: uniqueKey,
       Body: Buffer.from(await file.arrayBuffer()),
       ContentType: file.type,
@@ -85,14 +97,14 @@ export async function handleDirectUpload(
         message: error.message,
         code: error.Code,
         statusCode: error.$metadata?.httpStatusCode,
-        bucket: privateBucketName,
+        bucket: bucketToUse,
         key: uniqueKey,
       });
 
       // Se ainda der 403, as credenciais não têm permissão
       if (error.$metadata?.httpStatusCode === 403) {
         throw new Error(
-          `Credenciais AWS não têm permissão para upload. Verifique as políticas IAM.`
+          `Credenciais R2 não têm permissão para upload. Verifique as políticas de acesso.`
         );
       }
 
@@ -102,7 +114,7 @@ export async function handleDirectUpload(
     // Gerar URL pré-assinada para acesso (válida por 24h)
     console.log("🔑 Gerando URL pré-assinada para acesso...");
     const getObjectCommand = new GetObjectCommand({
-      Bucket: privateBucketName,
+      Bucket: bucketToUse,
       Key: uniqueKey,
     });
 
@@ -110,8 +122,8 @@ export async function handleDirectUpload(
       expiresIn: 24 * 60 * 60, // 24 horas
     });
 
-    // URL interna do arquivo (Tigris format)
-    const fileUrl = `${env.AWS_ENDPOINT_URL_S3}/${privateBucketName}/${uniqueKey}`;
+    // URL interna do arquivo (R2 format)
+    const fileUrl = `${env.R2_ENDPOINT_URL}/${bucketToUse}/${uniqueKey}`;
 
     console.log("💾 Salvando metadados no banco...");
     const fileUpload = await prisma.fileUpload.create({

@@ -1,7 +1,7 @@
-import { CreateBucketCommand, HeadBucketCommand } from "@aws-sdk/client-s3";
+import { HeadBucketCommand } from "@aws-sdk/client-s3";
 import { S3 } from "./s3-client";
 
-// Função para verificar/criar bucket privado
+// Função para verificar se bucket privado existe
 export async function ensurePrivateBucket(bucketName: string) {
   try {
     console.log("🔍 Verificando se bucket privado existe:", bucketName);
@@ -14,27 +14,22 @@ export async function ensurePrivateBucket(bucketName: string) {
     const awsError = error as Error & {
       $metadata?: { httpStatusCode?: number };
     };
+
     if (
       awsError.name === "NotFound" ||
       awsError.$metadata?.httpStatusCode === 404
     ) {
-      console.log("📦 Criando bucket privado:", bucketName);
+      console.error("❌ Bucket privado não encontrado:", bucketName);
+      console.log("💡 Crie o bucket manualmente no Cloudflare Dashboard:");
+      console.log("   1. Acesse: https://dash.cloudflare.com");
+      console.log("   2. Vá para R2 Object Storage");
+      console.log("   3. Clique em 'Create bucket'");
+      console.log("   4. Nome:", bucketName);
+      console.log("   5. Localização: Leste da América do Norte (ENAM)");
 
-      try {
-        // Criar bucket privado (sem ACL public-read)
-        await S3.send(
-          new CreateBucketCommand({
-            Bucket: bucketName,
-          })
-        );
-
-        console.log("✅ Bucket privado criado com sucesso:", bucketName);
-        return { success: true, bucketName };
-      } catch (createError: unknown) {
-        const createAwsError = createError as Error;
-        console.error("❌ Erro ao criar bucket:", createAwsError.message);
-        throw createAwsError;
-      }
+      throw new Error(
+        `Bucket ${bucketName} não existe. Crie-o manualmente no Cloudflare Dashboard.`
+      );
     } else {
       console.error("❌ Erro ao verificar bucket:", awsError.message);
       throw awsError;

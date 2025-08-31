@@ -9,14 +9,25 @@ const envSchema = z.object({
   GITHUB_CLIENT_SECRET: z.string().min(1),
   RESEND_API_KEY: z.string().min(1),
   ARCJET_KEY: z.string().min(1),
-  AWS_ACCESS_KEY_ID: z.string().min(1),
-  AWS_SECRET_ACCESS_KEY: z.string().min(1),
-  AWS_ENDPOINT_URL_S3: z.string().min(1),
-  AWS_ENDPOINT_URL_IAM: z.string().min(1),
-  AWS_REGION: z.string().min(1),
+
+  // Cloudflare R2 Configuration
+  R2_ACCOUNT_ID: z.string().min(1),
+  R2_ACCESS_KEY_ID: z.string().min(1),
+  R2_SECRET_ACCESS_KEY: z.string().min(1),
+  R2_BUCKET_NAME: z.string().min(1),
+  R2_ENDPOINT_URL: z.string().url(),
+  R2_REGION: z.string().min(1),
+
+  // Legacy AWS/Tigris Configuration (for backward compatibility)
+  AWS_ACCESS_KEY_ID: z.string().min(1).optional(),
+  AWS_SECRET_ACCESS_KEY: z.string().min(1).optional(),
+  AWS_ENDPOINT_URL_S3: z.string().min(1).optional(),
+  AWS_ENDPOINT_URL_IAM: z.string().min(1).optional(),
+  AWS_REGION: z.string().min(1).optional(),
 
   // Client-side environment variables
-  NEXT_PUBLIC_AWS_S3_BUCKET_NAME: z.string().min(1),
+  NEXT_PUBLIC_R2_BUCKET_NAME: z.string().min(1),
+  NEXT_PUBLIC_AWS_S3_BUCKET_NAME: z.string().min(1).optional(),
 });
 
 export const env = envSchema.parse({
@@ -28,6 +39,16 @@ export const env = envSchema.parse({
   GITHUB_CLIENT_SECRET: process.env.GITHUB_CLIENT_SECRET,
   RESEND_API_KEY: process.env.RESEND_API_KEY,
   ARCJET_KEY: process.env.ARCJET_KEY,
+
+  // Cloudflare R2 Configuration
+  R2_ACCOUNT_ID: process.env.R2_ACCOUNT_ID,
+  R2_ACCESS_KEY_ID: process.env.R2_ACCESS_KEY_ID,
+  R2_SECRET_ACCESS_KEY: process.env.R2_SECRET_ACCESS_KEY,
+  R2_BUCKET_NAME: process.env.R2_BUCKET_NAME || "kudondza",
+  R2_ENDPOINT_URL: process.env.R2_ENDPOINT_URL,
+  R2_REGION: process.env.R2_REGION || "auto",
+
+  // Legacy AWS/Tigris Configuration
   AWS_ACCESS_KEY_ID: process.env.AWS_ACCESS_KEY_ID,
   AWS_SECRET_ACCESS_KEY: process.env.AWS_SECRET_ACCESS_KEY,
   AWS_ENDPOINT_URL_S3: process.env.AWS_ENDPOINT_URL_S3,
@@ -35,6 +56,7 @@ export const env = envSchema.parse({
   AWS_REGION: process.env.AWS_REGION,
 
   // Client-side
-  NEXT_PUBLIC_AWS_S3_BUCKET_NAME:
-    process.env.NEXT_PUBLIC_AWS_S3_BUCKET_NAME || "kudondza",
+  NEXT_PUBLIC_R2_BUCKET_NAME:
+    process.env.NEXT_PUBLIC_R2_BUCKET_NAME || "kudondza",
+  NEXT_PUBLIC_AWS_S3_BUCKET_NAME: process.env.NEXT_PUBLIC_AWS_S3_BUCKET_NAME,
 });

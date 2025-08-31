@@ -565,6 +565,172 @@ exports.Prisma.FollowScalarFieldEnum = {
   followingId: 'followingId'
 };
 
+exports.Prisma.CommunityScalarFieldEnum = {
+  id: 'id',
+  name: 'name',
+  slug: 'slug',
+  description: 'description',
+  shortDescription: 'shortDescription',
+  avatar: 'avatar',
+  cover: 'cover',
+  banner: 'banner',
+  type: 'type',
+  level: 'level',
+  maxMembers: 'maxMembers',
+  allowInvites: 'allowInvites',
+  requireApproval: 'requireApproval',
+  isPrivate: 'isPrivate',
+  isFeatured: 'isFeatured',
+  isVerified: 'isVerified',
+  categoryId: 'categoryId',
+  subcategoryId: 'subcategoryId',
+  tags: 'tags',
+  memberCount: 'memberCount',
+  postCount: 'postCount',
+  eventCount: 'eventCount',
+  viewCount: 'viewCount',
+  allowPosts: 'allowPosts',
+  allowEvents: 'allowEvents',
+  allowPolls: 'allowPolls',
+  autoModerate: 'autoModerate',
+  seoTitle: 'seoTitle',
+  seoDescription: 'seoDescription',
+  seoKeywords: 'seoKeywords',
+  createdAt: 'createdAt',
+  updatedAt: 'updatedAt',
+  featuredAt: 'featuredAt',
+  creatorId: 'creatorId'
+};
+
+exports.Prisma.CommunityMemberScalarFieldEnum = {
+  id: 'id',
+  role: 'role',
+  status: 'status',
+  joinedAt: 'joinedAt',
+  leftAt: 'leftAt',
+  notifications: 'notifications',
+  isModerator: 'isModerator',
+  postsCount: 'postsCount',
+  eventsCount: 'eventsCount',
+  reputation: 'reputation',
+  userId: 'userId',
+  communityId: 'communityId'
+};
+
+exports.Prisma.CommunityPostScalarFieldEnum = {
+  id: 'id',
+  title: 'title',
+  content: 'content',
+  type: 'type',
+  media: 'media',
+  metadata: 'metadata',
+  isPinned: 'isPinned',
+  isAnnouncement: 'isAnnouncement',
+  allowComments: 'allowComments',
+  isModerated: 'isModerated',
+  viewCount: 'viewCount',
+  reactionCount: 'reactionCount',
+  commentCount: 'commentCount',
+  shareCount: 'shareCount',
+  createdAt: 'createdAt',
+  updatedAt: 'updatedAt',
+  pinnedAt: 'pinnedAt',
+  authorId: 'authorId',
+  communityId: 'communityId'
+};
+
+exports.Prisma.CommunityCommentScalarFieldEnum = {
+  id: 'id',
+  content: 'content',
+  parentId: 'parentId',
+  isModerated: 'isModerated',
+  reactionCount: 'reactionCount',
+  createdAt: 'createdAt',
+  updatedAt: 'updatedAt',
+  authorId: 'authorId',
+  postId: 'postId'
+};
+
+exports.Prisma.CommunityReactionScalarFieldEnum = {
+  id: 'id',
+  type: 'type',
+  createdAt: 'createdAt',
+  userId: 'userId',
+  postId: 'postId',
+  commentId: 'commentId'
+};
+
+exports.Prisma.CommunityEventScalarFieldEnum = {
+  id: 'id',
+  title: 'title',
+  description: 'description',
+  type: 'type',
+  location: 'location',
+  meetingUrl: 'meetingUrl',
+  maxAttendees: 'maxAttendees',
+  isFree: 'isFree',
+  price: 'price',
+  startDate: 'startDate',
+  endDate: 'endDate',
+  createdAt: 'createdAt',
+  updatedAt: 'updatedAt',
+  status: 'status',
+  attendeeCount: 'attendeeCount',
+  viewCount: 'viewCount',
+  creatorId: 'creatorId',
+  communityId: 'communityId'
+};
+
+exports.Prisma.EventAttendeeScalarFieldEnum = {
+  id: 'id',
+  status: 'status',
+  joinedAt: 'joinedAt',
+  userId: 'userId',
+  eventId: 'eventId'
+};
+
+exports.Prisma.CommunityPollScalarFieldEnum = {
+  id: 'id',
+  question: 'question',
+  description: 'description',
+  options: 'options',
+  allowMultipleVotes: 'allowMultipleVotes',
+  isAnonymous: 'isAnonymous',
+  endDate: 'endDate',
+  voteCount: 'voteCount',
+  createdAt: 'createdAt',
+  updatedAt: 'updatedAt',
+  creatorId: 'creatorId',
+  communityId: 'communityId'
+};
+
+exports.Prisma.PollVoteScalarFieldEnum = {
+  id: 'id',
+  option: 'option',
+  votedAt: 'votedAt',
+  userId: 'userId',
+  pollId: 'pollId'
+};
+
+exports.Prisma.CommunityRuleScalarFieldEnum = {
+  id: 'id',
+  title: 'title',
+  description: 'description',
+  order: 'order',
+  communityId: 'communityId'
+};
+
+exports.Prisma.CommunityAnalyticsScalarFieldEnum = {
+  id: 'id',
+  date: 'date',
+  views: 'views',
+  newMembers: 'newMembers',
+  posts: 'posts',
+  events: 'events',
+  engagement: 'engagement',
+  communityId: 'communityId'
+};
+
 exports.Prisma.GroupScalarFieldEnum = {
   id: 'id',
   name: 'name',
@@ -1065,6 +1231,66 @@ exports.ReactionType = exports.$Enums.ReactionType = {
   CELEBRATE: 'CELEBRATE'
 };
 
+exports.CommunityType = exports.$Enums.CommunityType = {
+  PUBLIC: 'PUBLIC',
+  PRIVATE: 'PRIVATE',
+  COURSE_BASED: 'COURSE_BASED',
+  PROFESSIONAL: 'PROFESSIONAL',
+  HOBBY: 'HOBBY',
+  ACADEMIC: 'ACADEMIC'
+};
+
+exports.CommunityLevel = exports.$Enums.CommunityLevel = {
+  BEGINNER: 'BEGINNER',
+  INTERMEDIATE: 'INTERMEDIATE',
+  ADVANCED: 'ADVANCED',
+  ALL_LEVELS: 'ALL_LEVELS',
+  EXPERT: 'EXPERT'
+};
+
+exports.CommunityRole = exports.$Enums.CommunityRole = {
+  OWNER: 'OWNER',
+  ADMIN: 'ADMIN',
+  MODERATOR: 'MODERATOR',
+  MEMBER: 'MEMBER',
+  GUEST: 'GUEST'
+};
+
+exports.MemberStatus = exports.$Enums.MemberStatus = {
+  ACTIVE: 'ACTIVE',
+  INACTIVE: 'INACTIVE',
+  SUSPENDED: 'SUSPENDED',
+  BANNED: 'BANNED',
+  PENDING: 'PENDING'
+};
+
+exports.EventType = exports.$Enums.EventType = {
+  ONLINE: 'ONLINE',
+  IN_PERSON: 'IN_PERSON',
+  HYBRID: 'HYBRID',
+  WORKSHOP: 'WORKSHOP',
+  MEETUP: 'MEETUP',
+  CONFERENCE: 'CONFERENCE',
+  HACKATHON: 'HACKATHON'
+};
+
+exports.EventStatus = exports.$Enums.EventStatus = {
+  DRAFT: 'DRAFT',
+  UPCOMING: 'UPCOMING',
+  IN_PROGRESS: 'IN_PROGRESS',
+  COMPLETED: 'COMPLETED',
+  CANCELLED: 'CANCELLED',
+  POSTPONED: 'POSTPONED'
+};
+
+exports.AttendeeStatus = exports.$Enums.AttendeeStatus = {
+  REGISTERED: 'REGISTERED',
+  CONFIRMED: 'CONFIRMED',
+  ATTENDED: 'ATTENDED',
+  NO_SHOW: 'NO_SHOW',
+  CANCELLED: 'CANCELLED'
+};
+
 exports.GroupType = exports.$Enums.GroupType = {
   PUBLIC: 'PUBLIC',
   PRIVATE: 'PRIVATE',
@@ -1238,6 +1464,17 @@ exports.Prisma.ModelName = {
   Comment: 'Comment',
   Reaction: 'Reaction',
   Follow: 'Follow',
+  Community: 'Community',
+  CommunityMember: 'CommunityMember',
+  CommunityPost: 'CommunityPost',
+  CommunityComment: 'CommunityComment',
+  CommunityReaction: 'CommunityReaction',
+  CommunityEvent: 'CommunityEvent',
+  EventAttendee: 'EventAttendee',
+  CommunityPoll: 'CommunityPoll',
+  PollVote: 'PollVote',
+  CommunityRule: 'CommunityRule',
+  CommunityAnalytics: 'CommunityAnalytics',
   Group: 'Group',
   GroupMember: 'GroupMember',
   Message: 'Message',
