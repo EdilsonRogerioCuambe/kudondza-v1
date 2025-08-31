@@ -138,7 +138,7 @@ export function CommunityActions({ community }: CommunityActionsProps) {
         <Button
           onClick={handleJoinCommunity}
           disabled={isJoining}
-          className="bg-gradient-to-r from-blue-600 to-purple-600 hover:from-blue-700 hover:to-purple-700 w-full sm:w-auto"
+          className="w-full sm:w-auto"
         >
           {isJoining ? (
             "Entrando..."
@@ -183,7 +183,7 @@ export function CommunityActions({ community }: CommunityActionsProps) {
               <DropdownMenuSeparator />
               <DropdownMenuItem
                 onClick={handleDeleteCommunity}
-                className="cursor-pointer text-red-600 hover:text-red-700 hover:bg-red-50"
+                className="cursor-pointer text-destructive hover:text-destructive hover:bg-destructive/10"
               >
                 <IconTrash className="h-4 w-4 mr-2" />
                 Deletar Comunidade

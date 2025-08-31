@@ -378,8 +378,8 @@ export default function CreateCommunityPage() {
                       <p
                         className={`text-sm ${
                           slugValidation.available
-                            ? "text-green-600"
-                            : "text-red-600"
+                            ? "text-green-600 dark:text-green-400"
+                            : "text-red-600 dark:text-red-400"
                         }`}
                       >
                         {slugValidation.error || "Slug disponível"}
@@ -438,7 +438,7 @@ export default function CreateCommunityPage() {
                         <button
                           type="button"
                           onClick={() => removeTag(tag)}
-                          className="ml-1 hover:text-red-600"
+                          className="ml-1 hover:text-destructive"
                           title="Remover tag"
                         >
                           <IconX className="h-3 w-3" />

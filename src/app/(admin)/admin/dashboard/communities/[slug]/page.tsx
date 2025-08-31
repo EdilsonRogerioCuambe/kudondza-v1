@@ -100,7 +100,7 @@ export default async function CommunityDetailsPage({
                 </Avatar>
               ) : (
                 <Avatar className="w-14 h-14 sm:w-16 sm:h-16 md:w-20 md:h-20">
-                  <AvatarFallback className="text-lg sm:text-xl md:text-2xl font-bold bg-gradient-to-br from-blue-500 to-purple-600 text-white">
+                  <AvatarFallback className="text-lg sm:text-xl md:text-2xl font-bold bg-primary text-primary-foreground">
                     {community.name.charAt(0).toUpperCase()}
                   </AvatarFallback>
                 </Avatar>
@@ -168,7 +168,7 @@ export default async function CommunityDetailsPage({
         <div className="xl:col-span-2 space-y-4 sm:space-y-6 min-w-0">
           {/* Descrição Completa */}
           {community.description && (
-            <Card className="bg-gradient-to-br from-blue-50/50 to-indigo-50/50 dark:from-blue-950/20 dark:to-indigo-950/20 dark:bg-card dark:border-border">
+            <Card>
               <CardHeader className="pb-3">
                 <CardTitle className="flex items-center gap-2 text-base sm:text-lg">
                   <IconUsersGroup className="h-4 w-4 sm:h-5 sm:w-5" />
@@ -198,7 +198,7 @@ export default async function CommunityDetailsPage({
                     <Badge
                       key={index}
                       variant="outline"
-                      className="bg-gradient-to-r from-blue-50 to-purple-50 dark:from-blue-950/30 dark:to-purple-950/30 dark:bg-muted dark:text-foreground text-xs sm:text-sm"
+                      className="text-xs sm:text-sm"
                     >
                       {tag}
                     </Badge>
@@ -220,19 +220,13 @@ export default async function CommunityDetailsPage({
               <div className="grid gap-3 sm:gap-4 sm:grid-cols-2 min-w-0">
                 <div className="space-y-2">
                   <Label className="text-sm font-medium">Tipo</Label>
-                  <Badge
-                    variant="secondary"
-                    className="bg-gradient-to-r from-green-50 to-emerald-50 dark:from-green-950/30 dark:to-emerald-950/30 dark:bg-muted dark:text-foreground"
-                  >
+                  <Badge variant="secondary" className="">
                     {getTypeLabel(community.type)}
                   </Badge>
                 </div>
                 <div className="space-y-2">
                   <Label className="text-sm font-medium">Nível</Label>
-                  <Badge
-                    variant="secondary"
-                    className="bg-gradient-to-r from-orange-50 to-red-50 dark:from-orange-950/30 dark:to-red-950/30 dark:bg-muted dark:text-foreground"
-                  >
+                  <Badge variant="secondary" className="">
                     {getLevelLabel(community.level)}
                   </Badge>
                 </div>
@@ -285,7 +279,7 @@ export default async function CommunityDetailsPage({
         {/* Sidebar */}
         <div className="space-y-4 sm:space-y-6 order-first xl:order-last min-w-0">
           {/* Estatísticas */}
-          <Card className="bg-gradient-to-br from-blue-50/50 to-indigo-50/50 dark:from-blue-950/20 dark:to-indigo-950/20 dark:bg-card dark:border-border">
+          <Card>
             <CardHeader className="pb-3">
               <CardTitle className="flex items-center gap-2 text-base sm:text-lg">
                 <IconStar className="h-4 w-4 sm:h-5 sm:w-5" />
@@ -616,7 +610,7 @@ export default async function CommunityDetailsPage({
           )}
 
           {/* Ações Rápidas */}
-          <Card className="bg-gradient-to-br from-green-50 to-emerald-50 dark:bg-card dark:border-border">
+          <Card>
             <CardHeader>
               <CardTitle className="flex items-center gap-2">
                 <IconPlus className="h-5 w-5" />

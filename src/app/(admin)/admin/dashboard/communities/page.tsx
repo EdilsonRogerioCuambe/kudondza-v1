@@ -338,7 +338,7 @@ export default function CommunitiesPage() {
 
     return (
       <div
-        className={`${sizeClasses[size]} rounded-full bg-gradient-to-br from-blue-500 to-purple-600 flex items-center justify-center text-white font-bold text-lg`}
+        className={`${sizeClasses[size]} rounded-full bg-primary flex items-center justify-center text-primary-foreground font-bold text-lg`}
       >
         {community.name.charAt(0).toUpperCase()}
       </div>
@@ -369,7 +369,7 @@ export default function CommunitiesPage() {
         </div>
         <div className="flex flex-col sm:flex-row items-stretch sm:items-center gap-2">
           <Link href="/admin/dashboard/communities/create">
-            <Button className="bg-gradient-to-r from-blue-600 to-purple-600 hover:from-blue-700 hover:to-purple-700 w-full sm:w-auto">
+            <Button className="w-full sm:w-auto">
               <IconPlus className="h-4 w-4 mr-2" />
               Criar Comunidade
             </Button>
@@ -469,10 +469,10 @@ export default function CommunitiesPage() {
         {/* Coluna Principal - Comunidades */}
         <div className="xl:col-span-2 space-y-6 min-w-0">
           {/* Comunidades em Destaque */}
-          <Card className="bg-gradient-to-br from-blue-50 to-indigo-50 dark:bg-card dark:border-border">
+          <Card>
             <CardHeader>
               <CardTitle className="flex items-center gap-2">
-                <IconStar className="h-5 w-5 text-yellow-600" />
+                <IconStar className="h-5 w-5 text-yellow-600 dark:text-yellow-400" />
                 Comunidades em Destaque
               </CardTitle>
               <CardDescription>
@@ -483,7 +483,7 @@ export default function CommunitiesPage() {
               {featuredCommunities.map((community) => (
                 <div
                   key={community.id}
-                  className="p-3 sm:p-4 rounded-lg border bg-white dark:bg-card shadow-sm hover:shadow-md transition-shadow min-w-0"
+                  className="p-3 sm:p-4 rounded-lg border bg-card shadow-sm hover:shadow-md transition-shadow min-w-0"
                 >
                   <div className="flex flex-col gap-4 min-w-0">
                     {/* Header com Avatar e Informações Básicas */}
@@ -499,18 +499,12 @@ export default function CommunitiesPage() {
                               <IconLock className="h-4 w-4 text-muted-foreground flex-shrink-0" />
                             )}
                             {community.isJoined && (
-                              <Badge
-                                variant="secondary"
-                                className="bg-green-100 text-green-800 dark:bg-muted dark:text-foreground text-xs"
-                              >
+                              <Badge variant="secondary" className="text-xs">
                                 Participando
                               </Badge>
                             )}
                             {community.userRole === "MODERATOR" && (
-                              <Badge
-                                variant="default"
-                                className="bg-purple-100 text-purple-800 dark:bg-muted dark:text-foreground text-xs"
-                              >
+                              <Badge variant="default" className="text-xs">
                                 Moderador
                               </Badge>
                             )}
@@ -540,7 +534,7 @@ export default function CommunitiesPage() {
                               <Badge
                                 key={index}
                                 variant="outline"
-                                className="text-xs bg-gradient-to-r from-blue-100 to-purple-100 dark:bg-muted dark:text-foreground"
+                                className="text-xs"
                               >
                                 {tag}
                               </Badge>
@@ -561,7 +555,7 @@ export default function CommunitiesPage() {
                           size="sm"
                           onClick={() => handleJoinCommunity(community.id)}
                           disabled={isLoading}
-                          className="bg-gradient-to-r from-blue-600 to-purple-600 hover:from-blue-700 hover:to-purple-700 w-full sm:w-auto"
+                          className="w-full sm:w-auto"
                         >
                           <IconPlus className="h-4 w-4 mr-2" />
                           Participar
@@ -604,7 +598,7 @@ export default function CommunitiesPage() {
                               <DropdownMenuSeparator />
                               <DropdownMenuItem
                                 onClick={() => handleDeleteCommunity(community)}
-                                className="cursor-pointer text-red-600 hover:text-red-700 hover:bg-red-50"
+                                className="cursor-pointer text-destructive hover:text-destructive hover:bg-destructive/10"
                               >
                                 <IconTrash className="h-4 w-4 mr-2" />
                                 Deletar Comunidade
@@ -683,7 +677,7 @@ export default function CommunitiesPage() {
                             href="/admin/dashboard/communities/create"
                             className="w-full sm:w-auto block"
                           >
-                            <Button className="bg-gradient-to-r from-blue-600 to-purple-600 hover:from-blue-700 hover:to-purple-700 w-full sm:w-auto">
+                            <Button className="w-full sm:w-auto">
                               <IconPlus className="h-4 w-4 mr-2" />
                               Criar Comunidade
                             </Button>
@@ -696,7 +690,7 @@ export default function CommunitiesPage() {
                   filteredCommunities.map((community) => (
                     <div
                       key={community.id}
-                      className="p-3 sm:p-4 rounded-lg border hover:shadow-md transition-shadow bg-gradient-to-br from-gray-50 to-white dark:bg-card dark:border-border min-w-0"
+                      className="p-3 sm:p-4 rounded-lg border hover:shadow-md transition-shadow bg-card min-w-0"
                     >
                       <div className="flex flex-col gap-3 min-w-0">
                         {/* Header com Avatar e Informações */}
@@ -740,7 +734,7 @@ export default function CommunitiesPage() {
                                 <Badge
                                   key={index}
                                   variant="outline"
-                                  className="text-xs bg-gradient-to-r from-blue-100 to-purple-100 dark:bg-muted dark:text-foreground"
+                                  className="text-xs"
                                 >
                                   {tag}
                                 </Badge>
@@ -806,7 +800,7 @@ export default function CommunitiesPage() {
                                       onClick={() =>
                                         handleDeleteCommunity(community)
                                       }
-                                      className="cursor-pointer text-red-600 hover:text-red-700 hover:bg-red-50"
+                                      className="cursor-pointer text-destructive hover:text-destructive hover:bg-destructive/10"
                                     >
                                       <IconTrash className="h-4 w-4 mr-2" />
                                       Deletar Comunidade
@@ -944,7 +938,7 @@ export default function CommunitiesPage() {
         {/* Sidebar Direita */}
         <div className="space-y-6 order-first xl:order-last min-w-0">
           {/* Categorias */}
-          <Card className="bg-gradient-to-br from-green-50 to-emerald-50 dark:bg-card dark:border-border">
+          <Card>
             <CardHeader>
               <CardTitle className="text-lg flex items-center gap-2">
                 <IconTrendingUp className="h-5 w-5" />
@@ -990,7 +984,7 @@ export default function CommunitiesPage() {
                   <div className="flex flex-col gap-3">
                     {/* Header com Título e Ícone */}
                     <div className="flex items-center gap-2">
-                      <IconCalendar className="h-4 w-4 text-blue-500 flex-shrink-0" />
+                      <IconCalendar className="h-4 w-4 text-primary flex-shrink-0" />
                       <span className="font-medium text-sm truncate">
                         {event.title}
                       </span>
