@@ -30,6 +30,8 @@ export interface Course {
   instructorId?: string;
   status: "DRAFT" | "REVIEW" | "PUBLISHED" | "ARCHIVED" | "SUSPENDED";
   seriesId?: string;
+  createdAt: string;
+  updatedAt?: string;
 }
 
 export type UnlockCriteria =

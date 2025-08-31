@@ -1,14 +1,12 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
 import { auth } from "@/lib/auth";
+import { ensurePrivateBucket } from "@/lib/ensure-private-bucket";
 import { env } from "@/lib/env";
 import { handleDirectUpload } from "@/lib/handle-direct-upload";
 import { handlePresignedUrl } from "@/lib/handle-presigned-url";
 import prisma from "@/lib/prisma";
 import { S3 } from "@/lib/s3-client";
-import {
-  DeleteObjectCommand,
-  GetObjectCommand,
-} from "@aws-sdk/client-s3";
+import { DeleteObjectCommand, GetObjectCommand } from "@aws-sdk/client-s3";
 import { getSignedUrl } from "@aws-sdk/s3-request-presigner";
 import { headers } from "next/headers";
 import { NextResponse } from "next/server";
@@ -88,8 +86,20 @@ export async function GET(request: Request) {
       }
 
       // Extrair bucket e key do fileUrl ou usar campos separados se tiver
-      const bucketName =
-        `${env.NEXT_PUBLIC_AWS_S3_BUCKET_NAME}-private` || "kudondza-private";
+      const privateBucketName = `${env.NEXT_PUBLIC_R2_BUCKET_NAME}-private`;
+      const fallbackBucketName = env.NEXT_PUBLIC_R2_BUCKET_NAME;
+
+      // Verificar se bucket privado existe, senão usar o principal
+      let bucketName = privateBucketName;
+      try {
+        await ensurePrivateBucket(privateBucketName);
+      } catch {
+        console.log(
+          "⚠️  Bucket privado não existe, usando bucket principal:",
+          fallbackBucketName
+        );
+        bucketName = fallbackBucketName;
+      }
 
       const getObjectCommand = new GetObjectCommand({
         Bucket: bucketName,
@@ -318,24 +328,36 @@ export async function DELETE(request: Request) {
     });
 
     // Verificar configuração do bucket
-    if (!env.NEXT_PUBLIC_AWS_S3_BUCKET_NAME) {
-      console.error("❌ AWS_S3_BUCKET_NAME não configurado");
+    if (!env.NEXT_PUBLIC_R2_BUCKET_NAME) {
+      console.error("❌ R2_BUCKET_NAME não configurado");
       return NextResponse.json(
-        { error: "Configuração AWS não encontrada" },
+        { error: "Configuração R2 não encontrada" },
         { status: 500 }
       );
     }
 
     // Usar bucket privado para exclusão
-    const privateBucketName =
-      `${env.NEXT_PUBLIC_AWS_S3_BUCKET_NAME}-private` || "kudondza-private";
-    console.log("🪣 Usando bucket privado para exclusão:", privateBucketName);
+    const privateBucketName = `${env.NEXT_PUBLIC_R2_BUCKET_NAME}-private`;
+    const fallbackBucketName = env.NEXT_PUBLIC_R2_BUCKET_NAME;
+
+    // Verificar se bucket privado existe, senão usar o principal
+    let bucketName = privateBucketName;
+    try {
+      await ensurePrivateBucket(privateBucketName);
+      console.log("✅ Usando bucket privado para exclusão:", privateBucketName);
+    } catch {
+      console.log(
+        "⚠️  Bucket privado não existe, usando bucket principal para exclusão:",
+        fallbackBucketName
+      );
+      bucketName = fallbackBucketName;
+    }
 
     try {
       // Deletar arquivo do S3
       console.log("🗑️ Deletando arquivo do S3...");
       const deleteCommand = new DeleteObjectCommand({
-        Bucket: privateBucketName,
+        Bucket: bucketName,
         Key: fileUpload.fileKey,
       });
 
@@ -394,12 +416,12 @@ export async function DELETE(request: Request) {
 
       throw s3Error;
     }
-  } catch (error) {
-    console.error("❌ Erro ao deletar arquivo:", error);
+  } catch (_error) {
+    console.error("❌ Erro ao deletar arquivo:", _error);
     return NextResponse.json(
       {
         error: "Delete failed",
-        details: error instanceof Error ? error.message : "Unknown error",
+        details: _error instanceof Error ? _error.message : "Unknown error",
       },
       { status: 500 }
     );
