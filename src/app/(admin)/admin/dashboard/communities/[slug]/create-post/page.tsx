@@ -110,20 +110,20 @@ export default function CreatePostPage() {
   return (
     <div className="flex-1 space-y-6 p-4 md:p-8 pt-6">
       {/* Header */}
-      <div className="flex flex-col lg:flex-row lg:items-center lg:justify-between gap-4">
-        <div className="flex items-center gap-4">
+      <div className="space-y-4">
+        <div className="flex justify-start">
           <Link href={`/admin/dashboard/communities/${slug}`}>
             <Button variant="ghost" size="sm">
               <IconArrowLeft className="h-4 w-4 mr-2" />
               Voltar
             </Button>
           </Link>
-          <div>
-            <h1 className="text-3xl font-bold tracking-tight">Criar Post</h1>
-            <p className="text-muted-foreground mt-1">
-              Compartilhe suas ideias com a comunidade
-            </p>
-          </div>
+        </div>
+        <div>
+          <h1 className="text-3xl font-bold tracking-tight">Criar Post</h1>
+          <p className="text-muted-foreground mt-1">
+            Compartilhe suas ideias com a comunidade
+          </p>
         </div>
       </div>
 
