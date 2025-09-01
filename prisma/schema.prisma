@@ -1409,6 +1409,9 @@ model Quiz {
   // Gamificação
   xpReward Int @default(100)
 
+  // Tipos de questão permitidos
+  allowedQuestionTypes Json @default("[\"MULTIPLE_CHOICE\", \"MULTIPLE_SELECT\", \"TRUE_FALSE\"]") // Array de tipos permitidos
+
   // Datas
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt
