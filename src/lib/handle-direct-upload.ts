@@ -50,31 +50,71 @@ export async function handleDirectUpload(
       );
     }
 
-    // Usar bucket privado para uploads (não o público "kudondza")
+    // Determinar se é um avatar (baseado no contexto ou tipo de arquivo)
+    const isAvatar =
+      formData.get("isAvatar") === "true" ||
+      (fileType === "image" && file.name.toLowerCase().includes("avatar"));
+
+    // Para avatars, usar bucket público; para outros arquivos, usar bucket privado
     const privateBucketName = `${env.NEXT_PUBLIC_R2_BUCKET_NAME}-private`;
-    const fallbackBucketName = env.NEXT_PUBLIC_R2_BUCKET_NAME;
+    const publicBucketName = env.NEXT_PUBLIC_R2_BUCKET_NAME;
 
-    console.log("🪣 Tentando usar bucket privado:", privateBucketName);
+    let bucketToUse: string;
 
-    // Verificar se bucket privado existe, senão usar o principal
-    let bucketToUse = privateBucketName;
-    try {
-      await ensurePrivateBucket(privateBucketName);
-      console.log("✅ Usando bucket privado:", privateBucketName);
-    } catch (error) {
-      console.log("⚠️  Erro ao acessar bucket privado:", error);
+    if (isAvatar) {
+      console.log("🖼️ Avatar detectado, configurando bucket público...");
+
+      // Tentar usar bucket principal primeiro
+      try {
+        await S3.send(
+          new GetObjectCommand({ Bucket: publicBucketName, Key: "test" })
+        );
+        console.log(
+          "✅ Usando bucket principal para avatars:",
+          publicBucketName
+        );
+        bucketToUse = publicBucketName;
+      } catch (error: any) {
+        // Se der erro de "NoSuchKey", o bucket existe e é acessível
+        if (error.name === "NoSuchKey") {
+          console.log(
+            "✅ Usando bucket principal para avatars:",
+            publicBucketName
+          );
+          bucketToUse = publicBucketName;
+        } else {
+          console.error("❌ Erro ao acessar bucket público:", error);
+          throw new Error(
+            `Bucket público não está acessível. Verifique as permissões R2.`
+          );
+        }
+      }
+    } else {
       console.log(
-        "⚠️  Bucket privado não existe, usando bucket principal:",
-        fallbackBucketName
+        "🪣 Arquivo normal, tentando usar bucket privado:",
+        privateBucketName
       );
-      bucketToUse = fallbackBucketName;
+
+      // Verificar se bucket privado existe, senão usar o principal
+      try {
+        await ensurePrivateBucket(privateBucketName);
+        console.log("✅ Usando bucket privado:", privateBucketName);
+        bucketToUse = privateBucketName;
+      } catch (error) {
+        console.log("⚠️  Erro ao acessar bucket privado:", error);
+        console.log(
+          "⚠️  Bucket privado não existe, usando bucket principal:",
+          publicBucketName
+        );
+        bucketToUse = publicBucketName;
+      }
     }
 
     const uniqueKey = `${v4()}-${file.name}`;
     console.log("🔑 Chave única gerada:", uniqueKey);
 
-    // Fazer upload direto para R2 (agora com permissões corretas)
-    console.log("📤 Fazendo upload direto para bucket privado...");
+    // Fazer upload direto para R2
+    console.log(`📤 Fazendo upload direto para bucket: ${bucketToUse}`);
 
     const uploadCommand = new PutObjectCommand({
       Bucket: bucketToUse,
@@ -122,8 +162,15 @@ export async function handleDirectUpload(
       expiresIn: 24 * 60 * 60, // 24 horas
     });
 
-    // URL interna do arquivo (R2 format)
-    const fileUrl = `${env.R2_ENDPOINT_URL}/${bucketToUse}/${uniqueKey}`;
+    // URL pública do arquivo usando R2 dev URL
+    let fileUrl: string;
+    if (isAvatar || bucketToUse === publicBucketName) {
+      // Para avatars e arquivos públicos, usar URL de desenvolvimento público
+      fileUrl = `${env.NEXT_PUBLIC_R2_DEV_URL}/${uniqueKey}`;
+    } else {
+      // Para arquivos privados, usar URL do bucket privado
+      fileUrl = `https://${bucketToUse}.r2.cloudflarestorage.com/${uniqueKey}`;
+    }
 
     console.log("💾 Salvando metadados no banco...");
     const fileUpload = await prisma.fileUpload.create({
