@@ -9436,6 +9436,7 @@ export namespace Prisma {
     bio: string | null
     location: string | null
     website: string | null
+    phone: string | null
     lastLoginAt: Date | null
     loginCount: number | null
     isOnline: boolean | null
@@ -9457,6 +9458,7 @@ export namespace Prisma {
     bio: string | null
     location: string | null
     website: string | null
+    phone: string | null
     lastLoginAt: Date | null
     loginCount: number | null
     isOnline: boolean | null
@@ -9478,6 +9480,7 @@ export namespace Prisma {
     bio: number
     location: number
     website: number
+    phone: number
     socialLinks: number
     preferences: number
     lastLoginAt: number
@@ -9511,6 +9514,7 @@ export namespace Prisma {
     bio?: true
     location?: true
     website?: true
+    phone?: true
     lastLoginAt?: true
     loginCount?: true
     isOnline?: true
@@ -9532,6 +9536,7 @@ export namespace Prisma {
     bio?: true
     location?: true
     website?: true
+    phone?: true
     lastLoginAt?: true
     loginCount?: true
     isOnline?: true
@@ -9553,6 +9558,7 @@ export namespace Prisma {
     bio?: true
     location?: true
     website?: true
+    phone?: true
     socialLinks?: true
     preferences?: true
     lastLoginAt?: true
@@ -9663,6 +9669,7 @@ export namespace Prisma {
     bio: string | null
     location: string | null
     website: string | null
+    phone: string | null
     socialLinks: JsonValue | null
     preferences: JsonValue | null
     lastLoginAt: Date | null
@@ -9705,6 +9712,7 @@ export namespace Prisma {
     bio?: boolean
     location?: boolean
     website?: boolean
+    phone?: boolean
     socialLinks?: boolean
     preferences?: boolean
     lastLoginAt?: boolean
@@ -9774,6 +9782,7 @@ export namespace Prisma {
     bio?: boolean
     location?: boolean
     website?: boolean
+    phone?: boolean
     socialLinks?: boolean
     preferences?: boolean
     lastLoginAt?: boolean
@@ -9797,6 +9806,7 @@ export namespace Prisma {
     bio?: boolean
     location?: boolean
     website?: boolean
+    phone?: boolean
     socialLinks?: boolean
     preferences?: boolean
     lastLoginAt?: boolean
@@ -9820,6 +9830,7 @@ export namespace Prisma {
     bio?: boolean
     location?: boolean
     website?: boolean
+    phone?: boolean
     socialLinks?: boolean
     preferences?: boolean
     lastLoginAt?: boolean
@@ -9830,7 +9841,7 @@ export namespace Prisma {
     theme?: boolean
   }
 
-  export type UserOmit<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetOmit<"id" | "name" | "email" | "emailVerified" | "image" | "createdAt" | "updatedAt" | "role" | "status" | "bio" | "location" | "website" | "socialLinks" | "preferences" | "lastLoginAt" | "loginCount" | "isOnline" | "timezone" | "language" | "theme", ExtArgs["result"]["user"]>
+  export type UserOmit<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetOmit<"id" | "name" | "email" | "emailVerified" | "image" | "createdAt" | "updatedAt" | "role" | "status" | "bio" | "location" | "website" | "phone" | "socialLinks" | "preferences" | "lastLoginAt" | "loginCount" | "isOnline" | "timezone" | "language" | "theme", ExtArgs["result"]["user"]>
   export type UserInclude<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
     sessions?: boolean | User$sessionsArgs<ExtArgs>
     accounts?: boolean | User$accountsArgs<ExtArgs>
@@ -9944,6 +9955,7 @@ export namespace Prisma {
       bio: string | null
       location: string | null
       website: string | null
+      phone: string | null
       socialLinks: Prisma.JsonValue | null
       preferences: Prisma.JsonValue | null
       lastLoginAt: Date | null
@@ -10432,6 +10444,7 @@ export namespace Prisma {
     readonly bio: FieldRef<"User", 'String'>
     readonly location: FieldRef<"User", 'String'>
     readonly website: FieldRef<"User", 'String'>
+    readonly phone: FieldRef<"User", 'String'>
     readonly socialLinks: FieldRef<"User", 'Json'>
     readonly preferences: FieldRef<"User", 'Json'>
     readonly lastLoginAt: FieldRef<"User", 'DateTime'>
@@ -95406,6 +95419,7 @@ export namespace Prisma {
     bio: 'bio',
     location: 'location',
     website: 'website',
+    phone: 'phone',
     socialLinks: 'socialLinks',
     preferences: 'preferences',
     lastLoginAt: 'lastLoginAt',
@@ -97229,6 +97243,7 @@ export namespace Prisma {
     bio?: StringNullableFilter<"User"> | string | null
     location?: StringNullableFilter<"User"> | string | null
     website?: StringNullableFilter<"User"> | string | null
+    phone?: StringNullableFilter<"User"> | string | null
     socialLinks?: JsonNullableFilter<"User">
     preferences?: JsonNullableFilter<"User">
     lastLoginAt?: DateTimeNullableFilter<"User"> | Date | string | null
@@ -97297,6 +97312,7 @@ export namespace Prisma {
     bio?: SortOrderInput | SortOrder
     location?: SortOrderInput | SortOrder
     website?: SortOrderInput | SortOrder
+    phone?: SortOrderInput | SortOrder
     socialLinks?: SortOrderInput | SortOrder
     preferences?: SortOrderInput | SortOrder
     lastLoginAt?: SortOrderInput | SortOrder
@@ -97368,6 +97384,7 @@ export namespace Prisma {
     bio?: StringNullableFilter<"User"> | string | null
     location?: StringNullableFilter<"User"> | string | null
     website?: StringNullableFilter<"User"> | string | null
+    phone?: StringNullableFilter<"User"> | string | null
     socialLinks?: JsonNullableFilter<"User">
     preferences?: JsonNullableFilter<"User">
     lastLoginAt?: DateTimeNullableFilter<"User"> | Date | string | null
@@ -97436,6 +97453,7 @@ export namespace Prisma {
     bio?: SortOrderInput | SortOrder
     location?: SortOrderInput | SortOrder
     website?: SortOrderInput | SortOrder
+    phone?: SortOrderInput | SortOrder
     socialLinks?: SortOrderInput | SortOrder
     preferences?: SortOrderInput | SortOrder
     lastLoginAt?: SortOrderInput | SortOrder
@@ -97467,6 +97485,7 @@ export namespace Prisma {
     bio?: StringNullableWithAggregatesFilter<"User"> | string | null
     location?: StringNullableWithAggregatesFilter<"User"> | string | null
     website?: StringNullableWithAggregatesFilter<"User"> | string | null
+    phone?: StringNullableWithAggregatesFilter<"User"> | string | null
     socialLinks?: JsonNullableWithAggregatesFilter<"User">
     preferences?: JsonNullableWithAggregatesFilter<"User">
     lastLoginAt?: DateTimeNullableWithAggregatesFilter<"User"> | Date | string | null
@@ -103743,6 +103762,7 @@ export namespace Prisma {
     bio?: string | null
     location?: string | null
     website?: string | null
+    phone?: string | null
     socialLinks?: NullableJsonNullValueInput | InputJsonValue
     preferences?: NullableJsonNullValueInput | InputJsonValue
     lastLoginAt?: Date | string | null
@@ -103811,6 +103831,7 @@ export namespace Prisma {
     bio?: string | null
     location?: string | null
     website?: string | null
+    phone?: string | null
     socialLinks?: NullableJsonNullValueInput | InputJsonValue
     preferences?: NullableJsonNullValueInput | InputJsonValue
     lastLoginAt?: Date | string | null
@@ -103879,6 +103900,7 @@ export namespace Prisma {
     bio?: NullableStringFieldUpdateOperationsInput | string | null
     location?: NullableStringFieldUpdateOperationsInput | string | null
     website?: NullableStringFieldUpdateOperationsInput | string | null
+    phone?: NullableStringFieldUpdateOperationsInput | string | null
     socialLinks?: NullableJsonNullValueInput | InputJsonValue
     preferences?: NullableJsonNullValueInput | InputJsonValue
     lastLoginAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
@@ -103947,6 +103969,7 @@ export namespace Prisma {
     bio?: NullableStringFieldUpdateOperationsInput | string | null
     location?: NullableStringFieldUpdateOperationsInput | string | null
     website?: NullableStringFieldUpdateOperationsInput | string | null
+    phone?: NullableStringFieldUpdateOperationsInput | string | null
     socialLinks?: NullableJsonNullValueInput | InputJsonValue
     preferences?: NullableJsonNullValueInput | InputJsonValue
     lastLoginAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
@@ -104015,6 +104038,7 @@ export namespace Prisma {
     bio?: string | null
     location?: string | null
     website?: string | null
+    phone?: string | null
     socialLinks?: NullableJsonNullValueInput | InputJsonValue
     preferences?: NullableJsonNullValueInput | InputJsonValue
     lastLoginAt?: Date | string | null
@@ -104038,6 +104062,7 @@ export namespace Prisma {
     bio?: NullableStringFieldUpdateOperationsInput | string | null
     location?: NullableStringFieldUpdateOperationsInput | string | null
     website?: NullableStringFieldUpdateOperationsInput | string | null
+    phone?: NullableStringFieldUpdateOperationsInput | string | null
     socialLinks?: NullableJsonNullValueInput | InputJsonValue
     preferences?: NullableJsonNullValueInput | InputJsonValue
     lastLoginAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
@@ -104061,6 +104086,7 @@ export namespace Prisma {
     bio?: NullableStringFieldUpdateOperationsInput | string | null
     location?: NullableStringFieldUpdateOperationsInput | string | null
     website?: NullableStringFieldUpdateOperationsInput | string | null
+    phone?: NullableStringFieldUpdateOperationsInput | string | null
     socialLinks?: NullableJsonNullValueInput | InputJsonValue
     preferences?: NullableJsonNullValueInput | InputJsonValue
     lastLoginAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
@@ -111407,6 +111433,7 @@ export namespace Prisma {
     bio?: SortOrder
     location?: SortOrder
     website?: SortOrder
+    phone?: SortOrder
     socialLinks?: SortOrder
     preferences?: SortOrder
     lastLoginAt?: SortOrder
@@ -111434,6 +111461,7 @@ export namespace Prisma {
     bio?: SortOrder
     location?: SortOrder
     website?: SortOrder
+    phone?: SortOrder
     lastLoginAt?: SortOrder
     loginCount?: SortOrder
     isOnline?: SortOrder
@@ -111455,6 +111483,7 @@ export namespace Prisma {
     bio?: SortOrder
     location?: SortOrder
     website?: SortOrder
+    phone?: SortOrder
     lastLoginAt?: SortOrder
     loginCount?: SortOrder
     isOnline?: SortOrder
@@ -126964,6 +126993,7 @@ export namespace Prisma {
     bio?: string | null
     location?: string | null
     website?: string | null
+    phone?: string | null
     socialLinks?: NullableJsonNullValueInput | InputJsonValue
     preferences?: NullableJsonNullValueInput | InputJsonValue
     lastLoginAt?: Date | string | null
@@ -127031,6 +127061,7 @@ export namespace Prisma {
     bio?: string | null
     location?: string | null
     website?: string | null
+    phone?: string | null
     socialLinks?: NullableJsonNullValueInput | InputJsonValue
     preferences?: NullableJsonNullValueInput | InputJsonValue
     lastLoginAt?: Date | string | null
@@ -127114,6 +127145,7 @@ export namespace Prisma {
     bio?: NullableStringFieldUpdateOperationsInput | string | null
     location?: NullableStringFieldUpdateOperationsInput | string | null
     website?: NullableStringFieldUpdateOperationsInput | string | null
+    phone?: NullableStringFieldUpdateOperationsInput | string | null
     socialLinks?: NullableJsonNullValueInput | InputJsonValue
     preferences?: NullableJsonNullValueInput | InputJsonValue
     lastLoginAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
@@ -127181,6 +127213,7 @@ export namespace Prisma {
     bio?: NullableStringFieldUpdateOperationsInput | string | null
     location?: NullableStringFieldUpdateOperationsInput | string | null
     website?: NullableStringFieldUpdateOperationsInput | string | null
+    phone?: NullableStringFieldUpdateOperationsInput | string | null
     socialLinks?: NullableJsonNullValueInput | InputJsonValue
     preferences?: NullableJsonNullValueInput | InputJsonValue
     lastLoginAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
@@ -127248,6 +127281,7 @@ export namespace Prisma {
     bio?: string | null
     location?: string | null
     website?: string | null
+    phone?: string | null
     socialLinks?: NullableJsonNullValueInput | InputJsonValue
     preferences?: NullableJsonNullValueInput | InputJsonValue
     lastLoginAt?: Date | string | null
@@ -127315,6 +127349,7 @@ export namespace Prisma {
     bio?: string | null
     location?: string | null
     website?: string | null
+    phone?: string | null
     socialLinks?: NullableJsonNullValueInput | InputJsonValue
     preferences?: NullableJsonNullValueInput | InputJsonValue
     lastLoginAt?: Date | string | null
@@ -127398,6 +127433,7 @@ export namespace Prisma {
     bio?: NullableStringFieldUpdateOperationsInput | string | null
     location?: NullableStringFieldUpdateOperationsInput | string | null
     website?: NullableStringFieldUpdateOperationsInput | string | null
+    phone?: NullableStringFieldUpdateOperationsInput | string | null
     socialLinks?: NullableJsonNullValueInput | InputJsonValue
     preferences?: NullableJsonNullValueInput | InputJsonValue
     lastLoginAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
@@ -127465,6 +127501,7 @@ export namespace Prisma {
     bio?: NullableStringFieldUpdateOperationsInput | string | null
     location?: NullableStringFieldUpdateOperationsInput | string | null
     website?: NullableStringFieldUpdateOperationsInput | string | null
+    phone?: NullableStringFieldUpdateOperationsInput | string | null
     socialLinks?: NullableJsonNullValueInput | InputJsonValue
     preferences?: NullableJsonNullValueInput | InputJsonValue
     lastLoginAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
@@ -128918,6 +128955,7 @@ export namespace Prisma {
     bio?: string | null
     location?: string | null
     website?: string | null
+    phone?: string | null
     socialLinks?: NullableJsonNullValueInput | InputJsonValue
     preferences?: NullableJsonNullValueInput | InputJsonValue
     lastLoginAt?: Date | string | null
@@ -128985,6 +129023,7 @@ export namespace Prisma {
     bio?: string | null
     location?: string | null
     website?: string | null
+    phone?: string | null
     socialLinks?: NullableJsonNullValueInput | InputJsonValue
     preferences?: NullableJsonNullValueInput | InputJsonValue
     lastLoginAt?: Date | string | null
@@ -129770,6 +129809,7 @@ export namespace Prisma {
     bio?: NullableStringFieldUpdateOperationsInput | string | null
     location?: NullableStringFieldUpdateOperationsInput | string | null
     website?: NullableStringFieldUpdateOperationsInput | string | null
+    phone?: NullableStringFieldUpdateOperationsInput | string | null
     socialLinks?: NullableJsonNullValueInput | InputJsonValue
     preferences?: NullableJsonNullValueInput | InputJsonValue
     lastLoginAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
@@ -129837,6 +129877,7 @@ export namespace Prisma {
     bio?: NullableStringFieldUpdateOperationsInput | string | null
     location?: NullableStringFieldUpdateOperationsInput | string | null
     website?: NullableStringFieldUpdateOperationsInput | string | null
+    phone?: NullableStringFieldUpdateOperationsInput | string | null
     socialLinks?: NullableJsonNullValueInput | InputJsonValue
     preferences?: NullableJsonNullValueInput | InputJsonValue
     lastLoginAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
@@ -130838,6 +130879,7 @@ export namespace Prisma {
     bio?: string | null
     location?: string | null
     website?: string | null
+    phone?: string | null
     socialLinks?: NullableJsonNullValueInput | InputJsonValue
     preferences?: NullableJsonNullValueInput | InputJsonValue
     lastLoginAt?: Date | string | null
@@ -130905,6 +130947,7 @@ export namespace Prisma {
     bio?: string | null
     location?: string | null
     website?: string | null
+    phone?: string | null
     socialLinks?: NullableJsonNullValueInput | InputJsonValue
     preferences?: NullableJsonNullValueInput | InputJsonValue
     lastLoginAt?: Date | string | null
@@ -131065,6 +131108,7 @@ export namespace Prisma {
     bio?: NullableStringFieldUpdateOperationsInput | string | null
     location?: NullableStringFieldUpdateOperationsInput | string | null
     website?: NullableStringFieldUpdateOperationsInput | string | null
+    phone?: NullableStringFieldUpdateOperationsInput | string | null
     socialLinks?: NullableJsonNullValueInput | InputJsonValue
     preferences?: NullableJsonNullValueInput | InputJsonValue
     lastLoginAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
@@ -131132,6 +131176,7 @@ export namespace Prisma {
     bio?: NullableStringFieldUpdateOperationsInput | string | null
     location?: NullableStringFieldUpdateOperationsInput | string | null
     website?: NullableStringFieldUpdateOperationsInput | string | null
+    phone?: NullableStringFieldUpdateOperationsInput | string | null
     socialLinks?: NullableJsonNullValueInput | InputJsonValue
     preferences?: NullableJsonNullValueInput | InputJsonValue
     lastLoginAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
@@ -131703,6 +131748,7 @@ export namespace Prisma {
     bio?: string | null
     location?: string | null
     website?: string | null
+    phone?: string | null
     socialLinks?: NullableJsonNullValueInput | InputJsonValue
     preferences?: NullableJsonNullValueInput | InputJsonValue
     lastLoginAt?: Date | string | null
@@ -131770,6 +131816,7 @@ export namespace Prisma {
     bio?: string | null
     location?: string | null
     website?: string | null
+    phone?: string | null
     socialLinks?: NullableJsonNullValueInput | InputJsonValue
     preferences?: NullableJsonNullValueInput | InputJsonValue
     lastLoginAt?: Date | string | null
@@ -131899,6 +131946,7 @@ export namespace Prisma {
     bio?: NullableStringFieldUpdateOperationsInput | string | null
     location?: NullableStringFieldUpdateOperationsInput | string | null
     website?: NullableStringFieldUpdateOperationsInput | string | null
+    phone?: NullableStringFieldUpdateOperationsInput | string | null
     socialLinks?: NullableJsonNullValueInput | InputJsonValue
     preferences?: NullableJsonNullValueInput | InputJsonValue
     lastLoginAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
@@ -131966,6 +132014,7 @@ export namespace Prisma {
     bio?: NullableStringFieldUpdateOperationsInput | string | null
     location?: NullableStringFieldUpdateOperationsInput | string | null
     website?: NullableStringFieldUpdateOperationsInput | string | null
+    phone?: NullableStringFieldUpdateOperationsInput | string | null
     socialLinks?: NullableJsonNullValueInput | InputJsonValue
     preferences?: NullableJsonNullValueInput | InputJsonValue
     lastLoginAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
@@ -132381,6 +132430,7 @@ export namespace Prisma {
     bio?: string | null
     location?: string | null
     website?: string | null
+    phone?: string | null
     socialLinks?: NullableJsonNullValueInput | InputJsonValue
     preferences?: NullableJsonNullValueInput | InputJsonValue
     lastLoginAt?: Date | string | null
@@ -132448,6 +132498,7 @@ export namespace Prisma {
     bio?: string | null
     location?: string | null
     website?: string | null
+    phone?: string | null
     socialLinks?: NullableJsonNullValueInput | InputJsonValue
     preferences?: NullableJsonNullValueInput | InputJsonValue
     lastLoginAt?: Date | string | null
@@ -132560,6 +132611,7 @@ export namespace Prisma {
     bio?: NullableStringFieldUpdateOperationsInput | string | null
     location?: NullableStringFieldUpdateOperationsInput | string | null
     website?: NullableStringFieldUpdateOperationsInput | string | null
+    phone?: NullableStringFieldUpdateOperationsInput | string | null
     socialLinks?: NullableJsonNullValueInput | InputJsonValue
     preferences?: NullableJsonNullValueInput | InputJsonValue
     lastLoginAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
@@ -132627,6 +132679,7 @@ export namespace Prisma {
     bio?: NullableStringFieldUpdateOperationsInput | string | null
     location?: NullableStringFieldUpdateOperationsInput | string | null
     website?: NullableStringFieldUpdateOperationsInput | string | null
+    phone?: NullableStringFieldUpdateOperationsInput | string | null
     socialLinks?: NullableJsonNullValueInput | InputJsonValue
     preferences?: NullableJsonNullValueInput | InputJsonValue
     lastLoginAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
@@ -132729,6 +132782,7 @@ export namespace Prisma {
     bio?: string | null
     location?: string | null
     website?: string | null
+    phone?: string | null
     socialLinks?: NullableJsonNullValueInput | InputJsonValue
     preferences?: NullableJsonNullValueInput | InputJsonValue
     lastLoginAt?: Date | string | null
@@ -132796,6 +132850,7 @@ export namespace Prisma {
     bio?: string | null
     location?: string | null
     website?: string | null
+    phone?: string | null
     socialLinks?: NullableJsonNullValueInput | InputJsonValue
     preferences?: NullableJsonNullValueInput | InputJsonValue
     lastLoginAt?: Date | string | null
@@ -133002,6 +133057,7 @@ export namespace Prisma {
     bio?: NullableStringFieldUpdateOperationsInput | string | null
     location?: NullableStringFieldUpdateOperationsInput | string | null
     website?: NullableStringFieldUpdateOperationsInput | string | null
+    phone?: NullableStringFieldUpdateOperationsInput | string | null
     socialLinks?: NullableJsonNullValueInput | InputJsonValue
     preferences?: NullableJsonNullValueInput | InputJsonValue
     lastLoginAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
@@ -133069,6 +133125,7 @@ export namespace Prisma {
     bio?: NullableStringFieldUpdateOperationsInput | string | null
     location?: NullableStringFieldUpdateOperationsInput | string | null
     website?: NullableStringFieldUpdateOperationsInput | string | null
+    phone?: NullableStringFieldUpdateOperationsInput | string | null
     socialLinks?: NullableJsonNullValueInput | InputJsonValue
     preferences?: NullableJsonNullValueInput | InputJsonValue
     lastLoginAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
@@ -133359,6 +133416,7 @@ export namespace Prisma {
     bio?: string | null
     location?: string | null
     website?: string | null
+    phone?: string | null
     socialLinks?: NullableJsonNullValueInput | InputJsonValue
     preferences?: NullableJsonNullValueInput | InputJsonValue
     lastLoginAt?: Date | string | null
@@ -133426,6 +133484,7 @@ export namespace Prisma {
     bio?: string | null
     location?: string | null
     website?: string | null
+    phone?: string | null
     socialLinks?: NullableJsonNullValueInput | InputJsonValue
     preferences?: NullableJsonNullValueInput | InputJsonValue
     lastLoginAt?: Date | string | null
@@ -133713,6 +133772,7 @@ export namespace Prisma {
     bio?: NullableStringFieldUpdateOperationsInput | string | null
     location?: NullableStringFieldUpdateOperationsInput | string | null
     website?: NullableStringFieldUpdateOperationsInput | string | null
+    phone?: NullableStringFieldUpdateOperationsInput | string | null
     socialLinks?: NullableJsonNullValueInput | InputJsonValue
     preferences?: NullableJsonNullValueInput | InputJsonValue
     lastLoginAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
@@ -133780,6 +133840,7 @@ export namespace Prisma {
     bio?: NullableStringFieldUpdateOperationsInput | string | null
     location?: NullableStringFieldUpdateOperationsInput | string | null
     website?: NullableStringFieldUpdateOperationsInput | string | null
+    phone?: NullableStringFieldUpdateOperationsInput | string | null
     socialLinks?: NullableJsonNullValueInput | InputJsonValue
     preferences?: NullableJsonNullValueInput | InputJsonValue
     lastLoginAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
@@ -134411,6 +134472,7 @@ export namespace Prisma {
     bio?: string | null
     location?: string | null
     website?: string | null
+    phone?: string | null
     socialLinks?: NullableJsonNullValueInput | InputJsonValue
     preferences?: NullableJsonNullValueInput | InputJsonValue
     lastLoginAt?: Date | string | null
@@ -134478,6 +134540,7 @@ export namespace Prisma {
     bio?: string | null
     location?: string | null
     website?: string | null
+    phone?: string | null
     socialLinks?: NullableJsonNullValueInput | InputJsonValue
     preferences?: NullableJsonNullValueInput | InputJsonValue
     lastLoginAt?: Date | string | null
@@ -134624,6 +134687,7 @@ export namespace Prisma {
     bio?: NullableStringFieldUpdateOperationsInput | string | null
     location?: NullableStringFieldUpdateOperationsInput | string | null
     website?: NullableStringFieldUpdateOperationsInput | string | null
+    phone?: NullableStringFieldUpdateOperationsInput | string | null
     socialLinks?: NullableJsonNullValueInput | InputJsonValue
     preferences?: NullableJsonNullValueInput | InputJsonValue
     lastLoginAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
@@ -134691,6 +134755,7 @@ export namespace Prisma {
     bio?: NullableStringFieldUpdateOperationsInput | string | null
     location?: NullableStringFieldUpdateOperationsInput | string | null
     website?: NullableStringFieldUpdateOperationsInput | string | null
+    phone?: NullableStringFieldUpdateOperationsInput | string | null
     socialLinks?: NullableJsonNullValueInput | InputJsonValue
     preferences?: NullableJsonNullValueInput | InputJsonValue
     lastLoginAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
@@ -135877,6 +135942,7 @@ export namespace Prisma {
     bio?: string | null
     location?: string | null
     website?: string | null
+    phone?: string | null
     socialLinks?: NullableJsonNullValueInput | InputJsonValue
     preferences?: NullableJsonNullValueInput | InputJsonValue
     lastLoginAt?: Date | string | null
@@ -135944,6 +136010,7 @@ export namespace Prisma {
     bio?: string | null
     location?: string | null
     website?: string | null
+    phone?: string | null
     socialLinks?: NullableJsonNullValueInput | InputJsonValue
     preferences?: NullableJsonNullValueInput | InputJsonValue
     lastLoginAt?: Date | string | null
@@ -136150,6 +136217,7 @@ export namespace Prisma {
     bio?: NullableStringFieldUpdateOperationsInput | string | null
     location?: NullableStringFieldUpdateOperationsInput | string | null
     website?: NullableStringFieldUpdateOperationsInput | string | null
+    phone?: NullableStringFieldUpdateOperationsInput | string | null
     socialLinks?: NullableJsonNullValueInput | InputJsonValue
     preferences?: NullableJsonNullValueInput | InputJsonValue
     lastLoginAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
@@ -136217,6 +136285,7 @@ export namespace Prisma {
     bio?: NullableStringFieldUpdateOperationsInput | string | null
     location?: NullableStringFieldUpdateOperationsInput | string | null
     website?: NullableStringFieldUpdateOperationsInput | string | null
+    phone?: NullableStringFieldUpdateOperationsInput | string | null
     socialLinks?: NullableJsonNullValueInput | InputJsonValue
     preferences?: NullableJsonNullValueInput | InputJsonValue
     lastLoginAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
@@ -136413,6 +136482,7 @@ export namespace Prisma {
     bio?: string | null
     location?: string | null
     website?: string | null
+    phone?: string | null
     socialLinks?: NullableJsonNullValueInput | InputJsonValue
     preferences?: NullableJsonNullValueInput | InputJsonValue
     lastLoginAt?: Date | string | null
@@ -136480,6 +136550,7 @@ export namespace Prisma {
     bio?: string | null
     location?: string | null
     website?: string | null
+    phone?: string | null
     socialLinks?: NullableJsonNullValueInput | InputJsonValue
     preferences?: NullableJsonNullValueInput | InputJsonValue
     lastLoginAt?: Date | string | null
@@ -136616,6 +136687,7 @@ export namespace Prisma {
     bio?: NullableStringFieldUpdateOperationsInput | string | null
     location?: NullableStringFieldUpdateOperationsInput | string | null
     website?: NullableStringFieldUpdateOperationsInput | string | null
+    phone?: NullableStringFieldUpdateOperationsInput | string | null
     socialLinks?: NullableJsonNullValueInput | InputJsonValue
     preferences?: NullableJsonNullValueInput | InputJsonValue
     lastLoginAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
@@ -136683,6 +136755,7 @@ export namespace Prisma {
     bio?: NullableStringFieldUpdateOperationsInput | string | null
     location?: NullableStringFieldUpdateOperationsInput | string | null
     website?: NullableStringFieldUpdateOperationsInput | string | null
+    phone?: NullableStringFieldUpdateOperationsInput | string | null
     socialLinks?: NullableJsonNullValueInput | InputJsonValue
     preferences?: NullableJsonNullValueInput | InputJsonValue
     lastLoginAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
@@ -136809,6 +136882,7 @@ export namespace Prisma {
     bio?: string | null
     location?: string | null
     website?: string | null
+    phone?: string | null
     socialLinks?: NullableJsonNullValueInput | InputJsonValue
     preferences?: NullableJsonNullValueInput | InputJsonValue
     lastLoginAt?: Date | string | null
@@ -136876,6 +136950,7 @@ export namespace Prisma {
     bio?: string | null
     location?: string | null
     website?: string | null
+    phone?: string | null
     socialLinks?: NullableJsonNullValueInput | InputJsonValue
     preferences?: NullableJsonNullValueInput | InputJsonValue
     lastLoginAt?: Date | string | null
@@ -137013,6 +137088,7 @@ export namespace Prisma {
     bio?: NullableStringFieldUpdateOperationsInput | string | null
     location?: NullableStringFieldUpdateOperationsInput | string | null
     website?: NullableStringFieldUpdateOperationsInput | string | null
+    phone?: NullableStringFieldUpdateOperationsInput | string | null
     socialLinks?: NullableJsonNullValueInput | InputJsonValue
     preferences?: NullableJsonNullValueInput | InputJsonValue
     lastLoginAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
@@ -137080,6 +137156,7 @@ export namespace Prisma {
     bio?: NullableStringFieldUpdateOperationsInput | string | null
     location?: NullableStringFieldUpdateOperationsInput | string | null
     website?: NullableStringFieldUpdateOperationsInput | string | null
+    phone?: NullableStringFieldUpdateOperationsInput | string | null
     socialLinks?: NullableJsonNullValueInput | InputJsonValue
     preferences?: NullableJsonNullValueInput | InputJsonValue
     lastLoginAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
@@ -137233,6 +137310,7 @@ export namespace Prisma {
     bio?: string | null
     location?: string | null
     website?: string | null
+    phone?: string | null
     socialLinks?: NullableJsonNullValueInput | InputJsonValue
     preferences?: NullableJsonNullValueInput | InputJsonValue
     lastLoginAt?: Date | string | null
@@ -137300,6 +137378,7 @@ export namespace Prisma {
     bio?: string | null
     location?: string | null
     website?: string | null
+    phone?: string | null
     socialLinks?: NullableJsonNullValueInput | InputJsonValue
     preferences?: NullableJsonNullValueInput | InputJsonValue
     lastLoginAt?: Date | string | null
@@ -137455,6 +137534,7 @@ export namespace Prisma {
     bio?: NullableStringFieldUpdateOperationsInput | string | null
     location?: NullableStringFieldUpdateOperationsInput | string | null
     website?: NullableStringFieldUpdateOperationsInput | string | null
+    phone?: NullableStringFieldUpdateOperationsInput | string | null
     socialLinks?: NullableJsonNullValueInput | InputJsonValue
     preferences?: NullableJsonNullValueInput | InputJsonValue
     lastLoginAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
@@ -137522,6 +137602,7 @@ export namespace Prisma {
     bio?: NullableStringFieldUpdateOperationsInput | string | null
     location?: NullableStringFieldUpdateOperationsInput | string | null
     website?: NullableStringFieldUpdateOperationsInput | string | null
+    phone?: NullableStringFieldUpdateOperationsInput | string | null
     socialLinks?: NullableJsonNullValueInput | InputJsonValue
     preferences?: NullableJsonNullValueInput | InputJsonValue
     lastLoginAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
@@ -137753,6 +137834,7 @@ export namespace Prisma {
     bio?: string | null
     location?: string | null
     website?: string | null
+    phone?: string | null
     socialLinks?: NullableJsonNullValueInput | InputJsonValue
     preferences?: NullableJsonNullValueInput | InputJsonValue
     lastLoginAt?: Date | string | null
@@ -137820,6 +137902,7 @@ export namespace Prisma {
     bio?: string | null
     location?: string | null
     website?: string | null
+    phone?: string | null
     socialLinks?: NullableJsonNullValueInput | InputJsonValue
     preferences?: NullableJsonNullValueInput | InputJsonValue
     lastLoginAt?: Date | string | null
@@ -138086,6 +138169,7 @@ export namespace Prisma {
     bio?: NullableStringFieldUpdateOperationsInput | string | null
     location?: NullableStringFieldUpdateOperationsInput | string | null
     website?: NullableStringFieldUpdateOperationsInput | string | null
+    phone?: NullableStringFieldUpdateOperationsInput | string | null
     socialLinks?: NullableJsonNullValueInput | InputJsonValue
     preferences?: NullableJsonNullValueInput | InputJsonValue
     lastLoginAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
@@ -138153,6 +138237,7 @@ export namespace Prisma {
     bio?: NullableStringFieldUpdateOperationsInput | string | null
     location?: NullableStringFieldUpdateOperationsInput | string | null
     website?: NullableStringFieldUpdateOperationsInput | string | null
+    phone?: NullableStringFieldUpdateOperationsInput | string | null
     socialLinks?: NullableJsonNullValueInput | InputJsonValue
     preferences?: NullableJsonNullValueInput | InputJsonValue
     lastLoginAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
@@ -138444,6 +138529,7 @@ export namespace Prisma {
     bio?: string | null
     location?: string | null
     website?: string | null
+    phone?: string | null
     socialLinks?: NullableJsonNullValueInput | InputJsonValue
     preferences?: NullableJsonNullValueInput | InputJsonValue
     lastLoginAt?: Date | string | null
@@ -138511,6 +138597,7 @@ export namespace Prisma {
     bio?: string | null
     location?: string | null
     website?: string | null
+    phone?: string | null
     socialLinks?: NullableJsonNullValueInput | InputJsonValue
     preferences?: NullableJsonNullValueInput | InputJsonValue
     lastLoginAt?: Date | string | null
@@ -138714,6 +138801,7 @@ export namespace Prisma {
     bio?: NullableStringFieldUpdateOperationsInput | string | null
     location?: NullableStringFieldUpdateOperationsInput | string | null
     website?: NullableStringFieldUpdateOperationsInput | string | null
+    phone?: NullableStringFieldUpdateOperationsInput | string | null
     socialLinks?: NullableJsonNullValueInput | InputJsonValue
     preferences?: NullableJsonNullValueInput | InputJsonValue
     lastLoginAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
@@ -138781,6 +138869,7 @@ export namespace Prisma {
     bio?: NullableStringFieldUpdateOperationsInput | string | null
     location?: NullableStringFieldUpdateOperationsInput | string | null
     website?: NullableStringFieldUpdateOperationsInput | string | null
+    phone?: NullableStringFieldUpdateOperationsInput | string | null
     socialLinks?: NullableJsonNullValueInput | InputJsonValue
     preferences?: NullableJsonNullValueInput | InputJsonValue
     lastLoginAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
@@ -138913,6 +139002,7 @@ export namespace Prisma {
     bio?: string | null
     location?: string | null
     website?: string | null
+    phone?: string | null
     socialLinks?: NullableJsonNullValueInput | InputJsonValue
     preferences?: NullableJsonNullValueInput | InputJsonValue
     lastLoginAt?: Date | string | null
@@ -138980,6 +139070,7 @@ export namespace Prisma {
     bio?: string | null
     location?: string | null
     website?: string | null
+    phone?: string | null
     socialLinks?: NullableJsonNullValueInput | InputJsonValue
     preferences?: NullableJsonNullValueInput | InputJsonValue
     lastLoginAt?: Date | string | null
@@ -139135,6 +139226,7 @@ export namespace Prisma {
     bio?: NullableStringFieldUpdateOperationsInput | string | null
     location?: NullableStringFieldUpdateOperationsInput | string | null
     website?: NullableStringFieldUpdateOperationsInput | string | null
+    phone?: NullableStringFieldUpdateOperationsInput | string | null
     socialLinks?: NullableJsonNullValueInput | InputJsonValue
     preferences?: NullableJsonNullValueInput | InputJsonValue
     lastLoginAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
@@ -139202,6 +139294,7 @@ export namespace Prisma {
     bio?: NullableStringFieldUpdateOperationsInput | string | null
     location?: NullableStringFieldUpdateOperationsInput | string | null
     website?: NullableStringFieldUpdateOperationsInput | string | null
+    phone?: NullableStringFieldUpdateOperationsInput | string | null
     socialLinks?: NullableJsonNullValueInput | InputJsonValue
     preferences?: NullableJsonNullValueInput | InputJsonValue
     lastLoginAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
@@ -139353,6 +139446,7 @@ export namespace Prisma {
     bio?: string | null
     location?: string | null
     website?: string | null
+    phone?: string | null
     socialLinks?: NullableJsonNullValueInput | InputJsonValue
     preferences?: NullableJsonNullValueInput | InputJsonValue
     lastLoginAt?: Date | string | null
@@ -139420,6 +139514,7 @@ export namespace Prisma {
     bio?: string | null
     location?: string | null
     website?: string | null
+    phone?: string | null
     socialLinks?: NullableJsonNullValueInput | InputJsonValue
     preferences?: NullableJsonNullValueInput | InputJsonValue
     lastLoginAt?: Date | string | null
@@ -139492,6 +139587,7 @@ export namespace Prisma {
     bio?: string | null
     location?: string | null
     website?: string | null
+    phone?: string | null
     socialLinks?: NullableJsonNullValueInput | InputJsonValue
     preferences?: NullableJsonNullValueInput | InputJsonValue
     lastLoginAt?: Date | string | null
@@ -139559,6 +139655,7 @@ export namespace Prisma {
     bio?: string | null
     location?: string | null
     website?: string | null
+    phone?: string | null
     socialLinks?: NullableJsonNullValueInput | InputJsonValue
     preferences?: NullableJsonNullValueInput | InputJsonValue
     lastLoginAt?: Date | string | null
@@ -139642,6 +139739,7 @@ export namespace Prisma {
     bio?: NullableStringFieldUpdateOperationsInput | string | null
     location?: NullableStringFieldUpdateOperationsInput | string | null
     website?: NullableStringFieldUpdateOperationsInput | string | null
+    phone?: NullableStringFieldUpdateOperationsInput | string | null
     socialLinks?: NullableJsonNullValueInput | InputJsonValue
     preferences?: NullableJsonNullValueInput | InputJsonValue
     lastLoginAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
@@ -139709,6 +139807,7 @@ export namespace Prisma {
     bio?: NullableStringFieldUpdateOperationsInput | string | null
     location?: NullableStringFieldUpdateOperationsInput | string | null
     website?: NullableStringFieldUpdateOperationsInput | string | null
+    phone?: NullableStringFieldUpdateOperationsInput | string | null
     socialLinks?: NullableJsonNullValueInput | InputJsonValue
     preferences?: NullableJsonNullValueInput | InputJsonValue
     lastLoginAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
@@ -139787,6 +139886,7 @@ export namespace Prisma {
     bio?: NullableStringFieldUpdateOperationsInput | string | null
     location?: NullableStringFieldUpdateOperationsInput | string | null
     website?: NullableStringFieldUpdateOperationsInput | string | null
+    phone?: NullableStringFieldUpdateOperationsInput | string | null
     socialLinks?: NullableJsonNullValueInput | InputJsonValue
     preferences?: NullableJsonNullValueInput | InputJsonValue
     lastLoginAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
@@ -139854,6 +139954,7 @@ export namespace Prisma {
     bio?: NullableStringFieldUpdateOperationsInput | string | null
     location?: NullableStringFieldUpdateOperationsInput | string | null
     website?: NullableStringFieldUpdateOperationsInput | string | null
+    phone?: NullableStringFieldUpdateOperationsInput | string | null
     socialLinks?: NullableJsonNullValueInput | InputJsonValue
     preferences?: NullableJsonNullValueInput | InputJsonValue
     lastLoginAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
@@ -140015,6 +140116,7 @@ export namespace Prisma {
     bio?: string | null
     location?: string | null
     website?: string | null
+    phone?: string | null
     socialLinks?: NullableJsonNullValueInput | InputJsonValue
     preferences?: NullableJsonNullValueInput | InputJsonValue
     lastLoginAt?: Date | string | null
@@ -140082,6 +140184,7 @@ export namespace Prisma {
     bio?: string | null
     location?: string | null
     website?: string | null
+    phone?: string | null
     socialLinks?: NullableJsonNullValueInput | InputJsonValue
     preferences?: NullableJsonNullValueInput | InputJsonValue
     lastLoginAt?: Date | string | null
@@ -140511,6 +140614,7 @@ export namespace Prisma {
     bio?: NullableStringFieldUpdateOperationsInput | string | null
     location?: NullableStringFieldUpdateOperationsInput | string | null
     website?: NullableStringFieldUpdateOperationsInput | string | null
+    phone?: NullableStringFieldUpdateOperationsInput | string | null
     socialLinks?: NullableJsonNullValueInput | InputJsonValue
     preferences?: NullableJsonNullValueInput | InputJsonValue
     lastLoginAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
@@ -140578,6 +140682,7 @@ export namespace Prisma {
     bio?: NullableStringFieldUpdateOperationsInput | string | null
     location?: NullableStringFieldUpdateOperationsInput | string | null
     website?: NullableStringFieldUpdateOperationsInput | string | null
+    phone?: NullableStringFieldUpdateOperationsInput | string | null
     socialLinks?: NullableJsonNullValueInput | InputJsonValue
     preferences?: NullableJsonNullValueInput | InputJsonValue
     lastLoginAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
@@ -140766,6 +140871,7 @@ export namespace Prisma {
     bio?: string | null
     location?: string | null
     website?: string | null
+    phone?: string | null
     socialLinks?: NullableJsonNullValueInput | InputJsonValue
     preferences?: NullableJsonNullValueInput | InputJsonValue
     lastLoginAt?: Date | string | null
@@ -140833,6 +140939,7 @@ export namespace Prisma {
     bio?: string | null
     location?: string | null
     website?: string | null
+    phone?: string | null
     socialLinks?: NullableJsonNullValueInput | InputJsonValue
     preferences?: NullableJsonNullValueInput | InputJsonValue
     lastLoginAt?: Date | string | null
@@ -141005,6 +141112,7 @@ export namespace Prisma {
     bio?: NullableStringFieldUpdateOperationsInput | string | null
     location?: NullableStringFieldUpdateOperationsInput | string | null
     website?: NullableStringFieldUpdateOperationsInput | string | null
+    phone?: NullableStringFieldUpdateOperationsInput | string | null
     socialLinks?: NullableJsonNullValueInput | InputJsonValue
     preferences?: NullableJsonNullValueInput | InputJsonValue
     lastLoginAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
@@ -141072,6 +141180,7 @@ export namespace Prisma {
     bio?: NullableStringFieldUpdateOperationsInput | string | null
     location?: NullableStringFieldUpdateOperationsInput | string | null
     website?: NullableStringFieldUpdateOperationsInput | string | null
+    phone?: NullableStringFieldUpdateOperationsInput | string | null
     socialLinks?: NullableJsonNullValueInput | InputJsonValue
     preferences?: NullableJsonNullValueInput | InputJsonValue
     lastLoginAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
@@ -141234,6 +141343,7 @@ export namespace Prisma {
     bio?: string | null
     location?: string | null
     website?: string | null
+    phone?: string | null
     socialLinks?: NullableJsonNullValueInput | InputJsonValue
     preferences?: NullableJsonNullValueInput | InputJsonValue
     lastLoginAt?: Date | string | null
@@ -141301,6 +141411,7 @@ export namespace Prisma {
     bio?: string | null
     location?: string | null
     website?: string | null
+    phone?: string | null
     socialLinks?: NullableJsonNullValueInput | InputJsonValue
     preferences?: NullableJsonNullValueInput | InputJsonValue
     lastLoginAt?: Date | string | null
@@ -141535,6 +141646,7 @@ export namespace Prisma {
     bio?: NullableStringFieldUpdateOperationsInput | string | null
     location?: NullableStringFieldUpdateOperationsInput | string | null
     website?: NullableStringFieldUpdateOperationsInput | string | null
+    phone?: NullableStringFieldUpdateOperationsInput | string | null
     socialLinks?: NullableJsonNullValueInput | InputJsonValue
     preferences?: NullableJsonNullValueInput | InputJsonValue
     lastLoginAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
@@ -141602,6 +141714,7 @@ export namespace Prisma {
     bio?: NullableStringFieldUpdateOperationsInput | string | null
     location?: NullableStringFieldUpdateOperationsInput | string | null
     website?: NullableStringFieldUpdateOperationsInput | string | null
+    phone?: NullableStringFieldUpdateOperationsInput | string | null
     socialLinks?: NullableJsonNullValueInput | InputJsonValue
     preferences?: NullableJsonNullValueInput | InputJsonValue
     lastLoginAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
@@ -141863,6 +141976,7 @@ export namespace Prisma {
     bio?: string | null
     location?: string | null
     website?: string | null
+    phone?: string | null
     socialLinks?: NullableJsonNullValueInput | InputJsonValue
     preferences?: NullableJsonNullValueInput | InputJsonValue
     lastLoginAt?: Date | string | null
@@ -141930,6 +142044,7 @@ export namespace Prisma {
     bio?: string | null
     location?: string | null
     website?: string | null
+    phone?: string | null
     socialLinks?: NullableJsonNullValueInput | InputJsonValue
     preferences?: NullableJsonNullValueInput | InputJsonValue
     lastLoginAt?: Date | string | null
@@ -142143,6 +142258,7 @@ export namespace Prisma {
     bio?: NullableStringFieldUpdateOperationsInput | string | null
     location?: NullableStringFieldUpdateOperationsInput | string | null
     website?: NullableStringFieldUpdateOperationsInput | string | null
+    phone?: NullableStringFieldUpdateOperationsInput | string | null
     socialLinks?: NullableJsonNullValueInput | InputJsonValue
     preferences?: NullableJsonNullValueInput | InputJsonValue
     lastLoginAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
@@ -142210,6 +142326,7 @@ export namespace Prisma {
     bio?: NullableStringFieldUpdateOperationsInput | string | null
     location?: NullableStringFieldUpdateOperationsInput | string | null
     website?: NullableStringFieldUpdateOperationsInput | string | null
+    phone?: NullableStringFieldUpdateOperationsInput | string | null
     socialLinks?: NullableJsonNullValueInput | InputJsonValue
     preferences?: NullableJsonNullValueInput | InputJsonValue
     lastLoginAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
@@ -142350,6 +142467,7 @@ export namespace Prisma {
     bio?: string | null
     location?: string | null
     website?: string | null
+    phone?: string | null
     socialLinks?: NullableJsonNullValueInput | InputJsonValue
     preferences?: NullableJsonNullValueInput | InputJsonValue
     lastLoginAt?: Date | string | null
@@ -142417,6 +142535,7 @@ export namespace Prisma {
     bio?: string | null
     location?: string | null
     website?: string | null
+    phone?: string | null
     socialLinks?: NullableJsonNullValueInput | InputJsonValue
     preferences?: NullableJsonNullValueInput | InputJsonValue
     lastLoginAt?: Date | string | null
@@ -142582,6 +142701,7 @@ export namespace Prisma {
     bio?: NullableStringFieldUpdateOperationsInput | string | null
     location?: NullableStringFieldUpdateOperationsInput | string | null
     website?: NullableStringFieldUpdateOperationsInput | string | null
+    phone?: NullableStringFieldUpdateOperationsInput | string | null
     socialLinks?: NullableJsonNullValueInput | InputJsonValue
     preferences?: NullableJsonNullValueInput | InputJsonValue
     lastLoginAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
@@ -142649,6 +142769,7 @@ export namespace Prisma {
     bio?: NullableStringFieldUpdateOperationsInput | string | null
     location?: NullableStringFieldUpdateOperationsInput | string | null
     website?: NullableStringFieldUpdateOperationsInput | string | null
+    phone?: NullableStringFieldUpdateOperationsInput | string | null
     socialLinks?: NullableJsonNullValueInput | InputJsonValue
     preferences?: NullableJsonNullValueInput | InputJsonValue
     lastLoginAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
@@ -142810,6 +142931,7 @@ export namespace Prisma {
     bio?: string | null
     location?: string | null
     website?: string | null
+    phone?: string | null
     socialLinks?: NullableJsonNullValueInput | InputJsonValue
     preferences?: NullableJsonNullValueInput | InputJsonValue
     lastLoginAt?: Date | string | null
@@ -142877,6 +142999,7 @@ export namespace Prisma {
     bio?: string | null
     location?: string | null
     website?: string | null
+    phone?: string | null
     socialLinks?: NullableJsonNullValueInput | InputJsonValue
     preferences?: NullableJsonNullValueInput | InputJsonValue
     lastLoginAt?: Date | string | null
@@ -143073,6 +143196,7 @@ export namespace Prisma {
     bio?: NullableStringFieldUpdateOperationsInput | string | null
     location?: NullableStringFieldUpdateOperationsInput | string | null
     website?: NullableStringFieldUpdateOperationsInput | string | null
+    phone?: NullableStringFieldUpdateOperationsInput | string | null
     socialLinks?: NullableJsonNullValueInput | InputJsonValue
     preferences?: NullableJsonNullValueInput | InputJsonValue
     lastLoginAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
@@ -143140,6 +143264,7 @@ export namespace Prisma {
     bio?: NullableStringFieldUpdateOperationsInput | string | null
     location?: NullableStringFieldUpdateOperationsInput | string | null
     website?: NullableStringFieldUpdateOperationsInput | string | null
+    phone?: NullableStringFieldUpdateOperationsInput | string | null
     socialLinks?: NullableJsonNullValueInput | InputJsonValue
     preferences?: NullableJsonNullValueInput | InputJsonValue
     lastLoginAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
@@ -143318,6 +143443,7 @@ export namespace Prisma {
     bio?: string | null
     location?: string | null
     website?: string | null
+    phone?: string | null
     socialLinks?: NullableJsonNullValueInput | InputJsonValue
     preferences?: NullableJsonNullValueInput | InputJsonValue
     lastLoginAt?: Date | string | null
@@ -143385,6 +143511,7 @@ export namespace Prisma {
     bio?: string | null
     location?: string | null
     website?: string | null
+    phone?: string | null
     socialLinks?: NullableJsonNullValueInput | InputJsonValue
     preferences?: NullableJsonNullValueInput | InputJsonValue
     lastLoginAt?: Date | string | null
@@ -143515,6 +143642,7 @@ export namespace Prisma {
     bio?: NullableStringFieldUpdateOperationsInput | string | null
     location?: NullableStringFieldUpdateOperationsInput | string | null
     website?: NullableStringFieldUpdateOperationsInput | string | null
+    phone?: NullableStringFieldUpdateOperationsInput | string | null
     socialLinks?: NullableJsonNullValueInput | InputJsonValue
     preferences?: NullableJsonNullValueInput | InputJsonValue
     lastLoginAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
@@ -143582,6 +143710,7 @@ export namespace Prisma {
     bio?: NullableStringFieldUpdateOperationsInput | string | null
     location?: NullableStringFieldUpdateOperationsInput | string | null
     website?: NullableStringFieldUpdateOperationsInput | string | null
+    phone?: NullableStringFieldUpdateOperationsInput | string | null
     socialLinks?: NullableJsonNullValueInput | InputJsonValue
     preferences?: NullableJsonNullValueInput | InputJsonValue
     lastLoginAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
@@ -143702,6 +143831,7 @@ export namespace Prisma {
     bio?: string | null
     location?: string | null
     website?: string | null
+    phone?: string | null
     socialLinks?: NullableJsonNullValueInput | InputJsonValue
     preferences?: NullableJsonNullValueInput | InputJsonValue
     lastLoginAt?: Date | string | null
@@ -143769,6 +143899,7 @@ export namespace Prisma {
     bio?: string | null
     location?: string | null
     website?: string | null
+    phone?: string | null
     socialLinks?: NullableJsonNullValueInput | InputJsonValue
     preferences?: NullableJsonNullValueInput | InputJsonValue
     lastLoginAt?: Date | string | null
@@ -143965,6 +144096,7 @@ export namespace Prisma {
     bio?: NullableStringFieldUpdateOperationsInput | string | null
     location?: NullableStringFieldUpdateOperationsInput | string | null
     website?: NullableStringFieldUpdateOperationsInput | string | null
+    phone?: NullableStringFieldUpdateOperationsInput | string | null
     socialLinks?: NullableJsonNullValueInput | InputJsonValue
     preferences?: NullableJsonNullValueInput | InputJsonValue
     lastLoginAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
@@ -144032,6 +144164,7 @@ export namespace Prisma {
     bio?: NullableStringFieldUpdateOperationsInput | string | null
     location?: NullableStringFieldUpdateOperationsInput | string | null
     website?: NullableStringFieldUpdateOperationsInput | string | null
+    phone?: NullableStringFieldUpdateOperationsInput | string | null
     socialLinks?: NullableJsonNullValueInput | InputJsonValue
     preferences?: NullableJsonNullValueInput | InputJsonValue
     lastLoginAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
@@ -144210,6 +144343,7 @@ export namespace Prisma {
     bio?: string | null
     location?: string | null
     website?: string | null
+    phone?: string | null
     socialLinks?: NullableJsonNullValueInput | InputJsonValue
     preferences?: NullableJsonNullValueInput | InputJsonValue
     lastLoginAt?: Date | string | null
@@ -144277,6 +144411,7 @@ export namespace Prisma {
     bio?: string | null
     location?: string | null
     website?: string | null
+    phone?: string | null
     socialLinks?: NullableJsonNullValueInput | InputJsonValue
     preferences?: NullableJsonNullValueInput | InputJsonValue
     lastLoginAt?: Date | string | null
@@ -144395,6 +144530,7 @@ export namespace Prisma {
     bio?: NullableStringFieldUpdateOperationsInput | string | null
     location?: NullableStringFieldUpdateOperationsInput | string | null
     website?: NullableStringFieldUpdateOperationsInput | string | null
+    phone?: NullableStringFieldUpdateOperationsInput | string | null
     socialLinks?: NullableJsonNullValueInput | InputJsonValue
     preferences?: NullableJsonNullValueInput | InputJsonValue
     lastLoginAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
@@ -144462,6 +144598,7 @@ export namespace Prisma {
     bio?: NullableStringFieldUpdateOperationsInput | string | null
     location?: NullableStringFieldUpdateOperationsInput | string | null
     website?: NullableStringFieldUpdateOperationsInput | string | null
+    phone?: NullableStringFieldUpdateOperationsInput | string | null
     socialLinks?: NullableJsonNullValueInput | InputJsonValue
     preferences?: NullableJsonNullValueInput | InputJsonValue
     lastLoginAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
@@ -145061,6 +145198,7 @@ export namespace Prisma {
     bio?: string | null
     location?: string | null
     website?: string | null
+    phone?: string | null
     socialLinks?: NullableJsonNullValueInput | InputJsonValue
     preferences?: NullableJsonNullValueInput | InputJsonValue
     lastLoginAt?: Date | string | null
@@ -145128,6 +145266,7 @@ export namespace Prisma {
     bio?: string | null
     location?: string | null
     website?: string | null
+    phone?: string | null
     socialLinks?: NullableJsonNullValueInput | InputJsonValue
     preferences?: NullableJsonNullValueInput | InputJsonValue
     lastLoginAt?: Date | string | null
@@ -145364,6 +145503,7 @@ export namespace Prisma {
     bio?: NullableStringFieldUpdateOperationsInput | string | null
     location?: NullableStringFieldUpdateOperationsInput | string | null
     website?: NullableStringFieldUpdateOperationsInput | string | null
+    phone?: NullableStringFieldUpdateOperationsInput | string | null
     socialLinks?: NullableJsonNullValueInput | InputJsonValue
     preferences?: NullableJsonNullValueInput | InputJsonValue
     lastLoginAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
@@ -145431,6 +145571,7 @@ export namespace Prisma {
     bio?: NullableStringFieldUpdateOperationsInput | string | null
     location?: NullableStringFieldUpdateOperationsInput | string | null
     website?: NullableStringFieldUpdateOperationsInput | string | null
+    phone?: NullableStringFieldUpdateOperationsInput | string | null
     socialLinks?: NullableJsonNullValueInput | InputJsonValue
     preferences?: NullableJsonNullValueInput | InputJsonValue
     lastLoginAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
@@ -145514,6 +145655,7 @@ export namespace Prisma {
     bio?: string | null
     location?: string | null
     website?: string | null
+    phone?: string | null
     socialLinks?: NullableJsonNullValueInput | InputJsonValue
     preferences?: NullableJsonNullValueInput | InputJsonValue
     lastLoginAt?: Date | string | null
@@ -145581,6 +145723,7 @@ export namespace Prisma {
     bio?: string | null
     location?: string | null
     website?: string | null
+    phone?: string | null
     socialLinks?: NullableJsonNullValueInput | InputJsonValue
     preferences?: NullableJsonNullValueInput | InputJsonValue
     lastLoginAt?: Date | string | null
@@ -145705,6 +145848,7 @@ export namespace Prisma {
     bio?: NullableStringFieldUpdateOperationsInput | string | null
     location?: NullableStringFieldUpdateOperationsInput | string | null
     website?: NullableStringFieldUpdateOperationsInput | string | null
+    phone?: NullableStringFieldUpdateOperationsInput | string | null
     socialLinks?: NullableJsonNullValueInput | InputJsonValue
     preferences?: NullableJsonNullValueInput | InputJsonValue
     lastLoginAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
@@ -145772,6 +145916,7 @@ export namespace Prisma {
     bio?: NullableStringFieldUpdateOperationsInput | string | null
     location?: NullableStringFieldUpdateOperationsInput | string | null
     website?: NullableStringFieldUpdateOperationsInput | string | null
+    phone?: NullableStringFieldUpdateOperationsInput | string | null
     socialLinks?: NullableJsonNullValueInput | InputJsonValue
     preferences?: NullableJsonNullValueInput | InputJsonValue
     lastLoginAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
@@ -145886,6 +146031,7 @@ export namespace Prisma {
     bio?: string | null
     location?: string | null
     website?: string | null
+    phone?: string | null
     socialLinks?: NullableJsonNullValueInput | InputJsonValue
     preferences?: NullableJsonNullValueInput | InputJsonValue
     lastLoginAt?: Date | string | null
@@ -145953,6 +146099,7 @@ export namespace Prisma {
     bio?: string | null
     location?: string | null
     website?: string | null
+    phone?: string | null
     socialLinks?: NullableJsonNullValueInput | InputJsonValue
     preferences?: NullableJsonNullValueInput | InputJsonValue
     lastLoginAt?: Date | string | null
@@ -146060,6 +146207,7 @@ export namespace Prisma {
     bio?: NullableStringFieldUpdateOperationsInput | string | null
     location?: NullableStringFieldUpdateOperationsInput | string | null
     website?: NullableStringFieldUpdateOperationsInput | string | null
+    phone?: NullableStringFieldUpdateOperationsInput | string | null
     socialLinks?: NullableJsonNullValueInput | InputJsonValue
     preferences?: NullableJsonNullValueInput | InputJsonValue
     lastLoginAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
@@ -146127,6 +146275,7 @@ export namespace Prisma {
     bio?: NullableStringFieldUpdateOperationsInput | string | null
     location?: NullableStringFieldUpdateOperationsInput | string | null
     website?: NullableStringFieldUpdateOperationsInput | string | null
+    phone?: NullableStringFieldUpdateOperationsInput | string | null
     socialLinks?: NullableJsonNullValueInput | InputJsonValue
     preferences?: NullableJsonNullValueInput | InputJsonValue
     lastLoginAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
@@ -146241,6 +146390,7 @@ export namespace Prisma {
     bio?: string | null
     location?: string | null
     website?: string | null
+    phone?: string | null
     socialLinks?: NullableJsonNullValueInput | InputJsonValue
     preferences?: NullableJsonNullValueInput | InputJsonValue
     lastLoginAt?: Date | string | null
@@ -146308,6 +146458,7 @@ export namespace Prisma {
     bio?: string | null
     location?: string | null
     website?: string | null
+    phone?: string | null
     socialLinks?: NullableJsonNullValueInput | InputJsonValue
     preferences?: NullableJsonNullValueInput | InputJsonValue
     lastLoginAt?: Date | string | null
@@ -146428,6 +146579,7 @@ export namespace Prisma {
     bio?: NullableStringFieldUpdateOperationsInput | string | null
     location?: NullableStringFieldUpdateOperationsInput | string | null
     website?: NullableStringFieldUpdateOperationsInput | string | null
+    phone?: NullableStringFieldUpdateOperationsInput | string | null
     socialLinks?: NullableJsonNullValueInput | InputJsonValue
     preferences?: NullableJsonNullValueInput | InputJsonValue
     lastLoginAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
@@ -146495,6 +146647,7 @@ export namespace Prisma {
     bio?: NullableStringFieldUpdateOperationsInput | string | null
     location?: NullableStringFieldUpdateOperationsInput | string | null
     website?: NullableStringFieldUpdateOperationsInput | string | null
+    phone?: NullableStringFieldUpdateOperationsInput | string | null
     socialLinks?: NullableJsonNullValueInput | InputJsonValue
     preferences?: NullableJsonNullValueInput | InputJsonValue
     lastLoginAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
@@ -146562,6 +146715,7 @@ export namespace Prisma {
     bio?: string | null
     location?: string | null
     website?: string | null
+    phone?: string | null
     socialLinks?: NullableJsonNullValueInput | InputJsonValue
     preferences?: NullableJsonNullValueInput | InputJsonValue
     lastLoginAt?: Date | string | null
@@ -146629,6 +146783,7 @@ export namespace Prisma {
     bio?: string | null
     location?: string | null
     website?: string | null
+    phone?: string | null
     socialLinks?: NullableJsonNullValueInput | InputJsonValue
     preferences?: NullableJsonNullValueInput | InputJsonValue
     lastLoginAt?: Date | string | null
@@ -146835,6 +146990,7 @@ export namespace Prisma {
     bio?: NullableStringFieldUpdateOperationsInput | string | null
     location?: NullableStringFieldUpdateOperationsInput | string | null
     website?: NullableStringFieldUpdateOperationsInput | string | null
+    phone?: NullableStringFieldUpdateOperationsInput | string | null
     socialLinks?: NullableJsonNullValueInput | InputJsonValue
     preferences?: NullableJsonNullValueInput | InputJsonValue
     lastLoginAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
@@ -146902,6 +147058,7 @@ export namespace Prisma {
     bio?: NullableStringFieldUpdateOperationsInput | string | null
     location?: NullableStringFieldUpdateOperationsInput | string | null
     website?: NullableStringFieldUpdateOperationsInput | string | null
+    phone?: NullableStringFieldUpdateOperationsInput | string | null
     socialLinks?: NullableJsonNullValueInput | InputJsonValue
     preferences?: NullableJsonNullValueInput | InputJsonValue
     lastLoginAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
@@ -147481,6 +147638,7 @@ export namespace Prisma {
     bio?: string | null
     location?: string | null
     website?: string | null
+    phone?: string | null
     socialLinks?: NullableJsonNullValueInput | InputJsonValue
     preferences?: NullableJsonNullValueInput | InputJsonValue
     lastLoginAt?: Date | string | null
@@ -147548,6 +147706,7 @@ export namespace Prisma {
     bio?: string | null
     location?: string | null
     website?: string | null
+    phone?: string | null
     socialLinks?: NullableJsonNullValueInput | InputJsonValue
     preferences?: NullableJsonNullValueInput | InputJsonValue
     lastLoginAt?: Date | string | null
@@ -147754,6 +147913,7 @@ export namespace Prisma {
     bio?: NullableStringFieldUpdateOperationsInput | string | null
     location?: NullableStringFieldUpdateOperationsInput | string | null
     website?: NullableStringFieldUpdateOperationsInput | string | null
+    phone?: NullableStringFieldUpdateOperationsInput | string | null
     socialLinks?: NullableJsonNullValueInput | InputJsonValue
     preferences?: NullableJsonNullValueInput | InputJsonValue
     lastLoginAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
@@ -147821,6 +147981,7 @@ export namespace Prisma {
     bio?: NullableStringFieldUpdateOperationsInput | string | null
     location?: NullableStringFieldUpdateOperationsInput | string | null
     website?: NullableStringFieldUpdateOperationsInput | string | null
+    phone?: NullableStringFieldUpdateOperationsInput | string | null
     socialLinks?: NullableJsonNullValueInput | InputJsonValue
     preferences?: NullableJsonNullValueInput | InputJsonValue
     lastLoginAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
@@ -148017,6 +148178,7 @@ export namespace Prisma {
     bio?: string | null
     location?: string | null
     website?: string | null
+    phone?: string | null
     socialLinks?: NullableJsonNullValueInput | InputJsonValue
     preferences?: NullableJsonNullValueInput | InputJsonValue
     lastLoginAt?: Date | string | null
@@ -148084,6 +148246,7 @@ export namespace Prisma {
     bio?: string | null
     location?: string | null
     website?: string | null
+    phone?: string | null
     socialLinks?: NullableJsonNullValueInput | InputJsonValue
     preferences?: NullableJsonNullValueInput | InputJsonValue
     lastLoginAt?: Date | string | null
@@ -148167,6 +148330,7 @@ export namespace Prisma {
     bio?: NullableStringFieldUpdateOperationsInput | string | null
     location?: NullableStringFieldUpdateOperationsInput | string | null
     website?: NullableStringFieldUpdateOperationsInput | string | null
+    phone?: NullableStringFieldUpdateOperationsInput | string | null
     socialLinks?: NullableJsonNullValueInput | InputJsonValue
     preferences?: NullableJsonNullValueInput | InputJsonValue
     lastLoginAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
@@ -148234,6 +148398,7 @@ export namespace Prisma {
     bio?: NullableStringFieldUpdateOperationsInput | string | null
     location?: NullableStringFieldUpdateOperationsInput | string | null
     website?: NullableStringFieldUpdateOperationsInput | string | null
+    phone?: NullableStringFieldUpdateOperationsInput | string | null
     socialLinks?: NullableJsonNullValueInput | InputJsonValue
     preferences?: NullableJsonNullValueInput | InputJsonValue
     lastLoginAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
@@ -148301,6 +148466,7 @@ export namespace Prisma {
     bio?: string | null
     location?: string | null
     website?: string | null
+    phone?: string | null
     socialLinks?: NullableJsonNullValueInput | InputJsonValue
     preferences?: NullableJsonNullValueInput | InputJsonValue
     lastLoginAt?: Date | string | null
@@ -148368,6 +148534,7 @@ export namespace Prisma {
     bio?: string | null
     location?: string | null
     website?: string | null
+    phone?: string | null
     socialLinks?: NullableJsonNullValueInput | InputJsonValue
     preferences?: NullableJsonNullValueInput | InputJsonValue
     lastLoginAt?: Date | string | null
@@ -148477,6 +148644,7 @@ export namespace Prisma {
     bio?: NullableStringFieldUpdateOperationsInput | string | null
     location?: NullableStringFieldUpdateOperationsInput | string | null
     website?: NullableStringFieldUpdateOperationsInput | string | null
+    phone?: NullableStringFieldUpdateOperationsInput | string | null
     socialLinks?: NullableJsonNullValueInput | InputJsonValue
     preferences?: NullableJsonNullValueInput | InputJsonValue
     lastLoginAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
@@ -148544,6 +148712,7 @@ export namespace Prisma {
     bio?: NullableStringFieldUpdateOperationsInput | string | null
     location?: NullableStringFieldUpdateOperationsInput | string | null
     website?: NullableStringFieldUpdateOperationsInput | string | null
+    phone?: NullableStringFieldUpdateOperationsInput | string | null
     socialLinks?: NullableJsonNullValueInput | InputJsonValue
     preferences?: NullableJsonNullValueInput | InputJsonValue
     lastLoginAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
@@ -148939,6 +149108,7 @@ export namespace Prisma {
     bio?: string | null
     location?: string | null
     website?: string | null
+    phone?: string | null
     socialLinks?: NullableJsonNullValueInput | InputJsonValue
     preferences?: NullableJsonNullValueInput | InputJsonValue
     lastLoginAt?: Date | string | null
@@ -149006,6 +149176,7 @@ export namespace Prisma {
     bio?: string | null
     location?: string | null
     website?: string | null
+    phone?: string | null
     socialLinks?: NullableJsonNullValueInput | InputJsonValue
     preferences?: NullableJsonNullValueInput | InputJsonValue
     lastLoginAt?: Date | string | null
@@ -149089,6 +149260,7 @@ export namespace Prisma {
     bio?: NullableStringFieldUpdateOperationsInput | string | null
     location?: NullableStringFieldUpdateOperationsInput | string | null
     website?: NullableStringFieldUpdateOperationsInput | string | null
+    phone?: NullableStringFieldUpdateOperationsInput | string | null
     socialLinks?: NullableJsonNullValueInput | InputJsonValue
     preferences?: NullableJsonNullValueInput | InputJsonValue
     lastLoginAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
@@ -149156,6 +149328,7 @@ export namespace Prisma {
     bio?: NullableStringFieldUpdateOperationsInput | string | null
     location?: NullableStringFieldUpdateOperationsInput | string | null
     website?: NullableStringFieldUpdateOperationsInput | string | null
+    phone?: NullableStringFieldUpdateOperationsInput | string | null
     socialLinks?: NullableJsonNullValueInput | InputJsonValue
     preferences?: NullableJsonNullValueInput | InputJsonValue
     lastLoginAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
@@ -149723,6 +149896,7 @@ export namespace Prisma {
     bio?: string | null
     location?: string | null
     website?: string | null
+    phone?: string | null
     socialLinks?: NullableJsonNullValueInput | InputJsonValue
     preferences?: NullableJsonNullValueInput | InputJsonValue
     lastLoginAt?: Date | string | null
@@ -149790,6 +149964,7 @@ export namespace Prisma {
     bio?: string | null
     location?: string | null
     website?: string | null
+    phone?: string | null
     socialLinks?: NullableJsonNullValueInput | InputJsonValue
     preferences?: NullableJsonNullValueInput | InputJsonValue
     lastLoginAt?: Date | string | null
@@ -149906,6 +150081,7 @@ export namespace Prisma {
     bio?: NullableStringFieldUpdateOperationsInput | string | null
     location?: NullableStringFieldUpdateOperationsInput | string | null
     website?: NullableStringFieldUpdateOperationsInput | string | null
+    phone?: NullableStringFieldUpdateOperationsInput | string | null
     socialLinks?: NullableJsonNullValueInput | InputJsonValue
     preferences?: NullableJsonNullValueInput | InputJsonValue
     lastLoginAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
@@ -149973,6 +150149,7 @@ export namespace Prisma {
     bio?: NullableStringFieldUpdateOperationsInput | string | null
     location?: NullableStringFieldUpdateOperationsInput | string | null
     website?: NullableStringFieldUpdateOperationsInput | string | null
+    phone?: NullableStringFieldUpdateOperationsInput | string | null
     socialLinks?: NullableJsonNullValueInput | InputJsonValue
     preferences?: NullableJsonNullValueInput | InputJsonValue
     lastLoginAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
@@ -150079,6 +150256,7 @@ export namespace Prisma {
     bio?: string | null
     location?: string | null
     website?: string | null
+    phone?: string | null
     socialLinks?: NullableJsonNullValueInput | InputJsonValue
     preferences?: NullableJsonNullValueInput | InputJsonValue
     lastLoginAt?: Date | string | null
@@ -150146,6 +150324,7 @@ export namespace Prisma {
     bio?: string | null
     location?: string | null
     website?: string | null
+    phone?: string | null
     socialLinks?: NullableJsonNullValueInput | InputJsonValue
     preferences?: NullableJsonNullValueInput | InputJsonValue
     lastLoginAt?: Date | string | null
@@ -150218,6 +150397,7 @@ export namespace Prisma {
     bio?: string | null
     location?: string | null
     website?: string | null
+    phone?: string | null
     socialLinks?: NullableJsonNullValueInput | InputJsonValue
     preferences?: NullableJsonNullValueInput | InputJsonValue
     lastLoginAt?: Date | string | null
@@ -150285,6 +150465,7 @@ export namespace Prisma {
     bio?: string | null
     location?: string | null
     website?: string | null
+    phone?: string | null
     socialLinks?: NullableJsonNullValueInput | InputJsonValue
     preferences?: NullableJsonNullValueInput | InputJsonValue
     lastLoginAt?: Date | string | null
@@ -150368,6 +150549,7 @@ export namespace Prisma {
     bio?: NullableStringFieldUpdateOperationsInput | string | null
     location?: NullableStringFieldUpdateOperationsInput | string | null
     website?: NullableStringFieldUpdateOperationsInput | string | null
+    phone?: NullableStringFieldUpdateOperationsInput | string | null
     socialLinks?: NullableJsonNullValueInput | InputJsonValue
     preferences?: NullableJsonNullValueInput | InputJsonValue
     lastLoginAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
@@ -150435,6 +150617,7 @@ export namespace Prisma {
     bio?: NullableStringFieldUpdateOperationsInput | string | null
     location?: NullableStringFieldUpdateOperationsInput | string | null
     website?: NullableStringFieldUpdateOperationsInput | string | null
+    phone?: NullableStringFieldUpdateOperationsInput | string | null
     socialLinks?: NullableJsonNullValueInput | InputJsonValue
     preferences?: NullableJsonNullValueInput | InputJsonValue
     lastLoginAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
@@ -150513,6 +150696,7 @@ export namespace Prisma {
     bio?: NullableStringFieldUpdateOperationsInput | string | null
     location?: NullableStringFieldUpdateOperationsInput | string | null
     website?: NullableStringFieldUpdateOperationsInput | string | null
+    phone?: NullableStringFieldUpdateOperationsInput | string | null
     socialLinks?: NullableJsonNullValueInput | InputJsonValue
     preferences?: NullableJsonNullValueInput | InputJsonValue
     lastLoginAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
@@ -150580,6 +150764,7 @@ export namespace Prisma {
     bio?: NullableStringFieldUpdateOperationsInput | string | null
     location?: NullableStringFieldUpdateOperationsInput | string | null
     website?: NullableStringFieldUpdateOperationsInput | string | null
+    phone?: NullableStringFieldUpdateOperationsInput | string | null
     socialLinks?: NullableJsonNullValueInput | InputJsonValue
     preferences?: NullableJsonNullValueInput | InputJsonValue
     lastLoginAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
@@ -150691,6 +150876,7 @@ export namespace Prisma {
     bio?: string | null
     location?: string | null
     website?: string | null
+    phone?: string | null
     socialLinks?: NullableJsonNullValueInput | InputJsonValue
     preferences?: NullableJsonNullValueInput | InputJsonValue
     lastLoginAt?: Date | string | null
@@ -150758,6 +150944,7 @@ export namespace Prisma {
     bio?: string | null
     location?: string | null
     website?: string | null
+    phone?: string | null
     socialLinks?: NullableJsonNullValueInput | InputJsonValue
     preferences?: NullableJsonNullValueInput | InputJsonValue
     lastLoginAt?: Date | string | null
@@ -150874,6 +151061,7 @@ export namespace Prisma {
     bio?: NullableStringFieldUpdateOperationsInput | string | null
     location?: NullableStringFieldUpdateOperationsInput | string | null
     website?: NullableStringFieldUpdateOperationsInput | string | null
+    phone?: NullableStringFieldUpdateOperationsInput | string | null
     socialLinks?: NullableJsonNullValueInput | InputJsonValue
     preferences?: NullableJsonNullValueInput | InputJsonValue
     lastLoginAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
@@ -150941,6 +151129,7 @@ export namespace Prisma {
     bio?: NullableStringFieldUpdateOperationsInput | string | null
     location?: NullableStringFieldUpdateOperationsInput | string | null
     website?: NullableStringFieldUpdateOperationsInput | string | null
+    phone?: NullableStringFieldUpdateOperationsInput | string | null
     socialLinks?: NullableJsonNullValueInput | InputJsonValue
     preferences?: NullableJsonNullValueInput | InputJsonValue
     lastLoginAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
@@ -151047,6 +151236,7 @@ export namespace Prisma {
     bio?: string | null
     location?: string | null
     website?: string | null
+    phone?: string | null
     socialLinks?: NullableJsonNullValueInput | InputJsonValue
     preferences?: NullableJsonNullValueInput | InputJsonValue
     lastLoginAt?: Date | string | null
@@ -151114,6 +151304,7 @@ export namespace Prisma {
     bio?: string | null
     location?: string | null
     website?: string | null
+    phone?: string | null
     socialLinks?: NullableJsonNullValueInput | InputJsonValue
     preferences?: NullableJsonNullValueInput | InputJsonValue
     lastLoginAt?: Date | string | null
@@ -151197,6 +151388,7 @@ export namespace Prisma {
     bio?: NullableStringFieldUpdateOperationsInput | string | null
     location?: NullableStringFieldUpdateOperationsInput | string | null
     website?: NullableStringFieldUpdateOperationsInput | string | null
+    phone?: NullableStringFieldUpdateOperationsInput | string | null
     socialLinks?: NullableJsonNullValueInput | InputJsonValue
     preferences?: NullableJsonNullValueInput | InputJsonValue
     lastLoginAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
@@ -151264,6 +151456,7 @@ export namespace Prisma {
     bio?: NullableStringFieldUpdateOperationsInput | string | null
     location?: NullableStringFieldUpdateOperationsInput | string | null
     website?: NullableStringFieldUpdateOperationsInput | string | null
+    phone?: NullableStringFieldUpdateOperationsInput | string | null
     socialLinks?: NullableJsonNullValueInput | InputJsonValue
     preferences?: NullableJsonNullValueInput | InputJsonValue
     lastLoginAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
@@ -151377,6 +151570,7 @@ export namespace Prisma {
     bio?: string | null
     location?: string | null
     website?: string | null
+    phone?: string | null
     socialLinks?: NullableJsonNullValueInput | InputJsonValue
     preferences?: NullableJsonNullValueInput | InputJsonValue
     lastLoginAt?: Date | string | null
@@ -151444,6 +151638,7 @@ export namespace Prisma {
     bio?: string | null
     location?: string | null
     website?: string | null
+    phone?: string | null
     socialLinks?: NullableJsonNullValueInput | InputJsonValue
     preferences?: NullableJsonNullValueInput | InputJsonValue
     lastLoginAt?: Date | string | null
@@ -151558,6 +151753,7 @@ export namespace Prisma {
     bio?: NullableStringFieldUpdateOperationsInput | string | null
     location?: NullableStringFieldUpdateOperationsInput | string | null
     website?: NullableStringFieldUpdateOperationsInput | string | null
+    phone?: NullableStringFieldUpdateOperationsInput | string | null
     socialLinks?: NullableJsonNullValueInput | InputJsonValue
     preferences?: NullableJsonNullValueInput | InputJsonValue
     lastLoginAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
@@ -151625,6 +151821,7 @@ export namespace Prisma {
     bio?: NullableStringFieldUpdateOperationsInput | string | null
     location?: NullableStringFieldUpdateOperationsInput | string | null
     website?: NullableStringFieldUpdateOperationsInput | string | null
+    phone?: NullableStringFieldUpdateOperationsInput | string | null
     socialLinks?: NullableJsonNullValueInput | InputJsonValue
     preferences?: NullableJsonNullValueInput | InputJsonValue
     lastLoginAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
@@ -151767,6 +151964,7 @@ export namespace Prisma {
     bio?: string | null
     location?: string | null
     website?: string | null
+    phone?: string | null
     socialLinks?: NullableJsonNullValueInput | InputJsonValue
     preferences?: NullableJsonNullValueInput | InputJsonValue
     lastLoginAt?: Date | string | null
@@ -151834,6 +152032,7 @@ export namespace Prisma {
     bio?: string | null
     location?: string | null
     website?: string | null
+    phone?: string | null
     socialLinks?: NullableJsonNullValueInput | InputJsonValue
     preferences?: NullableJsonNullValueInput | InputJsonValue
     lastLoginAt?: Date | string | null
@@ -151944,6 +152143,7 @@ export namespace Prisma {
     bio?: NullableStringFieldUpdateOperationsInput | string | null
     location?: NullableStringFieldUpdateOperationsInput | string | null
     website?: NullableStringFieldUpdateOperationsInput | string | null
+    phone?: NullableStringFieldUpdateOperationsInput | string | null
     socialLinks?: NullableJsonNullValueInput | InputJsonValue
     preferences?: NullableJsonNullValueInput | InputJsonValue
     lastLoginAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
@@ -152011,6 +152211,7 @@ export namespace Prisma {
     bio?: NullableStringFieldUpdateOperationsInput | string | null
     location?: NullableStringFieldUpdateOperationsInput | string | null
     website?: NullableStringFieldUpdateOperationsInput | string | null
+    phone?: NullableStringFieldUpdateOperationsInput | string | null
     socialLinks?: NullableJsonNullValueInput | InputJsonValue
     preferences?: NullableJsonNullValueInput | InputJsonValue
     lastLoginAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
@@ -152111,6 +152312,7 @@ export namespace Prisma {
     bio?: string | null
     location?: string | null
     website?: string | null
+    phone?: string | null
     socialLinks?: NullableJsonNullValueInput | InputJsonValue
     preferences?: NullableJsonNullValueInput | InputJsonValue
     lastLoginAt?: Date | string | null
@@ -152178,6 +152380,7 @@ export namespace Prisma {
     bio?: string | null
     location?: string | null
     website?: string | null
+    phone?: string | null
     socialLinks?: NullableJsonNullValueInput | InputJsonValue
     preferences?: NullableJsonNullValueInput | InputJsonValue
     lastLoginAt?: Date | string | null
@@ -152437,6 +152640,7 @@ export namespace Prisma {
     bio?: NullableStringFieldUpdateOperationsInput | string | null
     location?: NullableStringFieldUpdateOperationsInput | string | null
     website?: NullableStringFieldUpdateOperationsInput | string | null
+    phone?: NullableStringFieldUpdateOperationsInput | string | null
     socialLinks?: NullableJsonNullValueInput | InputJsonValue
     preferences?: NullableJsonNullValueInput | InputJsonValue
     lastLoginAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
@@ -152504,6 +152708,7 @@ export namespace Prisma {
     bio?: NullableStringFieldUpdateOperationsInput | string | null
     location?: NullableStringFieldUpdateOperationsInput | string | null
     website?: NullableStringFieldUpdateOperationsInput | string | null
+    phone?: NullableStringFieldUpdateOperationsInput | string | null
     socialLinks?: NullableJsonNullValueInput | InputJsonValue
     preferences?: NullableJsonNullValueInput | InputJsonValue
     lastLoginAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
@@ -152759,6 +152964,7 @@ export namespace Prisma {
     bio?: string | null
     location?: string | null
     website?: string | null
+    phone?: string | null
     socialLinks?: NullableJsonNullValueInput | InputJsonValue
     preferences?: NullableJsonNullValueInput | InputJsonValue
     lastLoginAt?: Date | string | null
@@ -152826,6 +153032,7 @@ export namespace Prisma {
     bio?: string | null
     location?: string | null
     website?: string | null
+    phone?: string | null
     socialLinks?: NullableJsonNullValueInput | InputJsonValue
     preferences?: NullableJsonNullValueInput | InputJsonValue
     lastLoginAt?: Date | string | null
@@ -153032,6 +153239,7 @@ export namespace Prisma {
     bio?: NullableStringFieldUpdateOperationsInput | string | null
     location?: NullableStringFieldUpdateOperationsInput | string | null
     website?: NullableStringFieldUpdateOperationsInput | string | null
+    phone?: NullableStringFieldUpdateOperationsInput | string | null
     socialLinks?: NullableJsonNullValueInput | InputJsonValue
     preferences?: NullableJsonNullValueInput | InputJsonValue
     lastLoginAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
@@ -153099,6 +153307,7 @@ export namespace Prisma {
     bio?: NullableStringFieldUpdateOperationsInput | string | null
     location?: NullableStringFieldUpdateOperationsInput | string | null
     website?: NullableStringFieldUpdateOperationsInput | string | null
+    phone?: NullableStringFieldUpdateOperationsInput | string | null
     socialLinks?: NullableJsonNullValueInput | InputJsonValue
     preferences?: NullableJsonNullValueInput | InputJsonValue
     lastLoginAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null

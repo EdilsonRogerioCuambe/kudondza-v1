@@ -29,6 +29,7 @@ model User {
   bio           String?       @db.Text
   location      String?
   website       String?
+  phone         String?
   socialLinks   Json? // Links para redes sociais (Twitter, LinkedIn, etc)
   preferences   Json?
   playlists     Playlist[]
