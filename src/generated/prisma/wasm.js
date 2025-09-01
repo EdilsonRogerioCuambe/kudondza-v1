@@ -805,6 +805,7 @@ exports.Prisma.QuizScalarFieldEnum = {
   shuffleQuestions: 'shuffleQuestions',
   showResults: 'showResults',
   xpReward: 'xpReward',
+  allowedQuestionTypes: 'allowedQuestionTypes',
   createdAt: 'createdAt',
   updatedAt: 'updatedAt',
   moduleId: 'moduleId'

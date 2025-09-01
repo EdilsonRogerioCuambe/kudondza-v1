@@ -68757,6 +68757,7 @@ export namespace Prisma {
     shuffleQuestions: number
     showResults: number
     xpReward: number
+    allowedQuestionTypes: number
     createdAt: number
     updatedAt: number
     moduleId: number
@@ -68823,6 +68824,7 @@ export namespace Prisma {
     shuffleQuestions?: true
     showResults?: true
     xpReward?: true
+    allowedQuestionTypes?: true
     createdAt?: true
     updatedAt?: true
     moduleId?: true
@@ -68926,6 +68928,7 @@ export namespace Prisma {
     shuffleQuestions: boolean
     showResults: boolean
     xpReward: number
+    allowedQuestionTypes: JsonValue
     createdAt: Date
     updatedAt: Date
     moduleId: string
@@ -68961,6 +68964,7 @@ export namespace Prisma {
     shuffleQuestions?: boolean
     showResults?: boolean
     xpReward?: boolean
+    allowedQuestionTypes?: boolean
     createdAt?: boolean
     updatedAt?: boolean
     moduleId?: boolean
@@ -68981,6 +68985,7 @@ export namespace Prisma {
     shuffleQuestions?: boolean
     showResults?: boolean
     xpReward?: boolean
+    allowedQuestionTypes?: boolean
     createdAt?: boolean
     updatedAt?: boolean
     moduleId?: boolean
@@ -68998,6 +69003,7 @@ export namespace Prisma {
     shuffleQuestions?: boolean
     showResults?: boolean
     xpReward?: boolean
+    allowedQuestionTypes?: boolean
     createdAt?: boolean
     updatedAt?: boolean
     moduleId?: boolean
@@ -69015,12 +69021,13 @@ export namespace Prisma {
     shuffleQuestions?: boolean
     showResults?: boolean
     xpReward?: boolean
+    allowedQuestionTypes?: boolean
     createdAt?: boolean
     updatedAt?: boolean
     moduleId?: boolean
   }
 
-  export type QuizOmit<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetOmit<"id" | "title" | "description" | "order" | "timeLimit" | "passingScore" | "maxAttempts" | "shuffleQuestions" | "showResults" | "xpReward" | "createdAt" | "updatedAt" | "moduleId", ExtArgs["result"]["quiz"]>
+  export type QuizOmit<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetOmit<"id" | "title" | "description" | "order" | "timeLimit" | "passingScore" | "maxAttempts" | "shuffleQuestions" | "showResults" | "xpReward" | "allowedQuestionTypes" | "createdAt" | "updatedAt" | "moduleId", ExtArgs["result"]["quiz"]>
   export type QuizInclude<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
     module?: boolean | ModuleDefaultArgs<ExtArgs>
     questions?: boolean | Quiz$questionsArgs<ExtArgs>
@@ -69052,6 +69059,7 @@ export namespace Prisma {
       shuffleQuestions: boolean
       showResults: boolean
       xpReward: number
+      allowedQuestionTypes: Prisma.JsonValue
       createdAt: Date
       updatedAt: Date
       moduleId: string
@@ -69491,6 +69499,7 @@ export namespace Prisma {
     readonly shuffleQuestions: FieldRef<"Quiz", 'Boolean'>
     readonly showResults: FieldRef<"Quiz", 'Boolean'>
     readonly xpReward: FieldRef<"Quiz", 'Int'>
+    readonly allowedQuestionTypes: FieldRef<"Quiz", 'Json'>
     readonly createdAt: FieldRef<"Quiz", 'DateTime'>
     readonly updatedAt: FieldRef<"Quiz", 'DateTime'>
     readonly moduleId: FieldRef<"Quiz", 'String'>
@@ -96213,6 +96222,7 @@ export namespace Prisma {
     shuffleQuestions: 'shuffleQuestions',
     showResults: 'showResults',
     xpReward: 'xpReward',
+    allowedQuestionTypes: 'allowedQuestionTypes',
     createdAt: 'createdAt',
     updatedAt: 'updatedAt',
     moduleId: 'moduleId'
@@ -101824,6 +101834,7 @@ export namespace Prisma {
     shuffleQuestions?: BoolFilter<"Quiz"> | boolean
     showResults?: BoolFilter<"Quiz"> | boolean
     xpReward?: IntFilter<"Quiz"> | number
+    allowedQuestionTypes?: JsonFilter<"Quiz">
     createdAt?: DateTimeFilter<"Quiz"> | Date | string
     updatedAt?: DateTimeFilter<"Quiz"> | Date | string
     moduleId?: StringFilter<"Quiz"> | string
@@ -101843,6 +101854,7 @@ export namespace Prisma {
     shuffleQuestions?: SortOrder
     showResults?: SortOrder
     xpReward?: SortOrder
+    allowedQuestionTypes?: SortOrder
     createdAt?: SortOrder
     updatedAt?: SortOrder
     moduleId?: SortOrder
@@ -101865,6 +101877,7 @@ export namespace Prisma {
     shuffleQuestions?: BoolFilter<"Quiz"> | boolean
     showResults?: BoolFilter<"Quiz"> | boolean
     xpReward?: IntFilter<"Quiz"> | number
+    allowedQuestionTypes?: JsonFilter<"Quiz">
     createdAt?: DateTimeFilter<"Quiz"> | Date | string
     updatedAt?: DateTimeFilter<"Quiz"> | Date | string
     moduleId?: StringFilter<"Quiz"> | string
@@ -101884,6 +101897,7 @@ export namespace Prisma {
     shuffleQuestions?: SortOrder
     showResults?: SortOrder
     xpReward?: SortOrder
+    allowedQuestionTypes?: SortOrder
     createdAt?: SortOrder
     updatedAt?: SortOrder
     moduleId?: SortOrder
@@ -101908,6 +101922,7 @@ export namespace Prisma {
     shuffleQuestions?: BoolWithAggregatesFilter<"Quiz"> | boolean
     showResults?: BoolWithAggregatesFilter<"Quiz"> | boolean
     xpReward?: IntWithAggregatesFilter<"Quiz"> | number
+    allowedQuestionTypes?: JsonWithAggregatesFilter<"Quiz">
     createdAt?: DateTimeWithAggregatesFilter<"Quiz"> | Date | string
     updatedAt?: DateTimeWithAggregatesFilter<"Quiz"> | Date | string
     moduleId?: StringWithAggregatesFilter<"Quiz"> | string
@@ -108784,6 +108799,7 @@ export namespace Prisma {
     shuffleQuestions?: boolean
     showResults?: boolean
     xpReward?: number
+    allowedQuestionTypes?: JsonNullValueInput | InputJsonValue
     createdAt?: Date | string
     updatedAt?: Date | string
     module: ModuleCreateNestedOneWithoutQuizzesInput
@@ -108802,6 +108818,7 @@ export namespace Prisma {
     shuffleQuestions?: boolean
     showResults?: boolean
     xpReward?: number
+    allowedQuestionTypes?: JsonNullValueInput | InputJsonValue
     createdAt?: Date | string
     updatedAt?: Date | string
     moduleId: string
@@ -108820,6 +108837,7 @@ export namespace Prisma {
     shuffleQuestions?: BoolFieldUpdateOperationsInput | boolean
     showResults?: BoolFieldUpdateOperationsInput | boolean
     xpReward?: IntFieldUpdateOperationsInput | number
+    allowedQuestionTypes?: JsonNullValueInput | InputJsonValue
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     module?: ModuleUpdateOneRequiredWithoutQuizzesNestedInput
@@ -108838,6 +108856,7 @@ export namespace Prisma {
     shuffleQuestions?: BoolFieldUpdateOperationsInput | boolean
     showResults?: BoolFieldUpdateOperationsInput | boolean
     xpReward?: IntFieldUpdateOperationsInput | number
+    allowedQuestionTypes?: JsonNullValueInput | InputJsonValue
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     moduleId?: StringFieldUpdateOperationsInput | string
@@ -108856,6 +108875,7 @@ export namespace Prisma {
     shuffleQuestions?: boolean
     showResults?: boolean
     xpReward?: number
+    allowedQuestionTypes?: JsonNullValueInput | InputJsonValue
     createdAt?: Date | string
     updatedAt?: Date | string
     moduleId: string
@@ -108872,6 +108892,7 @@ export namespace Prisma {
     shuffleQuestions?: BoolFieldUpdateOperationsInput | boolean
     showResults?: BoolFieldUpdateOperationsInput | boolean
     xpReward?: IntFieldUpdateOperationsInput | number
+    allowedQuestionTypes?: JsonNullValueInput | InputJsonValue
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
   }
@@ -108887,6 +108908,7 @@ export namespace Prisma {
     shuffleQuestions?: BoolFieldUpdateOperationsInput | boolean
     showResults?: BoolFieldUpdateOperationsInput | boolean
     xpReward?: IntFieldUpdateOperationsInput | number
+    allowedQuestionTypes?: JsonNullValueInput | InputJsonValue
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     moduleId?: StringFieldUpdateOperationsInput | string
@@ -114829,6 +114851,7 @@ export namespace Prisma {
     shuffleQuestions?: SortOrder
     showResults?: SortOrder
     xpReward?: SortOrder
+    allowedQuestionTypes?: SortOrder
     createdAt?: SortOrder
     updatedAt?: SortOrder
     moduleId?: SortOrder
@@ -135115,6 +135138,7 @@ export namespace Prisma {
     shuffleQuestions?: boolean
     showResults?: boolean
     xpReward?: number
+    allowedQuestionTypes?: JsonNullValueInput | InputJsonValue
     createdAt?: Date | string
     updatedAt?: Date | string
     questions?: QuestionCreateNestedManyWithoutQuizInput
@@ -135132,6 +135156,7 @@ export namespace Prisma {
     shuffleQuestions?: boolean
     showResults?: boolean
     xpReward?: number
+    allowedQuestionTypes?: JsonNullValueInput | InputJsonValue
     createdAt?: Date | string
     updatedAt?: Date | string
     questions?: QuestionUncheckedCreateNestedManyWithoutQuizInput
@@ -135385,6 +135410,7 @@ export namespace Prisma {
     shuffleQuestions?: BoolFilter<"Quiz"> | boolean
     showResults?: BoolFilter<"Quiz"> | boolean
     xpReward?: IntFilter<"Quiz"> | number
+    allowedQuestionTypes?: JsonFilter<"Quiz">
     createdAt?: DateTimeFilter<"Quiz"> | Date | string
     updatedAt?: DateTimeFilter<"Quiz"> | Date | string
     moduleId?: StringFilter<"Quiz"> | string
@@ -147277,6 +147303,7 @@ export namespace Prisma {
     shuffleQuestions?: boolean
     showResults?: boolean
     xpReward?: number
+    allowedQuestionTypes?: JsonNullValueInput | InputJsonValue
     createdAt?: Date | string
     updatedAt?: Date | string
     module: ModuleCreateNestedOneWithoutQuizzesInput
@@ -147294,6 +147321,7 @@ export namespace Prisma {
     shuffleQuestions?: boolean
     showResults?: boolean
     xpReward?: number
+    allowedQuestionTypes?: JsonNullValueInput | InputJsonValue
     createdAt?: Date | string
     updatedAt?: Date | string
     moduleId: string
@@ -147327,6 +147355,7 @@ export namespace Prisma {
     shuffleQuestions?: BoolFieldUpdateOperationsInput | boolean
     showResults?: BoolFieldUpdateOperationsInput | boolean
     xpReward?: IntFieldUpdateOperationsInput | number
+    allowedQuestionTypes?: JsonNullValueInput | InputJsonValue
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     module?: ModuleUpdateOneRequiredWithoutQuizzesNestedInput
@@ -147344,6 +147373,7 @@ export namespace Prisma {
     shuffleQuestions?: BoolFieldUpdateOperationsInput | boolean
     showResults?: BoolFieldUpdateOperationsInput | boolean
     xpReward?: IntFieldUpdateOperationsInput | number
+    allowedQuestionTypes?: JsonNullValueInput | InputJsonValue
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     moduleId?: StringFieldUpdateOperationsInput | string
@@ -147361,6 +147391,7 @@ export namespace Prisma {
     shuffleQuestions?: boolean
     showResults?: boolean
     xpReward?: number
+    allowedQuestionTypes?: JsonNullValueInput | InputJsonValue
     createdAt?: Date | string
     updatedAt?: Date | string
     module: ModuleCreateNestedOneWithoutQuizzesInput
@@ -147378,6 +147409,7 @@ export namespace Prisma {
     shuffleQuestions?: boolean
     showResults?: boolean
     xpReward?: number
+    allowedQuestionTypes?: JsonNullValueInput | InputJsonValue
     createdAt?: Date | string
     updatedAt?: Date | string
     moduleId: string
@@ -147411,6 +147443,7 @@ export namespace Prisma {
     shuffleQuestions?: BoolFieldUpdateOperationsInput | boolean
     showResults?: BoolFieldUpdateOperationsInput | boolean
     xpReward?: IntFieldUpdateOperationsInput | number
+    allowedQuestionTypes?: JsonNullValueInput | InputJsonValue
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     module?: ModuleUpdateOneRequiredWithoutQuizzesNestedInput
@@ -147428,6 +147461,7 @@ export namespace Prisma {
     shuffleQuestions?: BoolFieldUpdateOperationsInput | boolean
     showResults?: BoolFieldUpdateOperationsInput | boolean
     xpReward?: IntFieldUpdateOperationsInput | number
+    allowedQuestionTypes?: JsonNullValueInput | InputJsonValue
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     moduleId?: StringFieldUpdateOperationsInput | string
@@ -158043,6 +158077,7 @@ export namespace Prisma {
     shuffleQuestions?: boolean
     showResults?: boolean
     xpReward?: number
+    allowedQuestionTypes?: JsonNullValueInput | InputJsonValue
     createdAt?: Date | string
     updatedAt?: Date | string
   }
@@ -158139,6 +158174,7 @@ export namespace Prisma {
     shuffleQuestions?: BoolFieldUpdateOperationsInput | boolean
     showResults?: BoolFieldUpdateOperationsInput | boolean
     xpReward?: IntFieldUpdateOperationsInput | number
+    allowedQuestionTypes?: JsonNullValueInput | InputJsonValue
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     questions?: QuestionUpdateManyWithoutQuizNestedInput
@@ -158156,6 +158192,7 @@ export namespace Prisma {
     shuffleQuestions?: BoolFieldUpdateOperationsInput | boolean
     showResults?: BoolFieldUpdateOperationsInput | boolean
     xpReward?: IntFieldUpdateOperationsInput | number
+    allowedQuestionTypes?: JsonNullValueInput | InputJsonValue
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     questions?: QuestionUncheckedUpdateManyWithoutQuizNestedInput
@@ -158173,6 +158210,7 @@ export namespace Prisma {
     shuffleQuestions?: BoolFieldUpdateOperationsInput | boolean
     showResults?: BoolFieldUpdateOperationsInput | boolean
     xpReward?: IntFieldUpdateOperationsInput | number
+    allowedQuestionTypes?: JsonNullValueInput | InputJsonValue
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
   }
