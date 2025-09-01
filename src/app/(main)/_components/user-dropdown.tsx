@@ -38,7 +38,7 @@ export default function UserDropdown({
       <DropdownMenuTrigger asChild>
         <Button variant="ghost" className="h-auto p-0 hover:bg-transparent">
           <Avatar>
-            <AvatarImage src={image} alt={name} />
+            <AvatarImage src={image} alt={name} className="object-cover" />
             <AvatarFallback>{name.charAt(0).toUpperCase()}</AvatarFallback>
           </Avatar>
           <ChevronDownIcon

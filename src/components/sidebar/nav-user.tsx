@@ -48,6 +48,7 @@ export function NavUser() {
                     `https://avatar.vercel.sh/${session?.user.name}`
                   }
                   alt={session?.user.name}
+                  className="object-cover"
                 />
                 <AvatarFallback className="rounded-lg">
                   {session?.user.name
