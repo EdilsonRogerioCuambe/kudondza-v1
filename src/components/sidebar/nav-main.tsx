@@ -1,5 +1,6 @@
 "use client";
 
+import { cn } from "@/lib/utils";
 import { IconCirclePlusFilled, type Icon } from "@tabler/icons-react";
 
 import {
@@ -9,6 +10,7 @@ import {
   SidebarMenuButton,
   SidebarMenuItem,
 } from "@/components/ui/sidebar";
+import { useActiveRoute } from "@/hooks/use-active-route";
 import Link from "next/link";
 
 export function NavMain({
@@ -20,6 +22,8 @@ export function NavMain({
     icon?: Icon;
   }[];
 }) {
+  const { isActiveRoute, isExactMatch } = useActiveRoute();
+
   return (
     <SidebarGroup>
       <SidebarGroupContent className="flex flex-col gap-2">
@@ -28,7 +32,12 @@ export function NavMain({
             <SidebarMenuButton
               asChild
               tooltip="Criação Rapida"
-              className="bg-primary text-primary-foreground hover:bg-primary/90 hover:text-primary-foreground active:bg-primary/90 active:text-primary-foreground min-w-8 duration-200 ease-linear"
+              className={cn(
+                "min-w-8 duration-200 ease-linear",
+                isActiveRoute("/admin/dashboard/courses/create")
+                  ? "bg-primary text-primary-foreground hover:bg-primary/90 hover:text-primary-foreground active:bg-primary/90 active:text-primary-foreground"
+                  : "bg-primary text-primary-foreground hover:bg-primary/90 hover:text-primary-foreground active:bg-primary/90 active:text-primary-foreground"
+              )}
             >
               <Link href="/admin/dashboard/courses/create">
                 <IconCirclePlusFilled />
@@ -38,16 +47,48 @@ export function NavMain({
           </SidebarMenuItem>
         </SidebarMenu>
         <SidebarMenu>
-          {items.map((item) => (
-            <SidebarMenuItem key={item.title}>
-              <SidebarMenuButton tooltip={item.title} asChild>
-                <Link href={item.url}>
-                  {item.icon && <item.icon />}
-                  <span>{item.title}</span>
-                </Link>
-              </SidebarMenuButton>
-            </SidebarMenuItem>
-          ))}
+          {items.map((item) => {
+            const isActive = isActiveRoute(item.url);
+            const isExact = isExactMatch(item.url);
+
+            return (
+              <SidebarMenuItem key={item.title}>
+                <SidebarMenuButton
+                  tooltip={item.title}
+                  asChild
+                  className={cn(
+                    "transition-all duration-200 ease-linear",
+                    isActive && "bg-accent text-accent-foreground",
+                    isExact &&
+                      "bg-primary/10 text-primary border-r-2 border-primary"
+                  )}
+                >
+                  <Link href={item.url}>
+                    {item.icon && (
+                      <item.icon
+                        className={cn(
+                          "transition-colors duration-200",
+                          isActive ? "text-primary" : "text-muted-foreground",
+                          isExact && "text-primary"
+                        )}
+                      />
+                    )}
+                    <span
+                      className={cn(
+                        "transition-colors duration-200",
+                        isActive
+                          ? "text-primary font-medium"
+                          : "text-foreground",
+                        isExact && "text-primary font-semibold"
+                      )}
+                    >
+                      {item.title}
+                    </span>
+                  </Link>
+                </SidebarMenuButton>
+              </SidebarMenuItem>
+            );
+          })}
         </SidebarMenu>
       </SidebarGroupContent>
     </SidebarGroup>
