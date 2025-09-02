@@ -25,7 +25,6 @@ export function Breadcrumbs({
   separator = <IconChevronRight className="h-3 w-3 text-muted-foreground/50" />,
   maxItems = 5,
 }: BreadcrumbsProps) {
-  const pathname = usePathname();
 
   // Limitar o número de itens para evitar overflow
   const visibleItems =
