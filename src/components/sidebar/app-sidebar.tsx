@@ -16,6 +16,10 @@ import {
   SidebarMenuButton,
   SidebarMenuItem,
 } from "@/components/ui/sidebar";
+import {
+  RouteStatus,
+  SidebarIndicator,
+} from "@/components/ui/sidebar-indicator";
 import Image from "next/image";
 import Link from "next/link";
 
@@ -36,7 +40,7 @@ export function AppSidebar({ ...props }: React.ComponentProps<typeof Sidebar>) {
               asChild
               className="data-[slot=sidebar-menu-button]:!p-1.5"
             >
-              <Link href="/dashboard">
+              <Link href="/admin/dashboard">
                 <Image
                   src="/Kudondza.svg"
                   alt="Kudondza Logo"
@@ -50,12 +54,19 @@ export function AppSidebar({ ...props }: React.ComponentProps<typeof Sidebar>) {
           </SidebarMenuItem>
         </SidebarMenu>
       </SidebarHeader>
+
       <SidebarContent>
+        {/* Indicador de Navegação */}
+        <SidebarIndicator className="border-b" />
+
         <NavMain items={data.navMain} />
         <NavDocuments items={data.documents} />
         <NavSecondary items={data.navSecondary} className="mt-auto" />
       </SidebarContent>
+
       <SidebarFooter>
+        {/* Status da Rota */}
+        <RouteStatus />
         <NavUser />
       </SidebarFooter>
     </Sidebar>
