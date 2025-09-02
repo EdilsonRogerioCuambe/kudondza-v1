@@ -15,6 +15,7 @@ import {
 } from "@/components/ui/card";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
+import { PageHeader } from "@/components/ui/page-header";
 import {
   Select,
   SelectContent,
@@ -346,32 +347,28 @@ export default function ConfiguracoesPage() {
 
   return (
     <div className="flex-1 space-y-6 p-4 md:p-8 pt-6 overflow-x-hidden">
-      {/* Header */}
-      <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between space-y-2">
-        <div>
-          <h2 className="text-2xl sm:text-3xl font-bold tracking-tight">
-            Configurações
-          </h2>
-          <p className="text-muted-foreground">
-            Gerencie suas preferências e configurações da conta
-          </p>
-        </div>
-        <div className="flex flex-col sm:flex-row items-stretch sm:items-center gap-2">
-          <Button variant="outline" size="sm" className="w-full sm:w-auto">
-            <IconDownload className="h-4 w-4 mr-2" />
-            Exportar Dados
-          </Button>
-          <Button
-            variant="default"
-            size="sm"
-            onClick={handleSavePreferences}
-            className="w-full sm:w-auto"
-          >
-            <IconCheck className="h-4 w-4 mr-2" />
-            Salvar Alterações
-          </Button>
-        </div>
-      </div>
+      {/* Header com Breadcrumbs */}
+      <PageHeader
+        title="Configurações"
+        description="Gerencie suas preferências e configurações da conta"
+        actions={
+          <>
+            <Button variant="outline" size="sm" className="w-full sm:w-auto">
+              <IconDownload className="h-4 w-4 mr-2" />
+              Exportar Dados
+            </Button>
+            <Button
+              variant="default"
+              size="sm"
+              onClick={handleSavePreferences}
+              className="w-full sm:w-auto"
+            >
+              <IconCheck className="h-4 w-4 mr-2" />
+              Salvar Alterações
+            </Button>
+          </>
+        }
+      />
 
       {/* Perfil do Usuário */}
       <Card>
