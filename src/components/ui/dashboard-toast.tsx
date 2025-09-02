@@ -43,21 +43,6 @@ export function ToastContainer({ toasts, onClose }: ToastContainerProps) {
     }
   };
 
-  const getToastVariant = (type: Toast["type"]) => {
-    switch (type) {
-      case "success":
-        return "default";
-      case "error":
-        return "destructive";
-      case "warning":
-        return "default";
-      case "info":
-        return "default";
-      default:
-        return "default";
-    }
-  };
-
   const getToastStyles = (type: Toast["type"]) => {
     switch (type) {
       case "success":

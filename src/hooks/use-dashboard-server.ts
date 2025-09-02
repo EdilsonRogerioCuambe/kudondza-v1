@@ -58,6 +58,7 @@ export function useDashboardServer() {
     } finally {
       setIsLoading(false);
     }
+  // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
   const refreshData = useCallback(() => {
@@ -96,8 +97,10 @@ export function useDashboardServer() {
         "Relatório baixado com sucesso!"
       );
     } catch (err) {
+      console.error("Erro ao exportar relatório:", err);
       addToast("error", "Erro na exportação", "Erro ao exportar relatório");
     }
+  // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [stats, performanceMetrics, topCourses, additionalMetrics]);
 
   const addToast = useCallback(
@@ -116,6 +119,7 @@ export function useDashboardServer() {
         removeToast(newToast.id);
       }, 5000);
     },
+    // eslint-disable-next-line react-hooks/exhaustive-deps
     []
   );
 

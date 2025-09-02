@@ -267,7 +267,37 @@ export async function getDashboardData(): Promise<DashboardData> {
     };
   } catch (error) {
     console.error("Erro ao buscar dados do dashboard:", error);
-    throw new Error("Erro ao buscar dados do dashboard");
+    // Fallback seguro quando o banco estiver indisponível
+    const empty: DashboardData = {
+      stats: {
+        totalUsers: 0,
+        activeUsers: 0,
+        monthlyGrowth: 0,
+        completedCourses: 0,
+        totalCourses: 0,
+        totalRevenue: 0,
+        averageRating: 0,
+        satisfactionRate: 0,
+      },
+      performanceMetrics: {
+        courseCompletion: 0,
+        mentorSatisfaction: 0,
+        userEngagement: 0,
+        contentQuality: 0,
+        platformUptime: 0,
+      },
+      recentActivity: [],
+      topCourses: [],
+      additionalMetrics: {
+        totalRevenue: 0,
+        newCustomers: 0,
+        activeAccounts: 0,
+        growthRate: 0,
+      },
+      chartData: { labels: [], datasets: [] },
+      tableData: [],
+    };
+    return empty;
   }
 }
 

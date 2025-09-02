@@ -1,6 +1,7 @@
 "use server";
 
 import prisma from "@/lib/prisma";
+import { serializePrismaData } from "@/lib/serialize-prisma-data";
 import { CourseFilters, CourseFiltersSchema } from "@/lib/zod-schema";
 
 /**
@@ -123,10 +124,12 @@ export async function getCourses(
 
     const totalPages = Math.ceil(total / limit);
 
+    const serializedCourses = serializePrismaData(courses);
+
     return {
       success: true,
       data: {
-        courses,
+        courses: serializedCourses,
         total,
         page,
         limit,

@@ -1,4 +1,5 @@
 import React from "react";
+import Footer from "./_components/footer";
 import Navbar from "./_components/navbar";
 
 export default function Layout({ children }: { children: React.ReactNode }) {
@@ -6,6 +7,7 @@ export default function Layout({ children }: { children: React.ReactNode }) {
     <div className="">
       <Navbar />
       <main className="container mx-auto px-4 md:px-6 lg:px-8">{children}</main>
+      <Footer />
     </div>
   );
 }

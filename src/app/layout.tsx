@@ -1,8 +1,8 @@
+import { Toaster } from "@/components/ui/sonner";
+import { ThemeProvider } from "@/providers/theme-provider";
 import type { Metadata } from "next";
 import { Geist, Geist_Mono } from "next/font/google";
 import "./globals.css";
-import { Toaster } from "@/components/ui/sonner";
-import { ThemeProvider } from "@/providers/theme-provider";
 
 const geistSans = Geist({
   variable: "--font-geist-sans",
@@ -15,39 +15,40 @@ const geistMono = Geist_Mono({
 });
 
 export const metadata: Metadata = {
-  title: "Dondza - Plataforma de Desenvolvimento",
+  title: "Kundodza – Plataforma de Aprendizagem e Comunidade",
   description:
-    "Plataforma completa para desenvolvedores. Gerencie projetos, colabore com equipes e acelere seu desenvolvimento.",
+    "Kundodza é a plataforma para aprender, praticar e crescer com a comunidade tech de Moçambique. Cursos práticos, comunidades ativas e desafios para acelerar sua jornada.",
   keywords: [
+    "aprendizagem",
     "desenvolvimento",
     "programação",
-    "colaboração",
-    "equipe",
-    "projetos",
+    "cursos",
+    "comunidade",
+    "Moçambique",
   ],
-  authors: [{ name: "Dondza Team" }],
-  creator: "Dondza",
-  publisher: "Dondza",
+  authors: [{ name: "Kundodza Team" }],
+  creator: "Kundodza",
+  publisher: "Kundodza",
   formatDetection: {
     email: false,
     address: false,
     telephone: false,
   },
-  metadataBase: new URL("https://dondza.com"),
+  metadataBase: new URL("https://kundodza.com"),
   openGraph: {
-    title: "Dondza - Plataforma de Desenvolvimento",
+    title: "Kundodza – Plataforma de Aprendizagem e Comunidade",
     description:
-      "Plataforma completa para desenvolvedores. Gerencie projetos, colabore com equipes e acelere seu desenvolvimento.",
-    url: "https://dondza.com",
-    siteName: "Dondza",
+      "Aprenda com cursos práticos, conecte-se com a comunidade e alcance suas metas no ecossistema tech moçambicano.",
+    url: "https://kundodza.com",
+    siteName: "Kundodza",
     locale: "pt_BR",
     type: "website",
   },
   twitter: {
     card: "summary_large_image",
-    title: "Dondza - Plataforma de Desenvolvimento",
+    title: "Kundodza – Plataforma de Aprendizagem e Comunidade",
     description:
-      "Plataforma completa para desenvolvedores. Gerencie projetos, colabore com equipes e acelere seu desenvolvimento.",
+      "Cursos práticos, comunidades ativas e desafios para acelerar seu aprendizado.",
   },
   robots: {
     index: true,

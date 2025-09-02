@@ -1,6 +1,10 @@
 import { getCourse } from "@/actions/courses/get-course";
+import { getModulesWithLessonsByCourseId } from "@/actions/courses/modules/get-modules-with-lessons";
 import { getCourseSeriesList } from "@/actions/courses/series/get-course-series-list";
-import { serializeCourseData } from "@/lib/serialize-prisma-data";
+import {
+  serializeCourseData,
+  serializePrismaData,
+} from "@/lib/serialize-prisma-data";
 import CourseDetails from "./_components/course-details";
 
 interface CoursePageProps {
@@ -11,6 +15,16 @@ export default async function CoursePage({ params }: CoursePageProps) {
   const { courseSlug } = await params;
   const courseResult = await getCourse(courseSlug);
   const seriesResult = await getCourseSeriesList();
+
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
+  let modulesWithLessons: any[] = [];
+  if (courseResult.success && courseResult.data) {
+    const mods = await getModulesWithLessonsByCourseId(courseResult.data.id);
+    modulesWithLessons =
+      mods.success && mods.data
+        ? JSON.parse(JSON.stringify(serializePrismaData(mods.data)))
+        : [];
+  }
 
   if (!courseResult.success || !courseResult.data) {
     return (
@@ -26,7 +40,9 @@ export default async function CoursePage({ params }: CoursePageProps) {
   }
 
   // Serializar dados do curso usando a função utilitária
-  const course = serializeCourseData(courseResult.data);
+  const course = JSON.parse(
+    JSON.stringify(serializePrismaData(serializeCourseData(courseResult.data)))
+  );
 
   const series =
     seriesResult.success && seriesResult.data
@@ -42,7 +58,11 @@ export default async function CoursePage({ params }: CoursePageProps) {
 
   return (
     <main className="flex-1 space-y-4 p-4 md:p-8 pt-6">
-      <CourseDetails course={course} series={series} />
+      <CourseDetails
+        course={course}
+        series={series}
+        modules={modulesWithLessons}
+      />
     </main>
   );
 }

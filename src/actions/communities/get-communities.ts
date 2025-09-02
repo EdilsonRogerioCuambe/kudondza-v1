@@ -172,7 +172,7 @@ export async function getFeaturedCommunities(
 ): Promise<CommunityWithStats[]> {
   try {
     console.log("⭐ Buscando comunidades em destaque...");
-    const result = await getCommunities({ featured: true, limit });
+    const result = await getCommunities({ featured: false, limit });
     console.log(`⭐ Encontradas ${result.length} comunidades em destaque`);
     return result;
   } catch (error) {

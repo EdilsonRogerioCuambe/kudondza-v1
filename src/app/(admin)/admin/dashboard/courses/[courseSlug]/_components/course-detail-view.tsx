@@ -26,6 +26,12 @@ import ReactMarkdown from "react-markdown";
 import remarkGfm from "remark-gfm";
 import { toast } from "sonner";
 
+import {
+  Accordion,
+  AccordionContent,
+  AccordionItem,
+  AccordionTrigger,
+} from "@/components/ui/accordion";
 import { AspectRatio } from "@/components/ui/aspect-ratio";
 import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
@@ -70,6 +76,24 @@ interface CourseView extends CourseType {
 
 interface CourseDetailViewProps {
   course: CourseView;
+  modules?: Array<{
+    id: string;
+    title: string;
+    slug: string | null;
+    order: number;
+    description?: string | null;
+    isPublic: boolean;
+    isRequired: boolean;
+    lessons: Array<{
+      id: string;
+      title: string;
+      slug: string | null;
+      order: number;
+      isPreview: boolean;
+      isPublic: boolean;
+    }>;
+    _count?: { lessons: number };
+  }>;
 }
 
 // Componente de estatísticas do curso
@@ -128,7 +152,10 @@ function CourseStats({ course }: { course: CourseView }) {
 }
 
 // Componente principal de visualização do curso
-export default function CourseDetailView({ course }: CourseDetailViewProps) {
+export default function CourseDetailView({
+  course,
+  modules,
+}: CourseDetailViewProps) {
   const router = useRouter();
   const [_isPending, setIsPending] = useState(false);
   const [activeTab, setActiveTab] = useState("description");
@@ -679,16 +706,18 @@ export default function CourseDetailView({ course }: CourseDetailViewProps) {
                   <SelectItem value="media">Mídia</SelectItem>
                   <SelectItem value="seo">SEO</SelectItem>
                   <SelectItem value="prerequisites">Pré-requisitos</SelectItem>
+                  <SelectItem value="modules">Módulos</SelectItem>
                 </SelectContent>
               </Select>
             </div>
 
             {/* Desktop tabs */}
-            <TabsList className="hidden md:grid w-full grid-cols-4">
+            <TabsList className="hidden md:grid w-full grid-cols-5">
               <TabsTrigger value="description">Descrição</TabsTrigger>
               <TabsTrigger value="media">Mídia</TabsTrigger>
               <TabsTrigger value="seo">SEO</TabsTrigger>
               <TabsTrigger value="prerequisites">Pré-requisitos</TabsTrigger>
+              <TabsTrigger value="modules">Módulos</TabsTrigger>
             </TabsList>
 
             <TabsContent value="description" className="space-y-4">
@@ -825,6 +854,75 @@ export default function CourseDetailView({ course }: CourseDetailViewProps) {
                 ) : (
                   <p className="text-sm text-muted-foreground">
                     Este curso não possui pré-requisitos.
+                  </p>
+                )}
+              </div>
+            </TabsContent>
+
+            <TabsContent value="modules" className="space-y-4">
+              <div>
+                <h3 className="text-lg font-semibold mb-2">Módulos e Aulas</h3>
+                {modules && modules.length > 0 ? (
+                  <Accordion type="single" collapsible className="w-full">
+                    {modules.map((m, idx) => (
+                      <AccordionItem key={m.id} value={`module-${m.id}`}>
+                        <AccordionTrigger>
+                          <div className="flex items-center gap-2">
+                            <Badge variant="secondary">
+                              #{m.order ?? idx + 1}
+                            </Badge>
+                            <span className="font-medium">{m.title}</span>
+                            {typeof m._count?.lessons === "number" && (
+                              <span className="text-xs text-muted-foreground">
+                                {m._count.lessons} aulas
+                              </span>
+                            )}
+                          </div>
+                        </AccordionTrigger>
+                        <AccordionContent>
+                          {m.description && (
+                            <p className="text-sm text-muted-foreground mb-3">
+                              {m.description}
+                            </p>
+                          )}
+                          {m.lessons && m.lessons.length > 0 ? (
+                            <div className="space-y-2">
+                              {m.lessons.map((l, lidx) => (
+                                <div
+                                  key={l.id}
+                                  className="flex items-center justify-between rounded-md border p-3"
+                                >
+                                  <div className="flex items-center gap-2">
+                                    <Badge variant="outline">
+                                      {l.order ?? lidx + 1}
+                                    </Badge>
+                                    <span className="text-sm font-medium">
+                                      {l.title}
+                                    </span>
+                                    {l.isPreview && (
+                                      <Badge
+                                        variant="secondary"
+                                        className="ml-1"
+                                      >
+                                        Preview
+                                      </Badge>
+                                    )}
+                                  </div>
+                                </div>
+                              ))}
+                            </div>
+                          ) : (
+                            <p className="text-sm text-muted-foreground">
+                              Sem aulas neste módulo.
+                            </p>
+                          )}
+                        </AccordionContent>
+                      </AccordionItem>
+                    ))}
+                  </Accordion>
+                ) : (
+                  <p className="text-sm text-muted-foreground">
+                    Nenhum módulo encontrado.
                   </p>
                 )}
               </div>

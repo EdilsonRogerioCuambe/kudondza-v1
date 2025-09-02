@@ -597,13 +597,13 @@ export default function CoursesPage() {
 
                   <div className="flex items-center gap-2">
                     <Button size="sm" className="flex-1" asChild>
-                      <Link href={`/dashboard/courses/${course.slug}/edit`}>
+                      <Link href={`/admin/dashboard/courses/${course.slug}/edit`}>
                         <IconSettings className="h-4 w-4 mr-1" />
                         Editar
                       </Link>
                     </Button>
                     <Button size="sm" variant="outline" asChild>
-                      <Link href={`/dashboard/courses/${course.slug}`}>
+                      <Link href={`/admin/dashboard/courses/${course.slug}`}>
                         <IconEye className="h-4 w-4" />
                       </Link>
                     </Button>

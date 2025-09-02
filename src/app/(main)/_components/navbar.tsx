@@ -1,11 +1,10 @@
 "use client";
-import Link from "next/link";
-import React from "react";
-import Image from "next/image";
+import { buttonVariants } from "@/components/ui/button";
 import { ThemeToggle } from "@/components/ui/theme-toggle";
 import { authClient } from "@/lib/auth-client";
 import { Loader } from "lucide-react";
-import { buttonVariants } from "@/components/ui/button";
+import Image from "next/image";
+import Link from "next/link";
 import UserDropdown from "./user-dropdown";
 
 interface NavigationItem {
