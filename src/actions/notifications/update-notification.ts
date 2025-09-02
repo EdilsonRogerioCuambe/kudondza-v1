@@ -18,7 +18,7 @@ const UpdateNotificationSchema = z.object({
       "SYSTEM",
     ])
     .optional(),
-  data: z.record(z.any()).optional(),
+  data: z.record(z.string(), z.unknown()).optional(),
   actionUrl: z.string().url().optional(),
   expiresAt: z.date().optional(),
 });
@@ -44,7 +44,9 @@ export async function updateNotification(
         title: validatedData.title,
         message: validatedData.message,
         type: validatedData.type,
-        data: validatedData.data,
+        data: validatedData.data
+          ? JSON.parse(JSON.stringify(validatedData.data))
+          : undefined,
         actionUrl: validatedData.actionUrl,
         expiresAt: validatedData.expiresAt,
       },
