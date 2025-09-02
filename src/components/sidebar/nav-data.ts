@@ -3,23 +3,23 @@ import {
   IconBook,
   IconBrain,
   IconCertificate,
-  IconChartBar,
+//  IconChartBar,
   IconDashboard,
   IconDatabase,
-  IconFileAi,
-  IconHelp,
-  IconMedal,
-  IconMessage,
-  IconPlaylist,
-  IconReport,
-  IconSearch,
+//  IconFileAi,
+//  IconHelp,
+//  IconMedal,
+//  IconMessage,
+//  IconPlaylist,
+//  IconReport,
+//  IconSearch,
   IconSettings,
-  IconShare,
+//  IconShare,
   IconStar,
-  IconTarget,
+//  IconTarget,
   IconTrendingUp,
   IconTrophy,
-  IconUserCheck,
+//  IconUserCheck,
   IconUsersGroup,
 } from "@tabler/icons-react";
 
@@ -50,21 +50,21 @@ export const navData = {
       url: "/admin/dashboard/gamification",
       icon: IconTrophy,
     },
-    {
-      title: "Rede Social",
-      url: "/admin/dashboard/social",
-      icon: IconShare,
-    },
+    // {
+    //   title: "Rede Social",
+    //   url: "/admin/dashboard/social",
+    //   icon: IconShare,
+    // },
     {
       title: "Comunidades",
       url: "/admin/dashboard/communities",
       icon: IconUsersGroup,
     },
-    {
-      title: "Mensagens",
-      url: "/admin/dashboard/messages",
-      icon: IconMessage,
-    },
+    // {
+    //   title: "Mensagens",
+    //   url: "/admin/dashboard/messages",
+    //   icon: IconMessage,
+    // },
     {
       title: "Certificados",
       url: "/admin/dashboard/certificates",
@@ -85,31 +85,31 @@ export const navData = {
       url: "/admin/dashboard/notifications",
       icon: IconBell,
     },
-    {
-      title: "Playlists",
-      url: "/admin/dashboard/playlists",
-      icon: IconPlaylist,
-    },
-    {
-      title: "Analytics",
-      url: "/admin/dashboard/analytics",
-      icon: IconChartBar,
-    },
-    {
-      title: "Projetos",
-      url: "/admin/dashboard/projects",
-      icon: IconTarget,
-    },
-    {
-      title: "Mentoria",
-      url: "/admin/dashboard/mentorship",
-      icon: IconUserCheck,
-    },
-    {
-      title: "Competições",
-      url: "/admin/dashboard/competitions",
-      icon: IconMedal,
-    },
+    // {
+    //   title: "Playlists",
+    //   url: "/admin/dashboard/playlists",
+    //   icon: IconPlaylist,
+    // },
+    // {
+    //   title: "Analytics",
+    //   url: "/admin/dashboard/analytics",
+    //   icon: IconChartBar,
+    // },
+    // {
+    //   title: "Projetos",
+    //   url: "/admin/dashboard/projects",
+    //   icon: IconTarget,
+    // },
+    // {
+    //   title: "Mentoria",
+    //   url: "/admin/dashboard/mentorship",
+    //   icon: IconUserCheck,
+    // },
+    // {
+    //   title: "Competições",
+    //   url: "/admin/dashboard/competitions",
+    //   icon: IconMedal,
+    // },
   ],
   navClouds: [
     {
@@ -177,32 +177,32 @@ export const navData = {
       url: "/admin/dashboard/settings",
       icon: IconSettings,
     },
-    {
-      title: "Ajuda",
-      url: "/admin/dashboard/help",
-      icon: IconHelp,
-    },
-    {
-      title: "Buscar",
-      url: "/admin/dashboard/search",
-      icon: IconSearch,
-    },
+    // {
+    //   title: "Ajuda",
+    //   url: "/admin/dashboard/help",
+    //   icon: IconHelp,
+    // },
+    // {
+    //   title: "Buscar",
+    //   url: "/admin/dashboard/search",
+    //   icon: IconSearch,
+    // },
   ],
-  documents: [
-    {
-      name: "Biblioteca de Recursos",
-      url: "/admin/dashboard/resources",
-      icon: IconDatabase,
-    },
-    {
-      name: "Relatórios",
-      url: "/admin/dashboard/reports",
-      icon: IconReport,
-    },
-    {
-      name: "Assistente de Estudo",
-      url: "/admin/dashboard/assistant",
-      icon: IconFileAi,
-    },
-  ],
+  // documents: [
+  //   {
+  //     name: "Biblioteca de Recursos",
+  //     url: "/admin/dashboard/resources",
+  //     icon: IconDatabase,
+  //   },
+  //   {
+  //     name: "Relatórios",
+  //     url: "/admin/dashboard/reports",
+  //     icon: IconReport,
+  //   },
+  //   {
+  //     name: "Assistente de Estudo",
+  //     url: "/admin/dashboard/assistant",
+  //     icon: IconFileAi,
+  //   },
+  // ],
 };
