@@ -18,7 +18,7 @@ const CreateNotificationSchema = z.object({
     ])
     .default("INFO"),
   userId: z.string().min(1, "ID do usuário é obrigatório"),
-  data: z.record(z.any()).optional(),
+  data: z.record(z.string(), z.unknown()).optional(),
   actionUrl: z.string().url().optional(),
   expiresAt: z.date().optional(),
 });
@@ -44,7 +44,9 @@ export async function createNotification(
         message: validatedData.message,
         type: validatedData.type,
         userId: validatedData.userId,
-        data: validatedData.data,
+        data: validatedData.data
+          ? JSON.parse(JSON.stringify(validatedData.data))
+          : undefined,
         actionUrl: validatedData.actionUrl,
         expiresAt: validatedData.expiresAt,
       },
