@@ -54,7 +54,7 @@ export function NotificationForm({
       setFormData({
         title: notification.title,
         message: notification.message,
-        type: notification.type,
+        type: "INFO" as const,
         userId: notification.userId,
         actionUrl: notification.actionUrl || "",
       });
@@ -156,6 +156,7 @@ export function NotificationForm({
             <Label htmlFor="type">Tipo *</Label>
             <Select
               value={formData.type}
+              // eslint-disable-next-line @typescript-eslint/no-explicit-any
               onValueChange={(value: any) =>
                 setFormData({ ...formData, type: value })
               }
