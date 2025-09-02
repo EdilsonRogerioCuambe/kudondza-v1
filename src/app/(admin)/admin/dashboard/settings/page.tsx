@@ -129,6 +129,7 @@ export default function ConfiguracoesPage() {
   const [preferences, setPreferences] = useState<
     UserSettings["preferences"] | null
   >(null);
+  const [activeTab, setActiveTab] = useState("notifications");
 
   // Hook para gerenciar URL do avatar
   const { avatarUrl } = useAvatarUrl(userSettings?.profile.image);
@@ -344,7 +345,7 @@ export default function ConfiguracoesPage() {
   };
 
   return (
-    <div className="flex-1 space-y-6 p-4 md:p-8 pt-6">
+    <div className="flex-1 space-y-6 p-4 md:p-8 pt-6 overflow-x-hidden">
       {/* Header */}
       <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between space-y-2">
         <div>
@@ -355,12 +356,17 @@ export default function ConfiguracoesPage() {
             Gerencie suas preferências e configurações da conta
           </p>
         </div>
-        <div className="flex items-center gap-2">
-          <Button variant="outline" size="sm">
+        <div className="flex flex-col sm:flex-row items-stretch sm:items-center gap-2">
+          <Button variant="outline" size="sm" className="w-full sm:w-auto">
             <IconDownload className="h-4 w-4 mr-2" />
             Exportar Dados
           </Button>
-          <Button variant="default" size="sm" onClick={handleSavePreferences}>
+          <Button
+            variant="default"
+            size="sm"
+            onClick={handleSavePreferences}
+            className="w-full sm:w-auto"
+          >
             <IconCheck className="h-4 w-4 mr-2" />
             Salvar Alterações
           </Button>
@@ -377,8 +383,8 @@ export default function ConfiguracoesPage() {
           <CardDescription>Informações básicas da sua conta</CardDescription>
         </CardHeader>
         <CardContent className="space-y-6">
-          <div className="flex items-center gap-4">
-            <Avatar className="w-20 h-20">
+          <div className="flex flex-col sm:flex-row items-start sm:items-center gap-4">
+            <Avatar className="w-20 h-20 flex-shrink-0">
               {avatarUrl ? (
                 <Image
                   src={avatarUrl}
@@ -393,14 +399,14 @@ export default function ConfiguracoesPage() {
                 </AvatarFallback>
               )}
             </Avatar>
-            <div className="flex-1">
-              <h3 className="text-lg font-semibold">
+            <div className="flex-1 min-w-0">
+              <h3 className="text-lg font-semibold break-words">
                 {userSettings.profile.name}
               </h3>
-              <p className="text-muted-foreground">
+              <p className="text-muted-foreground break-words">
                 {userSettings.profile.email}
               </p>
-              <div className="flex items-center gap-2 mt-2">
+              <div className="flex flex-wrap items-center gap-2 mt-2">
                 <Badge variant="default">{userSettings.profile.role}</Badge>
                 <Badge variant="outline">{userSettings.profile.status}</Badge>
               </div>
@@ -409,6 +415,7 @@ export default function ConfiguracoesPage() {
               variant="outline"
               size="sm"
               onClick={() => setIsEditProfileOpen(true)}
+              className="w-full sm:w-auto mt-4 sm:mt-0"
             >
               <IconEdit className="h-4 w-4 mr-2" />
               Editar
@@ -420,7 +427,12 @@ export default function ConfiguracoesPage() {
           <div className="grid gap-4 grid-cols-1 sm:grid-cols-2">
             <div className="space-y-2">
               <Label htmlFor="name">Nome Completo</Label>
-              <Input id="name" value={userSettings.profile.name} readOnly />
+              <Input
+                id="name"
+                value={userSettings.profile.name}
+                readOnly
+                className="break-words"
+              />
             </div>
             <div className="space-y-2">
               <Label htmlFor="email">Email</Label>
@@ -429,11 +441,17 @@ export default function ConfiguracoesPage() {
                 type="email"
                 value={userSettings.profile.email}
                 readOnly
+                className="break-words"
               />
             </div>
             <div className="space-y-2">
               <Label htmlFor="bio">Biografia</Label>
-              <Input id="bio" value={userSettings.profile.bio || ""} readOnly />
+              <Input
+                id="bio"
+                value={userSettings.profile.bio || ""}
+                readOnly
+                className="break-words"
+              />
             </div>
             <div className="space-y-2">
               <Label htmlFor="location">Localização</Label>
@@ -441,26 +459,27 @@ export default function ConfiguracoesPage() {
                 id="location"
                 value={userSettings.profile.location || ""}
                 readOnly
+                className="break-words"
               />
             </div>
           </div>
 
-          <div className="grid gap-4 grid-cols-1 sm:grid-cols-3 text-sm">
+          <div className="grid gap-4 grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 text-sm">
             <div>
               <p className="font-medium">Membro desde</p>
-              <p className="text-muted-foreground">
+              <p className="text-muted-foreground break-words">
                 {formatDate(userSettings.profile.createdAt)}
               </p>
             </div>
             <div>
               <p className="font-medium">Último login</p>
-              <p className="text-muted-foreground">
+              <p className="text-muted-foreground break-words">
                 {userSettings.profile.lastLoginAt
                   ? formatDate(userSettings.profile.lastLoginAt)
                   : "Nunca"}
               </p>
             </div>
-            <div>
+            <div className="sm:col-span-2 lg:col-span-1">
               <p className="font-medium">Sessões ativas</p>
               <p className="text-muted-foreground">
                 {userSettings.security.activeSessions}
@@ -471,607 +490,1300 @@ export default function ConfiguracoesPage() {
       </Card>
 
       {/* Tabs de Configurações */}
-      <Tabs defaultValue="notifications" className="space-y-6">
-        <TabsList className="grid w-full grid-cols-5">
-          <TabsTrigger
-            value="notifications"
-            className="flex items-center gap-2"
+      <div className="space-y-6">
+        {/* Select para dispositivos móveis */}
+        <div className="block sm:hidden">
+          <Select
+            value={activeTab}
+            onValueChange={(value) => setActiveTab(value)}
           >
-            <IconBell className="h-4 w-4" />
-            Notificações
-          </TabsTrigger>
-          <TabsTrigger value="privacy" className="flex items-center gap-2">
-            <IconShield className="h-4 w-4" />
-            Privacidade
-          </TabsTrigger>
-          <TabsTrigger value="appearance" className="flex items-center gap-2">
-            <IconPalette className="h-4 w-4" />
-            Aparência
-          </TabsTrigger>
-          <TabsTrigger value="security" className="flex items-center gap-2">
-            <IconLock className="h-4 w-4" />
-            Segurança
-          </TabsTrigger>
-          <TabsTrigger value="integrations" className="flex items-center gap-2">
-            <IconSettings className="h-4 w-4" />
-            Integrações
-          </TabsTrigger>
-        </TabsList>
-
-        {/* Notificações */}
-        <TabsContent value="notifications" className="space-y-6">
-          <Card>
-            <CardHeader>
-              <CardTitle>Configurações de Notificação</CardTitle>
-              <CardDescription>
-                Escolha como e quando receber notificações
-              </CardDescription>
-            </CardHeader>
-            <CardContent className="space-y-6">
-              {/* Email Notifications */}
-              <div className="space-y-4">
-                <h4 className="font-medium flex items-center gap-2">
-                  <IconMail className="h-4 w-4" />
-                  Notificações por Email
-                </h4>
-                <div className="space-y-3">
-                  <div className="flex items-center justify-between">
-                    <div>
-                      <p className="font-medium">Atualizações de Cursos</p>
-                      <p className="text-sm text-muted-foreground">
-                        Receba notificações sobre novos conteúdos
-                      </p>
-                    </div>
-                    <Switch
-                      checked={preferences.notifications.email.courseUpdates}
-                      onCheckedChange={(checked) =>
-                        updatePreference(
-                          "notifications.email.courseUpdates",
-                          checked
-                        )
-                      }
-                    />
-                  </div>
-                  <div className="flex items-center justify-between">
-                    <div>
-                      <p className="font-medium">Novas Mensagens</p>
-                      <p className="text-sm text-muted-foreground">
-                        Notificações de mensagens recebidas
-                      </p>
-                    </div>
-                    <Switch
-                      checked={preferences.notifications.email.newMessages}
-                      onCheckedChange={(checked) =>
-                        updatePreference(
-                          "notifications.email.newMessages",
-                          checked
-                        )
-                      }
-                    />
-                  </div>
-                  <div className="flex items-center justify-between">
-                    <div>
-                      <p className="font-medium">Alertas do Sistema</p>
-                      <p className="text-sm text-muted-foreground">
-                        Notificações importantes do sistema
-                      </p>
-                    </div>
-                    <Switch
-                      checked={preferences.notifications.email.systemAlerts}
-                      onCheckedChange={(checked) =>
-                        updatePreference(
-                          "notifications.email.systemAlerts",
-                          checked
-                        )
-                      }
-                    />
-                  </div>
-                  <div className="flex items-center justify-between">
-                    <div>
-                      <p className="font-medium">Marketing</p>
-                      <p className="text-sm text-muted-foreground">
-                        Ofertas e novidades da plataforma
-                      </p>
-                    </div>
-                    <Switch
-                      checked={preferences.notifications.email.marketing}
-                      onCheckedChange={(checked) =>
-                        updatePreference(
-                          "notifications.email.marketing",
-                          checked
-                        )
-                      }
-                    />
-                  </div>
-                </div>
-              </div>
-
-              <Separator />
-
-              {/* Push Notifications */}
-              <div className="space-y-4">
-                <h4 className="font-medium flex items-center gap-2">
+            <SelectTrigger className="w-full">
+              <SelectValue />
+            </SelectTrigger>
+            <SelectContent>
+              <SelectItem value="notifications">
+                <div className="flex items-center gap-2">
                   <IconBell className="h-4 w-4" />
-                  Notificações Push
-                </h4>
-                <div className="space-y-3">
-                  <div className="flex items-center justify-between">
-                    <div>
-                      <p className="font-medium">Atualizações de Cursos</p>
-                      <p className="text-sm text-muted-foreground">
-                        Receba notificações sobre novos conteúdos
-                      </p>
-                    </div>
-                    <Switch
-                      checked={preferences.notifications.push.courseUpdates}
-                      onCheckedChange={(checked) =>
-                        updatePreference(
-                          "notifications.push.courseUpdates",
-                          checked
-                        )
-                      }
-                    />
-                  </div>
-                  <div className="flex items-center justify-between">
-                    <div>
-                      <p className="font-medium">Novas Mensagens</p>
-                      <p className="text-sm text-muted-foreground">
-                        Notificações de mensagens recebidas
-                      </p>
-                    </div>
-                    <Switch
-                      checked={preferences.notifications.push.newMessages}
-                      onCheckedChange={(checked) =>
-                        updatePreference(
-                          "notifications.push.newMessages",
-                          checked
-                        )
-                      }
-                    />
-                  </div>
-                  <div className="flex items-center justify-between">
-                    <div>
-                      <p className="font-medium">Alertas do Sistema</p>
-                      <p className="text-sm text-muted-foreground">
-                        Notificações importantes do sistema
-                      </p>
-                    </div>
-                    <Switch
-                      checked={preferences.notifications.push.systemAlerts}
-                      onCheckedChange={(checked) =>
-                        updatePreference(
-                          "notifications.push.systemAlerts",
-                          checked
-                        )
-                      }
-                    />
-                  </div>
+                  Notificações
                 </div>
-              </div>
-            </CardContent>
-          </Card>
-        </TabsContent>
+              </SelectItem>
+              <SelectItem value="privacy">
+                <div className="flex items-center gap-2">
+                  <IconShield className="h-4 w-4" />
+                  Privacidade
+                </div>
+              </SelectItem>
+              <SelectItem value="appearance">
+                <div className="flex items-center gap-2">
+                  <IconPalette className="h-4 w-4" />
+                  Aparência
+                </div>
+              </SelectItem>
+              <SelectItem value="security">
+                <div className="flex items-center gap-2">
+                  <IconLock className="h-4 w-4" />
+                  Segurança
+                </div>
+              </SelectItem>
+              <SelectItem value="integrations">
+                <div className="flex items-center gap-2">
+                  <IconSettings className="h-4 w-4" />
+                  Integrações
+                </div>
+              </SelectItem>
+            </SelectContent>
+          </Select>
 
-        {/* Privacidade */}
-        <TabsContent value="privacy" className="space-y-6">
-          <Card>
-            <CardHeader>
-              <CardTitle>Configurações de Privacidade</CardTitle>
-              <CardDescription>
-                Controle como suas informações são exibidas
-              </CardDescription>
-            </CardHeader>
-            <CardContent className="space-y-6">
-              <div className="space-y-4">
-                <div className="space-y-2">
-                  <Label htmlFor="profile-visibility">
-                    Visibilidade do Perfil
-                  </Label>
-                  <Select
-                    value={preferences.privacy.profileVisibility}
-                    onValueChange={(value) =>
-                      updatePreference("privacy.profileVisibility", value)
-                    }
-                  >
-                    <SelectTrigger>
-                      <SelectValue />
-                    </SelectTrigger>
-                    <SelectContent>
-                      <SelectItem value="public">Público</SelectItem>
-                      <SelectItem value="friends">Apenas Amigos</SelectItem>
-                      <SelectItem value="private">Privado</SelectItem>
-                    </SelectContent>
-                  </Select>
-                </div>
-
-                <div className="space-y-3">
-                  <div className="flex items-center justify-between">
-                    <div>
-                      <p className="font-medium">Mostrar Email</p>
-                      <p className="text-sm text-muted-foreground">
-                        Permitir que outros vejam seu email
-                      </p>
-                    </div>
-                    <Switch
-                      checked={preferences.privacy.showEmail}
-                      onCheckedChange={(checked) =>
-                        updatePreference("privacy.showEmail", checked)
-                      }
-                    />
-                  </div>
-                  <div className="flex items-center justify-between">
-                    <div>
-                      <p className="font-medium">Mostrar Telefone</p>
-                      <p className="text-sm text-muted-foreground">
-                        Permitir que outros vejam seu telefone
-                      </p>
-                    </div>
-                    <Switch
-                      checked={preferences.privacy.showPhone}
-                      onCheckedChange={(checked) =>
-                        updatePreference("privacy.showPhone", checked)
-                      }
-                    />
-                  </div>
-                  <div className="flex items-center justify-between">
-                    <div>
-                      <p className="font-medium">Permitir Mensagens</p>
-                      <p className="text-sm text-muted-foreground">
-                        Receber mensagens de outros usuários
-                      </p>
-                    </div>
-                    <Switch
-                      checked={preferences.privacy.allowMessages}
-                      onCheckedChange={(checked) =>
-                        updatePreference("privacy.allowMessages", checked)
-                      }
-                    />
-                  </div>
-                  <div className="flex items-center justify-between">
-                    <div>
-                      <p className="font-medium">Status Online</p>
-                      <p className="text-sm text-muted-foreground">
-                        Mostrar quando você está online
-                      </p>
-                    </div>
-                    <Switch
-                      checked={preferences.privacy.showOnlineStatus}
-                      onCheckedChange={(checked) =>
-                        updatePreference("privacy.showOnlineStatus", checked)
-                      }
-                    />
-                  </div>
-                  <div className="flex items-center justify-between">
-                    <div>
-                      <p className="font-medium">Analytics</p>
-                      <p className="text-sm text-muted-foreground">
-                        Permitir coleta de dados para melhorias
-                      </p>
-                    </div>
-                    <Switch
-                      checked={preferences.privacy.allowAnalytics}
-                      onCheckedChange={(checked) =>
-                        updatePreference("privacy.allowAnalytics", checked)
-                      }
-                    />
-                  </div>
-                </div>
-              </div>
-            </CardContent>
-          </Card>
-        </TabsContent>
-
-        {/* Aparência */}
-        <TabsContent value="appearance" className="space-y-6">
-          <Card>
-            <CardHeader>
-              <CardTitle>Configurações de Aparência</CardTitle>
-              <CardDescription>
-                Personalize a aparência da plataforma
-              </CardDescription>
-            </CardHeader>
-            <CardContent className="space-y-6">
-              <div className="grid gap-4 grid-cols-1 sm:grid-cols-2">
-                <div className="space-y-2">
-                  <Label htmlFor="theme">Tema</Label>
-                  <Select
-                    value={preferences.appearance.theme}
-                    onValueChange={(value) =>
-                      updatePreference("appearance.theme", value)
-                    }
-                  >
-                    <SelectTrigger>
-                      <SelectValue />
-                    </SelectTrigger>
-                    <SelectContent>
-                      <SelectItem value="light">Claro</SelectItem>
-                      <SelectItem value="dark">Escuro</SelectItem>
-                      <SelectItem value="system">Sistema</SelectItem>
-                    </SelectContent>
-                  </Select>
-                </div>
-                <div className="space-y-2">
-                  <Label htmlFor="language">Idioma</Label>
-                  <Select
-                    value={preferences.appearance.language}
-                    onValueChange={(value) =>
-                      updatePreference("appearance.language", value)
-                    }
-                  >
-                    <SelectTrigger>
-                      <SelectValue />
-                    </SelectTrigger>
-                    <SelectContent>
-                      <SelectItem value="pt-BR">Português (Brasil)</SelectItem>
-                      <SelectItem value="en-US">English (US)</SelectItem>
-                      <SelectItem value="es-ES">Español</SelectItem>
-                    </SelectContent>
-                  </Select>
-                </div>
-                <div className="space-y-2">
-                  <Label htmlFor="font-size">Tamanho da Fonte</Label>
-                  <Select
-                    value={preferences.appearance.fontSize}
-                    onValueChange={(value) =>
-                      updatePreference("appearance.fontSize", value)
-                    }
-                  >
-                    <SelectTrigger>
-                      <SelectValue />
-                    </SelectTrigger>
-                    <SelectContent>
-                      <SelectItem value="small">Pequeno</SelectItem>
-                      <SelectItem value="medium">Médio</SelectItem>
-                      <SelectItem value="large">Grande</SelectItem>
-                    </SelectContent>
-                  </Select>
-                </div>
-              </div>
-
-              <div className="space-y-3">
-                <div className="flex items-center justify-between">
-                  <div>
-                    <p className="font-medium">Modo Compacto</p>
-                    <p className="text-sm text-muted-foreground">
-                      Reduzir espaçamentos da interface
-                    </p>
-                  </div>
-                  <Switch
-                    checked={preferences.appearance.compactMode}
-                    onCheckedChange={(checked) =>
-                      updatePreference("appearance.compactMode", checked)
-                    }
-                  />
-                </div>
-                <div className="flex items-center justify-between">
-                  <div>
-                    <p className="font-medium">Animações</p>
-                    <p className="text-sm text-muted-foreground">
-                      Mostrar animações e transições
-                    </p>
-                  </div>
-                  <Switch
-                    checked={preferences.appearance.showAnimations}
-                    onCheckedChange={(checked) =>
-                      updatePreference("appearance.showAnimations", checked)
-                    }
-                  />
-                </div>
-              </div>
-            </CardContent>
-          </Card>
-        </TabsContent>
-
-        {/* Segurança */}
-        <TabsContent value="security" className="space-y-6">
-          <Card>
-            <CardHeader>
-              <CardTitle>Configurações de Segurança</CardTitle>
-              <CardDescription>
-                Gerencie a segurança da sua conta
-              </CardDescription>
-            </CardHeader>
-            <CardContent className="space-y-6">
-              <div className="space-y-4">
-                <div className="flex items-center justify-between">
-                  <div>
-                    <h4 className="font-medium">
-                      Autenticação de Dois Fatores
-                    </h4>
-                    <p className="text-sm text-muted-foreground">
-                      Adicione uma camada extra de segurança
-                    </p>
-                  </div>
-                  <div className="flex items-center gap-2">
-                    <Badge
-                      variant={
-                        userSettings.security.twoFactorEnabled
-                          ? "default"
-                          : "outline"
-                      }
-                    >
-                      {userSettings.security.twoFactorEnabled
-                        ? "Ativo"
-                        : "Inativo"}
-                    </Badge>
-                    <Button
-                      variant="outline"
-                      size="sm"
-                      onClick={() => setIsSecurityModalOpen(true)}
-                    >
-                      Configurar
-                    </Button>
-                  </div>
-                </div>
-
-                <Separator />
-
-                <div className="space-y-2">
-                  <h4 className="font-medium">Autenticação</h4>
-                  <p className="text-sm text-muted-foreground">
-                    Este sistema usa autenticação por email (OTP). Para fazer
-                    login, você receberá um código por email.
-                  </p>
-                </div>
-
-                <Separator />
-
-                <div className="space-y-4">
-                  <h4 className="font-medium">Sessões Ativas</h4>
-                  <div className="space-y-3">
-                    {userSettings.security.loginHistory.map(
-                      (
-                        session: UserSettings["security"]["loginHistory"][0],
-                        index: number
-                      ) => (
-                        <div
-                          key={session.id}
-                          className="flex items-center justify-between p-3 border rounded-lg"
-                        >
-                          <div className="flex items-center gap-3">
-                            {getDeviceIcon(session.device)}
-                            <div>
-                              <p className="font-medium text-sm">
-                                {session.device}
+          {/* Conteúdo para dispositivos móveis */}
+          <div className="mt-6">
+            {activeTab === "notifications" && (
+              <div className="space-y-6">
+                <Card>
+                  <CardHeader>
+                    <CardTitle>Configurações de Notificação</CardTitle>
+                    <CardDescription>
+                      Escolha como e quando receber notificações
+                    </CardDescription>
+                  </CardHeader>
+                  <CardContent className="space-y-6">
+                    {/* Email Notifications */}
+                    <div className="space-y-4">
+                      <h4 className="font-medium flex items-center gap-2">
+                        <IconMail className="h-4 w-4" />
+                        Notificações por Email
+                      </h4>
+                      <div className="space-y-3">
+                        <div className="flex flex-col gap-3">
+                          <div className="flex items-center justify-between">
+                            <div className="flex-1 min-w-0">
+                              <p className="font-medium">
+                                Atualizações de Cursos
                               </p>
-                              <p className="text-xs text-muted-foreground">
-                                {session.location}
+                              <p className="text-sm text-muted-foreground">
+                                Receba notificações sobre novos conteúdos
                               </p>
                             </div>
+                            <Switch
+                              checked={
+                                preferences.notifications.email.courseUpdates
+                              }
+                              onCheckedChange={(checked) =>
+                                updatePreference(
+                                  "notifications.email.courseUpdates",
+                                  checked
+                                )
+                              }
+                            />
                           </div>
-                          <div className="text-right">
-                            <p className="text-sm">
-                              {formatDate(session.date)}
-                            </p>
-                            {index === 0 && (
-                              <Badge variant="default" className="text-xs">
-                                Atual
-                              </Badge>
-                            )}
+                          <div className="flex items-center justify-between">
+                            <div className="flex-1 min-w-0">
+                              <p className="font-medium">Novas Mensagens</p>
+                              <p className="text-sm text-muted-foreground">
+                                Notificações de mensagens recebidas
+                              </p>
+                            </div>
+                            <Switch
+                              checked={
+                                preferences.notifications.email.newMessages
+                              }
+                              onCheckedChange={(checked) =>
+                                updatePreference(
+                                  "notifications.email.newMessages",
+                                  checked
+                                )
+                              }
+                            />
+                          </div>
+                          <div className="flex items-center justify-between">
+                            <div className="flex-1 min-w-0">
+                              <p className="font-medium">Alertas do Sistema</p>
+                              <p className="text-sm text-muted-foreground">
+                                Notificações importantes do sistema
+                              </p>
+                            </div>
+                            <Switch
+                              checked={
+                                preferences.notifications.email.systemAlerts
+                              }
+                              onCheckedChange={(checked) =>
+                                updatePreference(
+                                  "notifications.email.systemAlerts",
+                                  checked
+                                )
+                              }
+                            />
+                          </div>
+                          <div className="flex items-center justify-between">
+                            <div className="flex-1 min-w-0">
+                              <p className="font-medium">Marketing</p>
+                              <p className="text-sm text-muted-foreground">
+                                Ofertas e novidades da plataforma
+                              </p>
+                            </div>
+                            <Switch
+                              checked={
+                                preferences.notifications.email.marketing
+                              }
+                              onCheckedChange={(checked) =>
+                                updatePreference(
+                                  "notifications.email.marketing",
+                                  checked
+                                )
+                              }
+                            />
                           </div>
                         </div>
-                      )
-                    )}
-                  </div>
-                  <Button
-                    variant="outline"
-                    size="sm"
-                    onClick={() => setIsSecurityModalOpen(true)}
-                  >
-                    <IconTrash className="h-4 w-4 mr-2" />
-                    Encerrar Outras Sessões
-                  </Button>
-                </div>
+                      </div>
+                    </div>
+
+                    <Separator />
+
+                    {/* Push Notifications */}
+                    <div className="space-y-4">
+                      <h4 className="font-medium flex items-center gap-2">
+                        <IconBell className="h-4 w-4" />
+                        Notificações Push
+                      </h4>
+                      <div className="space-y-3">
+                        <div className="flex flex-col gap-3">
+                          <div className="flex items-center justify-between">
+                            <div className="flex-1 min-w-0">
+                              <p className="font-medium">
+                                Atualizações de Cursos
+                              </p>
+                              <p className="text-sm text-muted-foreground">
+                                Receba notificações sobre novos conteúdos
+                              </p>
+                            </div>
+                            <Switch
+                              checked={
+                                preferences.notifications.push.courseUpdates
+                              }
+                              onCheckedChange={(checked) =>
+                                updatePreference(
+                                  "notifications.push.courseUpdates",
+                                  checked
+                                )
+                              }
+                            />
+                          </div>
+                          <div className="flex items-center justify-between">
+                            <div className="flex-1 min-w-0">
+                              <p className="font-medium">Novas Mensagens</p>
+                              <p className="text-sm text-muted-foreground">
+                                Notificações de mensagens recebidas
+                              </p>
+                            </div>
+                            <Switch
+                              checked={
+                                preferences.notifications.push.newMessages
+                              }
+                              onCheckedChange={(checked) =>
+                                updatePreference(
+                                  "notifications.push.newMessages",
+                                  checked
+                                )
+                              }
+                            />
+                          </div>
+                          <div className="flex items-center justify-between">
+                            <div className="flex-1 min-w-0">
+                              <p className="font-medium">Alertas do Sistema</p>
+                              <p className="text-sm text-muted-foreground">
+                                Notificações importantes do sistema
+                              </p>
+                            </div>
+                            <Switch
+                              checked={
+                                preferences.notifications.push.systemAlerts
+                              }
+                              onCheckedChange={(checked) =>
+                                updatePreference(
+                                  "notifications.push.systemAlerts",
+                                  checked
+                                )
+                              }
+                            />
+                          </div>
+                        </div>
+                      </div>
+                    </div>
+                  </CardContent>
+                </Card>
               </div>
-            </CardContent>
-          </Card>
-        </TabsContent>
+            )}
 
-        {/* Integrações */}
-        <TabsContent value="integrations" className="space-y-6">
-          <Card>
-            <CardHeader>
-              <CardTitle>Integrações</CardTitle>
-              <CardDescription>
-                Conecte sua conta com outras plataformas
-              </CardDescription>
-            </CardHeader>
-            <CardContent className="space-y-6">
-              <div className="grid gap-4 grid-cols-1 sm:grid-cols-2 lg:grid-cols-3">
-                <div className="p-4 border rounded-lg">
-                  <div className="flex items-center gap-3 mb-3">
-                    <IconBrandGithub className="h-6 w-6" />
-                    <div>
-                      <h4 className="font-medium">GitHub</h4>
-                      <p className="text-sm text-muted-foreground">
-                        Conectar repositórios
-                      </p>
-                    </div>
-                  </div>
-                  <Button variant="outline" size="sm" className="w-full">
-                    Conectar
-                  </Button>
-                </div>
+            {activeTab === "privacy" && (
+              <div className="space-y-6">
+                <Card>
+                  <CardHeader>
+                    <CardTitle>Configurações de Privacidade</CardTitle>
+                    <CardDescription>
+                      Controle como suas informações são exibidas
+                    </CardDescription>
+                  </CardHeader>
+                  <CardContent className="space-y-6">
+                    <div className="space-y-4">
+                      <div className="space-y-2">
+                        <Label htmlFor="profile-visibility">
+                          Visibilidade do Perfil
+                        </Label>
+                        <Select
+                          value={preferences.privacy.profileVisibility}
+                          onValueChange={(value) =>
+                            updatePreference("privacy.profileVisibility", value)
+                          }
+                        >
+                          <SelectTrigger>
+                            <SelectValue />
+                          </SelectTrigger>
+                          <SelectContent>
+                            <SelectItem value="public">Público</SelectItem>
+                            <SelectItem value="friends">
+                              Apenas Amigos
+                            </SelectItem>
+                            <SelectItem value="private">Privado</SelectItem>
+                          </SelectContent>
+                        </Select>
+                      </div>
 
-                <div className="p-4 border rounded-lg">
-                  <div className="flex items-center gap-3 mb-3">
-                    <IconBrandLinkedin className="h-6 w-6" />
-                    <div>
-                      <h4 className="font-medium">LinkedIn</h4>
-                      <p className="text-sm text-muted-foreground">
-                        Importar perfil
-                      </p>
+                      <div className="space-y-3">
+                        <div className="flex items-center justify-between">
+                          <div className="flex-1 min-w-0">
+                            <p className="font-medium">Mostrar Email</p>
+                            <p className="text-sm text-muted-foreground">
+                              Permitir que outros vejam seu email
+                            </p>
+                          </div>
+                          <Switch
+                            checked={preferences.privacy.showEmail}
+                            onCheckedChange={(checked) =>
+                              updatePreference("privacy.showEmail", checked)
+                            }
+                          />
+                        </div>
+                        <div className="flex items-center justify-between">
+                          <div className="flex-1 min-w-0">
+                            <p className="font-medium">Mostrar Telefone</p>
+                            <p className="text-sm text-muted-foreground">
+                              Permitir que outros vejam seu telefone
+                            </p>
+                          </div>
+                          <Switch
+                            checked={preferences.privacy.showPhone}
+                            onCheckedChange={(checked) =>
+                              updatePreference("privacy.showPhone", checked)
+                            }
+                          />
+                        </div>
+                        <div className="flex items-center justify-between">
+                          <div className="flex-1 min-w-0">
+                            <p className="font-medium">Permitir Mensagens</p>
+                            <p className="text-sm text-muted-foreground">
+                              Receber mensagens de outros usuários
+                            </p>
+                          </div>
+                          <Switch
+                            checked={preferences.privacy.allowMessages}
+                            onCheckedChange={(checked) =>
+                              updatePreference("privacy.allowMessages", checked)
+                            }
+                          />
+                        </div>
+                        <div className="flex items-center justify-between">
+                          <div className="flex-1 min-w-0">
+                            <p className="font-medium">Status Online</p>
+                            <p className="text-sm text-muted-foreground">
+                              Mostrar quando você está online
+                            </p>
+                          </div>
+                          <Switch
+                            checked={preferences.privacy.showOnlineStatus}
+                            onCheckedChange={(checked) =>
+                              updatePreference(
+                                "privacy.showOnlineStatus",
+                                checked
+                              )
+                            }
+                          />
+                        </div>
+                        <div className="flex items-center justify-between">
+                          <div className="flex-1 min-w-0">
+                            <p className="font-medium">Analytics</p>
+                            <p className="text-sm text-muted-foreground">
+                              Permitir coleta de dados para melhorias
+                            </p>
+                          </div>
+                          <Switch
+                            checked={preferences.privacy.allowAnalytics}
+                            onCheckedChange={(checked) =>
+                              updatePreference(
+                                "privacy.allowAnalytics",
+                                checked
+                              )
+                            }
+                          />
+                        </div>
+                      </div>
                     </div>
-                  </div>
-                  <Button variant="outline" size="sm" className="w-full">
-                    Conectar
-                  </Button>
-                </div>
-
-                <div className="p-4 border rounded-lg">
-                  <div className="flex items-center gap-3 mb-3">
-                    <IconBrandNotion className="h-6 w-6" />
-                    <div>
-                      <h4 className="font-medium">Notion</h4>
-                      <p className="text-sm text-muted-foreground">
-                        Sincronizar notas
-                      </p>
-                    </div>
-                  </div>
-                  <Button variant="outline" size="sm" className="w-full">
-                    Conectar
-                  </Button>
-                </div>
-
-                <div className="p-4 border rounded-lg">
-                  <div className="flex items-center gap-3 mb-3">
-                    <IconBrandSlack className="h-6 w-6" />
-                    <div>
-                      <h4 className="font-medium">Slack</h4>
-                      <p className="text-sm text-muted-foreground">
-                        Notificações
-                      </p>
-                    </div>
-                  </div>
-                  <Button variant="outline" size="sm" className="w-full">
-                    Conectar
-                  </Button>
-                </div>
-
-                <div className="p-4 border rounded-lg">
-                  <div className="flex items-center gap-3 mb-3">
-                    <IconBrandDiscord className="h-6 w-6" />
-                    <div>
-                      <h4 className="font-medium">Discord</h4>
-                      <p className="text-sm text-muted-foreground">
-                        Comunidade
-                      </p>
-                    </div>
-                  </div>
-                  <Button variant="outline" size="sm" className="w-full">
-                    Conectar
-                  </Button>
-                </div>
-
-                <div className="p-4 border rounded-lg">
-                  <div className="flex items-center gap-3 mb-3">
-                    <IconBrandFigma className="h-6 w-6" />
-                    <div>
-                      <h4 className="font-medium">Figma</h4>
-                      <p className="text-sm text-muted-foreground">
-                        Design files
-                      </p>
-                    </div>
-                  </div>
-                  <Button variant="outline" size="sm" className="w-full">
-                    Conectar
-                  </Button>
-                </div>
+                  </CardContent>
+                </Card>
               </div>
-            </CardContent>
-          </Card>
-        </TabsContent>
-      </Tabs>
+            )}
+
+            {activeTab === "appearance" && (
+              <div className="space-y-6">
+                <Card>
+                  <CardHeader>
+                    <CardTitle>Configurações de Aparência</CardTitle>
+                    <CardDescription>
+                      Personalize a aparência da plataforma
+                    </CardDescription>
+                  </CardHeader>
+                  <CardContent className="space-y-6">
+                    <div className="grid gap-4 grid-cols-1">
+                      <div className="space-y-2">
+                        <Label htmlFor="theme">Tema</Label>
+                        <Select
+                          value={preferences.appearance.theme}
+                          onValueChange={(value) =>
+                            updatePreference("appearance.theme", value)
+                          }
+                        >
+                          <SelectTrigger>
+                            <SelectValue />
+                          </SelectTrigger>
+                          <SelectContent>
+                            <SelectItem value="light">Claro</SelectItem>
+                            <SelectItem value="dark">Escuro</SelectItem>
+                            <SelectItem value="system">Sistema</SelectItem>
+                          </SelectContent>
+                        </Select>
+                      </div>
+                      <div className="space-y-2">
+                        <Label htmlFor="language">Idioma</Label>
+                        <Select
+                          value={preferences.appearance.language}
+                          onValueChange={(value) =>
+                            updatePreference("appearance.language", value)
+                          }
+                        >
+                          <SelectTrigger>
+                            <SelectValue />
+                          </SelectTrigger>
+                          <SelectContent>
+                            <SelectItem value="pt-BR">
+                              Português (Brasil)
+                            </SelectItem>
+                            <SelectItem value="en-US">English (US)</SelectItem>
+                            <SelectItem value="es-ES">Español</SelectItem>
+                          </SelectContent>
+                        </Select>
+                      </div>
+                      <div className="space-y-2">
+                        <Label htmlFor="font-size">Tamanho da Fonte</Label>
+                        <Select
+                          value={preferences.appearance.fontSize}
+                          onValueChange={(value) =>
+                            updatePreference("appearance.fontSize", value)
+                          }
+                        >
+                          <SelectTrigger>
+                            <SelectValue />
+                          </SelectTrigger>
+                          <SelectContent>
+                            <SelectItem value="small">Pequeno</SelectItem>
+                            <SelectItem value="medium">Médio</SelectItem>
+                            <SelectItem value="large">Grande</SelectItem>
+                          </SelectContent>
+                        </Select>
+                      </div>
+                    </div>
+
+                    <div className="space-y-3">
+                      <div className="flex items-center justify-between">
+                        <div className="flex-1 min-w-0">
+                          <p className="font-medium">Modo Compacto</p>
+                          <p className="text-sm text-muted-foreground">
+                            Reduzir espaçamentos da interface
+                          </p>
+                        </div>
+                        <Switch
+                          checked={preferences.appearance.compactMode}
+                          onCheckedChange={(checked) =>
+                            updatePreference("appearance.compactMode", checked)
+                          }
+                        />
+                      </div>
+                      <div className="flex items-center justify-between">
+                        <div className="flex-1 min-w-0">
+                          <p className="font-medium">Animações</p>
+                          <p className="text-sm text-muted-foreground">
+                            Mostrar animações e transições
+                          </p>
+                        </div>
+                        <Switch
+                          checked={preferences.appearance.showAnimations}
+                          onCheckedChange={(checked) =>
+                            updatePreference(
+                              "appearance.showAnimations",
+                              checked
+                            )
+                          }
+                        />
+                      </div>
+                    </div>
+                  </CardContent>
+                </Card>
+              </div>
+            )}
+
+            {activeTab === "security" && (
+              <div className="space-y-6">
+                <Card>
+                  <CardHeader>
+                    <CardTitle>Configurações de Segurança</CardTitle>
+                    <CardDescription>
+                      Gerencie a segurança da sua conta
+                    </CardDescription>
+                  </CardHeader>
+                  <CardContent className="space-y-6">
+                    <div className="space-y-4">
+                      <div className="flex flex-col gap-4">
+                        <div className="flex-1 min-w-0">
+                          <h4 className="font-medium">
+                            Autenticação de Dois Fatores
+                          </h4>
+                          <p className="text-sm text-muted-foreground">
+                            Adicione uma camada extra de segurança
+                          </p>
+                        </div>
+                        <div className="flex flex-col gap-2">
+                          <Badge
+                            variant={
+                              userSettings.security.twoFactorEnabled
+                                ? "default"
+                                : "outline"
+                            }
+                            className="w-fit"
+                          >
+                            {userSettings.security.twoFactorEnabled
+                              ? "Ativo"
+                              : "Inativo"}
+                          </Badge>
+                          <Button
+                            variant="outline"
+                            size="sm"
+                            onClick={() => setIsSecurityModalOpen(true)}
+                            className="w-full"
+                          >
+                            Configurar
+                          </Button>
+                        </div>
+                      </div>
+
+                      <Separator />
+
+                      <div className="space-y-2">
+                        <h4 className="font-medium">Autenticação</h4>
+                        <p className="text-sm text-muted-foreground">
+                          Este sistema usa autenticação por email (OTP). Para
+                          fazer login, você receberá um código por email.
+                        </p>
+                      </div>
+
+                      <Separator />
+
+                      <div className="space-y-4">
+                        <h4 className="font-medium">Sessões Ativas</h4>
+                        <div className="space-y-3">
+                          {userSettings.security.loginHistory.map(
+                            (
+                              session: UserSettings["security"]["loginHistory"][0],
+                              index: number
+                            ) => (
+                              <div
+                                key={session.id}
+                                className="flex flex-col gap-3 p-3 border rounded-lg"
+                              >
+                                <div className="flex items-center gap-3 min-w-0">
+                                  {getDeviceIcon(session.device)}
+                                  <div className="min-w-0 flex-1">
+                                    <p className="font-medium text-sm break-words">
+                                      {session.device}
+                                    </p>
+                                    <p className="text-xs text-muted-foreground break-words">
+                                      {session.location}
+                                    </p>
+                                  </div>
+                                </div>
+                                <div className="text-left">
+                                  <p className="text-sm">
+                                    {formatDate(session.date)}
+                                  </p>
+                                  {index === 0 && (
+                                    <Badge
+                                      variant="default"
+                                      className="text-xs mt-1"
+                                    >
+                                      Atual
+                                    </Badge>
+                                  )}
+                                </div>
+                              </div>
+                            )
+                          )}
+                        </div>
+                        <Button
+                          variant="outline"
+                          size="sm"
+                          onClick={() => setIsSecurityModalOpen(true)}
+                          className="w-full"
+                        >
+                          <IconTrash className="h-4 w-4 mr-2" />
+                          Encerrar Outras Sessões
+                        </Button>
+                      </div>
+                    </div>
+                  </CardContent>
+                </Card>
+              </div>
+            )}
+
+            {activeTab === "integrations" && (
+              <div className="space-y-6">
+                <Card>
+                  <CardHeader>
+                    <CardTitle>Integrações</CardTitle>
+                    <CardDescription>
+                      Conecte sua conta com outras plataformas
+                    </CardDescription>
+                  </CardHeader>
+                  <CardContent className="space-y-6">
+                    <div className="grid gap-4 grid-cols-1">
+                      <div className="p-4 border rounded-lg">
+                        <div className="flex items-center gap-3 mb-3">
+                          <IconBrandGithub className="h-6 w-6 flex-shrink-0" />
+                          <div className="min-w-0 flex-1">
+                            <h4 className="font-medium break-words">GitHub</h4>
+                            <p className="text-sm text-muted-foreground break-words">
+                              Conectar repositórios
+                            </p>
+                          </div>
+                        </div>
+                        <Button variant="outline" size="sm" className="w-full">
+                          Conectar
+                        </Button>
+                      </div>
+
+                      <div className="p-4 border rounded-lg">
+                        <div className="flex items-center gap-3 mb-3">
+                          <IconBrandLinkedin className="h-6 w-6 flex-shrink-0" />
+                          <div className="min-w-0 flex-1">
+                            <h4 className="font-medium break-words">
+                              LinkedIn
+                            </h4>
+                            <p className="text-sm text-muted-foreground break-words">
+                              Importar perfil
+                            </p>
+                          </div>
+                        </div>
+                        <Button variant="outline" size="sm" className="w-full">
+                          Conectar
+                        </Button>
+                      </div>
+
+                      <div className="p-4 border rounded-lg">
+                        <div className="flex items-center gap-3 mb-3">
+                          <IconBrandNotion className="h-6 w-6 flex-shrink-0" />
+                          <div className="min-w-0 flex-1">
+                            <h4 className="font-medium break-words">Notion</h4>
+                            <p className="text-sm text-muted-foreground break-words">
+                              Sincronizar notas
+                            </p>
+                          </div>
+                        </div>
+                        <Button variant="outline" size="sm" className="w-full">
+                          Conectar
+                        </Button>
+                      </div>
+
+                      <div className="p-4 border rounded-lg">
+                        <div className="flex items-center gap-3 mb-3">
+                          <IconBrandSlack className="h-6 w-6 flex-shrink-0" />
+                          <div className="min-w-0 flex-1">
+                            <h4 className="font-medium break-words">Slack</h4>
+                            <p className="text-sm text-muted-foreground break-words">
+                              Notificações
+                            </p>
+                          </div>
+                        </div>
+                        <Button variant="outline" size="sm" className="w-full">
+                          Conectar
+                        </Button>
+                      </div>
+
+                      <div className="p-4 border rounded-lg">
+                        <div className="flex items-center gap-3 mb-3">
+                          <IconBrandDiscord className="h-6 w-6 flex-shrink-0" />
+                          <div className="min-w-0 flex-1">
+                            <h4 className="font-medium break-words">Discord</h4>
+                            <p className="text-sm text-muted-foreground break-words">
+                              Comunidade
+                            </p>
+                          </div>
+                        </div>
+                        <Button variant="outline" size="sm" className="w-full">
+                          Conectar
+                        </Button>
+                      </div>
+
+                      <div className="p-4 border rounded-lg">
+                        <div className="flex items-center gap-3 mb-3">
+                          <IconBrandFigma className="h-6 w-6 flex-shrink-0" />
+                          <div className="min-w-0 flex-1">
+                            <h4 className="font-medium break-words">Figma</h4>
+                            <p className="text-sm text-muted-foreground break-words">
+                              Design files
+                            </p>
+                          </div>
+                        </div>
+                        <Button variant="outline" size="sm" className="w-full">
+                          Conectar
+                        </Button>
+                      </div>
+                    </div>
+                  </CardContent>
+                </Card>
+              </div>
+            )}
+          </div>
+        </div>
+
+        {/* Tabs visíveis em dispositivos maiores */}
+        <div className="hidden sm:block">
+          <Tabs
+            value={activeTab}
+            onValueChange={setActiveTab}
+            className="space-y-6"
+          >
+            <TabsList className="grid w-full grid-cols-5 gap-2">
+              <TabsTrigger
+                value="notifications"
+                className="flex items-center gap-2"
+              >
+                <IconBell className="h-4 w-4" />
+                Notificações
+              </TabsTrigger>
+              <TabsTrigger value="privacy" className="flex items-center gap-2">
+                <IconShield className="h-4 w-4" />
+                Privacidade
+              </TabsTrigger>
+              <TabsTrigger
+                value="appearance"
+                className="flex items-center gap-2"
+              >
+                <IconPalette className="h-4 w-4" />
+                Aparência
+              </TabsTrigger>
+              <TabsTrigger value="security" className="flex items-center gap-2">
+                <IconLock className="h-4 w-4" />
+                Segurança
+              </TabsTrigger>
+              <TabsTrigger
+                value="integrations"
+                className="flex items-center gap-2"
+              >
+                <IconSettings className="h-4 w-4" />
+                Integrações
+              </TabsTrigger>
+            </TabsList>
+
+            {/* Conteúdo das abas para desktop */}
+            <TabsContent value="notifications" className="space-y-6">
+              <Card>
+                <CardHeader>
+                  <CardTitle>Configurações de Notificação</CardTitle>
+                  <CardDescription>
+                    Escolha como e quando receber notificações
+                  </CardDescription>
+                </CardHeader>
+                <CardContent className="space-y-6">
+                  {/* Email Notifications */}
+                  <div className="space-y-4">
+                    <h4 className="font-medium flex items-center gap-2">
+                      <IconMail className="h-4 w-4" />
+                      Notificações por Email
+                    </h4>
+                    <div className="space-y-3">
+                      <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-3">
+                        <div className="flex-1 min-w-0">
+                          <p className="font-medium">Atualizações de Cursos</p>
+                          <p className="text-sm text-muted-foreground">
+                            Receba notificações sobre novos conteúdos
+                          </p>
+                        </div>
+                        <Switch
+                          checked={
+                            preferences.notifications.email.courseUpdates
+                          }
+                          onCheckedChange={(checked) =>
+                            updatePreference(
+                              "notifications.email.courseUpdates",
+                              checked
+                            )
+                          }
+                        />
+                      </div>
+                      <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-3">
+                        <div className="flex-1 min-w-0">
+                          <p className="font-medium">Novas Mensagens</p>
+                          <p className="text-sm text-muted-foreground">
+                            Notificações de mensagens recebidas
+                          </p>
+                        </div>
+                        <Switch
+                          checked={preferences.notifications.email.newMessages}
+                          onCheckedChange={(checked) =>
+                            updatePreference(
+                              "notifications.email.newMessages",
+                              checked
+                            )
+                          }
+                        />
+                      </div>
+                      <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-3">
+                        <div className="flex-1 min-w-0">
+                          <p className="font-medium">Alertas do Sistema</p>
+                          <p className="text-sm text-muted-foreground">
+                            Notificações importantes do sistema
+                          </p>
+                        </div>
+                        <Switch
+                          checked={preferences.notifications.email.systemAlerts}
+                          onCheckedChange={(checked) =>
+                            updatePreference(
+                              "notifications.email.systemAlerts",
+                              checked
+                            )
+                          }
+                        />
+                      </div>
+                      <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-3">
+                        <div className="flex-1 min-w-0">
+                          <p className="font-medium">Marketing</p>
+                          <p className="text-sm text-muted-foreground">
+                            Ofertas e novidades da plataforma
+                          </p>
+                        </div>
+                        <Switch
+                          checked={preferences.notifications.email.marketing}
+                          onCheckedChange={(checked) =>
+                            updatePreference(
+                              "notifications.email.marketing",
+                              checked
+                            )
+                          }
+                        />
+                      </div>
+                    </div>
+                  </div>
+
+                  <Separator />
+
+                  {/* Push Notifications */}
+                  <div className="space-y-4">
+                    <h4 className="font-medium flex items-center gap-2">
+                      <IconBell className="h-4 w-4" />
+                      Notificações Push
+                    </h4>
+                    <div className="space-y-3">
+                      <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-3">
+                        <div className="flex-1 min-w-0">
+                          <p className="font-medium">Atualizações de Cursos</p>
+                          <p className="text-sm text-muted-foreground">
+                            Receba notificações sobre novos conteúdos
+                          </p>
+                        </div>
+                        <Switch
+                          checked={preferences.notifications.push.courseUpdates}
+                          onCheckedChange={(checked) =>
+                            updatePreference(
+                              "notifications.push.courseUpdates",
+                              checked
+                            )
+                          }
+                        />
+                      </div>
+                      <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-3">
+                        <div className="flex-1 min-w-0">
+                          <p className="font-medium">Novas Mensagens</p>
+                          <p className="text-sm text-muted-foreground">
+                            Notificações de mensagens recebidas
+                          </p>
+                        </div>
+                        <Switch
+                          checked={preferences.notifications.push.newMessages}
+                          onCheckedChange={(checked) =>
+                            updatePreference(
+                              "notifications.push.newMessages",
+                              checked
+                            )
+                          }
+                        />
+                      </div>
+                      <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-3">
+                        <div className="flex-1 min-w-0">
+                          <p className="font-medium">Alertas do Sistema</p>
+                          <p className="text-sm text-muted-foreground">
+                            Notificações importantes do sistema
+                          </p>
+                        </div>
+                        <Switch
+                          checked={preferences.notifications.push.systemAlerts}
+                          onCheckedChange={(checked) =>
+                            updatePreference(
+                              "notifications.push.systemAlerts",
+                              checked
+                            )
+                          }
+                        />
+                      </div>
+                    </div>
+                  </div>
+                </CardContent>
+              </Card>
+            </TabsContent>
+
+            {/* Privacidade */}
+            <TabsContent value="privacy" className="space-y-6">
+              <Card>
+                <CardHeader>
+                  <CardTitle>Configurações de Privacidade</CardTitle>
+                  <CardDescription>
+                    Controle como suas informações são exibidas
+                  </CardDescription>
+                </CardHeader>
+                <CardContent className="space-y-6">
+                  <div className="space-y-4">
+                    <div className="space-y-2">
+                      <Label htmlFor="profile-visibility">
+                        Visibilidade do Perfil
+                      </Label>
+                      <Select
+                        value={preferences.privacy.profileVisibility}
+                        onValueChange={(value) =>
+                          updatePreference("privacy.profileVisibility", value)
+                        }
+                      >
+                        <SelectTrigger>
+                          <SelectValue />
+                        </SelectTrigger>
+                        <SelectContent>
+                          <SelectItem value="public">Público</SelectItem>
+                          <SelectItem value="friends">Apenas Amigos</SelectItem>
+                          <SelectItem value="private">Privado</SelectItem>
+                        </SelectContent>
+                      </Select>
+                    </div>
+
+                    <div className="space-y-3">
+                      <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-3">
+                        <div className="flex-1 min-w-0">
+                          <p className="font-medium">Mostrar Email</p>
+                          <p className="text-sm text-muted-foreground">
+                            Permitir que outros vejam seu email
+                          </p>
+                        </div>
+                        <Switch
+                          checked={preferences.privacy.showEmail}
+                          onCheckedChange={(checked) =>
+                            updatePreference("privacy.showEmail", checked)
+                          }
+                        />
+                      </div>
+                      <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-3">
+                        <div className="flex-1 min-w-0">
+                          <p className="font-medium">Mostrar Telefone</p>
+                          <p className="text-sm text-muted-foreground">
+                            Permitir que outros vejam seu telefone
+                          </p>
+                        </div>
+                        <Switch
+                          checked={preferences.privacy.showPhone}
+                          onCheckedChange={(checked) =>
+                            updatePreference("privacy.showPhone", checked)
+                          }
+                        />
+                      </div>
+                      <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-3">
+                        <div className="flex-1 min-w-0">
+                          <p className="font-medium">Permitir Mensagens</p>
+                          <p className="text-sm text-muted-foreground">
+                            Receber mensagens de outros usuários
+                          </p>
+                        </div>
+                        <Switch
+                          checked={preferences.privacy.allowMessages}
+                          onCheckedChange={(checked) =>
+                            updatePreference("privacy.allowMessages", checked)
+                          }
+                        />
+                      </div>
+                      <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-3">
+                        <div className="flex-1 min-w-0">
+                          <p className="font-medium">Status Online</p>
+                          <p className="text-sm text-muted-foreground">
+                            Mostrar quando você está online
+                          </p>
+                        </div>
+                        <Switch
+                          checked={preferences.privacy.showOnlineStatus}
+                          onCheckedChange={(checked) =>
+                            updatePreference(
+                              "privacy.showOnlineStatus",
+                              checked
+                            )
+                          }
+                        />
+                      </div>
+                      <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-3">
+                        <div className="flex-1 min-w-0">
+                          <p className="font-medium">Analytics</p>
+                          <p className="text-sm text-muted-foreground">
+                            Permitir coleta de dados para melhorias
+                          </p>
+                        </div>
+                        <Switch
+                          checked={preferences.privacy.allowAnalytics}
+                          onCheckedChange={(checked) =>
+                            updatePreference("privacy.allowAnalytics", checked)
+                          }
+                        />
+                      </div>
+                    </div>
+                  </div>
+                </CardContent>
+              </Card>
+            </TabsContent>
+
+            {/* Aparência */}
+            <TabsContent value="appearance" className="space-y-6">
+              <Card>
+                <CardHeader>
+                  <CardTitle>Configurações de Aparência</CardTitle>
+                  <CardDescription>
+                    Personalize a aparência da plataforma
+                  </CardDescription>
+                </CardHeader>
+                <CardContent className="space-y-6">
+                  <div className="grid gap-4 grid-cols-1 sm:grid-cols-2">
+                    <div className="space-y-2">
+                      <Label htmlFor="theme">Tema</Label>
+                      <Select
+                        value={preferences.appearance.theme}
+                        onValueChange={(value) =>
+                          updatePreference("appearance.theme", value)
+                        }
+                      >
+                        <SelectTrigger>
+                          <SelectValue />
+                        </SelectTrigger>
+                        <SelectContent>
+                          <SelectItem value="light">Claro</SelectItem>
+                          <SelectItem value="dark">Escuro</SelectItem>
+                          <SelectItem value="system">Sistema</SelectItem>
+                        </SelectContent>
+                      </Select>
+                    </div>
+                    <div className="space-y-2">
+                      <Label htmlFor="language">Idioma</Label>
+                      <Select
+                        value={preferences.appearance.language}
+                        onValueChange={(value) =>
+                          updatePreference("appearance.language", value)
+                        }
+                      >
+                        <SelectTrigger>
+                          <SelectValue />
+                        </SelectTrigger>
+                        <SelectContent>
+                          <SelectItem value="pt-BR">
+                            Português (Brasil)
+                          </SelectItem>
+                          <SelectItem value="en-US">English (US)</SelectItem>
+                          <SelectItem value="es-ES">Español</SelectItem>
+                        </SelectContent>
+                      </Select>
+                    </div>
+                    <div className="space-y-2">
+                      <Label htmlFor="font-size">Tamanho da Fonte</Label>
+                      <Select
+                        value={preferences.appearance.fontSize}
+                        onValueChange={(value) =>
+                          updatePreference("appearance.fontSize", value)
+                        }
+                      >
+                        <SelectTrigger>
+                          <SelectValue />
+                        </SelectTrigger>
+                        <SelectContent>
+                          <SelectItem value="small">Pequeno</SelectItem>
+                          <SelectItem value="medium">Médio</SelectItem>
+                          <SelectItem value="large">Grande</SelectItem>
+                        </SelectContent>
+                      </Select>
+                    </div>
+                  </div>
+
+                  <div className="space-y-3">
+                    <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-3">
+                      <div className="flex-1 min-w-0">
+                        <p className="font-medium">Modo Compacto</p>
+                        <p className="text-sm text-muted-foreground">
+                          Reduzir espaçamentos da interface
+                        </p>
+                      </div>
+                      <Switch
+                        checked={preferences.appearance.compactMode}
+                        onCheckedChange={(checked) =>
+                          updatePreference("appearance.compactMode", checked)
+                        }
+                      />
+                    </div>
+                    <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-3">
+                      <div className="flex-1 min-w-0">
+                        <p className="font-medium">Animações</p>
+                        <p className="text-sm text-muted-foreground">
+                          Mostrar animações e transições
+                        </p>
+                      </div>
+                      <Switch
+                        checked={preferences.appearance.showAnimations}
+                        onCheckedChange={(checked) =>
+                          updatePreference("appearance.showAnimations", checked)
+                        }
+                      />
+                    </div>
+                  </div>
+                </CardContent>
+              </Card>
+            </TabsContent>
+
+            {/* Segurança */}
+            <TabsContent value="security" className="space-y-6">
+              <Card>
+                <CardHeader>
+                  <CardTitle>Configurações de Segurança</CardTitle>
+                  <CardDescription>
+                    Gerencie a segurança da sua conta
+                  </CardDescription>
+                </CardHeader>
+                <CardContent className="space-y-6">
+                  <div className="space-y-4">
+                    <div className="flex flex-col sm:flex-row sm:items-start sm:items-center gap-4">
+                      <div className="flex-1 min-w-0">
+                        <h4 className="font-medium">
+                          Autenticação de Dois Fatores
+                        </h4>
+                        <p className="text-sm text-muted-foreground">
+                          Adicione uma camada extra de segurança
+                        </p>
+                      </div>
+                      <div className="flex flex-col sm:flex-row items-stretch sm:items-center gap-2">
+                        <Badge
+                          variant={
+                            userSettings.security.twoFactorEnabled
+                              ? "default"
+                              : "outline"
+                          }
+                        >
+                          {userSettings.security.twoFactorEnabled
+                            ? "Ativo"
+                            : "Inativo"}
+                        </Badge>
+                        <Button
+                          variant="outline"
+                          size="sm"
+                          onClick={() => setIsSecurityModalOpen(true)}
+                          className="w-full sm:w-auto"
+                        >
+                          Configurar
+                        </Button>
+                      </div>
+                    </div>
+
+                    <Separator />
+
+                    <div className="space-y-2">
+                      <h4 className="font-medium">Autenticação</h4>
+                      <p className="text-sm text-muted-foreground">
+                        Este sistema usa autenticação por email (OTP). Para
+                        fazer login, você receberá um código por email.
+                      </p>
+                    </div>
+
+                    <Separator />
+
+                    <div className="space-y-4">
+                      <h4 className="font-medium">Sessões Ativas</h4>
+                      <div className="space-y-3">
+                        {userSettings.security.loginHistory.map(
+                          (
+                            session: UserSettings["security"]["loginHistory"][0],
+                            index: number
+                          ) => (
+                            <div
+                              key={session.id}
+                              className="flex flex-col sm:flex-row sm:items-center sm:justify-between p-3 border rounded-lg gap-3"
+                            >
+                              <div className="flex items-center gap-3 min-w-0">
+                                {getDeviceIcon(session.device)}
+                                <div className="min-w-0 flex-1">
+                                  <p className="font-medium text-sm break-words">
+                                    {session.device}
+                                  </p>
+                                  <p className="text-xs text-muted-foreground break-words">
+                                    {session.location}
+                                  </p>
+                                </div>
+                              </div>
+                              <div className="text-left sm:text-right">
+                                <p className="text-sm">
+                                  {formatDate(session.date)}
+                                </p>
+                                {index === 0 && (
+                                  <Badge variant="default" className="text-xs">
+                                    Atual
+                                  </Badge>
+                                )}
+                              </div>
+                            </div>
+                          )
+                        )}
+                      </div>
+                      <Button
+                        variant="outline"
+                        size="sm"
+                        onClick={() => setIsSecurityModalOpen(true)}
+                        className="w-full sm:w-auto"
+                      >
+                        <IconTrash className="h-4 w-4 mr-2" />
+                        Encerrar Outras Sessões
+                      </Button>
+                    </div>
+                  </div>
+                </CardContent>
+              </Card>
+            </TabsContent>
+
+            {/* Integrações */}
+            <TabsContent value="integrations" className="space-y-6">
+              <Card>
+                <CardHeader>
+                  <CardTitle>Integrações</CardTitle>
+                  <CardDescription>
+                    Conecte sua conta com outras plataformas
+                  </CardDescription>
+                </CardHeader>
+                <CardContent className="space-y-6">
+                  <div className="grid gap-4 grid-cols-1 sm:grid-cols-2 lg:grid-cols-3">
+                    <div className="p-4 border rounded-lg">
+                      <div className="flex items-center gap-3 mb-3">
+                        <IconBrandGithub className="h-6 w-6 flex-shrink-0" />
+                        <div className="min-w-0 flex-1">
+                          <h4 className="font-medium break-words">GitHub</h4>
+                          <p className="text-sm text-muted-foreground break-words">
+                            Conectar repositórios
+                          </p>
+                        </div>
+                      </div>
+                      <Button variant="outline" size="sm" className="w-full">
+                        Conectar
+                      </Button>
+                    </div>
+
+                    <div className="p-4 border rounded-lg">
+                      <div className="flex items-center gap-3 mb-3">
+                        <IconBrandLinkedin className="h-6 w-6 flex-shrink-0" />
+                        <div className="min-w-0 flex-1">
+                          <h4 className="font-medium break-words">LinkedIn</h4>
+                          <p className="text-sm text-muted-foreground break-words">
+                            Importar perfil
+                          </p>
+                        </div>
+                      </div>
+                      <Button variant="outline" size="sm" className="w-full">
+                        Conectar
+                      </Button>
+                    </div>
+
+                    <div className="p-4 border rounded-lg">
+                      <div className="flex items-center gap-3 mb-3">
+                        <IconBrandNotion className="h-6 w-6 flex-shrink-0" />
+                        <div className="min-w-0 flex-1">
+                          <h4 className="font-medium break-words">Notion</h4>
+                          <p className="text-sm text-muted-foreground break-words">
+                            Sincronizar notas
+                          </p>
+                        </div>
+                      </div>
+                      <Button variant="outline" size="sm" className="w-full">
+                        Conectar
+                      </Button>
+                    </div>
+
+                    <div className="p-4 border rounded-lg">
+                      <div className="flex items-center gap-3 mb-3">
+                        <IconBrandSlack className="h-6 w-6 flex-shrink-0" />
+                        <div className="min-w-0 flex-1">
+                          <h4 className="font-medium break-words">Slack</h4>
+                          <p className="text-sm text-muted-foreground break-words">
+                            Notificações
+                          </p>
+                        </div>
+                      </div>
+                      <Button variant="outline" size="sm" className="w-full">
+                        Conectar
+                      </Button>
+                    </div>
+
+                    <div className="p-4 border rounded-lg">
+                      <div className="flex items-center gap-3 mb-3">
+                        <IconBrandDiscord className="h-6 w-6 flex-shrink-0" />
+                        <div className="min-w-0 flex-1">
+                          <h4 className="font-medium break-words">Discord</h4>
+                          <p className="text-sm text-muted-foreground break-words">
+                            Comunidade
+                          </p>
+                        </div>
+                      </div>
+                      <Button variant="outline" size="sm" className="w-full">
+                        Conectar
+                      </Button>
+                    </div>
+
+                    <div className="p-4 border rounded-lg">
+                      <div className="flex items-center gap-3 mb-3">
+                        <IconBrandFigma className="h-6 w-6 flex-shrink-0" />
+                        <div className="min-w-0 flex-1">
+                          <h4 className="font-medium break-words">Figma</h4>
+                          <p className="text-sm text-muted-foreground break-words">
+                            Design files
+                          </p>
+                        </div>
+                      </div>
+                      <Button variant="outline" size="sm" className="w-full">
+                        Conectar
+                      </Button>
+                    </div>
+                  </div>
+                </CardContent>
+              </Card>
+            </TabsContent>
+          </Tabs>
+        </div>
+      </div>
 
       {/* Modais */}
       <EditProfileModal
