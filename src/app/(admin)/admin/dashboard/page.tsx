@@ -502,7 +502,7 @@ export default function DashboardPage() {
           activeAccounts={additionalMetrics.activeAccounts}
           growthRate={additionalMetrics.growthRate}
         />
-      </div>
+    </div>
 
       {/* Sistema de Notificações */}
       <ToastContainer toasts={toasts} onClose={removeToast} />
