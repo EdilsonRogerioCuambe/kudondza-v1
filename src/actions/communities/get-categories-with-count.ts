@@ -12,16 +12,24 @@ export type CategoryWithCount = {
 
 export async function getCategoriesWithCount(): Promise<CategoryWithCount[]> {
   try {
-    const categories = await prisma.category.findMany({
-      orderBy: { name: "asc" },
-    });
+    const categories = await prisma.category
+      .findMany({ orderBy: { name: "asc" } })
+      .catch(
+        () =>
+          [] as {
+            id: string;
+            name: string;
+            icon: string | null;
+            color: string | null;
+          }[]
+      );
 
     // Buscar contagem de comunidades para cada categoria
     const categoriesWithCount = await Promise.all(
       categories.map(async (category) => {
-        const communityCount = await prisma.community.count({
-          where: { categoryId: category.id },
-        });
+        const communityCount = await prisma.community
+          .count({ where: { categoryId: category.id } })
+          .catch(() => 0);
 
         return {
           id: category.id,
