@@ -13,6 +13,7 @@ import { Badge } from "@/components/ui/badge";
 import { buttonVariants } from "@/components/ui/button";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Separator } from "@/components/ui/separator";
+import VideoPlayer from "@/components/video-player";
 import {
   serializeCourseData,
   serializePrismaData,
@@ -103,29 +104,32 @@ export default async function Page({
           ) : null}
           {/* Trailer ou imagem */}
           {course.trailer ? (
-            <div className="mt-4">
-              <AspectRatio ratio={16 / 9}>
-                <video
-                  className="w-full h-full rounded-md bg-black"
-                  controls
+            <div className="mt-6">
+              <div className="space-y-3">
+                <h3 className="text-lg font-semibold">Trailer do curso</h3>
+                <VideoPlayer
+                  src={course.trailer}
                   poster={course.thumbnail ?? undefined}
-                  preload="metadata"
-                >
-                  <source src={course.trailer} />
-                  Seu navegador não suporta a tag de vídeo.
-                </video>
-              </AspectRatio>
+                  title={course.title}
+                  disallowPiP
+                  disallowDownload
+                  className="w-full max-w-4xl"
+                />
+              </div>
             </div>
           ) : course.thumbnail ? (
-            <div className="mt-4">
-              <AspectRatio ratio={16 / 9}>
-                <Image
-                  src={course.thumbnail}
-                  alt={course.title}
-                  fill
-                  className="object-cover rounded-md"
-                />
-              </AspectRatio>
+            <div className="mt-6">
+              <div className="space-y-3">
+                <h3 className="text-lg font-semibold">Imagem do curso</h3>
+                <AspectRatio ratio={16 / 9} className="max-w-4xl">
+                  <Image
+                    src={course.thumbnail}
+                    alt={course.title}
+                    fill
+                    className="object-cover rounded-lg"
+                  />
+                </AspectRatio>
+              </div>
             </div>
           ) : null}
         </div>
