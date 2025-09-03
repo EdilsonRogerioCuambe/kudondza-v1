@@ -177,13 +177,13 @@ export default async function Page({
                 {course.price === 0 ? "Começar agora" : "Comprar curso"}
               </Link>
               <ul className="text-sm text-muted-foreground space-y-2">
-                <li>• Acesso vitalício</li>
+                <li>• Acesso mensal</li>
                 <li>• Certificado de conclusão</li>
                 <li>• Atualizações futuras incluídas</li>
                 <li>• Suporte da comunidade</li>
                 {course.language ? <li>• Idioma: {course.language}</li> : null}
                 {course.duration ? (
-                  <li>• Carga horária: {course.duration} min</li>
+                  <li>• Carga horária: {Math.round(Number(course.duration) / 60 * 10) / 10}h</li>
                 ) : null}
                 {course.allowDownload ? (
                   <li>• Download de materiais incluso</li>
