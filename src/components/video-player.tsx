@@ -122,9 +122,10 @@ export default function VideoPlayer({
   useEffect(() => {
     const v = videoRef.current;
     if (!v) return;
-    
+
     // If video is already ready, don't show loading
-    if (v.readyState >= 2) { // HAVE_CURRENT_DATA
+    if (v.readyState >= 2) {
+      // HAVE_CURRENT_DATA
       setIsLoading(false);
     }
   }, [src]);

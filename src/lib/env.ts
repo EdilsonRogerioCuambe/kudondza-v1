@@ -2,7 +2,7 @@ import { z } from "zod";
 
 const envSchema = z.object({
   // Server-side environment variables
-  DATABASE_URL: z.string(),
+  DATABASE_URL: z.string().startsWith("postgresql://"),
   BETTER_AUTH_SECRET: z.string().min(1),
   BETTER_AUTH_URL: z.string().url(),
   GITHUB_CLIENT_ID: z.string().min(1),
