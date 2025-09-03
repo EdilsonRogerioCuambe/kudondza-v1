@@ -183,7 +183,10 @@ export default async function Page({
                 <li>• Suporte da comunidade</li>
                 {course.language ? <li>• Idioma: {course.language}</li> : null}
                 {course.duration ? (
-                  <li>• Carga horária: {Math.round(Number(course.duration) / 60 * 10) / 10}h</li>
+                  <li>
+                    • Carga horária:{" "}
+                    {Math.round((Number(course.duration) / 60) * 10) / 10}h
+                  </li>
                 ) : null}
                 {course.allowDownload ? (
                   <li>• Download de materiais incluso</li>
