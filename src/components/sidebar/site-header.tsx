@@ -3,7 +3,6 @@
 import { Separator } from "@/components/ui/separator";
 import { SidebarTrigger } from "@/components/ui/sidebar";
 import { useEffect, useState } from "react";
-import { DashboardBreadcrumbs } from "../ui/breadcrumb";
 import { ThemeToggle } from "../ui/theme-toggle";
 
 export function SiteHeader() {
@@ -25,11 +24,6 @@ export function SiteHeader() {
             />
           </>
         )}
-
-        {/* Breadcrumbs */}
-        <div className="flex items-center gap-2 min-w-0 flex-1">
-          <DashboardBreadcrumbs />
-        </div>
 
         <div className="ml-auto flex items-center gap-2">
           <ThemeToggle />
