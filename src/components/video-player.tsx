@@ -65,7 +65,7 @@ export default function VideoPlayer({
   const [volume, setVolume] = useState(0.9);
   const [isHovering, setIsHovering] = useState(false);
   const [showControls, setShowControls] = useState(true);
-  const [isLoading, setIsLoading] = useState(true);
+  const [isLoading, setIsLoading] = useState(false);
   const [playbackRate, setPlaybackRate] = useState(1);
   const [showSubtitles, setShowSubtitles] = useState(false);
   const hideTimer = useRef<number | null>(null);
@@ -109,7 +109,7 @@ export default function VideoPlayer({
 
     document.addEventListener("keydown", handleKeyDown);
     return () => document.removeEventListener("keydown", handleKeyDown);
-  // eslint-disable-next-line react-hooks/exhaustive-deps
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [volume]);
 
   useEffect(() => {
@@ -117,6 +117,17 @@ export default function VideoPlayer({
     if (!v) return;
     v.volume = volume;
   }, [volume]);
+
+  // Check if video is already loaded when component mounts
+  useEffect(() => {
+    const v = videoRef.current;
+    if (!v) return;
+    
+    // If video is already ready, don't show loading
+    if (v.readyState >= 2) { // HAVE_CURRENT_DATA
+      setIsLoading(false);
+    }
+  }, [src]);
 
   useEffect(() => {
     const v = videoRef.current;
@@ -126,26 +137,51 @@ export default function VideoPlayer({
       setProgress(v.currentTime);
       if (onTimeUpdate) onTimeUpdate(v.currentTime);
     };
-    const loaded = () => {
+    const loadedmetadata = () => {
       setDuration(v.duration || 0);
+      setIsLoading(false);
+    };
+    const canplay = () => {
       setIsLoading(false);
     };
     const ended = () => {
       setIsPlaying(false);
       if (onEnded) onEnded();
     };
-    const loadstart = () => setIsLoading(true);
+    const loadstart = () => {
+      // Only show loading if video is not already ready
+      if (v.readyState < 2) {
+        setIsLoading(true);
+      }
+    };
+    const waiting = () => {
+      setIsLoading(true);
+    };
+    const playing = () => {
+      setIsLoading(false);
+    };
+    const canplaythrough = () => {
+      setIsLoading(false);
+    };
 
     v.addEventListener("timeupdate", timeupdate);
-    v.addEventListener("loadedmetadata", loaded);
+    v.addEventListener("loadedmetadata", loadedmetadata);
+    v.addEventListener("canplay", canplay);
     v.addEventListener("ended", ended);
     v.addEventListener("loadstart", loadstart);
+    v.addEventListener("waiting", waiting);
+    v.addEventListener("playing", playing);
+    v.addEventListener("canplaythrough", canplaythrough);
 
     return () => {
       v.removeEventListener("timeupdate", timeupdate);
-      v.removeEventListener("loadedmetadata", loaded);
+      v.removeEventListener("loadedmetadata", loadedmetadata);
+      v.removeEventListener("canplay", canplay);
       v.removeEventListener("ended", ended);
       v.removeEventListener("loadstart", loadstart);
+      v.removeEventListener("waiting", waiting);
+      v.removeEventListener("playing", playing);
+      v.removeEventListener("canplaythrough", canplaythrough);
     };
   }, [onEnded, onTimeUpdate]);
 
@@ -253,7 +289,7 @@ export default function VideoPlayer({
   return (
     <Card
       className={cn(
-        "relative overflow-hidden bg-background border border-border shadow-lg pt-0 pb-0",
+        "relative overflow-hidden bg-background border border-border shadow-lg pt-0 pb-0 w-full max-w-4xl mx-auto",
         className
       )}
     >
@@ -298,10 +334,10 @@ export default function VideoPlayer({
             <div className="absolute inset-0 flex items-center justify-center">
               <Button
                 size="icon"
-                className="h-16 w-16 bg-primary hover:bg-primary/90 text-primary-foreground shadow-lg"
+                className="h-12 w-12 sm:h-16 sm:w-16 bg-primary hover:bg-primary/90 text-primary-foreground shadow-lg"
                 onClick={togglePlay}
               >
-                <Play className="h-8 w-8 ml-1" />
+                <Play className="h-6 w-6 sm:h-8 sm:w-8 ml-0.5 sm:ml-1" />
               </Button>
             </div>
           )}
@@ -318,7 +354,7 @@ export default function VideoPlayer({
         {/* Controls */}
         <div
           className={cn(
-            "absolute inset-x-0 bottom-0 z-10 flex flex-col gap-3 p-4 transition-all duration-300",
+            "absolute inset-x-0 bottom-0 z-10 flex flex-col gap-2 sm:gap-3 p-2 sm:p-4 transition-all duration-300",
             showControls || isHovering
               ? "opacity-100 translate-y-0"
               : "opacity-0 translate-y-2"
@@ -332,29 +368,29 @@ export default function VideoPlayer({
               max={Math.max(duration, 0.01)}
               step={0.1}
               onValueChange={handleSeek}
-              className="w-full [&>span]:h-2 [&>span]:bg-muted [&>span>span]:bg-primary"
+              className="w-full [&>span]:h-1.5 sm:[&>span]:h-2 [&>span]:bg-muted [&>span>span]:bg-primary"
             />
-            <div className="absolute -top-8 right-0 text-xs text-foreground bg-background/90 px-2 py-1 rounded border">
+            <div className="absolute -top-6 sm:-top-8 right-0 text-xs text-foreground bg-background/90 px-1.5 sm:px-2 py-0.5 sm:py-1 rounded border text-[10px] sm:text-xs">
               {formatted.cur} / {formatted.dur}
             </div>
           </div>
 
           {/* Control buttons */}
-          <div className="flex items-center justify-between gap-3">
-            <div className="flex items-center gap-2">
+          <div className="flex items-center justify-between gap-1 sm:gap-3">
+            <div className="flex items-center gap-1 sm:gap-2">
               {/* Play/Pause */}
               <TooltipProvider>
                 <Tooltip>
                   <TooltipTrigger asChild>
                     <Button
                       size="icon"
-                      className="h-10 w-10 bg-primary hover:bg-primary/90 text-primary-foreground shadow-md"
+                      className="h-8 w-8 sm:h-10 sm:w-10 bg-primary hover:bg-primary/90 text-primary-foreground shadow-md"
                       onClick={togglePlay}
                     >
                       {isPlaying ? (
-                        <Pause className="h-5 w-5" />
+                        <Pause className="h-4 w-4 sm:h-5 sm:w-5" />
                       ) : (
-                        <Play className="h-5 w-5 ml-0.5" />
+                        <Play className="h-4 w-4 sm:h-5 sm:w-5 ml-0.5" />
                       )}
                     </Button>
                   </TooltipTrigger>
@@ -364,17 +400,17 @@ export default function VideoPlayer({
                 </Tooltip>
               </TooltipProvider>
 
-              {/* Skip backward */}
+              {/* Skip backward - hidden on mobile */}
               <TooltipProvider>
                 <Tooltip>
                   <TooltipTrigger asChild>
                     <Button
                       size="icon"
                       variant="outline"
-                      className="h-10 w-10 bg-background/80 hover:bg-background text-foreground border-border/50"
+                      className="h-8 w-8 sm:h-10 sm:w-10 bg-background/80 hover:bg-background text-foreground border-border/50 hidden sm:flex"
                       onClick={() => seek(-10)}
                     >
-                      <SkipBack className="h-5 w-5" />
+                      <SkipBack className="h-4 w-4 sm:h-5 sm:w-5" />
                     </Button>
                   </TooltipTrigger>
                   <TooltipContent>
@@ -383,17 +419,17 @@ export default function VideoPlayer({
                 </Tooltip>
               </TooltipProvider>
 
-              {/* Skip forward */}
+              {/* Skip forward - hidden on mobile */}
               <TooltipProvider>
                 <Tooltip>
                   <TooltipTrigger asChild>
                     <Button
                       size="icon"
                       variant="outline"
-                      className="h-10 w-10 bg-background/80 hover:bg-background text-foreground border-border/50"
+                      className="h-8 w-8 sm:h-10 sm:w-10 bg-background/80 hover:bg-background text-foreground border-border/50 hidden sm:flex"
                       onClick={() => seek(10)}
                     >
-                      <SkipForward className="h-5 w-5" />
+                      <SkipForward className="h-4 w-4 sm:h-5 sm:w-5" />
                     </Button>
                   </TooltipTrigger>
                   <TooltipContent>
@@ -403,42 +439,42 @@ export default function VideoPlayer({
               </TooltipProvider>
 
               {/* Volume controls */}
-              <div className="flex items-center gap-2">
+              <div className="flex items-center gap-1 sm:gap-2">
                 <Button
                   size="icon"
                   variant="outline"
-                  className="h-10 w-10 bg-background/80 hover:bg-background text-foreground border-border/50"
+                  className="h-8 w-8 sm:h-10 sm:w-10 bg-background/80 hover:bg-background text-foreground border-border/50"
                   onClick={toggleMute}
                 >
                   {volume === 0 ? (
-                    <VolumeX className="h-5 w-5" />
+                    <VolumeX className="h-4 w-4 sm:h-5 sm:w-5" />
                   ) : (
-                    <Volume2 className="h-5 w-5" />
+                    <Volume2 className="h-4 w-4 sm:h-5 sm:w-5" />
                   )}
                 </Button>
-                <div className="w-24">
+                <div className="w-16 sm:w-24 hidden sm:block">
                   <Slider
                     value={[volume]}
                     min={0}
                     max={1}
                     step={0.05}
                     onValueChange={(v) => setVolume(v[0] ?? 0)}
-                    className="[&>span]:h-2 [&>span]:bg-muted [&>span>span]:bg-primary"
+                    className="[&>span]:h-1.5 sm:[&>span]:h-2 [&>span]:bg-muted [&>span>span]:bg-primary"
                   />
                 </div>
               </div>
             </div>
 
-            <div className="flex items-center gap-2">
-              {/* Playback speed */}
+            <div className="flex items-center gap-1 sm:gap-2">
+              {/* Playback speed - hidden on mobile */}
               <DropdownMenu>
                 <DropdownMenuTrigger asChild>
                   <Button
                     size="icon"
                     variant="outline"
-                    className="h-10 w-10 bg-background/80 hover:bg-background text-foreground border-border/50"
+                    className="h-8 w-8 sm:h-10 sm:w-10 bg-background/80 hover:bg-background text-foreground border-border/50 hidden sm:flex"
                   >
-                    <Zap className="h-5 w-5" />
+                    <Zap className="h-4 w-4 sm:h-5 sm:w-5" />
                   </Button>
                 </DropdownMenuTrigger>
                 <DropdownMenuContent align="end">
@@ -458,7 +494,7 @@ export default function VideoPlayer({
                 </DropdownMenuContent>
               </DropdownMenu>
 
-              {/* Subtitles */}
+              {/* Subtitles - hidden on mobile */}
               <TooltipProvider>
                 <Tooltip>
                   <TooltipTrigger asChild>
@@ -466,12 +502,12 @@ export default function VideoPlayer({
                       size="icon"
                       variant="outline"
                       className={cn(
-                        "h-10 w-10 bg-background/80 hover:bg-background text-foreground border-border/50",
+                        "h-8 w-8 sm:h-10 sm:w-10 bg-background/80 hover:bg-background text-foreground border-border/50 hidden sm:flex",
                         showSubtitles && "bg-primary text-primary-foreground"
                       )}
                       onClick={toggleSubtitles}
                     >
-                      <Subtitles className="h-5 w-5" />
+                      <Subtitles className="h-4 w-4 sm:h-5 sm:w-5" />
                     </Button>
                   </TooltipTrigger>
                   <TooltipContent>
@@ -482,15 +518,15 @@ export default function VideoPlayer({
                 </Tooltip>
               </TooltipProvider>
 
-              {/* Settings */}
+              {/* Settings - hidden on mobile */}
               <DropdownMenu>
                 <DropdownMenuTrigger asChild>
                   <Button
                     size="icon"
                     variant="outline"
-                    className="h-10 w-10 bg-background/80 hover:bg-background text-foreground border-border/50"
+                    className="h-8 w-8 sm:h-10 sm:w-10 bg-background/80 hover:bg-background text-foreground border-border/50 hidden sm:flex"
                   >
-                    <Settings className="h-5 w-5" />
+                    <Settings className="h-4 w-4 sm:h-5 sm:w-5" />
                   </Button>
                 </DropdownMenuTrigger>
                 <DropdownMenuContent align="end">
@@ -512,13 +548,13 @@ export default function VideoPlayer({
                     <Button
                       size="icon"
                       variant="outline"
-                      className="h-10 w-10 bg-background/80 hover:bg-background text-foreground border-border/50"
+                      className="h-8 w-8 sm:h-10 sm:w-10 bg-background/80 hover:bg-background text-foreground border-border/50"
                       onClick={toggleFullscreen}
                     >
                       {isFullscreen ? (
-                        <Minimize className="h-5 w-5" />
+                        <Minimize className="h-4 w-4 sm:h-5 sm:w-5" />
                       ) : (
-                        <Maximize className="h-5 w-5" />
+                        <Maximize className="h-4 w-4 sm:h-5 sm:w-5" />
                       )}
                     </Button>
                   </TooltipTrigger>
@@ -534,8 +570,8 @@ export default function VideoPlayer({
 
       {/* Title (optional) */}
       {title && (
-        <div className="px-4 py-3 bg-muted/30 border-t">
-          <h3 className="text-sm font-medium text-foreground truncate">
+        <div className="px-2 sm:px-4 py-2 sm:py-3 bg-muted/30 border-t">
+          <h3 className="text-xs sm:text-sm font-medium text-foreground truncate">
             {title}
           </h3>
         </div>
