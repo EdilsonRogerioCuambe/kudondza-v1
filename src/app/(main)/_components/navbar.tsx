@@ -29,7 +29,7 @@ const navigationItems: NavigationItem[] = [
   { name: "Home", href: "/", icon: Home },
   { name: "Cursos", href: "/courses", icon: BookOpen },
   { name: "Dashboard", href: "/admin/dashboard", icon: LayoutDashboard },
-  { name: "Comunidade", href: "/community", icon: Users },
+  { name: "Comunidades", href: "/communities", icon: Users },
   { name: "Sobre", href: "/about", icon: Info },
 ];
 
