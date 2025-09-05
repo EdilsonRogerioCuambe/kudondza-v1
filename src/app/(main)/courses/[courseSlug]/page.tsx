@@ -13,12 +13,14 @@ import { Badge } from "@/components/ui/badge";
 import { buttonVariants } from "@/components/ui/button";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Separator } from "@/components/ui/separator";
-import VideoPlayer from "@/components/video-player";
+import { VideoSection } from "@/components/ui/video-section";
+import { ViewPageHeader } from "@/components/ui/view-page-header";
+import { ViewPageLayout } from "@/components/ui/view-page-layout";
 import {
   serializeCourseData,
   serializePrismaData,
 } from "@/lib/serialize-prisma-data";
-import { BookOpen, Layers, Lock, PlayCircle, Users } from "lucide-react";
+import { Lock, PlayCircle } from "lucide-react";
 import Image from "next/image";
 import Link from "next/link";
 import ReactMarkdown from "react-markdown";
@@ -65,58 +67,37 @@ export default async function Page({
     course.originalPrice > course.price;
 
   return (
-    <div className="py-8 space-y-10">
+    <ViewPageLayout>
+      {/* Header */}
+      <ViewPageHeader
+        title={course.title}
+        subtitle={course.shortDescription}
+        level={course.level}
+        enrollmentsCount={course._count?.enrollments ?? 0}
+        modulesCount={course._count?.modules ?? 0}
+        tags={course.tags}
+        breadcrumbItems={[
+          { label: "Início", href: "/" },
+          { label: "Cursos", href: "/courses" },
+          {
+            label: course.title,
+            href: `/courses/${course.slug}`,
+            isCurrentPage: true,
+          },
+        ]}
+      />
+
       {/* Hero */}
       <section className="grid grid-cols-1 lg:grid-cols-5 gap-8 items-start">
         <div className="lg:col-span-3 space-y-4">
-          <h1 className="text-3xl md:text-4xl font-bold tracking-tight">
-            {course.title}
-          </h1>
-          {course.shortDescription ? (
-            <p className="text-muted-foreground text-lg max-w-2xl">
-              {course.shortDescription}
-            </p>
-          ) : null}
-          <div className="flex items-center gap-3 text-sm">
-            {course.level ? (
-              <span className="inline-flex items-center gap-2">
-                <Layers className="h-4 w-4" />
-                {course.level}
-              </span>
-            ) : null}
-            <span className="inline-flex items-center gap-2">
-              <Users className="h-4 w-4" />
-              {course._count?.enrollments ?? 0} alunos
-            </span>
-            <span className="inline-flex items-center gap-2">
-              <BookOpen className="h-4 w-4" />
-              {course._count?.modules ?? 0} módulos
-            </span>
-          </div>
-          {course.tags?.length ? (
-            <div className="flex flex-wrap gap-2 pt-2">
-              {course.tags.slice(0, 6).map((t: string) => (
-                <Badge key={t} variant="secondary">
-                  {t}
-                </Badge>
-              ))}
-            </div>
-          ) : null}
           {/* Trailer ou imagem */}
           {course.trailer ? (
-            <div className="mt-6">
-              <div className="space-y-3">
-                <h3 className="text-lg font-semibold">Trailer do curso</h3>
-                <VideoPlayer
-                  src={course.trailer}
-                  poster={course.thumbnail ?? undefined}
-                  title={course.title}
-                  disallowPiP
-                  disallowDownload
-                  className="w-full max-w-4xl"
-                />
-              </div>
-            </div>
+            <VideoSection
+              title="Trailer do curso"
+              videoUrl={course.trailer}
+              poster={course.thumbnail}
+              className="mt-6"
+            />
           ) : course.thumbnail ? (
             <div className="mt-6">
               <div className="space-y-3">
@@ -362,6 +343,6 @@ export default async function Page({
           </div>
         </section>
       ) : null}
-    </div>
+    </ViewPageLayout>
   );
 }
