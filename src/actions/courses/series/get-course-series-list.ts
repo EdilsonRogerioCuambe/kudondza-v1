@@ -1,6 +1,7 @@
 "use server";
 
 import prisma from "@/lib/prisma";
+import { serializePrismaData } from "@/lib/serialize-prisma-data";
 
 /**
  * Lista séries de cursos
@@ -35,7 +36,10 @@ export async function getCourseSeriesList(creatorId?: string) {
       orderBy: { createdAt: "desc" },
     });
 
-    return { success: true, data: series };
+    // Serializar dados do Prisma
+    const serializedSeries = serializePrismaData(series);
+
+    return { success: true, data: serializedSeries };
   } catch (error) {
     console.error("Erro ao listar séries de cursos:", error);
     return {
