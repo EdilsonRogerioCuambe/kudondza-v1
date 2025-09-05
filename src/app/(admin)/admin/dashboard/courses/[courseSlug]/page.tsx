@@ -21,9 +21,7 @@ export default async function CoursePage({ params }: CoursePageProps) {
   if (courseResult.success && courseResult.data) {
     const mods = await getModulesWithLessonsByCourseId(courseResult.data.id);
     modulesWithLessons =
-      mods.success && mods.data
-        ? JSON.parse(JSON.stringify(serializePrismaData(mods.data)))
-        : [];
+      mods.success && mods.data ? serializePrismaData(mods.data) : [];
   }
 
   if (!courseResult.success || !courseResult.data) {
@@ -40,9 +38,7 @@ export default async function CoursePage({ params }: CoursePageProps) {
   }
 
   // Serializar dados do curso usando a função utilitária
-  const course = JSON.parse(
-    JSON.stringify(serializePrismaData(serializeCourseData(courseResult.data)))
-  );
+  const course = serializePrismaData(serializeCourseData(courseResult.data));
 
   const series =
     seriesResult.success && seriesResult.data
