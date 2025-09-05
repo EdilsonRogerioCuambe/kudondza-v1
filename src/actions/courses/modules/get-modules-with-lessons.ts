@@ -1,6 +1,7 @@
 "use server";
 
 import prisma from "@/lib/prisma";
+import { serializePrismaData } from "@/lib/serialize-prisma-data";
 
 export async function getModulesWithLessonsByCourseId(courseId: string) {
   if (!courseId) {
@@ -34,7 +35,11 @@ export async function getModulesWithLessonsByCourseId(courseId: string) {
         },
       },
     });
-    return { success: true, data: modules } as const;
+
+    // Serializar dados do Prisma
+    const serializedModules = serializePrismaData(modules);
+
+    return { success: true, data: serializedModules } as const;
   } catch (error) {
     console.error("Erro ao obter módulos com aulas:", error);
     return {
