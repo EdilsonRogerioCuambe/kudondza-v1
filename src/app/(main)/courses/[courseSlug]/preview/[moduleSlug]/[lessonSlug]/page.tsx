@@ -10,18 +10,12 @@ import {
 } from "@/components/ui/accordion";
 import { AspectRatio } from "@/components/ui/aspect-ratio";
 import { Badge } from "@/components/ui/badge";
-import {
-  Breadcrumb,
-  BreadcrumbItem,
-  BreadcrumbLink,
-  BreadcrumbList,
-  BreadcrumbPage,
-  BreadcrumbSeparator,
-} from "@/components/ui/breadcrumb";
 import { buttonVariants } from "@/components/ui/button";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Separator } from "@/components/ui/separator";
-import VideoPlayer from "@/components/video-player";
+import { VideoSection } from "@/components/ui/video-section";
+import { ViewPageHeader } from "@/components/ui/view-page-header";
+import { ViewPageLayout } from "@/components/ui/view-page-layout";
 import {
   serializeCourseData,
   serializePrismaData,
@@ -30,11 +24,9 @@ import {
   Clock,
   Download,
   Eye,
-  Home,
   Layers,
   Lock,
   PlayCircle,
-  Star,
   Zap,
 } from "lucide-react";
 import Image from "next/image";
@@ -93,113 +85,71 @@ export default async function Page({
     serializedCourse.originalPrice > serializedCourse.price;
 
   return (
-    <div className="py-8 space-y-10">
-      {/* Breadcrumb */}
-      <Breadcrumb>
-        <BreadcrumbList>
-          <BreadcrumbItem>
-            <BreadcrumbLink asChild>
-              <Link href="/" className="flex items-center gap-1">
-                <Home className="h-3 w-3" />
-                Início
-              </Link>
-            </BreadcrumbLink>
-          </BreadcrumbItem>
-          <BreadcrumbSeparator />
-          <BreadcrumbItem>
-            <BreadcrumbLink asChild>
-              <Link href="/courses">Cursos</Link>
-            </BreadcrumbLink>
-          </BreadcrumbItem>
-          <BreadcrumbSeparator />
-          <BreadcrumbItem>
-            <BreadcrumbLink asChild>
-              <Link
-                href={`/courses/${course.slug}`}
-                className="truncate max-w-[150px] sm:max-w-[200px]"
-              >
-                {course.title}
-              </Link>
-            </BreadcrumbLink>
-          </BreadcrumbItem>
-          <BreadcrumbSeparator />
-          <BreadcrumbItem>
-            <BreadcrumbLink asChild>
-              <Link
-                href={`/courses/${course.slug}`}
-                className="truncate max-w-[120px] sm:max-w-[150px]"
-              >
-                {module.title}
-              </Link>
-            </BreadcrumbLink>
-          </BreadcrumbItem>
-          <BreadcrumbSeparator />
-          <BreadcrumbItem>
-            <BreadcrumbPage className="truncate max-w-[120px] sm:max-w-[150px]">
-              {lesson.title}
-            </BreadcrumbPage>
-          </BreadcrumbItem>
-        </BreadcrumbList>
-      </Breadcrumb>
+    <ViewPageLayout>
+      {/* Header */}
+      <ViewPageHeader
+        title={lesson.title}
+        subtitle={lesson.shortDescription}
+        breadcrumbItems={[
+          { label: "Início", href: "/" },
+          { label: "Cursos", href: "/courses" },
+          { label: course.title, href: `/courses/${course.slug}` },
+          { label: module.title, href: `/courses/${course.slug}` },
+          {
+            label: lesson.title,
+            href: `/courses/${course.slug}/preview/${module.slug}/${lesson.slug}`,
+            isCurrentPage: true,
+          },
+        ]}
+        actions={
+          <div className="flex items-center gap-2">
+            <Badge
+              variant="secondary"
+              className="bg-green-400 dark:bg-green-500 dark:text-stone-800"
+            >
+              <Eye className="h-3 w-3 mr-1" />
+              Preview Gratuito
+            </Badge>
+            {lesson.isRequired && (
+              <Badge variant="outline">
+                <PlayCircle className="h-3 w-3 mr-1" />
+                Aula Obrigatória
+              </Badge>
+            )}
+          </div>
+        }
+      />
 
-      {/* Preview Badge */}
-      <div className="flex items-center gap-2">
-        <Badge
-          variant="secondary"
-          className="bg-green-400 dark:bg-green-500 dark:text-stone-800"
-        >
-          <Eye className="h-3 w-3 mr-1" />
-          Preview Gratuito
-        </Badge>
-        {lesson.isRequired && (
-          <Badge variant="outline">
-            <Star className="h-3 w-3 mr-1" />
-            Obrigatória
-          </Badge>
+      {/* Lesson Meta */}
+      <div className="flex items-center gap-4 text-sm text-muted-foreground">
+        <span className="inline-flex items-center gap-2">
+          <Layers className="h-4 w-4" />
+          {module.title}
+        </span>
+        {lesson.videoDuration && (
+          <span className="inline-flex items-center gap-2">
+            <Clock className="h-4 w-4" />
+            {Math.round((Number(lesson.videoDuration) / 60) * 10) / 10}h
+          </span>
+        )}
+        {lesson.xpReward && (
+          <span className="inline-flex items-center gap-2">
+            <Zap className="h-4 w-4" />
+            {lesson.xpReward} XP
+          </span>
         )}
       </div>
 
       {/* Hero Section */}
       <section className="grid grid-cols-1 lg:grid-cols-5 gap-8 items-start">
         <div className="lg:col-span-3 space-y-4">
-          <h1 className="text-3xl md:text-4xl font-bold tracking-tight">
-            {lesson.title}
-          </h1>
-          {lesson.shortDescription && (
-            <p className="text-muted-foreground text-lg max-w-2xl">
-              {lesson.shortDescription}
-            </p>
-          )}
-          <div className="flex items-center gap-4 text-sm">
-            <span className="inline-flex items-center gap-2">
-              <Layers className="h-4 w-4" />
-              {module.title}
-            </span>
-            {lesson.videoDuration && (
-              <span className="inline-flex items-center gap-2">
-                <Clock className="h-4 w-4" />
-                {Math.round((Number(lesson.videoDuration) / 60) * 10) / 10}h
-              </span>
-            )}
-            {lesson.xpReward && (
-              <span className="inline-flex items-center gap-2">
-                <Zap className="h-4 w-4" />
-                {lesson.xpReward} XP
-              </span>
-            )}
-          </div>
-
           {/* Video Player */}
           {lesson.videoUrl ? (
-            <div className="mt-6">
-              <VideoPlayer
-                src={lesson.videoUrl}
-                title={lesson.title}
-                disallowPiP
-                disallowDownload
-                className="w-full max-w-4xl"
-              />
-            </div>
+            <VideoSection
+              title="Aula"
+              videoUrl={lesson.videoUrl}
+              className="mt-6"
+            />
           ) : (
             <div className="mt-6 p-8 border-2 border-dashed border-muted-foreground/25 rounded-lg text-center">
               <PlayCircle className="h-12 w-12 mx-auto text-muted-foreground mb-4" />
@@ -457,6 +407,6 @@ export default async function Page({
             </div>
           </section>
         )}
-    </div>
+    </ViewPageLayout>
   );
 }
