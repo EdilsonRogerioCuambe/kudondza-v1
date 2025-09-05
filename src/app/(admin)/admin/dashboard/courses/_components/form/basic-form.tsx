@@ -24,7 +24,7 @@ import {
 } from "@/components/ui/select";
 import { Textarea } from "@/components/ui/textarea";
 import { BookOpen, SparkleIcon, X } from "lucide-react";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { useFormContext } from "react-hook-form";
 import slugify from "slugify";
 
@@ -40,7 +40,24 @@ export default function BasicForm({
   availableSubcategories,
 }: BasicFormProps) {
   const form = useFormContext();
+  const [tags, setTags] = useState<string[]>([]);
   const [tagInput, setTagInput] = useState("");
+
+  // Sincronizar com o form quando ele mudar
+  useEffect(() => {
+    const subscription = form.watch((value, { name }) => {
+      if (name === "tags" && value.tags) {
+        setTags(value.tags);
+      }
+    });
+    return () => subscription.unsubscribe();
+  }, [form]);
+
+  // Inicializar tags do form
+  useEffect(() => {
+    const formTags = form.getValues("tags") || [];
+    setTags(formTags);
+  }, [form]);
   // Função para gerar slug automaticamente
   const handleGenerateSlug = () => {
     const titleValue = form.getValues("title");
@@ -51,20 +68,30 @@ export default function BasicForm({
   // Função para adicionar tag
   const handleAddTag = () => {
     const tag = tagInput.trim();
-    if (tag && !form.getValues("tags")?.includes(tag)) {
-      const currentTags = form.getValues("tags") || [];
-      form.setValue("tags", [...currentTags, tag]);
+    if (tag && !tags.includes(tag)) {
+      const newTags = [...tags, tag];
+      setTags(newTags);
+      form.setValue("tags", newTags, {
+        shouldDirty: true,
+        shouldTouch: true,
+        shouldValidate: true,
+      });
+      void form.trigger("tags");
       setTagInput("");
     }
   };
 
   // Função para remover tag
   const handleRemoveTag = (tagToRemove: string) => {
-    const currentTags = form.getValues("tags") || [];
-    form.setValue(
-      "tags",
-      currentTags.filter((tag: string) => tag !== tagToRemove)
-    );
+    const newTags = tags.filter((tag: string) => tag !== tagToRemove);
+
+    setTags(newTags);
+    form.setValue("tags", newTags, {
+      shouldDirty: true,
+      shouldTouch: true,
+      shouldValidate: true,
+    });
+    void form.trigger("tags");
   };
 
   return (
@@ -246,7 +273,7 @@ export default function BasicForm({
         <FormField
           control={form.control}
           name="tags"
-          render={({ field }) => (
+          render={({ field: _field }) => (
             <FormItem>
               <FormLabel>Tags</FormLabel>
               <div className="space-y-2">
@@ -271,21 +298,19 @@ export default function BasicForm({
                   </Button>
                 </div>
                 <div className="flex flex-wrap gap-2">
-                  {(field.value as string[])?.map(
-                    (tag: string, index: number) => (
-                      <Badge
-                        key={index}
-                        variant="secondary"
-                        className="flex items-center gap-1"
-                      >
-                        {tag}
-                        <X
-                          className="h-3 w-3 cursor-pointer"
-                          onClick={() => handleRemoveTag(tag)}
-                        />
-                      </Badge>
-                    )
-                  )}
+                  {tags.map((tag: string, index: number) => (
+                    <Badge
+                      key={index}
+                      variant="secondary"
+                      className="flex items-center gap-1"
+                      onClick={() => {
+                        handleRemoveTag(tag);
+                      }}
+                    >
+                      {tag}
+                      <X className="h-3 w-3 cursor-pointer" />
+                    </Badge>
+                  ))}
                 </div>
               </div>
               <FormMessage />
