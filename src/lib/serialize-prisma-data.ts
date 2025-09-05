@@ -9,30 +9,73 @@ interface PrismaDecimal {
   toNumber(): number;
 }
 
+// Função para verificar se um objeto é um Decimal do Prisma
+function isPrismaDecimal(obj: any): obj is PrismaDecimal {
+  return (
+    obj &&
+    typeof obj === "object" &&
+    typeof obj.toNumber === "function" &&
+    obj.constructor &&
+    obj.constructor.name === "Decimal"
+  );
+}
+
 export function serializePrismaData<T>(data: T): T {
   if (data === null || data === undefined) {
     return data;
   }
 
-  if (typeof data === "object") {
-    if (Array.isArray(data)) {
-      return data.map((item) => serializePrismaData(item)) as T;
-    }
-
-    // Verificar se é um objeto Decimal do Prisma
-    if (data && typeof data === "object" && "toNumber" in data) {
-      return (data as PrismaDecimal).toNumber() as T;
-    }
-
-    // Para objetos normais, serializar cada propriedade
-    const serialized: Record<string, unknown> = {};
-    for (const [key, value] of Object.entries(data)) {
-      serialized[key] = serializePrismaData(value);
-    }
-    return serialized as T;
+  // Handle primitive types
+  if (typeof data !== "object") {
+    return data;
   }
 
-  return data;
+  // Handle Date objects
+  if (data instanceof Date) {
+    return data.toISOString() as T;
+  }
+
+  // Handle arrays
+  if (Array.isArray(data)) {
+    return data.map((item) => serializePrismaData(item)) as T;
+  }
+
+  // Verificar se é um objeto Decimal do Prisma
+  if (isPrismaDecimal(data)) {
+    return data.toNumber() as T;
+  }
+
+  // Handle objects with constructor functions or non-plain objects
+  // Check if it's a plain object (created with {} or new Object())
+  const isPlainObject =
+    data.constructor === Object ||
+    data.constructor === undefined ||
+    Object.getPrototypeOf(data) === Object.prototype ||
+    Object.getPrototypeOf(data) === null;
+
+  // If it's not a plain object, try to convert it to a plain object
+  if (!isPlainObject) {
+    try {
+      // Use JSON.parse(JSON.stringify()) to force serialization of complex objects
+      return JSON.parse(JSON.stringify(data)) as T;
+    } catch {
+      // If JSON serialization fails, convert to string representation
+      return String(data) as T;
+    }
+  }
+
+  // Para objetos normais, serializar cada propriedade
+  const serialized: Record<string, unknown> = {};
+  for (const [key, value] of Object.entries(data)) {
+    try {
+      serialized[key] = serializePrismaData(value);
+    } catch (error) {
+      // If serialization of a property fails, skip it or use a default value
+      console.warn(`Failed to serialize property "${key}":`, error);
+      serialized[key] = null;
+    }
+  }
+  return serialized as T;
 }
 
 /**
