@@ -158,10 +158,10 @@ export default function MediaForm({ courseId }: MediaFormProps) {
           const json = JSON.parse(xhr.responseText || "{}");
           if (xhr.status >= 200 && xhr.status < 300 && json.success) {
             const openUrl =
-              json.presignedUrl ||
+              json.fileUrl ||
               (json.fileUploadId
                 ? `/api/s3/upload?action=access&fileUploadId=${json.fileUploadId}`
-                : json.fileUrl);
+                : json.presignedUrl);
             setUploads((prev) =>
               prev.map((u) =>
                 u.id === item.id
@@ -262,10 +262,10 @@ export default function MediaForm({ courseId }: MediaFormProps) {
           if (xhr.status >= 200 && xhr.status < 300 && json.success) {
             onProgress(100);
             const openUrl =
-              json.presignedUrl ||
+              json.fileUrl ||
               (json.fileUploadId
                 ? `/api/s3/upload?action=access&fileUploadId=${json.fileUploadId}`
-                : json.fileUrl);
+                : json.presignedUrl);
             onSuccess(openUrl as string);
             toast.success("Upload concluído");
           } else {
