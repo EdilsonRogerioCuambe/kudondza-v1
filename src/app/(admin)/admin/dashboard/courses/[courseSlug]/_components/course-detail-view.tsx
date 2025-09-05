@@ -63,6 +63,7 @@ import {
 } from "@/actions/courses";
 import Image from "next/image";
 import Header from "./header";
+import VideoPlayer from "@/components/video-player";
 
 interface CourseView extends CourseType {
   createdAt: string;
@@ -740,17 +741,10 @@ export default function CourseDetailView({
                 <div>
                   <h3 className="text-lg font-semibold mb-2">Trailer</h3>
                   {course.trailer ? (
-                    <AspectRatio ratio={16 / 9}>
-                      <video
-                        className="w-full h-full rounded-lg bg-black"
-                        controls
-                        poster={course.thumbnail}
-                        preload="metadata"
-                      >
-                        <source src={course.trailer} />
-                        Seu navegador não suporta a tag de vídeo.
-                      </video>
-                    </AspectRatio>
+                    <VideoPlayer
+                      src={course.trailer}
+                      poster={course.thumbnail}
+                    />
                   ) : (
                     <div className="w-full h-48 bg-muted rounded-lg flex items-center justify-center">
                       <span className="text-muted-foreground">
