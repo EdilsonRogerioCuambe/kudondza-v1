@@ -4,6 +4,7 @@
 import { z } from "zod";
 
 import prisma from "@/lib/prisma";
+import { serializePrismaData } from "@/lib/serialize-prisma-data";
 import { CategoryFiltersSchema } from "@/lib/zod-schema";
 
 export async function getCategories(
@@ -99,10 +100,13 @@ export async function getCategories(
     // Calcular total de páginas
     const totalPages = Math.ceil(total / limit);
 
+    // Serializar dados do Prisma
+    const serializedCategories = serializePrismaData(categories);
+
     return {
       success: true,
       data: {
-        categories,
+        categories: serializedCategories,
         total,
         page,
         limit,
@@ -115,8 +119,7 @@ export async function getCategories(
     if (error instanceof z.ZodError) {
       return {
         success: false,
-        error:
-          "Filtros inválidos: " + error.message,
+        error: "Filtros inválidos: " + error.message,
       };
     }
 
@@ -154,9 +157,12 @@ export async function getCategoriesTree() {
     // Filtrar apenas categorias raiz (sem parentId)
     const rootCategories = categories.filter((cat) => !cat.parentId);
 
+    // Serializar dados do Prisma
+    const serializedRootCategories = serializePrismaData(rootCategories);
+
     return {
       success: true,
-      data: rootCategories,
+      data: serializedRootCategories,
     };
   } catch (error) {
     console.error("Erro ao buscar árvore de categorias:", error);
