@@ -27,8 +27,10 @@ const envSchema = z.object({
 
   // Client-side environment variables
   NEXT_PUBLIC_R2_BUCKET_NAME: z.string().min(1),
+  NEXT_PUBLIC_R2_PUBLIC_BASE_URL: z.string().url().optional(),
   NEXT_PUBLIC_R2_DEV_URL: z.string().url().optional(),
   NEXT_PUBLIC_AWS_S3_BUCKET_NAME: z.string().min(1).optional(),
+  USE_PRIVATE_BUCKET: z.string().optional(),
 });
 
 export const env = envSchema.parse({
@@ -59,8 +61,10 @@ export const env = envSchema.parse({
   // Client-side
   NEXT_PUBLIC_R2_BUCKET_NAME:
     process.env.NEXT_PUBLIC_R2_BUCKET_NAME || "kudondza",
+  NEXT_PUBLIC_R2_PUBLIC_BASE_URL: process.env.NEXT_PUBLIC_R2_PUBLIC_BASE_URL,
   NEXT_PUBLIC_R2_DEV_URL:
     process.env.NEXT_PUBLIC_R2_DEV_URL ||
     "https://pub-8c05bd36a6e2402b86f528ea4bca59fe.r2.dev",
   NEXT_PUBLIC_AWS_S3_BUCKET_NAME: process.env.NEXT_PUBLIC_AWS_S3_BUCKET_NAME,
+  USE_PRIVATE_BUCKET: process.env.USE_PRIVATE_BUCKET,
 });
