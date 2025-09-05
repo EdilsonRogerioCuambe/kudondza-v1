@@ -23,10 +23,23 @@ import {
 import { Switch } from "@/components/ui/switch";
 import { handleNumericChange } from "@/lib/handle-numeric-change";
 import { Users } from "lucide-react";
+import { useEffect } from "react";
 import { useFormContext } from "react-hook-form";
 
 export default function PrerequisitesForm() {
   const form = useFormContext();
+
+  // Normalizar unlockCriteria para undefined quando hasPrerequisites=false
+  const hasPrereq = form.watch("hasPrerequisites");
+  useEffect(() => {
+    if (!hasPrereq) {
+      form.setValue("unlockCriteria", undefined, {
+        shouldDirty: true,
+        shouldValidate: true,
+      });
+    }
+  }, [hasPrereq, form]);
+
   return (
     <Card className="border-none">
       <CardHeader>
