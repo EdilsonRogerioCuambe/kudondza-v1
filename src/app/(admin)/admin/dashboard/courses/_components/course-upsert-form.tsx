@@ -55,7 +55,13 @@ function mapCourseToForm(course: Course): CreateCourseInput {
     isPremium: course.isPremium,
     allowDownload: course.allowDownload,
     hasPrerequisites: course.hasPrerequisites,
-    unlockCriteria: course.unlockCriteria,
+    // normalizar JSON nulo para undefined para não quebrar zod (record)
+    unlockCriteria:
+      (course.unlockCriteria as unknown) === null
+        ? undefined
+        : (course.unlockCriteria as unknown as
+            | Record<string, unknown>
+            | undefined),
     seoTitle: course.seoTitle || "",
     seoDescription: course.seoDescription || "",
     seoKeywords: course.seoKeywords || [],
@@ -230,6 +236,10 @@ export function CourseUpsertForm({
           seoDescription:
             values.seoDescription && values.seoDescription.trim() !== ""
               ? values.seoDescription
+              : undefined,
+          unlockCriteria:
+            values.unlockCriteria && typeof values.unlockCriteria === "object"
+              ? values.unlockCriteria
               : undefined,
         } as CreateCourseInput;
 
