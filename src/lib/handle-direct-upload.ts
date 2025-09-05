@@ -55,7 +55,7 @@ export async function handleDirectUpload(
       formData.get("isAvatar") === "true" ||
       (fileType === "image" && file.name.toLowerCase().includes("avatar"));
 
-    // Para avatars, usar bucket público; para outros arquivos, usar bucket privado
+    // Para avatars, usar bucket público; para outros arquivos, usar bucket privado (se habilitado)
     const privateBucketName = `${env.NEXT_PUBLIC_R2_BUCKET_NAME}-private`;
     const publicBucketName = env.NEXT_PUBLIC_R2_BUCKET_NAME;
 
@@ -95,18 +95,26 @@ export async function handleDirectUpload(
         privateBucketName
       );
 
-      // Verificar se bucket privado existe, senão usar o principal
-      try {
-        await ensurePrivateBucket(privateBucketName);
-        console.log("✅ Usando bucket privado:", privateBucketName);
-        bucketToUse = privateBucketName;
-      } catch (error) {
-        console.log("⚠️  Erro ao acessar bucket privado:", error);
-        console.log(
-          "⚠️  Bucket privado não existe, usando bucket principal:",
-          publicBucketName
-        );
+      // Se a feature de bucket privado estiver desativada, usar o público direto
+      const usePrivate =
+        (env.USE_PRIVATE_BUCKET || "false").toLowerCase() === "true";
+      if (!usePrivate) {
+        console.log("ℹ️  USE_PRIVATE_BUCKET=false → usando bucket público");
         bucketToUse = publicBucketName;
+      } else {
+        // Verificar se bucket privado existe, senão usar o principal
+        try {
+          await ensurePrivateBucket(privateBucketName);
+          console.log("✅ Usando bucket privado:", privateBucketName);
+          bucketToUse = privateBucketName;
+        } catch (error) {
+          console.log("⚠️  Erro ao acessar bucket privado:", error);
+          console.log(
+            "⚠️  Bucket privado não existe, usando bucket principal:",
+            publicBucketName
+          );
+          bucketToUse = publicBucketName;
+        }
       }
     }
 
@@ -162,15 +170,10 @@ export async function handleDirectUpload(
       expiresIn: 24 * 60 * 60, // 24 horas
     });
 
-    // URL pública do arquivo usando R2 dev URL
-    let fileUrl: string;
-    if (isAvatar || bucketToUse === publicBucketName) {
-      // Para avatars e arquivos públicos, usar URL de desenvolvimento público
-      fileUrl = `${env.NEXT_PUBLIC_R2_DEV_URL}/${uniqueKey}`;
-    } else {
-      // Para arquivos privados, usar URL do bucket privado
-      fileUrl = `https://${bucketToUse}.r2.cloudflarestorage.com/${uniqueKey}`;
-    }
+    // URL pública estável do arquivo: prioriza domínio custom; senão, dev URL do R2
+    const publicBase =
+      env.NEXT_PUBLIC_R2_PUBLIC_BASE_URL || env.NEXT_PUBLIC_R2_DEV_URL;
+    const fileUrl = `${(publicBase || "").replace(/\/$/, "")}/${uniqueKey}`;
 
     console.log("💾 Salvando metadados no banco...");
     const fileUpload = await prisma.fileUpload.create({
