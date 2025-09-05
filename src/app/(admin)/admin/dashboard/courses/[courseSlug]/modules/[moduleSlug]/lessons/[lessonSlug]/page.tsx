@@ -9,7 +9,6 @@ import { deleteLesson } from "@/actions/courses/modules/delete-lesson";
 import ByteMDEditor from "@/components/byte-md-editor";
 import CyberpunkResources from "@/components/cyberpunk-resources";
 import CyberpunkTranscriptEditor from "@/components/cyberpunk-transcript-editor";
-import CyberpunkVideoPlayer from "@/components/cyberpunk-video-player";
 import {
   AlertDialog,
   AlertDialogAction,
@@ -56,6 +55,7 @@ import remarkGfm from "remark-gfm";
 import { toast } from "sonner";
 import LessonHeader from "./_components/lesson-header";
 import LessonStats from "./_components/lesson-stats";
+import VideoPlayer from "@/components/video-player";
 
 export interface LessonData {
   lesson: {
@@ -559,10 +559,8 @@ export default function LessonPage() {
                       <h3 className="text-lg font-semibold mb-4">
                         Vídeo da Aula
                       </h3>
-                      <CyberpunkVideoPlayer
-                        videoUrl={lesson.videoUrl}
-                        videoId={lesson.videoId}
-                        className="mb-6"
+                      <VideoPlayer
+                        src={lesson.videoUrl || ''}
                       />
                     </div>
 
