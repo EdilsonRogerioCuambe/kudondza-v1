@@ -1,6 +1,7 @@
 "use server";
 
 import prisma from "@/lib/prisma";
+import { serializePrismaData } from "@/lib/serialize-prisma-data";
 
 /**
  * Busca um curso por ID ou slug
@@ -126,7 +127,10 @@ export async function getCourse(identifier: string) {
       return { success: false, error: "Curso não encontrado" };
     }
 
-    return { success: true, data: course };
+    // Serializar dados do Prisma
+    const serializedCourse = serializePrismaData(course);
+
+    return { success: true, data: serializedCourse };
   } catch (error) {
     console.error("Erro ao buscar curso:", error);
     return {
