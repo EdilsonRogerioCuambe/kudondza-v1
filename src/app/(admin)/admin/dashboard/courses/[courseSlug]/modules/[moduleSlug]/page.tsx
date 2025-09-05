@@ -1,16 +1,11 @@
 "use client";
 
-import { Button } from "@/components/ui/button";
 import { Card, CardHeader, CardTitle } from "@/components/ui/card";
-import {
-  AlertTriangle,
-  ArrowLeft,
-  BookOpen,
-  FileText,
-  Settings,
-} from "lucide-react";
+import { EditPageHeader } from "@/components/ui/edit-page-header";
+import { EditPageLayout } from "@/components/ui/edit-page-layout";
+import { AlertTriangle, BookOpen, FileText, Settings } from "lucide-react";
 import { useParams, useRouter } from "next/navigation";
-import { useEffect, useMemo, useState } from "react";
+import { useEffect, useState } from "react";
 import slugify from "slugify";
 import { toast } from "sonner";
 
@@ -38,14 +33,6 @@ import {
   SelectValue,
 } from "@/components/ui/select";
 import { Tabs, TabsList, TabsTrigger } from "@/components/ui/tabs";
-import {
-  DragEndEvent,
-  KeyboardSensor,
-  PointerSensor,
-  useSensor,
-  useSensors,
-} from "@dnd-kit/core";
-import { arrayMove, sortableKeyboardCoordinates } from "@dnd-kit/sortable";
 
 import Basic from "./_components/basic";
 import Description from "./_components/description";
@@ -91,11 +78,6 @@ export default function Page() {
   // Tab state for mobile
   const [activeTab, setActiveTab] = useState("basic");
 
-  const sensors = useSensors(
-    useSensor(PointerSensor),
-    useSensor(KeyboardSensor, { coordinateGetter: sortableKeyboardCoordinates })
-  );
-
   useEffect(() => {
     const load = async () => {
       const res = await getModuleWithLessonsBySlugs(
@@ -130,25 +112,15 @@ export default function Page() {
     load();
   }, [params.courseSlug, params.moduleSlug]);
 
-  const ids = useMemo(() => lessons.map((l) => l.id), [lessons]);
-
-  function onDragEnd(e: DragEndEvent) {
-    const { active, over } = e;
-    if (!over || active.id === over.id) return;
-    const oldIndex = lessons.findIndex((l) => l.id === String(active.id));
-    const newIndex = lessons.findIndex((l) => l.id === String(over.id));
-    if (oldIndex === -1 || newIndex === -1) return;
-    setLessons((arr) => arrayMove(arr, oldIndex, newIndex));
-  }
-
-  async function onSaveOrder() {
-    if (!moduleId) return;
-    setSaving(true);
-    const ordered = lessons.map((l) => l.id);
-    const res = await reorderLessons(moduleId, ordered);
-    setSaving(false);
-    if (res.success) toast.success("Ordem de aulas atualizada");
-    else toast.error(res.error || "Erro ao salvar ordem");
+  async function onReorder(newLessons: typeof lessons) {
+    setLessons(newLessons);
+    // Auto-salvar imediatamente após mover
+    if (moduleId) {
+      const orderedIds = newLessons.map((l) => l.id);
+      const res = await reorderLessons(moduleId, orderedIds);
+      if (res.success) toast.success("Ordem atualizada");
+      else toast.error(res.error || "Erro ao salvar ordem");
+    }
   }
 
   async function onSaveModule() {
@@ -274,196 +246,188 @@ export default function Page() {
   };
 
   return (
-    <div className="min-h-screen bg-gradient-to-br from-background via-background to-muted/20 p-6">
-      <div className="mx-auto max-w-7xl space-y-8">
-        {/* Header Section */}
-        <div className="flex flex-col lg:flex-row lg:items-center lg:justify-between gap-4">
-          <div className="flex flex-col sm:flex-row items-start sm:items-center gap-4">
-            <Button
-              variant="outline"
-              onClick={() => router.back()}
-              className="flex items-center gap-2 border-2 border-border/50 bg-background/80 backdrop-blur-sm hover:bg-background hover:border-primary/50 transition-all duration-200 w-full sm:w-auto"
-            >
-              <ArrowLeft className="h-4 w-4" /> Voltar
-            </Button>
-            <div className="hidden sm:block h-8 w-px bg-border/50" />
-            <h1 className="text-xl lg:text-2xl font-bold bg-gradient-to-r from-foreground to-foreground/70 bg-clip-text text-transparent text-center sm:text-left">
-              {loading ? "Carregando módulo..." : `Editar: ${moduleTitle}`}
-            </h1>
+    <EditPageLayout>
+      <EditPageHeader
+        title={loading ? "Carregando módulo..." : `Editar: ${moduleTitle}`}
+        subtitle="Gerencie as propriedades e estrutura do módulo"
+        breadcrumbItems={[
+          { label: "Dashboard", href: "/admin/dashboard" },
+          { label: "Cursos", href: "/admin/dashboard/courses" },
+          {
+            label: params.courseSlug,
+            href: `/admin/dashboard/courses/${params.courseSlug}`,
+          },
+          {
+            label: moduleTitle || "Módulo",
+            href: `/admin/dashboard/courses/${params.courseSlug}/modules/${params.moduleSlug}`,
+            isCurrentPage: true,
+          },
+        ]}
+        backHref={`/admin/dashboard/courses/${params.courseSlug}`}
+        backLabel="Voltar ao curso"
+      />
+
+      {/* Main Content */}
+      <Card className="border-2 border-border/50 bg-card/80 backdrop-blur-sm shadow-2xl">
+        <CardHeader className="space-y-6 pb-6">
+          <div className="flex items-center gap-3">
+            <div className="flex h-12 w-12 items-center justify-center rounded-xl bg-primary/10 border border-primary/20">
+              <Settings className="h-6 w-6 text-primary" />
+            </div>
+            <div>
+              <CardTitle className="text-xl font-bold">
+                Configurações do Módulo
+              </CardTitle>
+              <p className="text-sm text-muted-foreground">
+                Gerencie as propriedades e estrutura do módulo
+              </p>
+            </div>
           </div>
-        </div>
 
-        {/* Main Content */}
-        <Card className="border-2 border-border/50 bg-card/80 backdrop-blur-sm shadow-2xl">
-          <CardHeader className="space-y-6 pb-6">
-            <div className="flex items-center gap-3">
-              <div className="flex h-12 w-12 items-center justify-center rounded-xl bg-primary/10 border border-primary/20">
-                <Settings className="h-6 w-6 text-primary" />
-              </div>
-              <div>
-                <CardTitle className="text-xl font-bold">
-                  Configurações do Módulo
-                </CardTitle>
-                <p className="text-sm text-muted-foreground">
-                  Gerencie as propriedades e estrutura do módulo
-                </p>
-              </div>
+          {/* Mobile Select */}
+          <div className="md:hidden">
+            <Select value={activeTab} onValueChange={setActiveTab}>
+              <SelectTrigger className="border-2 border-border/50 bg-background/50 focus:border-primary/50 transition-colors">
+                <SelectValue>
+                  <div className="flex items-center gap-2">
+                    {getTabIcon(activeTab)}
+                    <span>{getTabTitle(activeTab)}</span>
+                  </div>
+                </SelectValue>
+              </SelectTrigger>
+              <SelectContent>
+                <SelectItem value="basic">
+                  <div className="flex items-center gap-2">
+                    <Settings className="h-4 w-4" />
+                    Informações Básicas
+                  </div>
+                </SelectItem>
+                <SelectItem value="description">
+                  <div className="flex items-center gap-2">
+                    <FileText className="h-4 w-4" />
+                    Descrição
+                  </div>
+                </SelectItem>
+                <SelectItem value="lessons">
+                  <div className="flex items-center gap-2">
+                    <BookOpen className="h-4 w-4" />
+                    Aulas
+                  </div>
+                </SelectItem>
+              </SelectContent>
+            </Select>
+          </div>
+
+          {/* Desktop Tabs */}
+          <div className="hidden md:block">
+            <Tabs
+              value={activeTab}
+              onValueChange={setActiveTab}
+              className="w-full"
+            >
+              <TabsList className="bg-background/50 border border-border/50 p-1 rounded-lg">
+                <TabsTrigger
+                  className="min-w-max px-6 py-3 text-sm data-[state=active]:bg-primary/10 data-[state=active]:text-primary data-[state=active]:shadow-sm transition-all duration-200"
+                  value="basic"
+                >
+                  <Settings className="mr-2 h-4 w-4" /> Básico
+                </TabsTrigger>
+                <TabsTrigger
+                  className="min-w-max px-6 py-3 text-sm data-[state=active]:bg-primary/10 data-[state=active]:text-primary data-[state=active]:shadow-sm transition-all duration-200"
+                  value="description"
+                >
+                  <FileText className="mr-2 h-4 w-4" /> Descrição
+                </TabsTrigger>
+                <TabsTrigger
+                  className="min-w-max px-6 py-3 text-sm data-[state=active]:bg-primary/10 data-[state=active]:text-primary data-[state=active]:shadow-sm transition-all duration-200"
+                  value="lessons"
+                >
+                  <BookOpen className="mr-2 h-4 w-4" /> Aulas
+                </TabsTrigger>
+              </TabsList>
+            </Tabs>
+          </div>
+
+          {/* Tab Content */}
+          {activeTab === "basic" && (
+            <div className="space-y-4">
+              <Basic
+                title={title}
+                slug={slug}
+                xpReward={xpReward}
+                unlockCriteria={unlockCriteria}
+                isPublic={isPublic}
+                isRequired={isRequired}
+                onTitleChange={setTitle}
+                onSlugChange={setSlug}
+                onXpRewardChange={setXpReward}
+                onUnlockCriteriaChange={setUnlockCriteria}
+                onIsPublicChange={setIsPublic}
+                onIsRequiredChange={setIsRequired}
+                onSave={onSaveModule}
+                saving={saving}
+                loading={loading}
+                moduleId={moduleId}
+                courseId={courseId || undefined}
+              />
             </div>
+          )}
 
-            {/* Mobile Select */}
-            <div className="md:hidden">
-              <Select value={activeTab} onValueChange={setActiveTab}>
-                <SelectTrigger className="border-2 border-border/50 bg-background/50 focus:border-primary/50 transition-colors">
-                  <SelectValue>
-                    <div className="flex items-center gap-2">
-                      {getTabIcon(activeTab)}
-                      <span>{getTabTitle(activeTab)}</span>
-                    </div>
-                  </SelectValue>
-                </SelectTrigger>
-                <SelectContent>
-                  <SelectItem value="basic">
-                    <div className="flex items-center gap-2">
-                      <Settings className="h-4 w-4" />
-                      Informações Básicas
-                    </div>
-                  </SelectItem>
-                  <SelectItem value="description">
-                    <div className="flex items-center gap-2">
-                      <FileText className="h-4 w-4" />
-                      Descrição
-                    </div>
-                  </SelectItem>
-                  <SelectItem value="lessons">
-                    <div className="flex items-center gap-2">
-                      <BookOpen className="h-4 w-4" />
-                      Aulas
-                    </div>
-                  </SelectItem>
-                </SelectContent>
-              </Select>
+          {activeTab === "description" && (
+            <div className="space-y-4">
+              <Description
+                description={description}
+                setDescription={setDescription}
+              />
             </div>
+          )}
 
-            {/* Desktop Tabs */}
-            <div className="hidden md:block">
-              <Tabs
-                value={activeTab}
-                onValueChange={setActiveTab}
-                className="w-full"
-              >
-                <TabsList className="bg-background/50 border border-border/50 p-1 rounded-lg">
-                  <TabsTrigger
-                    className="min-w-max px-6 py-3 text-sm data-[state=active]:bg-primary/10 data-[state=active]:text-primary data-[state=active]:shadow-sm transition-all duration-200"
-                    value="basic"
-                  >
-                    <Settings className="mr-2 h-4 w-4" /> Básico
-                  </TabsTrigger>
-                  <TabsTrigger
-                    className="min-w-max px-6 py-3 text-sm data-[state=active]:bg-primary/10 data-[state=active]:text-primary data-[state=active]:shadow-sm transition-all duration-200"
-                    value="description"
-                  >
-                    <FileText className="mr-2 h-4 w-4" /> Descrição
-                  </TabsTrigger>
-                  <TabsTrigger
-                    className="min-w-max px-6 py-3 text-sm data-[state=active]:bg-primary/10 data-[state=active]:text-primary data-[state=active]:shadow-sm transition-all duration-200"
-                    value="lessons"
-                  >
-                    <BookOpen className="mr-2 h-4 w-4" /> Aulas
-                  </TabsTrigger>
-                </TabsList>
-              </Tabs>
-            </div>
+          {activeTab === "lessons" && (
+            <Lessons
+              lessons={lessons as { id: string; title: string; slug: string }[]}
+              loading={loading}
+              newLessonTitle={newLessonTitle}
+              setNewLessonTitle={setNewLessonTitle}
+              newLessonSlug={newLessonSlug}
+              setNewLessonSlug={setNewLessonSlug}
+              onCreateLesson={onCreateLesson}
+              onReorder={onReorder}
+              saving={saving}
+              moduleId={moduleId}
+              openDeleteDialog={openDeleteDialog}
+              params={params}
+              router={router}
+            />
+          )}
+        </CardHeader>
+      </Card>
 
-            {/* Tab Content */}
-            {activeTab === "basic" && (
-              <div className="space-y-4">
-                <Basic
-                  title={title}
-                  slug={slug}
-                  xpReward={xpReward}
-                  unlockCriteria={unlockCriteria}
-                  isPublic={isPublic}
-                  isRequired={isRequired}
-                  onTitleChange={setTitle}
-                  onSlugChange={setSlug}
-                  onXpRewardChange={setXpReward}
-                  onUnlockCriteriaChange={setUnlockCriteria}
-                  onIsPublicChange={setIsPublic}
-                  onIsRequiredChange={setIsRequired}
-                  onSave={onSaveModule}
-                  saving={saving}
-                  loading={loading}
-                  moduleId={moduleId}
-                  courseId={courseId || undefined}
-                />
-              </div>
-            )}
-
-            {activeTab === "description" && (
-              <div className="space-y-4">
-                <Description
-                  description={description}
-                  setDescription={setDescription}
-                />
-              </div>
-            )}
-
-            {activeTab === "lessons" && (
-              <div className="space-y-6">
-                <Lessons
-                  lessons={
-                    lessons as { id: string; title: string; slug: string }[]
-                  }
-                  loading={loading}
-                  newLessonTitle={newLessonTitle}
-                  setNewLessonTitle={setNewLessonTitle}
-                  newLessonSlug={newLessonSlug}
-                  setNewLessonSlug={setNewLessonSlug}
-                  onCreateLesson={onCreateLesson}
-                  onDragEnd={onDragEnd}
-                  onSaveOrder={onSaveOrder}
-                  saving={saving}
-                  moduleId={moduleId}
-                  openDeleteDialog={openDeleteDialog}
-                  params={params}
-                  sensors={sensors}
-                  ids={ids}
-                  router={router}
-                />
-              </div>
-            )}
-          </CardHeader>
-        </Card>
-
-        {/* Delete Confirmation Dialog */}
-        <AlertDialog open={deleteDialogOpen} onOpenChange={setDeleteDialogOpen}>
-          <AlertDialogContent>
-            <AlertDialogHeader>
-              <AlertDialogTitle className="flex items-center gap-2">
-                <AlertTriangle className="h-5 w-5 text-destructive" />
-                Confirmar Exclusão
-              </AlertDialogTitle>
-              <AlertDialogDescription>
-                Tem certeza que deseja excluir a aula &quot;
-                {lessonToDelete?.title}&quot;? Esta ação não pode ser desfeita e
-                todos os dados associados serão perdidos permanentemente.
-              </AlertDialogDescription>
-            </AlertDialogHeader>
-            <AlertDialogFooter>
-              <AlertDialogCancel disabled={deleting}>
-                Cancelar
-              </AlertDialogCancel>
-              <AlertDialogAction
-                onClick={handleDeleteLesson}
-                disabled={deleting}
-                className="bg-destructive text-destructive-foreground hover:bg-destructive/90"
-              >
-                {deleting ? "Excluindo..." : "Sim, Excluir"}
-              </AlertDialogAction>
-            </AlertDialogFooter>
-          </AlertDialogContent>
-        </AlertDialog>
-      </div>
-    </div>
+      {/* Delete Confirmation Dialog */}
+      <AlertDialog open={deleteDialogOpen} onOpenChange={setDeleteDialogOpen}>
+        <AlertDialogContent>
+          <AlertDialogHeader>
+            <AlertDialogTitle className="flex items-center gap-2">
+              <AlertTriangle className="h-5 w-5 text-destructive" />
+              Confirmar Exclusão
+            </AlertDialogTitle>
+            <AlertDialogDescription>
+              Tem certeza que deseja excluir a aula &quot;
+              {lessonToDelete?.title}&quot;? Esta ação não pode ser desfeita e
+              todos os dados associados serão perdidos permanentemente.
+            </AlertDialogDescription>
+          </AlertDialogHeader>
+          <AlertDialogFooter>
+            <AlertDialogCancel disabled={deleting}>Cancelar</AlertDialogCancel>
+            <AlertDialogAction
+              onClick={handleDeleteLesson}
+              disabled={deleting}
+              className="bg-destructive text-destructive-foreground hover:bg-destructive/90"
+            >
+              {deleting ? "Excluindo..." : "Sim, Excluir"}
+            </AlertDialogAction>
+          </AlertDialogFooter>
+        </AlertDialogContent>
+      </AlertDialog>
+    </EditPageLayout>
   );
 }
