@@ -1,129 +1,26 @@
 "use client";
 
-import {
-  DndContext,
-  DragEndEvent,
-  KeyboardSensor,
-  PointerSensor,
-  closestCenter,
-  useSensor,
-  useSensors,
-} from "@dnd-kit/core";
-import {
-  SortableContext,
-  arrayMove,
-  sortableKeyboardCoordinates,
-  useSortable,
-  verticalListSortingStrategy,
-} from "@dnd-kit/sortable";
-import { CSS } from "@dnd-kit/utilities";
-import { useEffect, useMemo, useState } from "react";
+import { useEffect, useState } from "react";
 
 import { getModulesByCourseId } from "@/actions/courses/modules/get-modules";
 import { reorderModules } from "@/actions/courses/modules/reorder-modules";
-import { Button } from "@/components/ui/button";
-import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
+import { CreateForm } from "@/components/ui/create-form";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
-import { Separator } from "@/components/ui/separator";
+import { SortableSection } from "@/components/ui/sortable-section";
 import { Switch } from "@/components/ui/switch";
 import { Textarea } from "@/components/ui/textarea";
-import {
-  GripVertical,
-  Loader2,
-  MoreHorizontal,
-  Pencil,
-  Plus,
-} from "lucide-react";
 import slugify from "slugify";
 import { toast } from "sonner";
 
 import { createModule } from "@/actions/courses/modules/create-module";
-import {
-  DropdownMenu,
-  DropdownMenuContent,
-  DropdownMenuItem,
-  DropdownMenuTrigger,
-} from "@/components/ui/dropdown-menu";
-import { cn } from "@/lib/utils";
-import Link from "next/link";
+import { SortableItem } from "@/components/ui/sortable-list";
 
-type ModuleItem = {
-  id: string;
-  slug?: string | null;
-  title: string;
+type ModuleItem = SortableItem & {
   order: number;
   isPublic: boolean;
   isRequired: boolean;
 };
-
-function SortableItem({
-  id,
-  index,
-  title,
-  slug,
-  courseSlug,
-}: {
-  id: string;
-  index: number;
-  title: string;
-  slug?: string | null;
-  courseSlug?: string;
-}) {
-  const {
-    attributes,
-    listeners,
-    setNodeRef,
-    transform,
-    transition,
-    isDragging,
-  } = useSortable({ id });
-  const style = {
-    transform: CSS.Transform.toString(transform),
-    transition,
-  } as React.CSSProperties;
-
-  return (
-    <div
-      ref={setNodeRef}
-      style={style}
-      {...attributes}
-      className={cn(
-        "flex items-center justify-between rounded-md border bg-card px-3 py-2",
-        isDragging && "ring-2 ring-primary"
-      )}
-    >
-      <div className="flex items-center gap-2">
-        <button className="cursor-grab" aria-label="Arrastar" {...listeners}>
-          <GripVertical className="h-4 w-4 text-muted-foreground" />
-        </button>
-        <span className="font-medium text-sm">
-          {index}. {title}
-        </span>
-      </div>
-      <div className="flex items-center">
-        <DropdownMenu>
-          <DropdownMenuTrigger asChild>
-            <Button variant="ghost" size="icon" className="h-7 w-7">
-              <MoreHorizontal className="h-4 w-4" />
-            </Button>
-          </DropdownMenuTrigger>
-          <DropdownMenuContent align="end" className="min-w-[160px]">
-            {courseSlug && slug && (
-              <DropdownMenuItem asChild>
-                <Link
-                  href={`/admin/dashboard/courses/${courseSlug}/modules/${slug}`}
-                >
-                  <Pencil className="mr-2 h-4 w-4" /> Editar módulo
-                </Link>
-              </DropdownMenuItem>
-            )}
-          </DropdownMenuContent>
-        </DropdownMenu>
-      </div>
-    </div>
-  );
-}
 
 export default function StructureForm({
   courseId,
@@ -142,11 +39,6 @@ export default function StructureForm({
   const [newIsRequired, setNewIsRequired] = useState(true);
   const [slugTouched, setSlugTouched] = useState(false);
 
-  const sensors = useSensors(
-    useSensor(PointerSensor),
-    useSensor(KeyboardSensor, { coordinateGetter: sortableKeyboardCoordinates })
-  );
-
   useEffect(() => {
     if (!courseId) return;
     setLoading(true);
@@ -158,8 +50,6 @@ export default function StructureForm({
       .finally(() => setLoading(false));
   }, [courseId]);
 
-  const ids = useMemo(() => modules.map((m) => m.id), [modules]);
-
   // Auto-generate slug from title unless user touched slug
   useEffect(() => {
     if (!slugTouched) {
@@ -168,17 +58,11 @@ export default function StructureForm({
     }
   }, [newTitle, slugTouched]);
 
-  async function handleDragEnd(event: DragEndEvent) {
-    const { active, over } = event;
-    if (!over || active.id === over.id) return;
-    const oldIndex = modules.findIndex((m) => m.id === String(active.id));
-    const newIndex = modules.findIndex((m) => m.id === String(over.id));
-    if (oldIndex === -1 || newIndex === -1) return;
-    const next = arrayMove(modules, oldIndex, newIndex);
-    setModules(next);
+  async function handleReorder(newModules: ModuleItem[]) {
+    setModules(newModules);
     // Auto-salvar imediatamente após mover
     if (courseId) {
-      const orderedIds = next.map((m) => m.id);
+      const orderedIds = newModules.map((m) => m.id);
       const res = await reorderModules(courseId, orderedIds);
       if (res.success) toast.success("Ordem atualizada");
       else toast.error(res.error || "Erro ao salvar ordem");
@@ -224,16 +108,25 @@ export default function StructureForm({
     }
   }
 
+  const getEditModuleUrl = (module: ModuleItem) => {
+    if (courseSlug && module.slug) {
+      return `/admin/dashboard/courses/${courseSlug}/modules/${module.slug}`;
+    }
+    return "#";
+  };
+
   return (
-    <Card>
-      <CardHeader className="flex flex-col gap-3 space-y-0">
-        <div className="flex items-center justify-between">
-          <CardTitle className="text-base">Estrutura do curso</CardTitle>
-        </div>
-        <form
-          onSubmit={handleCreateModule}
-          className="grid grid-cols-1 md:grid-cols-12 gap-3"
-        >
+    <div className="space-y-6">
+      {/* Formulário de criação */}
+      <CreateForm
+        title="Estrutura do curso"
+        subtitle="Adicione e organize os módulos do curso"
+        onSubmit={handleCreateModule}
+        submitLabel="Adicionar módulo"
+        loading={creating}
+        disabled={!courseId || !newTitle.trim()}
+      >
+        <div className="grid grid-cols-1 md:grid-cols-12 gap-3">
           <div className="md:col-span-5">
             <Label htmlFor="module-title" className="text-xs">
               Título do módulo
@@ -304,62 +197,30 @@ export default function StructureForm({
                 Obrigatório
               </Label>
             </div>
-            <div className="ml-auto">
-              <Button
-                type="submit"
-                size="sm"
-                disabled={!courseId || creating || !newTitle.trim()}
-              >
-                {creating ? (
-                  <Loader2 className="mr-2 h-4 w-4 animate-spin" />
-                ) : (
-                  <Plus className="mr-2 h-4 w-4" />
-                )}{" "}
-                Adicionar módulo
-              </Button>
-            </div>
           </div>
-        </form>
-        <Separator className="mt-2" />
-      </CardHeader>
-      <CardContent>
-        {!courseId && (
+        </div>
+      </CreateForm>
+
+      {/* Lista de módulos */}
+      {!courseId && (
+        <div className="text-center py-8">
           <p className="text-sm text-muted-foreground">
             Salve o curso primeiro para gerenciar módulos.
           </p>
-        )}
-        {courseId && loading && (
-          <p className="text-sm text-muted-foreground">Carregando módulos...</p>
-        )}
-        {courseId && !loading && modules.length === 0 && (
-          <p className="text-sm text-muted-foreground">
-            Nenhum módulo cadastrado ainda.
-          </p>
-        )}
-        {courseId && modules.length > 0 && (
-          <DndContext
-            sensors={sensors}
-            collisionDetection={closestCenter}
-            onDragEnd={handleDragEnd}
-          >
-            <SortableContext items={ids} strategy={verticalListSortingStrategy}>
-              <div className="flex flex-col gap-2">
-                {modules.map((m, idx) => (
-                  <SortableItem
-                    key={m.id}
-                    id={m.id}
-                    index={idx + 1}
-                    title={m.title}
-                    slug={m.slug}
-                    courseSlug={courseSlug}
-                  />
-                ))}
-              </div>
-            </SortableContext>
-          </DndContext>
-        )}
-        {/* Removido botão de salvar: agora salva automaticamente ao mover */}
-      </CardContent>
-    </Card>
+        </div>
+      )}
+
+      {courseId && (
+        <SortableSection
+          title="Módulos do curso"
+          subtitle="Arraste para reordenar os módulos"
+          items={modules}
+          onReorder={handleReorder}
+          editUrl={getEditModuleUrl}
+          loading={loading}
+          emptyMessage="Nenhum módulo cadastrado ainda."
+        />
+      )}
+    </div>
   );
 }
