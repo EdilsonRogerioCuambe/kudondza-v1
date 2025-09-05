@@ -1,4 +1,7 @@
 import { getLessonBySlug } from "@/actions/courses/modules";
+import { EditPageHeader } from "@/components/ui/edit-page-header";
+import { EditPageLayout } from "@/components/ui/edit-page-layout";
+import { serializePrismaData } from "@/lib/serialize-prisma-data";
 import { notFound } from "next/navigation";
 import EditLessonView from "./_components/edit-lesson-page";
 
@@ -26,54 +29,78 @@ export default async function EditLessonRoute({ params }: EditLessonPageProps) {
 
   const { lesson, module: moduleData, course } = lessonResult.data;
 
+  // Serialize all Prisma data to ensure it's safe for Client Components
+  const serializedData = serializePrismaData({
+    lesson,
+    module: moduleData,
+    course,
+  });
+  const {
+    lesson: serializedLesson,
+    module: serializedModule,
+    course: serializedCourse,
+  } = serializedData;
+
   // Garantir que o slug do módulo nunca seja null
   const moduleWithSlug = {
-    ...moduleData,
-    slug: moduleData.slug || moduleSlug, // Fallback para o slug da URL
+    ...serializedModule,
+    slug: serializedModule.slug || moduleSlug, // Fallback para o slug da URL
   };
 
   // Constrói um objeto plano e serializável apenas com os campos usados pelo cliente
   const lessonData = {
-    id: lesson.id,
-    title: lesson.title,
-    slug: lesson.slug,
-    description: lesson.description ?? undefined,
-    shortDescription: lesson.shortDescription ?? undefined,
-    order: lesson.order,
-    videoId: lesson.videoId ?? undefined,
-    videoUrl: lesson.videoUrl ?? undefined,
-    videoDuration: lesson.videoDuration ?? undefined,
-    transcript: lesson.transcript ?? undefined,
-    isPreview: lesson.isPreview,
-    isRequired: lesson.isRequired,
-    isPublic: lesson.isPublic,
-    unlockCriteria: lesson.unlockCriteria,
-    xpReward: lesson.xpReward,
-    moduleId: lesson.moduleId,
-    resources: lesson.resources,
-    createdAt: lesson.createdAt.toISOString(),
-    updatedAt: lesson.updatedAt.toISOString(),
+    id: serializedLesson.id,
+    title: serializedLesson.title,
+    slug: serializedLesson.slug,
+    description: serializedLesson.description ?? undefined,
+    shortDescription: serializedLesson.shortDescription ?? undefined,
+    order: serializedLesson.order,
+    videoId: serializedLesson.videoId ?? undefined,
+    videoUrl: serializedLesson.videoUrl ?? undefined,
+    videoDuration: serializedLesson.videoDuration ?? undefined,
+    transcript: serializedLesson.transcript ?? undefined,
+    isPreview: serializedLesson.isPreview,
+    isRequired: serializedLesson.isRequired,
+    isPublic: serializedLesson.isPublic,
+    unlockCriteria: serializedLesson.unlockCriteria,
+    xpReward: serializedLesson.xpReward,
+    moduleId: serializedLesson.moduleId,
+    resources: serializedLesson.resources,
+    createdAt: serializedLesson.createdAt,
+    updatedAt: serializedLesson.updatedAt,
   };
 
   return (
-    <main className="flex-1 space-y-4 p-4 md:p-8 pt-6">
-      <div className="flex items-center justify-between space-y-2">
-        <div>
-          <h2 className="text-3xl font-bold tracking-tight">Editar Aula</h2>
-          <p className="text-muted-foreground">
-            Edite as informações da aula {lesson.title}
-          </p>
-          <p className="text-sm text-muted-foreground">
-            {course.title} • {moduleWithSlug.title}
-          </p>
-        </div>
-      </div>
+    <EditPageLayout>
+      <EditPageHeader
+        title="Editar Aula"
+        subtitle={`Edite as informações da aula "${serializedLesson.title}"`}
+        breadcrumbItems={[
+          { label: "Dashboard", href: "/admin/dashboard" },
+          { label: "Cursos", href: "/admin/dashboard/courses" },
+          {
+            label: serializedCourse.title,
+            href: `/admin/dashboard/courses/${serializedCourse.slug}`,
+          },
+          {
+            label: moduleWithSlug.title,
+            href: `/admin/dashboard/courses/${serializedCourse.slug}/modules/${moduleWithSlug.slug}`,
+          },
+          {
+            label: serializedLesson.title,
+            href: `/admin/dashboard/courses/${serializedCourse.slug}/modules/${moduleWithSlug.slug}/lessons/${serializedLesson.slug}/edit`,
+            isCurrentPage: true,
+          },
+        ]}
+        backHref={`/admin/dashboard/courses/${serializedCourse.slug}/modules/${moduleWithSlug.slug}`}
+        backLabel="Voltar ao módulo"
+      />
 
       <EditLessonView
         lesson={lessonData}
         module={moduleWithSlug}
-        course={course}
+        course={serializedCourse}
       />
-    </main>
+    </EditPageLayout>
   );
 }
