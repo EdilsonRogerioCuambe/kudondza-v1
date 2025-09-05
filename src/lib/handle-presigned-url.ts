@@ -64,17 +64,24 @@ export async function handlePresignedUrl(
   console.log("🪣 Tentando usar bucket privado:", privateBucketName);
 
   // Verificar se bucket privado existe, senão usar o principal
+  const usePrivate =
+    (env.USE_PRIVATE_BUCKET || "false").toLowerCase() === "true";
   let bucketToUse = privateBucketName;
-  try {
-    await ensurePrivateBucket(privateBucketName);
-    console.log("✅ Usando bucket privado:", privateBucketName);
-  } catch (error) {
-    console.log("⚠️  Erro ao acessar bucket privado:", error);
-    console.log(
-      "⚠️  Bucket privado não existe, usando bucket principal:",
-      fallbackBucketName
-    );
+  if (!usePrivate) {
+    console.log("ℹ️  USE_PRIVATE_BUCKET=false → usando bucket público");
     bucketToUse = fallbackBucketName;
+  } else {
+    try {
+      await ensurePrivateBucket(privateBucketName);
+      console.log("✅ Usando bucket privado:", privateBucketName);
+    } catch (error) {
+      console.log("⚠️  Erro ao acessar bucket privado:", error);
+      console.log(
+        "⚠️  Bucket privado não existe, usando bucket principal:",
+        fallbackBucketName
+      );
+      bucketToUse = fallbackBucketName;
+    }
   }
 
   const uniqueKey = `${v4()}-${fileName}`;
@@ -94,15 +101,22 @@ export async function handlePresignedUrl(
 
   console.log("✅ URL pré-assinada gerada");
 
-  // URL interna do arquivo
+  // URL interna do arquivo (S3 endpoint)
   const fileUrl = `${env.R2_ENDPOINT_URL}/${bucketToUse}/${uniqueKey}`;
+
+  // URL pública estável (prioriza domínio custom, senão usa dev URL)
+  const publicBase =
+    env.NEXT_PUBLIC_R2_PUBLIC_BASE_URL || env.NEXT_PUBLIC_R2_DEV_URL;
+  const publicUrl = publicBase
+    ? `${publicBase.replace(/\/$/, "")}/${uniqueKey}`
+    : fileUrl; // fallback para endpoint interno se nada definido
 
   console.log("💾 Salvando metadados no banco...");
   const fileUpload = await prisma.fileUpload.create({
     data: {
       fileName,
       fileKey: uniqueKey,
-      fileUrl,
+      fileUrl: publicUrl, // salvar sempre a URL estável pública
       fileType,
       fileSize: size,
       contentType,
@@ -112,7 +126,7 @@ export async function handlePresignedUrl(
       uploadStatus: "PENDING",
       userId: session.user.id,
       courseId: courseId || null,
-      expiresAt: new Date(Date.now() + 24 * 60 * 60 * 1000), // 24 horas
+      expiresAt: new Date(Date.now() + 24 * 60 * 60 * 1000), // 24 horas (apenas informativo neste fluxo)
       tempUpload: tempUpload || false,
     },
   });
@@ -124,7 +138,7 @@ export async function handlePresignedUrl(
     message: "Arquivo validado com sucesso",
     presignedUrl,
     key: uniqueKey,
-    fileUrl,
+    fileUrl: publicUrl, // devolver público estável para ser usado em Lesson.videoUrl
     fileUploadId: fileUpload.id,
   });
 }
