@@ -17,30 +17,57 @@ import {
 import { Input } from "@/components/ui/input";
 import { Textarea } from "@/components/ui/textarea";
 import { Search, X } from "lucide-react";
-import React from "react";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { useFormContext } from "react-hook-form";
 
 export default function SeoForm() {
   const form = useFormContext();
+  const [seoKeywords, setSeoKeywords] = useState<string[]>([]);
   const [seoKeywordInput, setSeoKeywordInput] = useState("");
+
+  // Sincronizar com o form quando ele mudar
+  useEffect(() => {
+    const subscription = form.watch((value, { name }) => {
+      if (name === "seoKeywords" && value.seoKeywords) {
+        setSeoKeywords(value.seoKeywords);
+      }
+    });
+    return () => subscription.unsubscribe();
+  }, [form]);
+
+  // Inicializar keywords do form
+  useEffect(() => {
+    const formKeywords = form.getValues("seoKeywords") || [];
+    setSeoKeywords(formKeywords);
+  }, [form]);
   // Função para adicionar palavra-chave SEO
   const handleAddSeoKeyword = () => {
     const keyword = seoKeywordInput.trim();
-    if (keyword && !form.getValues("seoKeywords")?.includes(keyword)) {
-      const currentKeywords = form.getValues("seoKeywords") || [];
-      form.setValue("seoKeywords", [...currentKeywords, keyword]);
+    if (keyword && !seoKeywords.includes(keyword)) {
+      const newKeywords = [...seoKeywords, keyword];
+      setSeoKeywords(newKeywords);
+      form.setValue("seoKeywords", newKeywords, {
+        shouldDirty: true,
+        shouldTouch: true,
+        shouldValidate: true,
+      });
+      void form.trigger("seoKeywords");
       setSeoKeywordInput("");
     }
   };
 
   // Função para remover palavra-chave SEO
   const handleRemoveSeoKeyword = (keywordToRemove: string) => {
-    const currentKeywords = form.getValues("seoKeywords") || [];
-    form.setValue(
-      "seoKeywords",
-      currentKeywords.filter((keyword: string) => keyword !== keywordToRemove)
+    const newKeywords = seoKeywords.filter(
+      (keyword: string) => keyword !== keywordToRemove
     );
+    setSeoKeywords(newKeywords);
+    form.setValue("seoKeywords", newKeywords, {
+      shouldDirty: true,
+      shouldTouch: true,
+      shouldValidate: true,
+    });
+    void form.trigger("seoKeywords");
   };
 
   return (
@@ -93,7 +120,7 @@ export default function SeoForm() {
         <FormField
           control={form.control}
           name="seoKeywords"
-          render={({ field }) => (
+          render={({ field: _field }) => (
             <FormItem>
               <FormLabel>Palavras-chave SEO</FormLabel>
               <div className="space-y-2">
@@ -118,19 +145,19 @@ export default function SeoForm() {
                   </Button>
                 </div>
                 <div className="flex flex-wrap gap-2">
-                    {field.value?.map((keyword: string, index: number) => (
+                  {seoKeywords.map((keyword: string, index: number) => (
                     <Badge
                       key={index}
                       variant="outline"
                       className="flex items-center gap-1"
+                      onClick={() => {
+                        handleRemoveSeoKeyword(keyword);
+                      }}
                     >
                       {keyword}
-                      <X
-                      className="h-3 w-3 cursor-pointer"
-                      onClick={() => handleRemoveSeoKeyword(keyword)}
-                      />
+                      <X className="h-3 w-3 cursor-pointer" />
                     </Badge>
-                    ))}
+                  ))}
                 </div>
               </div>
               <FormMessage />
