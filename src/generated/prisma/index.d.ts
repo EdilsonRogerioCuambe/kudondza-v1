@@ -35216,7 +35216,6 @@ export namespace Prisma {
     shortDescription: string | null
     order: number | null
     slug: string | null
-    videoId: string | null
     videoUrl: string | null
     videoDuration: number | null
     transcript: string | null
@@ -35236,7 +35235,6 @@ export namespace Prisma {
     shortDescription: string | null
     order: number | null
     slug: string | null
-    videoId: string | null
     videoUrl: string | null
     videoDuration: number | null
     transcript: string | null
@@ -35256,7 +35254,6 @@ export namespace Prisma {
     shortDescription: number
     order: number
     slug: number
-    videoId: number
     videoUrl: number
     videoDuration: number
     transcript: number
@@ -35291,7 +35288,6 @@ export namespace Prisma {
     shortDescription?: true
     order?: true
     slug?: true
-    videoId?: true
     videoUrl?: true
     videoDuration?: true
     transcript?: true
@@ -35311,7 +35307,6 @@ export namespace Prisma {
     shortDescription?: true
     order?: true
     slug?: true
-    videoId?: true
     videoUrl?: true
     videoDuration?: true
     transcript?: true
@@ -35331,7 +35326,6 @@ export namespace Prisma {
     shortDescription?: true
     order?: true
     slug?: true
-    videoId?: true
     videoUrl?: true
     videoDuration?: true
     transcript?: true
@@ -35439,7 +35433,6 @@ export namespace Prisma {
     shortDescription: string | null
     order: number
     slug: string | null
-    videoId: string | null
     videoUrl: string | null
     videoDuration: number | null
     transcript: string | null
@@ -35479,7 +35472,6 @@ export namespace Prisma {
     shortDescription?: boolean
     order?: boolean
     slug?: boolean
-    videoId?: boolean
     videoUrl?: boolean
     videoDuration?: boolean
     transcript?: boolean
@@ -35506,7 +35498,6 @@ export namespace Prisma {
     shortDescription?: boolean
     order?: boolean
     slug?: boolean
-    videoId?: boolean
     videoUrl?: boolean
     videoDuration?: boolean
     transcript?: boolean
@@ -35528,7 +35519,6 @@ export namespace Prisma {
     shortDescription?: boolean
     order?: boolean
     slug?: boolean
-    videoId?: boolean
     videoUrl?: boolean
     videoDuration?: boolean
     transcript?: boolean
@@ -35550,7 +35540,6 @@ export namespace Prisma {
     shortDescription?: boolean
     order?: boolean
     slug?: boolean
-    videoId?: boolean
     videoUrl?: boolean
     videoDuration?: boolean
     transcript?: boolean
@@ -35564,7 +35553,7 @@ export namespace Prisma {
     moduleId?: boolean
   }
 
-  export type LessonOmit<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetOmit<"id" | "title" | "description" | "shortDescription" | "order" | "slug" | "videoId" | "videoUrl" | "videoDuration" | "transcript" | "isPreview" | "isRequired" | "isPublic" | "unlockCriteria" | "xpReward" | "createdAt" | "updatedAt" | "moduleId", ExtArgs["result"]["lesson"]>
+  export type LessonOmit<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetOmit<"id" | "title" | "description" | "shortDescription" | "order" | "slug" | "videoUrl" | "videoDuration" | "transcript" | "isPreview" | "isRequired" | "isPublic" | "unlockCriteria" | "xpReward" | "createdAt" | "updatedAt" | "moduleId", ExtArgs["result"]["lesson"]>
   export type LessonInclude<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
     resources?: boolean | Lesson$resourcesArgs<ExtArgs>
     module?: boolean | ModuleDefaultArgs<ExtArgs>
@@ -35596,7 +35585,6 @@ export namespace Prisma {
       shortDescription: string | null
       order: number
       slug: string | null
-      videoId: string | null
       videoUrl: string | null
       videoDuration: number | null
       transcript: string | null
@@ -36042,7 +36030,6 @@ export namespace Prisma {
     readonly shortDescription: FieldRef<"Lesson", 'String'>
     readonly order: FieldRef<"Lesson", 'Int'>
     readonly slug: FieldRef<"Lesson", 'String'>
-    readonly videoId: FieldRef<"Lesson", 'String'>
     readonly videoUrl: FieldRef<"Lesson", 'String'>
     readonly videoDuration: FieldRef<"Lesson", 'Int'>
     readonly transcript: FieldRef<"Lesson", 'String'>
@@ -95767,7 +95754,6 @@ export namespace Prisma {
     shortDescription: 'shortDescription',
     order: 'order',
     slug: 'slug',
-    videoId: 'videoId',
     videoUrl: 'videoUrl',
     videoDuration: 'videoDuration',
     transcript: 'transcript',
@@ -99323,7 +99309,6 @@ export namespace Prisma {
     shortDescription?: StringNullableFilter<"Lesson"> | string | null
     order?: IntFilter<"Lesson"> | number
     slug?: StringNullableFilter<"Lesson"> | string | null
-    videoId?: StringNullableFilter<"Lesson"> | string | null
     videoUrl?: StringNullableFilter<"Lesson"> | string | null
     videoDuration?: IntNullableFilter<"Lesson"> | number | null
     transcript?: StringNullableFilter<"Lesson"> | string | null
@@ -99349,7 +99334,6 @@ export namespace Prisma {
     shortDescription?: SortOrderInput | SortOrder
     order?: SortOrder
     slug?: SortOrderInput | SortOrder
-    videoId?: SortOrderInput | SortOrder
     videoUrl?: SortOrderInput | SortOrder
     videoDuration?: SortOrderInput | SortOrder
     transcript?: SortOrderInput | SortOrder
@@ -99380,7 +99364,6 @@ export namespace Prisma {
     shortDescription?: StringNullableFilter<"Lesson"> | string | null
     order?: IntFilter<"Lesson"> | number
     slug?: StringNullableFilter<"Lesson"> | string | null
-    videoId?: StringNullableFilter<"Lesson"> | string | null
     videoUrl?: StringNullableFilter<"Lesson"> | string | null
     videoDuration?: IntNullableFilter<"Lesson"> | number | null
     transcript?: StringNullableFilter<"Lesson"> | string | null
@@ -99406,7 +99389,6 @@ export namespace Prisma {
     shortDescription?: SortOrderInput | SortOrder
     order?: SortOrder
     slug?: SortOrderInput | SortOrder
-    videoId?: SortOrderInput | SortOrder
     videoUrl?: SortOrderInput | SortOrder
     videoDuration?: SortOrderInput | SortOrder
     transcript?: SortOrderInput | SortOrder
@@ -99435,7 +99417,6 @@ export namespace Prisma {
     shortDescription?: StringNullableWithAggregatesFilter<"Lesson"> | string | null
     order?: IntWithAggregatesFilter<"Lesson"> | number
     slug?: StringNullableWithAggregatesFilter<"Lesson"> | string | null
-    videoId?: StringNullableWithAggregatesFilter<"Lesson"> | string | null
     videoUrl?: StringNullableWithAggregatesFilter<"Lesson"> | string | null
     videoDuration?: IntNullableWithAggregatesFilter<"Lesson"> | number | null
     transcript?: StringNullableWithAggregatesFilter<"Lesson"> | string | null
@@ -106107,7 +106088,6 @@ export namespace Prisma {
     shortDescription?: string | null
     order: number
     slug?: string | null
-    videoId?: string | null
     videoUrl?: string | null
     videoDuration?: number | null
     transcript?: string | null
@@ -106132,7 +106112,6 @@ export namespace Prisma {
     shortDescription?: string | null
     order: number
     slug?: string | null
-    videoId?: string | null
     videoUrl?: string | null
     videoDuration?: number | null
     transcript?: string | null
@@ -106157,7 +106136,6 @@ export namespace Prisma {
     shortDescription?: NullableStringFieldUpdateOperationsInput | string | null
     order?: IntFieldUpdateOperationsInput | number
     slug?: NullableStringFieldUpdateOperationsInput | string | null
-    videoId?: NullableStringFieldUpdateOperationsInput | string | null
     videoUrl?: NullableStringFieldUpdateOperationsInput | string | null
     videoDuration?: NullableIntFieldUpdateOperationsInput | number | null
     transcript?: NullableStringFieldUpdateOperationsInput | string | null
@@ -106182,7 +106160,6 @@ export namespace Prisma {
     shortDescription?: NullableStringFieldUpdateOperationsInput | string | null
     order?: IntFieldUpdateOperationsInput | number
     slug?: NullableStringFieldUpdateOperationsInput | string | null
-    videoId?: NullableStringFieldUpdateOperationsInput | string | null
     videoUrl?: NullableStringFieldUpdateOperationsInput | string | null
     videoDuration?: NullableIntFieldUpdateOperationsInput | number | null
     transcript?: NullableStringFieldUpdateOperationsInput | string | null
@@ -106207,7 +106184,6 @@ export namespace Prisma {
     shortDescription?: string | null
     order: number
     slug?: string | null
-    videoId?: string | null
     videoUrl?: string | null
     videoDuration?: number | null
     transcript?: string | null
@@ -106228,7 +106204,6 @@ export namespace Prisma {
     shortDescription?: NullableStringFieldUpdateOperationsInput | string | null
     order?: IntFieldUpdateOperationsInput | number
     slug?: NullableStringFieldUpdateOperationsInput | string | null
-    videoId?: NullableStringFieldUpdateOperationsInput | string | null
     videoUrl?: NullableStringFieldUpdateOperationsInput | string | null
     videoDuration?: NullableIntFieldUpdateOperationsInput | number | null
     transcript?: NullableStringFieldUpdateOperationsInput | string | null
@@ -106248,7 +106223,6 @@ export namespace Prisma {
     shortDescription?: NullableStringFieldUpdateOperationsInput | string | null
     order?: IntFieldUpdateOperationsInput | number
     slug?: NullableStringFieldUpdateOperationsInput | string | null
-    videoId?: NullableStringFieldUpdateOperationsInput | string | null
     videoUrl?: NullableStringFieldUpdateOperationsInput | string | null
     videoDuration?: NullableIntFieldUpdateOperationsInput | number | null
     transcript?: NullableStringFieldUpdateOperationsInput | string | null
@@ -113052,7 +113026,6 @@ export namespace Prisma {
     shortDescription?: SortOrder
     order?: SortOrder
     slug?: SortOrder
-    videoId?: SortOrder
     videoUrl?: SortOrder
     videoDuration?: SortOrder
     transcript?: SortOrder
@@ -113079,7 +113052,6 @@ export namespace Prisma {
     shortDescription?: SortOrder
     order?: SortOrder
     slug?: SortOrder
-    videoId?: SortOrder
     videoUrl?: SortOrder
     videoDuration?: SortOrder
     transcript?: SortOrder
@@ -113099,7 +113071,6 @@ export namespace Prisma {
     shortDescription?: SortOrder
     order?: SortOrder
     slug?: SortOrder
-    videoId?: SortOrder
     videoUrl?: SortOrder
     videoDuration?: SortOrder
     transcript?: SortOrder
@@ -135141,7 +135112,6 @@ export namespace Prisma {
     shortDescription?: string | null
     order: number
     slug?: string | null
-    videoId?: string | null
     videoUrl?: string | null
     videoDuration?: number | null
     transcript?: string | null
@@ -135165,7 +135135,6 @@ export namespace Prisma {
     shortDescription?: string | null
     order: number
     slug?: string | null
-    videoId?: string | null
     videoUrl?: string | null
     videoDuration?: number | null
     transcript?: string | null
@@ -135431,7 +135400,6 @@ export namespace Prisma {
     shortDescription?: StringNullableFilter<"Lesson"> | string | null
     order?: IntFilter<"Lesson"> | number
     slug?: StringNullableFilter<"Lesson"> | string | null
-    videoId?: StringNullableFilter<"Lesson"> | string | null
     videoUrl?: StringNullableFilter<"Lesson"> | string | null
     videoDuration?: IntNullableFilter<"Lesson"> | number | null
     transcript?: StringNullableFilter<"Lesson"> | string | null
@@ -135824,7 +135792,6 @@ export namespace Prisma {
     shortDescription?: string | null
     order: number
     slug?: string | null
-    videoId?: string | null
     videoUrl?: string | null
     videoDuration?: number | null
     transcript?: string | null
@@ -135848,7 +135815,6 @@ export namespace Prisma {
     shortDescription?: string | null
     order: number
     slug?: string | null
-    videoId?: string | null
     videoUrl?: string | null
     videoDuration?: number | null
     transcript?: string | null
@@ -135888,7 +135854,6 @@ export namespace Prisma {
     shortDescription?: NullableStringFieldUpdateOperationsInput | string | null
     order?: IntFieldUpdateOperationsInput | number
     slug?: NullableStringFieldUpdateOperationsInput | string | null
-    videoId?: NullableStringFieldUpdateOperationsInput | string | null
     videoUrl?: NullableStringFieldUpdateOperationsInput | string | null
     videoDuration?: NullableIntFieldUpdateOperationsInput | number | null
     transcript?: NullableStringFieldUpdateOperationsInput | string | null
@@ -135912,7 +135877,6 @@ export namespace Prisma {
     shortDescription?: NullableStringFieldUpdateOperationsInput | string | null
     order?: IntFieldUpdateOperationsInput | number
     slug?: NullableStringFieldUpdateOperationsInput | string | null
-    videoId?: NullableStringFieldUpdateOperationsInput | string | null
     videoUrl?: NullableStringFieldUpdateOperationsInput | string | null
     videoDuration?: NullableIntFieldUpdateOperationsInput | number | null
     transcript?: NullableStringFieldUpdateOperationsInput | string | null
@@ -136617,7 +136581,6 @@ export namespace Prisma {
     shortDescription?: string | null
     order: number
     slug?: string | null
-    videoId?: string | null
     videoUrl?: string | null
     videoDuration?: number | null
     transcript?: string | null
@@ -136641,7 +136604,6 @@ export namespace Prisma {
     shortDescription?: string | null
     order: number
     slug?: string | null
-    videoId?: string | null
     videoUrl?: string | null
     videoDuration?: number | null
     transcript?: string | null
@@ -136828,7 +136790,6 @@ export namespace Prisma {
     shortDescription?: NullableStringFieldUpdateOperationsInput | string | null
     order?: IntFieldUpdateOperationsInput | number
     slug?: NullableStringFieldUpdateOperationsInput | string | null
-    videoId?: NullableStringFieldUpdateOperationsInput | string | null
     videoUrl?: NullableStringFieldUpdateOperationsInput | string | null
     videoDuration?: NullableIntFieldUpdateOperationsInput | number | null
     transcript?: NullableStringFieldUpdateOperationsInput | string | null
@@ -136852,7 +136813,6 @@ export namespace Prisma {
     shortDescription?: NullableStringFieldUpdateOperationsInput | string | null
     order?: IntFieldUpdateOperationsInput | number
     slug?: NullableStringFieldUpdateOperationsInput | string | null
-    videoId?: NullableStringFieldUpdateOperationsInput | string | null
     videoUrl?: NullableStringFieldUpdateOperationsInput | string | null
     videoDuration?: NullableIntFieldUpdateOperationsInput | number | null
     transcript?: NullableStringFieldUpdateOperationsInput | string | null
@@ -149642,7 +149602,6 @@ export namespace Prisma {
     shortDescription?: string | null
     order: number
     slug?: string | null
-    videoId?: string | null
     videoUrl?: string | null
     videoDuration?: number | null
     transcript?: string | null
@@ -149666,7 +149625,6 @@ export namespace Prisma {
     shortDescription?: string | null
     order: number
     slug?: string | null
-    videoId?: string | null
     videoUrl?: string | null
     videoDuration?: number | null
     transcript?: string | null
@@ -149706,7 +149664,6 @@ export namespace Prisma {
     shortDescription?: NullableStringFieldUpdateOperationsInput | string | null
     order?: IntFieldUpdateOperationsInput | number
     slug?: NullableStringFieldUpdateOperationsInput | string | null
-    videoId?: NullableStringFieldUpdateOperationsInput | string | null
     videoUrl?: NullableStringFieldUpdateOperationsInput | string | null
     videoDuration?: NullableIntFieldUpdateOperationsInput | number | null
     transcript?: NullableStringFieldUpdateOperationsInput | string | null
@@ -149730,7 +149687,6 @@ export namespace Prisma {
     shortDescription?: NullableStringFieldUpdateOperationsInput | string | null
     order?: IntFieldUpdateOperationsInput | number
     slug?: NullableStringFieldUpdateOperationsInput | string | null
-    videoId?: NullableStringFieldUpdateOperationsInput | string | null
     videoUrl?: NullableStringFieldUpdateOperationsInput | string | null
     videoDuration?: NullableIntFieldUpdateOperationsInput | number | null
     transcript?: NullableStringFieldUpdateOperationsInput | string | null
@@ -152570,7 +152526,6 @@ export namespace Prisma {
     shortDescription?: string | null
     order: number
     slug?: string | null
-    videoId?: string | null
     videoUrl?: string | null
     videoDuration?: number | null
     transcript?: string | null
@@ -152594,7 +152549,6 @@ export namespace Prisma {
     shortDescription?: string | null
     order: number
     slug?: string | null
-    videoId?: string | null
     videoUrl?: string | null
     videoDuration?: number | null
     transcript?: string | null
@@ -152910,7 +152864,6 @@ export namespace Prisma {
     shortDescription?: NullableStringFieldUpdateOperationsInput | string | null
     order?: IntFieldUpdateOperationsInput | number
     slug?: NullableStringFieldUpdateOperationsInput | string | null
-    videoId?: NullableStringFieldUpdateOperationsInput | string | null
     videoUrl?: NullableStringFieldUpdateOperationsInput | string | null
     videoDuration?: NullableIntFieldUpdateOperationsInput | number | null
     transcript?: NullableStringFieldUpdateOperationsInput | string | null
@@ -152934,7 +152887,6 @@ export namespace Prisma {
     shortDescription?: NullableStringFieldUpdateOperationsInput | string | null
     order?: IntFieldUpdateOperationsInput | number
     slug?: NullableStringFieldUpdateOperationsInput | string | null
-    videoId?: NullableStringFieldUpdateOperationsInput | string | null
     videoUrl?: NullableStringFieldUpdateOperationsInput | string | null
     videoDuration?: NullableIntFieldUpdateOperationsInput | number | null
     transcript?: NullableStringFieldUpdateOperationsInput | string | null
@@ -158262,7 +158214,6 @@ export namespace Prisma {
     shortDescription?: string | null
     order: number
     slug?: string | null
-    videoId?: string | null
     videoUrl?: string | null
     videoDuration?: number | null
     transcript?: string | null
@@ -158311,7 +158262,6 @@ export namespace Prisma {
     shortDescription?: NullableStringFieldUpdateOperationsInput | string | null
     order?: IntFieldUpdateOperationsInput | number
     slug?: NullableStringFieldUpdateOperationsInput | string | null
-    videoId?: NullableStringFieldUpdateOperationsInput | string | null
     videoUrl?: NullableStringFieldUpdateOperationsInput | string | null
     videoDuration?: NullableIntFieldUpdateOperationsInput | number | null
     transcript?: NullableStringFieldUpdateOperationsInput | string | null
@@ -158335,7 +158285,6 @@ export namespace Prisma {
     shortDescription?: NullableStringFieldUpdateOperationsInput | string | null
     order?: IntFieldUpdateOperationsInput | number
     slug?: NullableStringFieldUpdateOperationsInput | string | null
-    videoId?: NullableStringFieldUpdateOperationsInput | string | null
     videoUrl?: NullableStringFieldUpdateOperationsInput | string | null
     videoDuration?: NullableIntFieldUpdateOperationsInput | number | null
     transcript?: NullableStringFieldUpdateOperationsInput | string | null
@@ -158359,7 +158308,6 @@ export namespace Prisma {
     shortDescription?: NullableStringFieldUpdateOperationsInput | string | null
     order?: IntFieldUpdateOperationsInput | number
     slug?: NullableStringFieldUpdateOperationsInput | string | null
-    videoId?: NullableStringFieldUpdateOperationsInput | string | null
     videoUrl?: NullableStringFieldUpdateOperationsInput | string | null
     videoDuration?: NullableIntFieldUpdateOperationsInput | number | null
     transcript?: NullableStringFieldUpdateOperationsInput | string | null

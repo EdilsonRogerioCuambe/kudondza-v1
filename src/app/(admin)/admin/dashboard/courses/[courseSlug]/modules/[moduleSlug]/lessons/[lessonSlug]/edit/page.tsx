@@ -6,15 +6,15 @@ import { notFound } from "next/navigation";
 import EditLessonView from "./_components/edit-lesson-page";
 
 interface EditLessonPageProps {
-  params: {
+  params: Promise<{
     courseSlug: string;
     moduleSlug: string;
     lessonSlug: string;
-  };
+  }>;
 }
 
 export default async function EditLessonRoute({ params }: EditLessonPageProps) {
-  const { courseSlug, moduleSlug, lessonSlug } = params;
+  const { courseSlug, moduleSlug, lessonSlug } = await params;
 
   // Buscar dados da lição
   const lessonResult = await getLessonBySlug(
@@ -55,10 +55,7 @@ export default async function EditLessonRoute({ params }: EditLessonPageProps) {
     description: serializedLesson.description ?? undefined,
     shortDescription: serializedLesson.shortDescription ?? undefined,
     order: serializedLesson.order,
-    videoId: serializedLesson.videoId ?? undefined,
     videoUrl: serializedLesson.videoUrl ?? undefined,
-    videoDuration: serializedLesson.videoDuration ?? undefined,
-    transcript: serializedLesson.transcript ?? undefined,
     isPreview: serializedLesson.isPreview,
     isRequired: serializedLesson.isRequired,
     isPublic: serializedLesson.isPublic,
@@ -66,8 +63,14 @@ export default async function EditLessonRoute({ params }: EditLessonPageProps) {
     xpReward: serializedLesson.xpReward,
     moduleId: serializedLesson.moduleId,
     resources: serializedLesson.resources,
-    createdAt: serializedLesson.createdAt,
-    updatedAt: serializedLesson.updatedAt,
+    createdAt:
+      typeof serializedLesson.createdAt === "string"
+        ? serializedLesson.createdAt
+        : serializedLesson.createdAt.toISOString(),
+    updatedAt:
+      typeof serializedLesson.updatedAt === "string"
+        ? serializedLesson.updatedAt
+        : serializedLesson.updatedAt.toISOString(),
   };
 
   return (

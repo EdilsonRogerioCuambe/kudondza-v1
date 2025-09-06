@@ -8,7 +8,6 @@ import { ReactNode } from "react";
 export interface VideoSectionProps {
   title?: string;
   videoUrl?: string | null;
-  videoId?: string | null;
   poster?: string | null;
   description?: string;
   className?: string;
@@ -18,15 +17,13 @@ export interface VideoSectionProps {
 export function VideoSection({
   title,
   videoUrl,
-  videoId,
   poster,
   description,
   className,
   children,
 }: VideoSectionProps) {
   // Determine the video source
-  const videoSrc =
-    videoUrl || (videoId ? `https://www.youtube.com/watch?v=${videoId}` : null);
+  const videoSrc = videoUrl;
 
   if (!videoSrc) {
     return (
@@ -48,22 +45,9 @@ export function VideoSection({
   }
 
   return (
-    <Card className={cn("w-full", className)}>
-      <CardHeader>
-        {title && <CardTitle>{title}</CardTitle>}
-        {description && <p className="text-muted-foreground">{description}</p>}
-      </CardHeader>
-      <CardContent className="space-y-4">
-        <div className="w-full max-w-4xl mx-auto">
-          <VideoPlayer
-            src={videoSrc}
-            poster={poster}
-            title={title}
-            className="w-full"
-          />
-        </div>
-        {children}
-      </CardContent>
-    </Card>
+    <>
+      <VideoPlayer src={videoSrc} poster={poster} title={title} />
+      {children}
+    </>
   );
 }

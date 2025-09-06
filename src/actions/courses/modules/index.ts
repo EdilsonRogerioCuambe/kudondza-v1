@@ -3,6 +3,7 @@ export * from "./delete-lesson";
 export * from "./get-lesson";
 export * from "./get-module-with-lessons";
 export * from "./get-modules";
+export * from "./lesson-resources";
 export * from "./reorder-lessons";
 export * from "./reorder-modules";
 export * from "./update-lesson";

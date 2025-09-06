@@ -1,12 +1,13 @@
 "use client";
 
-import { useTransition } from "react";
+import { useEffect, useState, useTransition } from "react";
 import { useForm } from "react-hook-form";
 import { toast } from "sonner";
 
 import ByteMDEditor from "@/components/byte-md-editor";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { EditForm } from "@/components/ui/edit-form";
+import { FileUploadField } from "@/components/ui/file-upload-field";
 import {
   Form,
   FormControl,
@@ -18,12 +19,23 @@ import {
 import { Input } from "@/components/ui/input";
 import { Switch } from "@/components/ui/switch";
 import { Textarea } from "@/components/ui/textarea";
-import { VideoUploadField } from "./video-upload-field";
+import { MediaUploadField } from "./media-upload-field";
 
 import { updateLesson } from "@/actions/courses/modules";
 import { CreateLessonInput } from "@/actions/courses/modules/create-lesson";
+import { getResourcesByLesson } from "@/actions/courses/modules/lesson-resources";
 
 // Tipos
+interface MediaFile {
+  id: string;
+  file: File;
+  progress: number;
+  status: "uploading" | "completed" | "error";
+  url?: string;
+  duration?: number;
+  error?: string;
+  resourceId?: string;
+}
 interface LessonData {
   id: string;
   title: string;
@@ -31,10 +43,7 @@ interface LessonData {
   description?: string;
   shortDescription?: string;
   order: number;
-  videoId?: string;
   videoUrl?: string;
-  videoDuration?: number;
-  transcript?: string;
   isPreview: boolean;
   isRequired: boolean;
   isPublic: boolean;
@@ -66,10 +75,7 @@ function mapLessonToForm(lesson: LessonData): CreateLessonInput {
     slug: lesson.slug || "",
     description: lesson.description || "",
     shortDescription: lesson.shortDescription || "",
-    videoId: lesson.videoId || "",
     videoUrl: lesson.videoUrl || "",
-    videoDuration: lesson.videoDuration || undefined,
-    transcript: lesson.transcript || "",
     isPreview: lesson.isPreview,
     isRequired: lesson.isRequired,
     isPublic: lesson.isPublic,
@@ -84,6 +90,37 @@ export function LessonUpsertForm({
   onCancel,
 }: LessonUpsertFormProps) {
   const [isPending, startTransition] = useTransition();
+  const [mediaFiles, setMediaFiles] = useState<MediaFile[]>([]);
+
+  // Carregar resources existentes
+  useEffect(() => {
+    const loadExistingResources = async () => {
+      try {
+        const result = await getResourcesByLesson(initialLesson.id);
+        if (result.success && result.data) {
+          const existingMediaFiles: MediaFile[] = result.data.map(
+            (resource) => ({
+              id: Math.random().toString(36).substr(2, 9),
+              file: new File([], resource.title, {
+                type: resource.mimeType || "text/plain",
+              }),
+              progress: 100,
+              status: "completed" as const,
+              url: resource.url,
+              resourceId: resource.id,
+            })
+          );
+          setMediaFiles(existingMediaFiles);
+        }
+      } catch (error) {
+        console.error("Erro ao carregar resources:", error);
+      }
+    };
+
+    if (mode === "edit" && initialLesson) {
+      loadExistingResources();
+    }
+  }, [mode, initialLesson]);
 
   // Valores padrão do formulário
   const defaultValues: CreateLessonInput =
@@ -95,10 +132,7 @@ export function LessonUpsertForm({
           slug: "",
           description: "",
           shortDescription: "",
-          videoId: "",
           videoUrl: "",
-          videoDuration: undefined,
-          transcript: "",
           isPreview: false,
           isRequired: true,
           isPublic: false,
@@ -112,18 +146,17 @@ export function LessonUpsertForm({
   const onSubmit = (data: CreateLessonInput) => {
     startTransition(async () => {
       try {
+        // Atualizar a aula
         const result = await updateLesson(initialLesson.id, data);
         if (result.success) {
+          // Os resources já são salvos automaticamente durante o upload no MediaUploadField
           onSuccess({
             ...initialLesson,
             ...data,
             slug: data.slug || null,
             description: data.description || undefined,
             shortDescription: data.shortDescription || undefined,
-            videoId: data.videoId || undefined,
             videoUrl: data.videoUrl || undefined,
-            videoDuration: data.videoDuration || undefined,
-            transcript: data.transcript || undefined,
             isRequired: data.isRequired ?? false,
           });
         } else {
@@ -141,306 +174,279 @@ export function LessonUpsertForm({
       value: "basic",
       label: "Básico",
       content: (
-        <Card>
-          <CardHeader className="pb-3 md:pb-6">
-            <CardTitle className="text-base md:text-lg">
-              Informações Básicas
-            </CardTitle>
-          </CardHeader>
-          <CardContent className="space-y-3 md:space-y-4 p-3 md:p-6">
-            <div className="grid grid-cols-1 md:grid-cols-2 gap-3 md:gap-4">
-              <FormField
-                control={form.control}
-                name="title"
-                render={({ field }) => (
-                  <FormItem>
-                    <FormLabel className="text-sm">Título</FormLabel>
-                    <FormControl>
-                      <Input
-                        placeholder="Digite o título da aula"
-                        className="text-sm"
-                        {...field}
-                      />
-                    </FormControl>
-                    <FormMessage />
-                  </FormItem>
-                )}
-              />
-              <FormField
-                control={form.control}
-                name="slug"
-                render={({ field }) => (
-                  <FormItem>
-                    <FormLabel className="text-sm">Slug</FormLabel>
-                    <FormControl>
-                      <Input
-                        placeholder="slug-da-aula"
-                        value={field.value ?? ""}
-                        onChange={field.onChange}
-                        className="text-sm"
-                      />
-                    </FormControl>
-                    <FormMessage />
-                  </FormItem>
-                )}
-              />
-            </div>
+        <div className="min-w-0">
+          <Card className="min-w-0">
+            <CardHeader className="pb-3 md:pb-6">
+              <CardTitle className="text-base md:text-lg">
+                Informações Básicas
+              </CardTitle>
+            </CardHeader>
+            <CardContent className="space-y-3 md:space-y-4 p-3 md:p-6 min-w-0">
+              <div className="grid grid-cols-1 md:grid-cols-2 gap-3 md:gap-4">
+                <FormField
+                  control={form.control}
+                  name="title"
+                  render={({ field }) => (
+                    <FormItem>
+                      <FormLabel className="text-sm">Título</FormLabel>
+                      <FormControl>
+                        <Input
+                          placeholder="Digite o título da aula"
+                          className="text-sm"
+                          {...field}
+                        />
+                      </FormControl>
+                      <FormMessage />
+                    </FormItem>
+                  )}
+                />
+                <FormField
+                  control={form.control}
+                  name="slug"
+                  render={({ field }) => (
+                    <FormItem>
+                      <FormLabel className="text-sm">Slug</FormLabel>
+                      <FormControl>
+                        <Input
+                          placeholder="slug-da-aula"
+                          value={field.value ?? ""}
+                          onChange={field.onChange}
+                          className="text-sm"
+                        />
+                      </FormControl>
+                      <FormMessage />
+                    </FormItem>
+                  )}
+                />
+              </div>
 
-            <FormField
-              control={form.control}
-              name="shortDescription"
-              render={({ field }) => (
-                <FormItem>
-                  <FormLabel className="text-sm">Descrição Curta</FormLabel>
-                  <FormControl>
-                    <Textarea
-                      placeholder="Digite uma descrição curta da aula"
-                      className="resize-none text-sm min-h-[80px] md:min-h-[100px]"
-                      value={field.value || ""}
-                      onChange={field.onChange}
-                    />
-                  </FormControl>
-                  <FormMessage />
-                </FormItem>
-              )}
-            />
-          </CardContent>
-        </Card>
+              <FormField
+                control={form.control}
+                name="shortDescription"
+                render={({ field }) => (
+                  <FormItem>
+                    <FormLabel className="text-sm">Descrição Curta</FormLabel>
+                    <FormControl>
+                      <Textarea
+                        placeholder="Digite uma descrição curta da aula"
+                        className="resize-none text-sm min-h-[80px] md:min-h-[100px]"
+                        value={field.value || ""}
+                        onChange={field.onChange}
+                      />
+                    </FormControl>
+                    <FormMessage />
+                  </FormItem>
+                )}
+              />
+            </CardContent>
+          </Card>
+        </div>
       ),
     },
     {
-      value: "video",
-      label: "Vídeo",
+      value: "media",
+      label: "Mídias",
       content: (
-        <Card>
-          <CardHeader className="pb-3 md:pb-6">
-            <CardTitle className="text-base md:text-lg">
-              Vídeo da Aula
-            </CardTitle>
-          </CardHeader>
-          <CardContent className="space-y-3 md:space-y-4 p-3 md:p-6">
-            <div className="grid grid-cols-1 md:grid-cols-2 gap-3 md:gap-4">
-              <FormField
-                control={form.control}
-                name="videoId"
-                render={({ field }) => (
-                  <FormItem>
-                    <FormLabel className="text-sm">
-                      ID do Vídeo (Panda Video)
-                    </FormLabel>
-                    <FormControl>
-                      <Input
-                        placeholder="ID do vídeo no Panda Video"
-                        value={field.value || ""}
-                        onChange={field.onChange}
-                        className="text-sm"
-                      />
-                    </FormControl>
-                    <FormMessage />
-                  </FormItem>
-                )}
-              />
-              <FormField
-                control={form.control}
-                name="videoDuration"
-                render={({ field }) => (
-                  <FormItem>
-                    <FormLabel className="text-sm">
-                      Duração (segundos)
-                    </FormLabel>
-                    <FormControl>
-                      <Input
-                        type="number"
-                        min="0"
-                        placeholder="Duração em segundos"
-                        value={field.value?.toString() || ""}
-                        onChange={(e) => field.onChange(Number(e.target.value))}
-                        className="text-sm"
-                      />
-                    </FormControl>
-                    <FormMessage />
-                  </FormItem>
-                )}
-              />
-            </div>
-
-            <FormField
-              control={form.control}
-              name="videoUrl"
-              render={({ field }) => (
-                <VideoUploadField
-                  value={field.value || ""}
-                  onChange={field.onChange}
-                  label="Vídeo da Aula"
-                  placeholder="URL do vídeo (YouTube, Vimeo, etc.)"
-                  lessonId={initialLesson.id}
-                />
-              )}
-            />
-
-            <FormField
-              control={form.control}
-              name="transcript"
-              render={({ field }) => (
-                <FormItem>
-                  <FormLabel className="text-sm">Transcrição</FormLabel>
-                  <FormControl>
-                    <Textarea
-                      placeholder="Transcrição do vídeo..."
-                      className="resize-none min-h-[150px] md:min-h-[200px] text-sm"
+        <div className="min-w-0">
+          <Card className="min-w-0">
+            <CardHeader className="pb-3 md:pb-6">
+              <CardTitle className="text-base md:text-lg">
+                Mídias da Aula
+              </CardTitle>
+            </CardHeader>
+            <CardContent className="space-y-3 md:space-y-4 p-3 md:p-6 min-w-0">
+              <div className="w-full min-w-0">
+                <FormField
+                  control={form.control}
+                  name="videoUrl"
+                  render={({ field }) => (
+                    <FileUploadField
+                      label="Vídeo Principal da Aula"
                       value={field.value || ""}
                       onChange={field.onChange}
+                      placeholder="URL do vídeo (YouTube, Vimeo, etc.)"
+                      accept={{
+                        "video/*": [
+                          ".mp4",
+                          ".avi",
+                          ".mov",
+                          ".wmv",
+                          ".flv",
+                          ".webm",
+                        ],
+                      }}
+                      lessonId={initialLesson.id}
+                      className="w-full"
                     />
-                  </FormControl>
-                  <FormMessage />
-                </FormItem>
-              )}
-            />
-          </CardContent>
-        </Card>
+                  )}
+                />
+              </div>
+
+              <div className="w-full min-w-0">
+                <MediaUploadField
+                  value={mediaFiles}
+                  onChange={setMediaFiles}
+                  label="Mídias Adicionais da Aula"
+                  placeholder="URL da mídia (YouTube, Vimeo, etc.)"
+                  lessonId={initialLesson.id}
+                />
+              </div>
+            </CardContent>
+          </Card>
+        </div>
       ),
     },
     {
       value: "content",
       label: "Conteúdo",
       content: (
-        <Card>
-          <CardHeader className="pb-3 md:pb-6">
-            <CardTitle className="text-base md:text-lg">
-              Conteúdo da Aula
-            </CardTitle>
-          </CardHeader>
-          <CardContent className="space-y-3 md:space-y-4 p-3 md:p-6">
-            <FormField
-              control={form.control}
-              name="description"
-              render={({ field }) => (
-                <FormItem>
-                  <FormLabel className="text-sm">Descrição Detalhada</FormLabel>
-                  <FormControl>
-                    <div className="border rounded-md">
-                      <ByteMDEditor
-                        value={field.value || ""}
-                        onChange={field.onChange}
-                        placeholder="Digite a descrição detalhada da aula..."
-                        className="min-h-[300px] md:min-h-[400px]"
-                      />
-                    </div>
-                  </FormControl>
-                  <FormMessage />
-                </FormItem>
-              )}
-            />
-          </CardContent>
-        </Card>
+        <div className="min-w-0">
+          <Card className="min-w-0">
+            <CardHeader className="pb-3 md:pb-6">
+              <CardTitle className="text-base md:text-lg">
+                Conteúdo da Aula
+              </CardTitle>
+            </CardHeader>
+            <CardContent className="space-y-3 md:space-y-4 p-3 md:p-6 min-w-0">
+              <FormField
+                control={form.control}
+                name="description"
+                render={({ field }) => (
+                  <FormItem>
+                    <FormLabel className="text-sm">
+                      Descrição Detalhada
+                    </FormLabel>
+                    <FormControl>
+                      <div className="border rounded-md min-w-0">
+                        <ByteMDEditor
+                          value={field.value || ""}
+                          onChange={field.onChange}
+                          placeholder="Digite a descrição detalhada da aula..."
+                          className="min-h-[300px] md:min-h-[400px]"
+                        />
+                      </div>
+                    </FormControl>
+                    <FormMessage />
+                  </FormItem>
+                )}
+              />
+            </CardContent>
+          </Card>
+        </div>
       ),
     },
     {
       value: "settings",
       label: "Configurações",
       content: (
-        <Card>
-          <CardHeader className="pb-3 md:pb-6">
-            <CardTitle className="text-base md:text-lg">
-              Configurações
-            </CardTitle>
-          </CardHeader>
-          <CardContent className="space-y-3 md:space-y-4 p-3 md:p-6">
-            <div className="grid grid-cols-1 md:grid-cols-2 gap-3 md:gap-4">
-              <FormField
-                control={form.control}
-                name="xpReward"
-                render={({ field }) => (
-                  <FormItem>
-                    <FormLabel className="text-sm">XP de Recompensa</FormLabel>
-                    <FormControl>
-                      <Input
-                        type="number"
-                        min="0"
-                        {...field}
-                        onChange={(e) => field.onChange(Number(e.target.value))}
-                        className="text-sm"
-                      />
-                    </FormControl>
-                    <FormMessage />
-                  </FormItem>
-                )}
-              />
-            </div>
-
-            <div className="space-y-4 md:space-y-6">
-              <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-3 sm:gap-4">
-                <div className="space-y-0.5 flex-1">
-                  <FormLabel className="text-sm">Aula de Preview</FormLabel>
-                  <p className="text-xs md:text-sm text-muted-foreground">
-                    Permite que esta aula seja visualizada sem estar inscrito no
-                    curso
-                  </p>
-                </div>
+        <div className="min-w-0">
+          <Card className="min-w-0">
+            <CardHeader className="pb-3 md:pb-6">
+              <CardTitle className="text-base md:text-lg">
+                Configurações
+              </CardTitle>
+            </CardHeader>
+            <CardContent className="space-y-3 md:space-y-4 p-3 md:p-6 min-w-0">
+              <div className="grid grid-cols-1 md:grid-cols-2 gap-3 md:gap-4">
                 <FormField
                   control={form.control}
-                  name="isPreview"
+                  name="xpReward"
                   render={({ field }) => (
                     <FormItem>
+                      <FormLabel className="text-sm">
+                        XP de Recompensa
+                      </FormLabel>
                       <FormControl>
-                        <Switch
-                          checked={field.value}
-                          onCheckedChange={field.onChange}
+                        <Input
+                          type="number"
+                          min="0"
+                          {...field}
+                          onChange={(e) =>
+                            field.onChange(Number(e.target.value))
+                          }
+                          className="text-sm"
                         />
                       </FormControl>
+                      <FormMessage />
                     </FormItem>
                   )}
                 />
               </div>
 
-              <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-3 sm:gap-4">
-                <div className="space-y-0.5 flex-1">
-                  <FormLabel className="text-sm">Aula Obrigatória</FormLabel>
-                  <p className="text-xs md:text-sm text-muted-foreground">
-                    Esta aula deve ser concluída para avançar no curso
-                  </p>
+              <div className="space-y-4 md:space-y-6">
+                <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-3 sm:gap-4">
+                  <div className="space-y-0.5 flex-1">
+                    <FormLabel className="text-sm">Aula de Preview</FormLabel>
+                    <p className="text-xs md:text-sm text-muted-foreground">
+                      Permite que esta aula seja visualizada sem estar inscrito
+                      no curso
+                    </p>
+                  </div>
+                  <FormField
+                    control={form.control}
+                    name="isPreview"
+                    render={({ field }) => (
+                      <FormItem>
+                        <FormControl>
+                          <Switch
+                            checked={field.value}
+                            onCheckedChange={field.onChange}
+                          />
+                        </FormControl>
+                      </FormItem>
+                    )}
+                  />
                 </div>
-                <FormField
-                  control={form.control}
-                  name="isRequired"
-                  render={({ field }) => (
-                    <FormItem>
-                      <FormControl>
-                        <Switch
-                          checked={field.value}
-                          onCheckedChange={field.onChange}
-                        />
-                      </FormControl>
-                    </FormItem>
-                  )}
-                />
-              </div>
 
-              <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-3 sm:gap-4">
-                <div className="space-y-0.5 flex-1">
-                  <FormLabel className="text-sm">Aula Pública</FormLabel>
-                  <p className="text-xs md:text-sm text-muted-foreground">
-                    Esta aula pode ser acessada por qualquer usuário
-                  </p>
+                <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-3 sm:gap-4">
+                  <div className="space-y-0.5 flex-1">
+                    <FormLabel className="text-sm">Aula Obrigatória</FormLabel>
+                    <p className="text-xs md:text-sm text-muted-foreground">
+                      Esta aula deve ser concluída para avançar no curso
+                    </p>
+                  </div>
+                  <FormField
+                    control={form.control}
+                    name="isRequired"
+                    render={({ field }) => (
+                      <FormItem>
+                        <FormControl>
+                          <Switch
+                            checked={field.value}
+                            onCheckedChange={field.onChange}
+                          />
+                        </FormControl>
+                      </FormItem>
+                    )}
+                  />
                 </div>
-                <FormField
-                  control={form.control}
-                  name="isPublic"
-                  render={({ field }) => (
-                    <FormItem>
-                      <FormControl>
-                        <Switch
-                          checked={field.value}
-                          onCheckedChange={field.onChange}
-                        />
-                      </FormControl>
-                    </FormItem>
-                  )}
-                />
+
+                <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-3 sm:gap-4">
+                  <div className="space-y-0.5 flex-1">
+                    <FormLabel className="text-sm">Aula Pública</FormLabel>
+                    <p className="text-xs md:text-sm text-muted-foreground">
+                      Esta aula pode ser acessada por qualquer usuário
+                    </p>
+                  </div>
+                  <FormField
+                    control={form.control}
+                    name="isPublic"
+                    render={({ field }) => (
+                      <FormItem>
+                        <FormControl>
+                          <Switch
+                            checked={field.value}
+                            onCheckedChange={field.onChange}
+                          />
+                        </FormControl>
+                      </FormItem>
+                    )}
+                  />
+                </div>
               </div>
-            </div>
-          </CardContent>
-        </Card>
+            </CardContent>
+          </Card>
+        </div>
       ),
     },
   ];

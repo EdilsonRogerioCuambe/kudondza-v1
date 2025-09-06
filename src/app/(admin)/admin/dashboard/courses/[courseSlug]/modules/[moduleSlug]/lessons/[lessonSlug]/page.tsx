@@ -39,6 +39,7 @@ import {
 } from "@/components/ui/select";
 import { Separator } from "@/components/ui/separator";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
+import VideoPlayer from "@/components/video-player";
 import { useIsMobile } from "@/hooks/use-mobile";
 import {
   ArrowLeft,
@@ -55,7 +56,6 @@ import remarkGfm from "remark-gfm";
 import { toast } from "sonner";
 import LessonHeader from "./_components/lesson-header";
 import LessonStats from "./_components/lesson-stats";
-import VideoPlayer from "@/components/video-player";
 
 export interface LessonData {
   lesson: {
@@ -65,7 +65,6 @@ export interface LessonData {
     shortDescription: string | null;
     order: number;
     slug: string | null;
-    videoId: string | null;
     videoUrl: string | null;
     videoDuration: number | null;
     transcript: string | null;
@@ -465,7 +464,7 @@ export default function LessonPage() {
                       <div className="space-y-2 md:space-y-3">
                         <div className="p-3 bg-muted/30 rounded-lg">
                           <div className="font-mono text-xs break-all">
-                            {lesson.videoId || "Não definido"}
+                            {lesson.videoUrl || "Não definido"}
                           </div>
                         </div>
                         <div className="p-3 bg-muted/30 rounded-lg">
@@ -552,16 +551,14 @@ export default function LessonPage() {
               </TabsContent>
 
               <TabsContent value="video" className="space-y-4 md:space-y-6">
-                {lesson.videoUrl || lesson.videoId ? (
+                {lesson.videoUrl ? (
                   <>
                     {/* Player de Vídeo */}
                     <div>
                       <h3 className="text-lg font-semibold mb-4">
                         Vídeo da Aula
                       </h3>
-                      <VideoPlayer
-                        src={lesson.videoUrl || ''}
-                      />
+                      <VideoPlayer src={lesson.videoUrl || ""} />
                     </div>
 
                     {/* Transcrição */}

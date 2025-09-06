@@ -112,8 +112,25 @@ export default function Page() {
     load();
   }, [params.courseSlug, params.moduleSlug]);
 
-  async function onReorder(newLessons: typeof lessons) {
-    setLessons(newLessons);
+  async function onReorder(
+    newLessons: { id: string; title: string; slug: string }[]
+  ) {
+    // Update the lessons state with the new order
+    const reorderedLessons = newLessons.map((lesson, index) => {
+      const existingLesson = lessons.find((l) => l.id === lesson.id);
+      return existingLesson
+        ? { ...existingLesson, order: index }
+        : {
+            id: lesson.id,
+            title: lesson.title,
+            order: index,
+            isPreview: false,
+            isPublic: false,
+            slug: lesson.slug,
+          };
+    });
+    setLessons(reorderedLessons);
+
     // Auto-salvar imediatamente após mover
     if (moduleId) {
       const orderedIds = newLessons.map((l) => l.id);

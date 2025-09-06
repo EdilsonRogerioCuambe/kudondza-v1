@@ -2,37 +2,17 @@
 
 import prisma from "@/lib/prisma";
 
-export async function getLessonBySlug(
-  courseSlug: string,
-  moduleSlug: string,
-  lessonSlug: string
-) {
-  if (!courseSlug || !moduleSlug || !lessonSlug) {
+export async function getLessonBySlug(lessonSlug: string) {
+  if (!lessonSlug) {
     return {
       success: false,
-      error: "courseSlug, moduleSlug e lessonSlug são obrigatórios",
+      error: "lessonSlug é obrigatório",
     } as const;
   }
 
   try {
-    const course = await prisma.course.findUnique({
-      where: { slug: courseSlug },
-      select: { id: true, title: true, slug: true },
-    });
-    if (!course)
-      return { success: false, error: "Curso não encontrado" } as const;
-
-    const moduleData = await prisma.module.findFirst({
-      where: { courseId: course.id, slug: moduleSlug },
-      select: { id: true, title: true, slug: true },
-    });
-
-    if (!moduleData)
-      return { success: false, error: "Módulo não encontrado" } as const;
-
     const lesson = await prisma.lesson.findFirst({
       where: {
-        moduleId: moduleData.id,
         slug: lessonSlug,
       },
       select: {
@@ -53,6 +33,21 @@ export async function getLessonBySlug(
         moduleId: true,
         createdAt: true,
         updatedAt: true,
+        module: {
+          select: {
+            id: true,
+            title: true,
+            slug: true,
+            courseId: true,
+            course: {
+              select: {
+                id: true,
+                title: true,
+                slug: true,
+              },
+            },
+          },
+        },
         resources: {
           select: {
             id: true,
@@ -60,21 +55,22 @@ export async function getLessonBySlug(
             description: true,
             url: true,
             type: true,
+            fileSize: true,
+            mimeType: true,
+            downloadable: true,
+            createdAt: true,
           },
         },
       },
     });
 
-    if (!lesson)
+    if (!lesson) {
       return { success: false, error: "Lição não encontrada" } as const;
+    }
 
     return {
       success: true,
-      data: {
-        lesson,
-        module: moduleData,
-        course: { id: course.id, title: course.title, slug: course.slug },
-      },
+      data: lesson,
     } as const;
   } catch (error) {
     console.error("Erro ao obter lição:", error);

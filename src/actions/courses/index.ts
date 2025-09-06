@@ -4,6 +4,7 @@ export { deleteCourse } from "./delete-course";
 export { duplicateCourse } from "./duplicate-course";
 export { getCourse } from "./get-course";
 export { getCourses } from "./get-courses";
+export { getLessonBySlug } from "./lessons/get-lesson-by-slug";
 export { addCoursePrerequisite } from "./prerequisite/add-course-prerequisite";
 // export { getAvailableCoursesForPrerequisites } from "./prerequisite/get-available-courses-for-prerequisites";
 export { removeCoursePrerequisite } from "./prerequisite/remove-course-prerequisite";

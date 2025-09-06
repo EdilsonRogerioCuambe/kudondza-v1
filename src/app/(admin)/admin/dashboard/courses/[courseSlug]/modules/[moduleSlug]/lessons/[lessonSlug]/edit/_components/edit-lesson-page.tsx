@@ -15,10 +15,7 @@ interface LessonData {
   description?: string;
   shortDescription?: string;
   order: number;
-  videoId?: string;
   videoUrl?: string;
-  videoDuration?: number;
-  transcript?: string;
   isPreview: boolean;
   isRequired: boolean;
   isPublic: boolean;

@@ -109,10 +109,11 @@ export default function StructureForm({
   }
 
   const getEditModuleUrl = (module: ModuleItem) => {
-    if (courseSlug && module.slug) {
-      return `/admin/dashboard/courses/${courseSlug}/modules/${module.slug}`;
-    }
-    return "#";
+    return `/admin/dashboard/courses/${courseSlug}/modules/${module.slug}`;
+  };
+
+  const getViewModuleUrl = (module: ModuleItem) => {
+    return `/courses/${courseSlug}/preview/${module.slug}`;
   };
 
   return (
@@ -217,8 +218,30 @@ export default function StructureForm({
           items={modules}
           onReorder={handleReorder}
           editUrl={getEditModuleUrl}
+          viewUrl={getViewModuleUrl}
           loading={loading}
           emptyMessage="Nenhum módulo cadastrado ainda."
+          renderItem={(module, index) => (
+            <div className="flex items-center justify-between w-full">
+              <div className="flex items-center gap-3 flex-1 min-w-0">
+                <span className="font-medium text-sm truncate">
+                  {index + 1}. {module.title}
+                </span>
+                <div className="flex items-center gap-2">
+                  {module.isPublic && (
+                    <span className="px-2 py-1 text-xs bg-green-100 text-green-800 rounded-full">
+                      Público
+                    </span>
+                  )}
+                  {module.isRequired && (
+                    <span className="px-2 py-1 text-xs bg-blue-100 text-blue-800 rounded-full">
+                      Obrigatório
+                    </span>
+                  )}
+                </div>
+              </div>
+            </div>
+          )}
         />
       )}
     </div>

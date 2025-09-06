@@ -5,7 +5,7 @@ import { prismaAdapter } from "better-auth/adapters/prisma";
 import { emailOTP } from "better-auth/plugins";
 import { env } from "./env";
 import prisma from "./prisma";
-import { resend } from "./resend";
+import { sendEmail } from "./email-service";
 
 export const auth = betterAuth({
   database: prismaAdapter(prisma, {
@@ -21,9 +21,8 @@ export const auth = betterAuth({
   plugins: [
     emailOTP({
       async sendVerificationOTP({ email, otp }) {
-        await resend.emails.send({
-          from: "Kudondza <onboarding@resend.dev>",
-          to: [email],
+        const result = await sendEmail({
+          to: email,
           subject: "Kudondza - Seu código de verificação",
           html: `
             <!DOCTYPE html>
@@ -91,6 +90,16 @@ export const auth = betterAuth({
             </html>
           `,
         });
+
+        // Log do resultado para debug
+        if (result.success) {
+          console.log("✅ Email de verificação enviado com sucesso");
+          if (result.previewUrl) {
+            console.log("🔗 Preview URL:", result.previewUrl);
+          }
+        } else {
+          console.error("❌ Falha ao enviar email de verificação");
+        }
       },
     }),
   ],

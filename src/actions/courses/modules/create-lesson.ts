@@ -8,10 +8,7 @@ export interface CreateLessonInput {
   slug?: string | null;
   description?: string | null;
   shortDescription?: string | null;
-  videoId?: string | null;
   videoUrl?: string | null;
-  videoDuration?: number | null;
-  transcript?: string | null;
   isPreview?: boolean;
   isRequired?: boolean;
   isPublic?: boolean;
@@ -33,10 +30,7 @@ export async function createLesson(data: CreateLessonInput) {
         slug: data.slug || null,
         description: data.description || null,
         shortDescription: data.shortDescription || null,
-        videoId: data.videoId || null,
         videoUrl: data.videoUrl || null,
-        videoDuration: data.videoDuration || null,
-        transcript: data.transcript || null,
         isPreview: data.isPreview ?? false,
         isRequired: data.isRequired ?? true,
         isPublic: data.isPublic ?? false,

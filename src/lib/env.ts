@@ -7,8 +7,15 @@ const envSchema = z.object({
   BETTER_AUTH_URL: z.string().url(),
   GITHUB_CLIENT_ID: z.string().min(1),
   GITHUB_CLIENT_SECRET: z.string().min(1),
-  RESEND_API_KEY: z.string().min(1),
   ARCJET_KEY: z.string().min(1),
+
+  // SMTP Configuration for production emails
+  SMTP_HOST: z.string().min(1),
+  SMTP_PORT: z.coerce.number().min(1).max(65535),
+  SMTP_SECURE: z.coerce.boolean(),
+  SMTP_USER: z.string().min(1),
+  SMTP_PASS: z.string().min(1),
+  SMTP_FROM_EMAIL: z.string().email(),
 
   // Cloudflare R2 Configuration
   R2_ACCOUNT_ID: z.string().min(1),
@@ -40,8 +47,15 @@ export const env = envSchema.parse({
   BETTER_AUTH_URL: process.env.BETTER_AUTH_URL,
   GITHUB_CLIENT_ID: process.env.GITHUB_CLIENT_ID,
   GITHUB_CLIENT_SECRET: process.env.GITHUB_CLIENT_SECRET,
-  RESEND_API_KEY: process.env.RESEND_API_KEY,
   ARCJET_KEY: process.env.ARCJET_KEY,
+
+  // SMTP Configuration
+  SMTP_HOST: process.env.SMTP_HOST,
+  SMTP_PORT: process.env.SMTP_PORT,
+  SMTP_SECURE: process.env.SMTP_SECURE,
+  SMTP_USER: process.env.SMTP_USER,
+  SMTP_PASS: process.env.SMTP_PASS,
+  SMTP_FROM_EMAIL: process.env.SMTP_FROM_EMAIL,
 
   // Cloudflare R2 Configuration
   R2_ACCOUNT_ID: process.env.R2_ACCOUNT_ID,

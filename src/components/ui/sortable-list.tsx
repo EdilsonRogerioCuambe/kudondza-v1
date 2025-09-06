@@ -1,20 +1,20 @@
 "use client";
 
 import {
-    DndContext,
-    DragEndEvent,
-    KeyboardSensor,
-    PointerSensor,
-    closestCenter,
-    useSensor,
-    useSensors,
+  DndContext,
+  DragEndEvent,
+  KeyboardSensor,
+  PointerSensor,
+  closestCenter,
+  useSensor,
+  useSensors,
 } from "@dnd-kit/core";
 import {
-    SortableContext,
-    arrayMove,
-    sortableKeyboardCoordinates,
-    useSortable,
-    verticalListSortingStrategy,
+  SortableContext,
+  arrayMove,
+  sortableKeyboardCoordinates,
+  useSortable,
+  verticalListSortingStrategy,
 } from "@dnd-kit/sortable";
 import { CSS } from "@dnd-kit/utilities";
 import { GripVertical, MoreHorizontal, Pencil } from "lucide-react";
@@ -23,10 +23,10 @@ import { ReactNode } from "react";
 
 import { Button } from "@/components/ui/button";
 import {
-    DropdownMenu,
-    DropdownMenuContent,
-    DropdownMenuItem,
-    DropdownMenuTrigger,
+  DropdownMenu,
+  DropdownMenuContent,
+  DropdownMenuItem,
+  DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu";
 import { cn } from "@/lib/utils";
 
@@ -88,7 +88,7 @@ function SortableItemComponent<T extends SortableItem>({
     transition,
   } as React.CSSProperties;
 
-  const hasActions = onEdit || onDelete || onDuplicate || onView;
+  const _hasActions = onEdit || onDelete || onDuplicate || onView;
 
   return (
     <div
@@ -118,8 +118,30 @@ function SortableItemComponent<T extends SortableItem>({
         )}
       </div>
 
-      {hasActions && (
-        <div className="flex items-center">
+      <div className="flex items-center gap-1">
+        {/* Ícone de lápis direto para editar */}
+        {(onEdit || editUrl) &&
+          (editUrl ? (
+            <Button variant="ghost" size="icon" className="h-7 w-7" asChild>
+              <Link href={editUrl(item)}>
+                <Pencil className="h-4 w-4" />
+                <span className="sr-only">Editar</span>
+              </Link>
+            </Button>
+          ) : (
+            <Button
+              variant="ghost"
+              size="icon"
+              className="h-7 w-7"
+              onClick={() => onEdit?.(item)}
+            >
+              <Pencil className="h-4 w-4" />
+              <span className="sr-only">Editar</span>
+            </Button>
+          ))}
+
+        {/* Menu dropdown para outras ações */}
+        {(onView || onDuplicate || onDelete) && (
           <DropdownMenu>
             <DropdownMenuTrigger asChild>
               <Button variant="ghost" size="icon" className="h-7 w-7">
@@ -128,27 +150,8 @@ function SortableItemComponent<T extends SortableItem>({
               </Button>
             </DropdownMenuTrigger>
             <DropdownMenuContent align="end" className="min-w-[160px]">
-              {(onEdit || editUrl) && (
-                editUrl ? (
-                  <DropdownMenuItem asChild>
-                    <Link href={editUrl(item)}>
-                      <span className="mr-2">
-                        <Pencil />
-                      </span>
-                      Editar
-                    </Link>
-                  </DropdownMenuItem>
-                ) : (
-                  <DropdownMenuItem onClick={() => onEdit?.(item)}>
-                    <span className="mr-2">
-                      <Pencil />
-                    </span>
-                    Editar
-                  </DropdownMenuItem>
-                )
-              )}
-              {(onView || viewUrl) && (
-                viewUrl ? (
+              {(onView || viewUrl) &&
+                (viewUrl ? (
                   <DropdownMenuItem asChild>
                     <Link href={viewUrl(item)}>
                       <span className="mr-2">👁️</span>
@@ -160,8 +163,7 @@ function SortableItemComponent<T extends SortableItem>({
                     <span className="mr-2">👁️</span>
                     Visualizar
                   </DropdownMenuItem>
-                )
-              )}
+                ))}
               {onDuplicate && (
                 <DropdownMenuItem onClick={() => onDuplicate(item)}>
                   <span className="mr-2">📋</span>
@@ -170,7 +172,7 @@ function SortableItemComponent<T extends SortableItem>({
               )}
               {onDelete && (
                 <>
-                  {(onEdit || onView || onDuplicate) && <hr className="my-1" />}
+                  {(onView || onDuplicate) && <hr className="my-1" />}
                   <DropdownMenuItem
                     onClick={() => onDelete(item)}
                     className="text-destructive focus:text-destructive"
@@ -182,8 +184,8 @@ function SortableItemComponent<T extends SortableItem>({
               )}
             </DropdownMenuContent>
           </DropdownMenu>
-        </div>
-      )}
+        )}
+      </div>
     </div>
   );
 }

@@ -95,7 +95,6 @@ export async function duplicateCourse(id: string) {
             shortDescription: lesson.shortDescription,
             order: lesson.order,
             slug: lesson.slug,
-            videoId: lesson.videoId,
             videoUrl: lesson.videoUrl,
             videoDuration: lesson.videoDuration,
             transcript: lesson.transcript,

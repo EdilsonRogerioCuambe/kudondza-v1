@@ -684,7 +684,6 @@ model Lesson {
   slug             String?
 
   // Conteúdo da aula
-  videoId       String? // ID do Panda Video
   videoUrl      String?
   videoDuration Int? // em segundos
   transcript    String? @db.Text
