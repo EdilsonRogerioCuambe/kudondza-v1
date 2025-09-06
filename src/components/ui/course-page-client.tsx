@@ -71,6 +71,7 @@ export function CoursePageClient({
   totalLessons,
   previewLessons,
   averageRating,
+  hasActiveSubscription = false,
 }: CoursePageClientProps) {
   const [previewModalOpen, setPreviewModalOpen] = useState(false);
   const [selectedLesson, setSelectedLesson] = useState<Lesson | null>(null);
@@ -96,7 +97,7 @@ export function CoursePageClient({
       {/* Sticky Navigation */}
       <CourseNavigation
         course={adaptedCourse}
-        isEnrolled={false} // TODO: Implementar verificação de inscrição
+        isEnrolled={hasActiveSubscription}
         isCompleted={false} // TODO: Implementar verificação de conclusão
       />
 
@@ -108,6 +109,7 @@ export function CoursePageClient({
           totalLessons={totalLessons}
           rating={averageRating}
           reviewCount={courseReviews.length}
+          isEnrolled={hasActiveSubscription}
         />
 
         <Separator className="my-12" />
@@ -230,7 +232,7 @@ export function CoursePageClient({
           rating={averageRating}
           reviewCount={courseReviews.length}
           level={course.level || ""}
-          isEnrolled={false} // TODO: Implementar verificação de inscrição
+          isEnrolled={hasActiveSubscription}
           progress={0} // TODO: Implementar progresso do usuário
         />
 
