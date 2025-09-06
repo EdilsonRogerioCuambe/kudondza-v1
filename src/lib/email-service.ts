@@ -119,7 +119,13 @@ interface EmailNotificationOptions {
 // Função para envio de notificações de email
 export async function sendEmailNotification(options: EmailNotificationOptions) {
   try {
-    const { recipient, subject, content, template: _template, variables: _variables = {} } = options;
+    const {
+      recipient,
+      subject,
+      content,
+      template: _template,
+      variables: _variables = {},
+    } = options;
 
     // Template básico de email
     const html = `
