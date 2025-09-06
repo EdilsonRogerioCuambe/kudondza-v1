@@ -4,9 +4,6 @@ import {
   getUserGoals,
   getUserProgress,
 } from "@/actions/progress";
-
-// Force dynamic rendering
-export const dynamic = "force-dynamic";
 import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
 import {
@@ -31,6 +28,9 @@ import {
   IconTrophy,
   IconUsers,
 } from "@tabler/icons-react";
+
+// Force dynamic rendering
+export const dynamic = "force-dynamic";
 
 interface Achievement {
   id: string;
@@ -59,13 +59,12 @@ interface RecentCourse {
 
 export default async function ProgressoPage() {
   // Buscar dados reais do banco de dados
-  const [progressData, achievements, communityRanking] =
-    await Promise.all([
-      getUserProgress(),
-      getUserAchievements(),
-      getCommunityRanking(),
-      getUserGoals(),
-    ]);
+  const [progressData, achievements, communityRanking] = await Promise.all([
+    getUserProgress(),
+    getUserAchievements(),
+    getCommunityRanking(),
+    getUserGoals(),
+  ]);
 
   // Dados de conquistas para exibição
   const displayAchievements = achievements
