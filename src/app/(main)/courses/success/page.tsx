@@ -9,7 +9,7 @@ import Lottie from "lottie-react";
 import { ArrowRight, BookOpen, Home, Play, Star } from "lucide-react";
 import Link from "next/link";
 import { useSearchParams } from "next/navigation";
-import { useEffect, useState, Suspense } from "react";
+import { Suspense, useEffect, useState } from "react";
 import Confetti from "react-confetti";
 
 function SuccessPageContent() {
