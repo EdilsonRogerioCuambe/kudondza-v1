@@ -104,3 +104,64 @@ export async function sendEmail(options: {
 }) {
   return emailService.sendEmail(options);
 }
+
+// Interface para notificações de email
+interface EmailNotificationOptions {
+  type: string;
+  recipient: string;
+  subject: string;
+  content: string;
+  template?: string;
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
+  variables?: Record<string, any>;
+}
+
+// Função para envio de notificações de email
+export async function sendEmailNotification(options: EmailNotificationOptions) {
+  try {
+    const { recipient, subject, content, template, variables = {} } = options;
+
+    // Template básico de email
+    const html = `
+      <!DOCTYPE html>
+      <html>
+        <head>
+          <meta charset="utf-8">
+          <meta name="viewport" content="width=device-width, initial-scale=1.0">
+          <title>${subject}</title>
+          <style>
+            body { font-family: Arial, sans-serif; line-height: 1.6; color: #333; }
+            .container { max-width: 600px; margin: 0 auto; padding: 20px; }
+            .header { background: #10b981; color: white; padding: 20px; text-align: center; border-radius: 8px 8px 0 0; }
+            .content { background: #f9fafb; padding: 30px; border-radius: 0 0 8px 8px; }
+            .footer { text-align: center; margin-top: 20px; color: #6b7280; font-size: 14px; }
+            .button { display: inline-block; background: #10b981; color: white; padding: 12px 24px; text-decoration: none; border-radius: 6px; margin: 20px 0; }
+          </style>
+        </head>
+        <body>
+          <div class="container">
+            <div class="header">
+              <h1>Kudondza</h1>
+            </div>
+            <div class="content">
+              ${content}
+            </div>
+            <div class="footer">
+              <p>Este é um email automático, por favor não responda.</p>
+              <p>© 2024 Kudondza. Todos os direitos reservados.</p>
+            </div>
+          </div>
+        </body>
+      </html>
+    `;
+
+    return await sendEmail({
+      to: recipient,
+      subject,
+      html,
+    });
+  } catch (error) {
+    console.error("Erro ao enviar notificação de email:", error);
+    return { success: false };
+  }
+}
