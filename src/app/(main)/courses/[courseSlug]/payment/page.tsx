@@ -1,6 +1,5 @@
 "use client";
 
-import { getSubscription } from "@/actions/subscriptions";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { ViewPageLayout } from "@/components/ui/view-page-layout";
@@ -53,18 +52,24 @@ export default function PaymentPage() {
   useEffect(() => {
     const fetchData = async () => {
       try {
-        const [courseResponse, subscriptionResult] = await Promise.all([
-          fetch(`/api/courses/${courseSlug}`),
-          getSubscription(),
-        ]);
+        const courseResponse = await fetch(`/api/courses/${courseSlug}`);
 
         if (courseResponse.ok) {
           const courseData = await courseResponse.json();
           setCourse(courseData);
-        }
 
-        if (subscriptionResult.success && subscriptionResult.data) {
-          setSubscription(subscriptionResult.data);
+          // Verificar se o usuário tem assinatura ativa para este curso específico
+          const subscriptionResponse = await fetch(
+            `/api/subscriptions/check-course-subscription/${courseData.id}`
+          );
+
+          if (subscriptionResponse.ok) {
+            const subscriptionResult = await subscriptionResponse.json();
+
+            if (subscriptionResult.success && subscriptionResult.data) {
+              setSubscription(subscriptionResult.data);
+            }
+          }
         }
       } catch (error) {
         console.error("Error fetching data:", error);
@@ -237,10 +242,10 @@ export default function PaymentPage() {
                   <CheckCircle className="h-6 w-6 text-green-600" />
                   <div>
                     <h3 className="text-lg font-semibold text-green-800">
-                      Você já tem uma assinatura ativa!
+                      Você já tem uma assinatura ativa para este curso!
                     </h3>
                     <p className="text-green-600">
-                      Aproveite o acesso completo a todos os cursos premium.
+                      Aproveite o acesso completo ao curso &quot;{course.title}&quot;.
                     </p>
                   </div>
                 </div>

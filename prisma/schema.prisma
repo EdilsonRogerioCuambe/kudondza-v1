@@ -1918,7 +1918,7 @@ model AuditLog {
 
 model Subscription {
   id                   String  @id @default(cuid())
-  stripeCustomerId     String? @unique
+  stripeCustomerId     String?
   stripeSubscriptionId String? @unique
   stripePriceId        String?
   stripeProductId      String?

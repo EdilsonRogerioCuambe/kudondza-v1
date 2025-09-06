@@ -110374,11 +110374,11 @@ export namespace Prisma {
 
   export type SubscriptionWhereUniqueInput = Prisma.AtLeast<{
     id?: string
-    stripeCustomerId?: string
     stripeSubscriptionId?: string
     AND?: SubscriptionWhereInput | SubscriptionWhereInput[]
     OR?: SubscriptionWhereInput[]
     NOT?: SubscriptionWhereInput | SubscriptionWhereInput[]
+    stripeCustomerId?: StringNullableFilter<"Subscription"> | string | null
     stripePriceId?: StringNullableFilter<"Subscription"> | string | null
     stripeProductId?: StringNullableFilter<"Subscription"> | string | null
     status?: EnumSubscriptionStatusFilter<"Subscription"> | $Enums.SubscriptionStatus
@@ -110396,7 +110396,7 @@ export namespace Prisma {
     userId?: StringFilter<"Subscription"> | string
     user?: XOR<UserScalarRelationFilter, UserWhereInput>
     payments?: PaymentListRelationFilter
-  }, "id" | "stripeCustomerId" | "stripeSubscriptionId">
+  }, "id" | "stripeSubscriptionId">
 
   export type SubscriptionOrderByWithAggregationInput = {
     id?: SortOrder

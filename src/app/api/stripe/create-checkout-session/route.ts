@@ -40,21 +40,27 @@ export async function POST(request: NextRequest) {
       courseId = course?.id;
     }
 
-    // Verificar se o usuário já tem uma assinatura ativa
-    const existingSubscription = await prisma.subscription.findFirst({
-      where: {
-        userId: session.user.id,
-        status: {
-          in: ["ACTIVE", "TRIALING"],
+    // Verificar se o usuário já tem uma assinatura ativa para este curso específico
+    if (courseId) {
+      const existingSubscription = await prisma.subscription.findFirst({
+        where: {
+          userId: session.user.id,
+          status: {
+            in: ["ACTIVE", "TRIALING"],
+          },
+          metadata: {
+            path: ["courseId"],
+            equals: courseId,
+          },
         },
-      },
-    });
+      });
 
-    if (existingSubscription) {
-      return NextResponse.json(
-        { error: "Usuário já possui uma assinatura ativa" },
-        { status: 400 }
-      );
+      if (existingSubscription) {
+        return NextResponse.json(
+          { error: "Usuário já possui uma assinatura ativa para este curso" },
+          { status: 400 }
+        );
+      }
     }
 
     // Obter ou criar customer no Stripe
