@@ -4,6 +4,9 @@ import {
   getUserGoals,
   getUserProgress,
 } from "@/actions/progress";
+
+// Force dynamic rendering
+export const dynamic = "force-dynamic";
 import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
 import {
