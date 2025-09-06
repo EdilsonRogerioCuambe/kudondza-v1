@@ -359,6 +359,31 @@ export type UserLevelReward = $Result.DefaultSelection<Prisma.$UserLevelRewardPa
  */
 export type AuditLog = $Result.DefaultSelection<Prisma.$AuditLogPayload>
 /**
+ * Model Subscription
+ * 
+ */
+export type Subscription = $Result.DefaultSelection<Prisma.$SubscriptionPayload>
+/**
+ * Model Payment
+ * 
+ */
+export type Payment = $Result.DefaultSelection<Prisma.$PaymentPayload>
+/**
+ * Model WebhookEvent
+ * 
+ */
+export type WebhookEvent = $Result.DefaultSelection<Prisma.$WebhookEventPayload>
+/**
+ * Model SubscriptionPlan
+ * 
+ */
+export type SubscriptionPlan = $Result.DefaultSelection<Prisma.$SubscriptionPlanPayload>
+/**
+ * Model EmailNotification
+ * 
+ */
+export type EmailNotification = $Result.DefaultSelection<Prisma.$EmailNotificationPayload>
+/**
  * Model UserActivity
  * 
  */
@@ -799,6 +824,59 @@ export const UploadStatus: {
 
 export type UploadStatus = (typeof UploadStatus)[keyof typeof UploadStatus]
 
+
+export const SubscriptionStatus: {
+  INACTIVE: 'INACTIVE',
+  ACTIVE: 'ACTIVE',
+  TRIALING: 'TRIALING',
+  PAST_DUE: 'PAST_DUE',
+  CANCELED: 'CANCELED',
+  UNPAID: 'UNPAID',
+  INCOMPLETE: 'INCOMPLETE',
+  INCOMPLETE_EXPIRED: 'INCOMPLETE_EXPIRED',
+  PAUSED: 'PAUSED'
+};
+
+export type SubscriptionStatus = (typeof SubscriptionStatus)[keyof typeof SubscriptionStatus]
+
+
+export const PaymentStatus: {
+  PENDING: 'PENDING',
+  PROCESSING: 'PROCESSING',
+  SUCCEEDED: 'SUCCEEDED',
+  FAILED: 'FAILED',
+  CANCELED: 'CANCELED',
+  REFUNDED: 'REFUNDED',
+  PARTIALLY_REFUNDED: 'PARTIALLY_REFUNDED'
+};
+
+export type PaymentStatus = (typeof PaymentStatus)[keyof typeof PaymentStatus]
+
+
+export const EmailNotificationType: {
+  SUBSCRIPTION_RENEWAL_REMINDER: 'SUBSCRIPTION_RENEWAL_REMINDER',
+  SUBSCRIPTION_EXPIRING: 'SUBSCRIPTION_EXPIRING',
+  SUBSCRIPTION_CANCELED: 'SUBSCRIPTION_CANCELED',
+  SUBSCRIPTION_RENEWED: 'SUBSCRIPTION_RENEWED',
+  PAYMENT_FAILED: 'PAYMENT_FAILED',
+  PAYMENT_SUCCEEDED: 'PAYMENT_SUCCEEDED',
+  TRIAL_ENDING: 'TRIAL_ENDING',
+  WELCOME: 'WELCOME'
+};
+
+export type EmailNotificationType = (typeof EmailNotificationType)[keyof typeof EmailNotificationType]
+
+
+export const EmailStatus: {
+  PENDING: 'PENDING',
+  SENT: 'SENT',
+  FAILED: 'FAILED',
+  BOUNCED: 'BOUNCED',
+  DELIVERED: 'DELIVERED'
+};
+
+export type EmailStatus = (typeof EmailStatus)[keyof typeof EmailStatus]
+
 }
 
 export type RoadmapStatus = $Enums.RoadmapStatus
@@ -944,6 +1022,22 @@ export const ActivityType: typeof $Enums.ActivityType
 export type UploadStatus = $Enums.UploadStatus
 
 export const UploadStatus: typeof $Enums.UploadStatus
+
+export type SubscriptionStatus = $Enums.SubscriptionStatus
+
+export const SubscriptionStatus: typeof $Enums.SubscriptionStatus
+
+export type PaymentStatus = $Enums.PaymentStatus
+
+export const PaymentStatus: typeof $Enums.PaymentStatus
+
+export type EmailNotificationType = $Enums.EmailNotificationType
+
+export const EmailNotificationType: typeof $Enums.EmailNotificationType
+
+export type EmailStatus = $Enums.EmailStatus
+
+export const EmailStatus: typeof $Enums.EmailStatus
 
 /**
  * ##  Prisma Client ʲˢ
@@ -1754,6 +1848,56 @@ export class PrismaClient<
   get auditLog(): Prisma.AuditLogDelegate<ExtArgs, ClientOptions>;
 
   /**
+   * `prisma.subscription`: Exposes CRUD operations for the **Subscription** model.
+    * Example usage:
+    * ```ts
+    * // Fetch zero or more Subscriptions
+    * const subscriptions = await prisma.subscription.findMany()
+    * ```
+    */
+  get subscription(): Prisma.SubscriptionDelegate<ExtArgs, ClientOptions>;
+
+  /**
+   * `prisma.payment`: Exposes CRUD operations for the **Payment** model.
+    * Example usage:
+    * ```ts
+    * // Fetch zero or more Payments
+    * const payments = await prisma.payment.findMany()
+    * ```
+    */
+  get payment(): Prisma.PaymentDelegate<ExtArgs, ClientOptions>;
+
+  /**
+   * `prisma.webhookEvent`: Exposes CRUD operations for the **WebhookEvent** model.
+    * Example usage:
+    * ```ts
+    * // Fetch zero or more WebhookEvents
+    * const webhookEvents = await prisma.webhookEvent.findMany()
+    * ```
+    */
+  get webhookEvent(): Prisma.WebhookEventDelegate<ExtArgs, ClientOptions>;
+
+  /**
+   * `prisma.subscriptionPlan`: Exposes CRUD operations for the **SubscriptionPlan** model.
+    * Example usage:
+    * ```ts
+    * // Fetch zero or more SubscriptionPlans
+    * const subscriptionPlans = await prisma.subscriptionPlan.findMany()
+    * ```
+    */
+  get subscriptionPlan(): Prisma.SubscriptionPlanDelegate<ExtArgs, ClientOptions>;
+
+  /**
+   * `prisma.emailNotification`: Exposes CRUD operations for the **EmailNotification** model.
+    * Example usage:
+    * ```ts
+    * // Fetch zero or more EmailNotifications
+    * const emailNotifications = await prisma.emailNotification.findMany()
+    * ```
+    */
+  get emailNotification(): Prisma.EmailNotificationDelegate<ExtArgs, ClientOptions>;
+
+  /**
    * `prisma.userActivity`: Exposes CRUD operations for the **UserActivity** model.
     * Example usage:
     * ```ts
@@ -2281,6 +2425,11 @@ export namespace Prisma {
     LevelReward: 'LevelReward',
     UserLevelReward: 'UserLevelReward',
     AuditLog: 'AuditLog',
+    Subscription: 'Subscription',
+    Payment: 'Payment',
+    WebhookEvent: 'WebhookEvent',
+    SubscriptionPlan: 'SubscriptionPlan',
+    EmailNotification: 'EmailNotification',
     UserActivity: 'UserActivity',
     FileUpload: 'FileUpload'
   };
@@ -2301,7 +2450,7 @@ export namespace Prisma {
       omit: GlobalOmitOptions
     }
     meta: {
-      modelProps: "user" | "session" | "account" | "verification" | "category" | "subcategory" | "course" | "coursePrerequisite" | "courseSeries" | "courseRelation" | "learningPath" | "learningPathCourse" | "learningPathFollower" | "courseRecommendation" | "roadmap" | "roadmapPath" | "roadmapCourse" | "roadmapEnrollment" | "roadmapAnalytics" | "module" | "lesson" | "resource" | "enrollment" | "progress" | "gamification" | "badge" | "userBadge" | "xPHistory" | "post" | "comment" | "reaction" | "follow" | "community" | "communityMember" | "communityPost" | "communityComment" | "communityReaction" | "communityEvent" | "eventAttendee" | "communityPoll" | "pollVote" | "communityRule" | "communityAnalytics" | "group" | "groupMember" | "message" | "messageRecipient" | "certificate" | "quiz" | "question" | "quizAttempt" | "review" | "notification" | "playlist" | "playlistItem" | "userAnalytics" | "courseAnalytics" | "lessonAnalytics" | "assignment" | "submission" | "mentorSession" | "competition" | "competitionParticipant" | "userGoal" | "dailyChallenge" | "userChallenge" | "levelReward" | "userLevelReward" | "auditLog" | "userActivity" | "fileUpload"
+      modelProps: "user" | "session" | "account" | "verification" | "category" | "subcategory" | "course" | "coursePrerequisite" | "courseSeries" | "courseRelation" | "learningPath" | "learningPathCourse" | "learningPathFollower" | "courseRecommendation" | "roadmap" | "roadmapPath" | "roadmapCourse" | "roadmapEnrollment" | "roadmapAnalytics" | "module" | "lesson" | "resource" | "enrollment" | "progress" | "gamification" | "badge" | "userBadge" | "xPHistory" | "post" | "comment" | "reaction" | "follow" | "community" | "communityMember" | "communityPost" | "communityComment" | "communityReaction" | "communityEvent" | "eventAttendee" | "communityPoll" | "pollVote" | "communityRule" | "communityAnalytics" | "group" | "groupMember" | "message" | "messageRecipient" | "certificate" | "quiz" | "question" | "quizAttempt" | "review" | "notification" | "playlist" | "playlistItem" | "userAnalytics" | "courseAnalytics" | "lessonAnalytics" | "assignment" | "submission" | "mentorSession" | "competition" | "competitionParticipant" | "userGoal" | "dailyChallenge" | "userChallenge" | "levelReward" | "userLevelReward" | "auditLog" | "subscription" | "payment" | "webhookEvent" | "subscriptionPlan" | "emailNotification" | "userActivity" | "fileUpload"
       txIsolationLevel: Prisma.TransactionIsolationLevel
     }
     model: {
@@ -7411,6 +7560,376 @@ export namespace Prisma {
           }
         }
       }
+      Subscription: {
+        payload: Prisma.$SubscriptionPayload<ExtArgs>
+        fields: Prisma.SubscriptionFieldRefs
+        operations: {
+          findUnique: {
+            args: Prisma.SubscriptionFindUniqueArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$SubscriptionPayload> | null
+          }
+          findUniqueOrThrow: {
+            args: Prisma.SubscriptionFindUniqueOrThrowArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$SubscriptionPayload>
+          }
+          findFirst: {
+            args: Prisma.SubscriptionFindFirstArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$SubscriptionPayload> | null
+          }
+          findFirstOrThrow: {
+            args: Prisma.SubscriptionFindFirstOrThrowArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$SubscriptionPayload>
+          }
+          findMany: {
+            args: Prisma.SubscriptionFindManyArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$SubscriptionPayload>[]
+          }
+          create: {
+            args: Prisma.SubscriptionCreateArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$SubscriptionPayload>
+          }
+          createMany: {
+            args: Prisma.SubscriptionCreateManyArgs<ExtArgs>
+            result: BatchPayload
+          }
+          createManyAndReturn: {
+            args: Prisma.SubscriptionCreateManyAndReturnArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$SubscriptionPayload>[]
+          }
+          delete: {
+            args: Prisma.SubscriptionDeleteArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$SubscriptionPayload>
+          }
+          update: {
+            args: Prisma.SubscriptionUpdateArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$SubscriptionPayload>
+          }
+          deleteMany: {
+            args: Prisma.SubscriptionDeleteManyArgs<ExtArgs>
+            result: BatchPayload
+          }
+          updateMany: {
+            args: Prisma.SubscriptionUpdateManyArgs<ExtArgs>
+            result: BatchPayload
+          }
+          updateManyAndReturn: {
+            args: Prisma.SubscriptionUpdateManyAndReturnArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$SubscriptionPayload>[]
+          }
+          upsert: {
+            args: Prisma.SubscriptionUpsertArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$SubscriptionPayload>
+          }
+          aggregate: {
+            args: Prisma.SubscriptionAggregateArgs<ExtArgs>
+            result: $Utils.Optional<AggregateSubscription>
+          }
+          groupBy: {
+            args: Prisma.SubscriptionGroupByArgs<ExtArgs>
+            result: $Utils.Optional<SubscriptionGroupByOutputType>[]
+          }
+          count: {
+            args: Prisma.SubscriptionCountArgs<ExtArgs>
+            result: $Utils.Optional<SubscriptionCountAggregateOutputType> | number
+          }
+        }
+      }
+      Payment: {
+        payload: Prisma.$PaymentPayload<ExtArgs>
+        fields: Prisma.PaymentFieldRefs
+        operations: {
+          findUnique: {
+            args: Prisma.PaymentFindUniqueArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$PaymentPayload> | null
+          }
+          findUniqueOrThrow: {
+            args: Prisma.PaymentFindUniqueOrThrowArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$PaymentPayload>
+          }
+          findFirst: {
+            args: Prisma.PaymentFindFirstArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$PaymentPayload> | null
+          }
+          findFirstOrThrow: {
+            args: Prisma.PaymentFindFirstOrThrowArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$PaymentPayload>
+          }
+          findMany: {
+            args: Prisma.PaymentFindManyArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$PaymentPayload>[]
+          }
+          create: {
+            args: Prisma.PaymentCreateArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$PaymentPayload>
+          }
+          createMany: {
+            args: Prisma.PaymentCreateManyArgs<ExtArgs>
+            result: BatchPayload
+          }
+          createManyAndReturn: {
+            args: Prisma.PaymentCreateManyAndReturnArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$PaymentPayload>[]
+          }
+          delete: {
+            args: Prisma.PaymentDeleteArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$PaymentPayload>
+          }
+          update: {
+            args: Prisma.PaymentUpdateArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$PaymentPayload>
+          }
+          deleteMany: {
+            args: Prisma.PaymentDeleteManyArgs<ExtArgs>
+            result: BatchPayload
+          }
+          updateMany: {
+            args: Prisma.PaymentUpdateManyArgs<ExtArgs>
+            result: BatchPayload
+          }
+          updateManyAndReturn: {
+            args: Prisma.PaymentUpdateManyAndReturnArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$PaymentPayload>[]
+          }
+          upsert: {
+            args: Prisma.PaymentUpsertArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$PaymentPayload>
+          }
+          aggregate: {
+            args: Prisma.PaymentAggregateArgs<ExtArgs>
+            result: $Utils.Optional<AggregatePayment>
+          }
+          groupBy: {
+            args: Prisma.PaymentGroupByArgs<ExtArgs>
+            result: $Utils.Optional<PaymentGroupByOutputType>[]
+          }
+          count: {
+            args: Prisma.PaymentCountArgs<ExtArgs>
+            result: $Utils.Optional<PaymentCountAggregateOutputType> | number
+          }
+        }
+      }
+      WebhookEvent: {
+        payload: Prisma.$WebhookEventPayload<ExtArgs>
+        fields: Prisma.WebhookEventFieldRefs
+        operations: {
+          findUnique: {
+            args: Prisma.WebhookEventFindUniqueArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$WebhookEventPayload> | null
+          }
+          findUniqueOrThrow: {
+            args: Prisma.WebhookEventFindUniqueOrThrowArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$WebhookEventPayload>
+          }
+          findFirst: {
+            args: Prisma.WebhookEventFindFirstArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$WebhookEventPayload> | null
+          }
+          findFirstOrThrow: {
+            args: Prisma.WebhookEventFindFirstOrThrowArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$WebhookEventPayload>
+          }
+          findMany: {
+            args: Prisma.WebhookEventFindManyArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$WebhookEventPayload>[]
+          }
+          create: {
+            args: Prisma.WebhookEventCreateArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$WebhookEventPayload>
+          }
+          createMany: {
+            args: Prisma.WebhookEventCreateManyArgs<ExtArgs>
+            result: BatchPayload
+          }
+          createManyAndReturn: {
+            args: Prisma.WebhookEventCreateManyAndReturnArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$WebhookEventPayload>[]
+          }
+          delete: {
+            args: Prisma.WebhookEventDeleteArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$WebhookEventPayload>
+          }
+          update: {
+            args: Prisma.WebhookEventUpdateArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$WebhookEventPayload>
+          }
+          deleteMany: {
+            args: Prisma.WebhookEventDeleteManyArgs<ExtArgs>
+            result: BatchPayload
+          }
+          updateMany: {
+            args: Prisma.WebhookEventUpdateManyArgs<ExtArgs>
+            result: BatchPayload
+          }
+          updateManyAndReturn: {
+            args: Prisma.WebhookEventUpdateManyAndReturnArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$WebhookEventPayload>[]
+          }
+          upsert: {
+            args: Prisma.WebhookEventUpsertArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$WebhookEventPayload>
+          }
+          aggregate: {
+            args: Prisma.WebhookEventAggregateArgs<ExtArgs>
+            result: $Utils.Optional<AggregateWebhookEvent>
+          }
+          groupBy: {
+            args: Prisma.WebhookEventGroupByArgs<ExtArgs>
+            result: $Utils.Optional<WebhookEventGroupByOutputType>[]
+          }
+          count: {
+            args: Prisma.WebhookEventCountArgs<ExtArgs>
+            result: $Utils.Optional<WebhookEventCountAggregateOutputType> | number
+          }
+        }
+      }
+      SubscriptionPlan: {
+        payload: Prisma.$SubscriptionPlanPayload<ExtArgs>
+        fields: Prisma.SubscriptionPlanFieldRefs
+        operations: {
+          findUnique: {
+            args: Prisma.SubscriptionPlanFindUniqueArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$SubscriptionPlanPayload> | null
+          }
+          findUniqueOrThrow: {
+            args: Prisma.SubscriptionPlanFindUniqueOrThrowArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$SubscriptionPlanPayload>
+          }
+          findFirst: {
+            args: Prisma.SubscriptionPlanFindFirstArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$SubscriptionPlanPayload> | null
+          }
+          findFirstOrThrow: {
+            args: Prisma.SubscriptionPlanFindFirstOrThrowArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$SubscriptionPlanPayload>
+          }
+          findMany: {
+            args: Prisma.SubscriptionPlanFindManyArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$SubscriptionPlanPayload>[]
+          }
+          create: {
+            args: Prisma.SubscriptionPlanCreateArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$SubscriptionPlanPayload>
+          }
+          createMany: {
+            args: Prisma.SubscriptionPlanCreateManyArgs<ExtArgs>
+            result: BatchPayload
+          }
+          createManyAndReturn: {
+            args: Prisma.SubscriptionPlanCreateManyAndReturnArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$SubscriptionPlanPayload>[]
+          }
+          delete: {
+            args: Prisma.SubscriptionPlanDeleteArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$SubscriptionPlanPayload>
+          }
+          update: {
+            args: Prisma.SubscriptionPlanUpdateArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$SubscriptionPlanPayload>
+          }
+          deleteMany: {
+            args: Prisma.SubscriptionPlanDeleteManyArgs<ExtArgs>
+            result: BatchPayload
+          }
+          updateMany: {
+            args: Prisma.SubscriptionPlanUpdateManyArgs<ExtArgs>
+            result: BatchPayload
+          }
+          updateManyAndReturn: {
+            args: Prisma.SubscriptionPlanUpdateManyAndReturnArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$SubscriptionPlanPayload>[]
+          }
+          upsert: {
+            args: Prisma.SubscriptionPlanUpsertArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$SubscriptionPlanPayload>
+          }
+          aggregate: {
+            args: Prisma.SubscriptionPlanAggregateArgs<ExtArgs>
+            result: $Utils.Optional<AggregateSubscriptionPlan>
+          }
+          groupBy: {
+            args: Prisma.SubscriptionPlanGroupByArgs<ExtArgs>
+            result: $Utils.Optional<SubscriptionPlanGroupByOutputType>[]
+          }
+          count: {
+            args: Prisma.SubscriptionPlanCountArgs<ExtArgs>
+            result: $Utils.Optional<SubscriptionPlanCountAggregateOutputType> | number
+          }
+        }
+      }
+      EmailNotification: {
+        payload: Prisma.$EmailNotificationPayload<ExtArgs>
+        fields: Prisma.EmailNotificationFieldRefs
+        operations: {
+          findUnique: {
+            args: Prisma.EmailNotificationFindUniqueArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$EmailNotificationPayload> | null
+          }
+          findUniqueOrThrow: {
+            args: Prisma.EmailNotificationFindUniqueOrThrowArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$EmailNotificationPayload>
+          }
+          findFirst: {
+            args: Prisma.EmailNotificationFindFirstArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$EmailNotificationPayload> | null
+          }
+          findFirstOrThrow: {
+            args: Prisma.EmailNotificationFindFirstOrThrowArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$EmailNotificationPayload>
+          }
+          findMany: {
+            args: Prisma.EmailNotificationFindManyArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$EmailNotificationPayload>[]
+          }
+          create: {
+            args: Prisma.EmailNotificationCreateArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$EmailNotificationPayload>
+          }
+          createMany: {
+            args: Prisma.EmailNotificationCreateManyArgs<ExtArgs>
+            result: BatchPayload
+          }
+          createManyAndReturn: {
+            args: Prisma.EmailNotificationCreateManyAndReturnArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$EmailNotificationPayload>[]
+          }
+          delete: {
+            args: Prisma.EmailNotificationDeleteArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$EmailNotificationPayload>
+          }
+          update: {
+            args: Prisma.EmailNotificationUpdateArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$EmailNotificationPayload>
+          }
+          deleteMany: {
+            args: Prisma.EmailNotificationDeleteManyArgs<ExtArgs>
+            result: BatchPayload
+          }
+          updateMany: {
+            args: Prisma.EmailNotificationUpdateManyArgs<ExtArgs>
+            result: BatchPayload
+          }
+          updateManyAndReturn: {
+            args: Prisma.EmailNotificationUpdateManyAndReturnArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$EmailNotificationPayload>[]
+          }
+          upsert: {
+            args: Prisma.EmailNotificationUpsertArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$EmailNotificationPayload>
+          }
+          aggregate: {
+            args: Prisma.EmailNotificationAggregateArgs<ExtArgs>
+            result: $Utils.Optional<AggregateEmailNotification>
+          }
+          groupBy: {
+            args: Prisma.EmailNotificationGroupByArgs<ExtArgs>
+            result: $Utils.Optional<EmailNotificationGroupByOutputType>[]
+          }
+          count: {
+            args: Prisma.EmailNotificationCountArgs<ExtArgs>
+            result: $Utils.Optional<EmailNotificationCountAggregateOutputType> | number
+          }
+        }
+      }
       UserActivity: {
         payload: Prisma.$UserActivityPayload<ExtArgs>
         fields: Prisma.UserActivityFieldRefs
@@ -7720,6 +8239,11 @@ export namespace Prisma {
     levelReward?: LevelRewardOmit
     userLevelReward?: UserLevelRewardOmit
     auditLog?: AuditLogOmit
+    subscription?: SubscriptionOmit
+    payment?: PaymentOmit
+    webhookEvent?: WebhookEventOmit
+    subscriptionPlan?: SubscriptionPlanOmit
+    emailNotification?: EmailNotificationOmit
     userActivity?: UserActivityOmit
     fileUpload?: FileUploadOmit
   }
@@ -7846,6 +8370,9 @@ export namespace Prisma {
     goals: number
     challenges: number
     levelRewards: number
+    subscriptions: number
+    payments: number
+    webhookEvents: number
   }
 
   export type UserCountOutputTypeSelect<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
@@ -7893,6 +8420,9 @@ export namespace Prisma {
     goals?: boolean | UserCountOutputTypeCountGoalsArgs
     challenges?: boolean | UserCountOutputTypeCountChallengesArgs
     levelRewards?: boolean | UserCountOutputTypeCountLevelRewardsArgs
+    subscriptions?: boolean | UserCountOutputTypeCountSubscriptionsArgs
+    payments?: boolean | UserCountOutputTypeCountPaymentsArgs
+    webhookEvents?: boolean | UserCountOutputTypeCountWebhookEventsArgs
   }
 
   // Custom InputTypes
@@ -8212,6 +8742,27 @@ export namespace Prisma {
    */
   export type UserCountOutputTypeCountLevelRewardsArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
     where?: UserLevelRewardWhereInput
+  }
+
+  /**
+   * UserCountOutputType without action
+   */
+  export type UserCountOutputTypeCountSubscriptionsArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    where?: SubscriptionWhereInput
+  }
+
+  /**
+   * UserCountOutputType without action
+   */
+  export type UserCountOutputTypeCountPaymentsArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    where?: PaymentWhereInput
+  }
+
+  /**
+   * UserCountOutputType without action
+   */
+  export type UserCountOutputTypeCountWebhookEventsArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    where?: WebhookEventWhereInput
   }
 
 
@@ -9400,6 +9951,37 @@ export namespace Prisma {
 
 
   /**
+   * Count Type SubscriptionCountOutputType
+   */
+
+  export type SubscriptionCountOutputType = {
+    payments: number
+  }
+
+  export type SubscriptionCountOutputTypeSelect<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    payments?: boolean | SubscriptionCountOutputTypeCountPaymentsArgs
+  }
+
+  // Custom InputTypes
+  /**
+   * SubscriptionCountOutputType without action
+   */
+  export type SubscriptionCountOutputTypeDefaultArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the SubscriptionCountOutputType
+     */
+    select?: SubscriptionCountOutputTypeSelect<ExtArgs> | null
+  }
+
+  /**
+   * SubscriptionCountOutputType without action
+   */
+  export type SubscriptionCountOutputTypeCountPaymentsArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    where?: PaymentWhereInput
+  }
+
+
+  /**
    * Models
    */
 
@@ -9766,6 +10348,9 @@ export namespace Prisma {
     goals?: boolean | User$goalsArgs<ExtArgs>
     challenges?: boolean | User$challengesArgs<ExtArgs>
     levelRewards?: boolean | User$levelRewardsArgs<ExtArgs>
+    subscriptions?: boolean | User$subscriptionsArgs<ExtArgs>
+    payments?: boolean | User$paymentsArgs<ExtArgs>
+    webhookEvents?: boolean | User$webhookEventsArgs<ExtArgs>
     _count?: boolean | UserCountOutputTypeDefaultArgs<ExtArgs>
   }, ExtArgs["result"]["user"]>
 
@@ -9888,6 +10473,9 @@ export namespace Prisma {
     goals?: boolean | User$goalsArgs<ExtArgs>
     challenges?: boolean | User$challengesArgs<ExtArgs>
     levelRewards?: boolean | User$levelRewardsArgs<ExtArgs>
+    subscriptions?: boolean | User$subscriptionsArgs<ExtArgs>
+    payments?: boolean | User$paymentsArgs<ExtArgs>
+    webhookEvents?: boolean | User$webhookEventsArgs<ExtArgs>
     _count?: boolean | UserCountOutputTypeDefaultArgs<ExtArgs>
   }
   export type UserIncludeCreateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {}
@@ -9941,6 +10529,9 @@ export namespace Prisma {
       goals: Prisma.$UserGoalPayload<ExtArgs>[]
       challenges: Prisma.$UserChallengePayload<ExtArgs>[]
       levelRewards: Prisma.$UserLevelRewardPayload<ExtArgs>[]
+      subscriptions: Prisma.$SubscriptionPayload<ExtArgs>[]
+      payments: Prisma.$PaymentPayload<ExtArgs>[]
+      webhookEvents: Prisma.$WebhookEventPayload<ExtArgs>[]
     }
     scalars: $Extensions.GetPayloadResult<{
       id: string
@@ -10403,6 +10994,9 @@ export namespace Prisma {
     goals<T extends User$goalsArgs<ExtArgs> = {}>(args?: Subset<T, User$goalsArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$UserGoalPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
     challenges<T extends User$challengesArgs<ExtArgs> = {}>(args?: Subset<T, User$challengesArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$UserChallengePayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
     levelRewards<T extends User$levelRewardsArgs<ExtArgs> = {}>(args?: Subset<T, User$levelRewardsArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$UserLevelRewardPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
+    subscriptions<T extends User$subscriptionsArgs<ExtArgs> = {}>(args?: Subset<T, User$subscriptionsArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$SubscriptionPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
+    payments<T extends User$paymentsArgs<ExtArgs> = {}>(args?: Subset<T, User$paymentsArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$PaymentPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
+    webhookEvents<T extends User$webhookEventsArgs<ExtArgs> = {}>(args?: Subset<T, User$webhookEventsArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$WebhookEventPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
     /**
      * Attaches callbacks for the resolution and/or rejection of the Promise.
      * @param onfulfilled The callback to execute when the Promise is resolved.
@@ -11913,6 +12507,78 @@ export namespace Prisma {
     take?: number
     skip?: number
     distinct?: UserLevelRewardScalarFieldEnum | UserLevelRewardScalarFieldEnum[]
+  }
+
+  /**
+   * User.subscriptions
+   */
+  export type User$subscriptionsArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the Subscription
+     */
+    select?: SubscriptionSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the Subscription
+     */
+    omit?: SubscriptionOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: SubscriptionInclude<ExtArgs> | null
+    where?: SubscriptionWhereInput
+    orderBy?: SubscriptionOrderByWithRelationInput | SubscriptionOrderByWithRelationInput[]
+    cursor?: SubscriptionWhereUniqueInput
+    take?: number
+    skip?: number
+    distinct?: SubscriptionScalarFieldEnum | SubscriptionScalarFieldEnum[]
+  }
+
+  /**
+   * User.payments
+   */
+  export type User$paymentsArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the Payment
+     */
+    select?: PaymentSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the Payment
+     */
+    omit?: PaymentOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: PaymentInclude<ExtArgs> | null
+    where?: PaymentWhereInput
+    orderBy?: PaymentOrderByWithRelationInput | PaymentOrderByWithRelationInput[]
+    cursor?: PaymentWhereUniqueInput
+    take?: number
+    skip?: number
+    distinct?: PaymentScalarFieldEnum | PaymentScalarFieldEnum[]
+  }
+
+  /**
+   * User.webhookEvents
+   */
+  export type User$webhookEventsArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the WebhookEvent
+     */
+    select?: WebhookEventSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the WebhookEvent
+     */
+    omit?: WebhookEventOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: WebhookEventInclude<ExtArgs> | null
+    where?: WebhookEventWhereInput
+    orderBy?: WebhookEventOrderByWithRelationInput | WebhookEventOrderByWithRelationInput[]
+    cursor?: WebhookEventWhereUniqueInput
+    take?: number
+    skip?: number
+    distinct?: WebhookEventScalarFieldEnum | WebhookEventScalarFieldEnum[]
   }
 
   /**
@@ -17967,6 +18633,8 @@ export namespace Prisma {
     isPublic: boolean | null
     isPremium: boolean | null
     allowDownload: boolean | null
+    stripeProductId: string | null
+    stripePriceId: string | null
     hasPrerequisites: boolean | null
     seriesId: string | null
     status: $Enums.CourseStatus | null
@@ -18007,6 +18675,8 @@ export namespace Prisma {
     isPublic: boolean | null
     isPremium: boolean | null
     allowDownload: boolean | null
+    stripeProductId: string | null
+    stripePriceId: string | null
     hasPrerequisites: boolean | null
     seriesId: string | null
     status: $Enums.CourseStatus | null
@@ -18048,6 +18718,8 @@ export namespace Prisma {
     isPublic: number
     isPremium: number
     allowDownload: number
+    stripeProductId: number
+    stripePriceId: number
     hasPrerequisites: number
     seriesId: number
     unlockCriteria: number
@@ -18116,6 +18788,8 @@ export namespace Prisma {
     isPublic?: true
     isPremium?: true
     allowDownload?: true
+    stripeProductId?: true
+    stripePriceId?: true
     hasPrerequisites?: true
     seriesId?: true
     status?: true
@@ -18156,6 +18830,8 @@ export namespace Prisma {
     isPublic?: true
     isPremium?: true
     allowDownload?: true
+    stripeProductId?: true
+    stripePriceId?: true
     hasPrerequisites?: true
     seriesId?: true
     status?: true
@@ -18197,6 +18873,8 @@ export namespace Prisma {
     isPublic?: true
     isPremium?: true
     allowDownload?: true
+    stripeProductId?: true
+    stripePriceId?: true
     hasPrerequisites?: true
     seriesId?: true
     unlockCriteria?: true
@@ -18327,6 +19005,8 @@ export namespace Prisma {
     isPublic: boolean
     isPremium: boolean
     allowDownload: boolean
+    stripeProductId: string | null
+    stripePriceId: string | null
     hasPrerequisites: boolean
     seriesId: string | null
     unlockCriteria: JsonValue | null
@@ -18389,6 +19069,8 @@ export namespace Prisma {
     isPublic?: boolean
     isPremium?: boolean
     allowDownload?: boolean
+    stripeProductId?: boolean
+    stripePriceId?: boolean
     hasPrerequisites?: boolean
     seriesId?: boolean
     unlockCriteria?: boolean
@@ -18454,6 +19136,8 @@ export namespace Prisma {
     isPublic?: boolean
     isPremium?: boolean
     allowDownload?: boolean
+    stripeProductId?: boolean
+    stripePriceId?: boolean
     hasPrerequisites?: boolean
     seriesId?: boolean
     unlockCriteria?: boolean
@@ -18501,6 +19185,8 @@ export namespace Prisma {
     isPublic?: boolean
     isPremium?: boolean
     allowDownload?: boolean
+    stripeProductId?: boolean
+    stripePriceId?: boolean
     hasPrerequisites?: boolean
     seriesId?: boolean
     unlockCriteria?: boolean
@@ -18548,6 +19234,8 @@ export namespace Prisma {
     isPublic?: boolean
     isPremium?: boolean
     allowDownload?: boolean
+    stripeProductId?: boolean
+    stripePriceId?: boolean
     hasPrerequisites?: boolean
     seriesId?: boolean
     unlockCriteria?: boolean
@@ -18570,7 +19258,7 @@ export namespace Prisma {
     trendingScore?: boolean
   }
 
-  export type CourseOmit<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetOmit<"id" | "title" | "slug" | "description" | "shortDescription" | "thumbnail" | "trailer" | "courseMaterials" | "categoryId" | "subcategoryId" | "tags" | "level" | "language" | "duration" | "price" | "originalPrice" | "currency" | "isPublic" | "isPremium" | "allowDownload" | "hasPrerequisites" | "seriesId" | "unlockCriteria" | "status" | "publishedAt" | "createdAt" | "updatedAt" | "seoTitle" | "seoDescription" | "seoKeywords" | "xpReward" | "badgeId" | "instructorId" | "viewCount" | "downloadCount" | "shareCount" | "favoriteCount" | "isFeatured" | "featuredAt" | "trendingScore", ExtArgs["result"]["course"]>
+  export type CourseOmit<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetOmit<"id" | "title" | "slug" | "description" | "shortDescription" | "thumbnail" | "trailer" | "courseMaterials" | "categoryId" | "subcategoryId" | "tags" | "level" | "language" | "duration" | "price" | "originalPrice" | "currency" | "isPublic" | "isPremium" | "allowDownload" | "stripeProductId" | "stripePriceId" | "hasPrerequisites" | "seriesId" | "unlockCriteria" | "status" | "publishedAt" | "createdAt" | "updatedAt" | "seoTitle" | "seoDescription" | "seoKeywords" | "xpReward" | "badgeId" | "instructorId" | "viewCount" | "downloadCount" | "shareCount" | "favoriteCount" | "isFeatured" | "featuredAt" | "trendingScore", ExtArgs["result"]["course"]>
   export type CourseInclude<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
     category?: boolean | CategoryDefaultArgs<ExtArgs>
     subcategory?: boolean | Course$subcategoryArgs<ExtArgs>
@@ -18654,6 +19342,8 @@ export namespace Prisma {
       isPublic: boolean
       isPremium: boolean
       allowDownload: boolean
+      stripeProductId: string | null
+      stripePriceId: string | null
       hasPrerequisites: boolean
       seriesId: string | null
       unlockCriteria: Prisma.JsonValue | null
@@ -19138,6 +19828,8 @@ export namespace Prisma {
     readonly isPublic: FieldRef<"Course", 'Boolean'>
     readonly isPremium: FieldRef<"Course", 'Boolean'>
     readonly allowDownload: FieldRef<"Course", 'Boolean'>
+    readonly stripeProductId: FieldRef<"Course", 'String'>
+    readonly stripePriceId: FieldRef<"Course", 'String'>
     readonly hasPrerequisites: FieldRef<"Course", 'Boolean'>
     readonly seriesId: FieldRef<"Course", 'String'>
     readonly unlockCriteria: FieldRef<"Course", 'Json'>
@@ -92923,6 +93615,5942 @@ export namespace Prisma {
 
 
   /**
+   * Model Subscription
+   */
+
+  export type AggregateSubscription = {
+    _count: SubscriptionCountAggregateOutputType | null
+    _avg: SubscriptionAvgAggregateOutputType | null
+    _sum: SubscriptionSumAggregateOutputType | null
+    _min: SubscriptionMinAggregateOutputType | null
+    _max: SubscriptionMaxAggregateOutputType | null
+  }
+
+  export type SubscriptionAvgAggregateOutputType = {
+    quantity: number | null
+  }
+
+  export type SubscriptionSumAggregateOutputType = {
+    quantity: number | null
+  }
+
+  export type SubscriptionMinAggregateOutputType = {
+    id: string | null
+    stripeCustomerId: string | null
+    stripeSubscriptionId: string | null
+    stripePriceId: string | null
+    stripeProductId: string | null
+    status: $Enums.SubscriptionStatus | null
+    currentPeriodStart: Date | null
+    currentPeriodEnd: Date | null
+    cancelAtPeriodEnd: boolean | null
+    canceledAt: Date | null
+    endedAt: Date | null
+    trialStart: Date | null
+    trialEnd: Date | null
+    quantity: number | null
+    createdAt: Date | null
+    updatedAt: Date | null
+    userId: string | null
+  }
+
+  export type SubscriptionMaxAggregateOutputType = {
+    id: string | null
+    stripeCustomerId: string | null
+    stripeSubscriptionId: string | null
+    stripePriceId: string | null
+    stripeProductId: string | null
+    status: $Enums.SubscriptionStatus | null
+    currentPeriodStart: Date | null
+    currentPeriodEnd: Date | null
+    cancelAtPeriodEnd: boolean | null
+    canceledAt: Date | null
+    endedAt: Date | null
+    trialStart: Date | null
+    trialEnd: Date | null
+    quantity: number | null
+    createdAt: Date | null
+    updatedAt: Date | null
+    userId: string | null
+  }
+
+  export type SubscriptionCountAggregateOutputType = {
+    id: number
+    stripeCustomerId: number
+    stripeSubscriptionId: number
+    stripePriceId: number
+    stripeProductId: number
+    status: number
+    currentPeriodStart: number
+    currentPeriodEnd: number
+    cancelAtPeriodEnd: number
+    canceledAt: number
+    endedAt: number
+    trialStart: number
+    trialEnd: number
+    quantity: number
+    metadata: number
+    createdAt: number
+    updatedAt: number
+    userId: number
+    _all: number
+  }
+
+
+  export type SubscriptionAvgAggregateInputType = {
+    quantity?: true
+  }
+
+  export type SubscriptionSumAggregateInputType = {
+    quantity?: true
+  }
+
+  export type SubscriptionMinAggregateInputType = {
+    id?: true
+    stripeCustomerId?: true
+    stripeSubscriptionId?: true
+    stripePriceId?: true
+    stripeProductId?: true
+    status?: true
+    currentPeriodStart?: true
+    currentPeriodEnd?: true
+    cancelAtPeriodEnd?: true
+    canceledAt?: true
+    endedAt?: true
+    trialStart?: true
+    trialEnd?: true
+    quantity?: true
+    createdAt?: true
+    updatedAt?: true
+    userId?: true
+  }
+
+  export type SubscriptionMaxAggregateInputType = {
+    id?: true
+    stripeCustomerId?: true
+    stripeSubscriptionId?: true
+    stripePriceId?: true
+    stripeProductId?: true
+    status?: true
+    currentPeriodStart?: true
+    currentPeriodEnd?: true
+    cancelAtPeriodEnd?: true
+    canceledAt?: true
+    endedAt?: true
+    trialStart?: true
+    trialEnd?: true
+    quantity?: true
+    createdAt?: true
+    updatedAt?: true
+    userId?: true
+  }
+
+  export type SubscriptionCountAggregateInputType = {
+    id?: true
+    stripeCustomerId?: true
+    stripeSubscriptionId?: true
+    stripePriceId?: true
+    stripeProductId?: true
+    status?: true
+    currentPeriodStart?: true
+    currentPeriodEnd?: true
+    cancelAtPeriodEnd?: true
+    canceledAt?: true
+    endedAt?: true
+    trialStart?: true
+    trialEnd?: true
+    quantity?: true
+    metadata?: true
+    createdAt?: true
+    updatedAt?: true
+    userId?: true
+    _all?: true
+  }
+
+  export type SubscriptionAggregateArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Filter which Subscription to aggregate.
+     */
+    where?: SubscriptionWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of Subscriptions to fetch.
+     */
+    orderBy?: SubscriptionOrderByWithRelationInput | SubscriptionOrderByWithRelationInput[]
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the start position
+     */
+    cursor?: SubscriptionWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` Subscriptions from the position of the cursor.
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` Subscriptions.
+     */
+    skip?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Count returned Subscriptions
+    **/
+    _count?: true | SubscriptionCountAggregateInputType
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Select which fields to average
+    **/
+    _avg?: SubscriptionAvgAggregateInputType
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Select which fields to sum
+    **/
+    _sum?: SubscriptionSumAggregateInputType
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Select which fields to find the minimum value
+    **/
+    _min?: SubscriptionMinAggregateInputType
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Select which fields to find the maximum value
+    **/
+    _max?: SubscriptionMaxAggregateInputType
+  }
+
+  export type GetSubscriptionAggregateType<T extends SubscriptionAggregateArgs> = {
+        [P in keyof T & keyof AggregateSubscription]: P extends '_count' | 'count'
+      ? T[P] extends true
+        ? number
+        : GetScalarType<T[P], AggregateSubscription[P]>
+      : GetScalarType<T[P], AggregateSubscription[P]>
+  }
+
+
+
+
+  export type SubscriptionGroupByArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    where?: SubscriptionWhereInput
+    orderBy?: SubscriptionOrderByWithAggregationInput | SubscriptionOrderByWithAggregationInput[]
+    by: SubscriptionScalarFieldEnum[] | SubscriptionScalarFieldEnum
+    having?: SubscriptionScalarWhereWithAggregatesInput
+    take?: number
+    skip?: number
+    _count?: SubscriptionCountAggregateInputType | true
+    _avg?: SubscriptionAvgAggregateInputType
+    _sum?: SubscriptionSumAggregateInputType
+    _min?: SubscriptionMinAggregateInputType
+    _max?: SubscriptionMaxAggregateInputType
+  }
+
+  export type SubscriptionGroupByOutputType = {
+    id: string
+    stripeCustomerId: string | null
+    stripeSubscriptionId: string | null
+    stripePriceId: string | null
+    stripeProductId: string | null
+    status: $Enums.SubscriptionStatus
+    currentPeriodStart: Date | null
+    currentPeriodEnd: Date | null
+    cancelAtPeriodEnd: boolean
+    canceledAt: Date | null
+    endedAt: Date | null
+    trialStart: Date | null
+    trialEnd: Date | null
+    quantity: number
+    metadata: JsonValue | null
+    createdAt: Date
+    updatedAt: Date
+    userId: string
+    _count: SubscriptionCountAggregateOutputType | null
+    _avg: SubscriptionAvgAggregateOutputType | null
+    _sum: SubscriptionSumAggregateOutputType | null
+    _min: SubscriptionMinAggregateOutputType | null
+    _max: SubscriptionMaxAggregateOutputType | null
+  }
+
+  type GetSubscriptionGroupByPayload<T extends SubscriptionGroupByArgs> = Prisma.PrismaPromise<
+    Array<
+      PickEnumerable<SubscriptionGroupByOutputType, T['by']> &
+        {
+          [P in ((keyof T) & (keyof SubscriptionGroupByOutputType))]: P extends '_count'
+            ? T[P] extends boolean
+              ? number
+              : GetScalarType<T[P], SubscriptionGroupByOutputType[P]>
+            : GetScalarType<T[P], SubscriptionGroupByOutputType[P]>
+        }
+      >
+    >
+
+
+  export type SubscriptionSelect<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
+    id?: boolean
+    stripeCustomerId?: boolean
+    stripeSubscriptionId?: boolean
+    stripePriceId?: boolean
+    stripeProductId?: boolean
+    status?: boolean
+    currentPeriodStart?: boolean
+    currentPeriodEnd?: boolean
+    cancelAtPeriodEnd?: boolean
+    canceledAt?: boolean
+    endedAt?: boolean
+    trialStart?: boolean
+    trialEnd?: boolean
+    quantity?: boolean
+    metadata?: boolean
+    createdAt?: boolean
+    updatedAt?: boolean
+    userId?: boolean
+    user?: boolean | UserDefaultArgs<ExtArgs>
+    payments?: boolean | Subscription$paymentsArgs<ExtArgs>
+    _count?: boolean | SubscriptionCountOutputTypeDefaultArgs<ExtArgs>
+  }, ExtArgs["result"]["subscription"]>
+
+  export type SubscriptionSelectCreateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
+    id?: boolean
+    stripeCustomerId?: boolean
+    stripeSubscriptionId?: boolean
+    stripePriceId?: boolean
+    stripeProductId?: boolean
+    status?: boolean
+    currentPeriodStart?: boolean
+    currentPeriodEnd?: boolean
+    cancelAtPeriodEnd?: boolean
+    canceledAt?: boolean
+    endedAt?: boolean
+    trialStart?: boolean
+    trialEnd?: boolean
+    quantity?: boolean
+    metadata?: boolean
+    createdAt?: boolean
+    updatedAt?: boolean
+    userId?: boolean
+    user?: boolean | UserDefaultArgs<ExtArgs>
+  }, ExtArgs["result"]["subscription"]>
+
+  export type SubscriptionSelectUpdateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
+    id?: boolean
+    stripeCustomerId?: boolean
+    stripeSubscriptionId?: boolean
+    stripePriceId?: boolean
+    stripeProductId?: boolean
+    status?: boolean
+    currentPeriodStart?: boolean
+    currentPeriodEnd?: boolean
+    cancelAtPeriodEnd?: boolean
+    canceledAt?: boolean
+    endedAt?: boolean
+    trialStart?: boolean
+    trialEnd?: boolean
+    quantity?: boolean
+    metadata?: boolean
+    createdAt?: boolean
+    updatedAt?: boolean
+    userId?: boolean
+    user?: boolean | UserDefaultArgs<ExtArgs>
+  }, ExtArgs["result"]["subscription"]>
+
+  export type SubscriptionSelectScalar = {
+    id?: boolean
+    stripeCustomerId?: boolean
+    stripeSubscriptionId?: boolean
+    stripePriceId?: boolean
+    stripeProductId?: boolean
+    status?: boolean
+    currentPeriodStart?: boolean
+    currentPeriodEnd?: boolean
+    cancelAtPeriodEnd?: boolean
+    canceledAt?: boolean
+    endedAt?: boolean
+    trialStart?: boolean
+    trialEnd?: boolean
+    quantity?: boolean
+    metadata?: boolean
+    createdAt?: boolean
+    updatedAt?: boolean
+    userId?: boolean
+  }
+
+  export type SubscriptionOmit<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetOmit<"id" | "stripeCustomerId" | "stripeSubscriptionId" | "stripePriceId" | "stripeProductId" | "status" | "currentPeriodStart" | "currentPeriodEnd" | "cancelAtPeriodEnd" | "canceledAt" | "endedAt" | "trialStart" | "trialEnd" | "quantity" | "metadata" | "createdAt" | "updatedAt" | "userId", ExtArgs["result"]["subscription"]>
+  export type SubscriptionInclude<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    user?: boolean | UserDefaultArgs<ExtArgs>
+    payments?: boolean | Subscription$paymentsArgs<ExtArgs>
+    _count?: boolean | SubscriptionCountOutputTypeDefaultArgs<ExtArgs>
+  }
+  export type SubscriptionIncludeCreateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    user?: boolean | UserDefaultArgs<ExtArgs>
+  }
+  export type SubscriptionIncludeUpdateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    user?: boolean | UserDefaultArgs<ExtArgs>
+  }
+
+  export type $SubscriptionPayload<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    name: "Subscription"
+    objects: {
+      user: Prisma.$UserPayload<ExtArgs>
+      payments: Prisma.$PaymentPayload<ExtArgs>[]
+    }
+    scalars: $Extensions.GetPayloadResult<{
+      id: string
+      stripeCustomerId: string | null
+      stripeSubscriptionId: string | null
+      stripePriceId: string | null
+      stripeProductId: string | null
+      status: $Enums.SubscriptionStatus
+      currentPeriodStart: Date | null
+      currentPeriodEnd: Date | null
+      cancelAtPeriodEnd: boolean
+      canceledAt: Date | null
+      endedAt: Date | null
+      trialStart: Date | null
+      trialEnd: Date | null
+      quantity: number
+      metadata: Prisma.JsonValue | null
+      createdAt: Date
+      updatedAt: Date
+      userId: string
+    }, ExtArgs["result"]["subscription"]>
+    composites: {}
+  }
+
+  type SubscriptionGetPayload<S extends boolean | null | undefined | SubscriptionDefaultArgs> = $Result.GetResult<Prisma.$SubscriptionPayload, S>
+
+  type SubscriptionCountArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> =
+    Omit<SubscriptionFindManyArgs, 'select' | 'include' | 'distinct' | 'omit'> & {
+      select?: SubscriptionCountAggregateInputType | true
+    }
+
+  export interface SubscriptionDelegate<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs, GlobalOmitOptions = {}> {
+    [K: symbol]: { types: Prisma.TypeMap<ExtArgs>['model']['Subscription'], meta: { name: 'Subscription' } }
+    /**
+     * Find zero or one Subscription that matches the filter.
+     * @param {SubscriptionFindUniqueArgs} args - Arguments to find a Subscription
+     * @example
+     * // Get one Subscription
+     * const subscription = await prisma.subscription.findUnique({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     */
+    findUnique<T extends SubscriptionFindUniqueArgs>(args: SelectSubset<T, SubscriptionFindUniqueArgs<ExtArgs>>): Prisma__SubscriptionClient<$Result.GetResult<Prisma.$SubscriptionPayload<ExtArgs>, T, "findUnique", GlobalOmitOptions> | null, null, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Find one Subscription that matches the filter or throw an error with `error.code='P2025'`
+     * if no matches were found.
+     * @param {SubscriptionFindUniqueOrThrowArgs} args - Arguments to find a Subscription
+     * @example
+     * // Get one Subscription
+     * const subscription = await prisma.subscription.findUniqueOrThrow({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     */
+    findUniqueOrThrow<T extends SubscriptionFindUniqueOrThrowArgs>(args: SelectSubset<T, SubscriptionFindUniqueOrThrowArgs<ExtArgs>>): Prisma__SubscriptionClient<$Result.GetResult<Prisma.$SubscriptionPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Find the first Subscription that matches the filter.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {SubscriptionFindFirstArgs} args - Arguments to find a Subscription
+     * @example
+     * // Get one Subscription
+     * const subscription = await prisma.subscription.findFirst({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     */
+    findFirst<T extends SubscriptionFindFirstArgs>(args?: SelectSubset<T, SubscriptionFindFirstArgs<ExtArgs>>): Prisma__SubscriptionClient<$Result.GetResult<Prisma.$SubscriptionPayload<ExtArgs>, T, "findFirst", GlobalOmitOptions> | null, null, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Find the first Subscription that matches the filter or
+     * throw `PrismaKnownClientError` with `P2025` code if no matches were found.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {SubscriptionFindFirstOrThrowArgs} args - Arguments to find a Subscription
+     * @example
+     * // Get one Subscription
+     * const subscription = await prisma.subscription.findFirstOrThrow({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     */
+    findFirstOrThrow<T extends SubscriptionFindFirstOrThrowArgs>(args?: SelectSubset<T, SubscriptionFindFirstOrThrowArgs<ExtArgs>>): Prisma__SubscriptionClient<$Result.GetResult<Prisma.$SubscriptionPayload<ExtArgs>, T, "findFirstOrThrow", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Find zero or more Subscriptions that matches the filter.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {SubscriptionFindManyArgs} args - Arguments to filter and select certain fields only.
+     * @example
+     * // Get all Subscriptions
+     * const subscriptions = await prisma.subscription.findMany()
+     * 
+     * // Get first 10 Subscriptions
+     * const subscriptions = await prisma.subscription.findMany({ take: 10 })
+     * 
+     * // Only select the `id`
+     * const subscriptionWithIdOnly = await prisma.subscription.findMany({ select: { id: true } })
+     * 
+     */
+    findMany<T extends SubscriptionFindManyArgs>(args?: SelectSubset<T, SubscriptionFindManyArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$SubscriptionPayload<ExtArgs>, T, "findMany", GlobalOmitOptions>>
+
+    /**
+     * Create a Subscription.
+     * @param {SubscriptionCreateArgs} args - Arguments to create a Subscription.
+     * @example
+     * // Create one Subscription
+     * const Subscription = await prisma.subscription.create({
+     *   data: {
+     *     // ... data to create a Subscription
+     *   }
+     * })
+     * 
+     */
+    create<T extends SubscriptionCreateArgs>(args: SelectSubset<T, SubscriptionCreateArgs<ExtArgs>>): Prisma__SubscriptionClient<$Result.GetResult<Prisma.$SubscriptionPayload<ExtArgs>, T, "create", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Create many Subscriptions.
+     * @param {SubscriptionCreateManyArgs} args - Arguments to create many Subscriptions.
+     * @example
+     * // Create many Subscriptions
+     * const subscription = await prisma.subscription.createMany({
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     *     
+     */
+    createMany<T extends SubscriptionCreateManyArgs>(args?: SelectSubset<T, SubscriptionCreateManyArgs<ExtArgs>>): Prisma.PrismaPromise<BatchPayload>
+
+    /**
+     * Create many Subscriptions and returns the data saved in the database.
+     * @param {SubscriptionCreateManyAndReturnArgs} args - Arguments to create many Subscriptions.
+     * @example
+     * // Create many Subscriptions
+     * const subscription = await prisma.subscription.createManyAndReturn({
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     * 
+     * // Create many Subscriptions and only return the `id`
+     * const subscriptionWithIdOnly = await prisma.subscription.createManyAndReturn({
+     *   select: { id: true },
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * 
+     */
+    createManyAndReturn<T extends SubscriptionCreateManyAndReturnArgs>(args?: SelectSubset<T, SubscriptionCreateManyAndReturnArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$SubscriptionPayload<ExtArgs>, T, "createManyAndReturn", GlobalOmitOptions>>
+
+    /**
+     * Delete a Subscription.
+     * @param {SubscriptionDeleteArgs} args - Arguments to delete one Subscription.
+     * @example
+     * // Delete one Subscription
+     * const Subscription = await prisma.subscription.delete({
+     *   where: {
+     *     // ... filter to delete one Subscription
+     *   }
+     * })
+     * 
+     */
+    delete<T extends SubscriptionDeleteArgs>(args: SelectSubset<T, SubscriptionDeleteArgs<ExtArgs>>): Prisma__SubscriptionClient<$Result.GetResult<Prisma.$SubscriptionPayload<ExtArgs>, T, "delete", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Update one Subscription.
+     * @param {SubscriptionUpdateArgs} args - Arguments to update one Subscription.
+     * @example
+     * // Update one Subscription
+     * const subscription = await prisma.subscription.update({
+     *   where: {
+     *     // ... provide filter here
+     *   },
+     *   data: {
+     *     // ... provide data here
+     *   }
+     * })
+     * 
+     */
+    update<T extends SubscriptionUpdateArgs>(args: SelectSubset<T, SubscriptionUpdateArgs<ExtArgs>>): Prisma__SubscriptionClient<$Result.GetResult<Prisma.$SubscriptionPayload<ExtArgs>, T, "update", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Delete zero or more Subscriptions.
+     * @param {SubscriptionDeleteManyArgs} args - Arguments to filter Subscriptions to delete.
+     * @example
+     * // Delete a few Subscriptions
+     * const { count } = await prisma.subscription.deleteMany({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     * 
+     */
+    deleteMany<T extends SubscriptionDeleteManyArgs>(args?: SelectSubset<T, SubscriptionDeleteManyArgs<ExtArgs>>): Prisma.PrismaPromise<BatchPayload>
+
+    /**
+     * Update zero or more Subscriptions.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {SubscriptionUpdateManyArgs} args - Arguments to update one or more rows.
+     * @example
+     * // Update many Subscriptions
+     * const subscription = await prisma.subscription.updateMany({
+     *   where: {
+     *     // ... provide filter here
+     *   },
+     *   data: {
+     *     // ... provide data here
+     *   }
+     * })
+     * 
+     */
+    updateMany<T extends SubscriptionUpdateManyArgs>(args: SelectSubset<T, SubscriptionUpdateManyArgs<ExtArgs>>): Prisma.PrismaPromise<BatchPayload>
+
+    /**
+     * Update zero or more Subscriptions and returns the data updated in the database.
+     * @param {SubscriptionUpdateManyAndReturnArgs} args - Arguments to update many Subscriptions.
+     * @example
+     * // Update many Subscriptions
+     * const subscription = await prisma.subscription.updateManyAndReturn({
+     *   where: {
+     *     // ... provide filter here
+     *   },
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     * 
+     * // Update zero or more Subscriptions and only return the `id`
+     * const subscriptionWithIdOnly = await prisma.subscription.updateManyAndReturn({
+     *   select: { id: true },
+     *   where: {
+     *     // ... provide filter here
+     *   },
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * 
+     */
+    updateManyAndReturn<T extends SubscriptionUpdateManyAndReturnArgs>(args: SelectSubset<T, SubscriptionUpdateManyAndReturnArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$SubscriptionPayload<ExtArgs>, T, "updateManyAndReturn", GlobalOmitOptions>>
+
+    /**
+     * Create or update one Subscription.
+     * @param {SubscriptionUpsertArgs} args - Arguments to update or create a Subscription.
+     * @example
+     * // Update or create a Subscription
+     * const subscription = await prisma.subscription.upsert({
+     *   create: {
+     *     // ... data to create a Subscription
+     *   },
+     *   update: {
+     *     // ... in case it already exists, update
+     *   },
+     *   where: {
+     *     // ... the filter for the Subscription we want to update
+     *   }
+     * })
+     */
+    upsert<T extends SubscriptionUpsertArgs>(args: SelectSubset<T, SubscriptionUpsertArgs<ExtArgs>>): Prisma__SubscriptionClient<$Result.GetResult<Prisma.$SubscriptionPayload<ExtArgs>, T, "upsert", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+
+    /**
+     * Count the number of Subscriptions.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {SubscriptionCountArgs} args - Arguments to filter Subscriptions to count.
+     * @example
+     * // Count the number of Subscriptions
+     * const count = await prisma.subscription.count({
+     *   where: {
+     *     // ... the filter for the Subscriptions we want to count
+     *   }
+     * })
+    **/
+    count<T extends SubscriptionCountArgs>(
+      args?: Subset<T, SubscriptionCountArgs>,
+    ): Prisma.PrismaPromise<
+      T extends $Utils.Record<'select', any>
+        ? T['select'] extends true
+          ? number
+          : GetScalarType<T['select'], SubscriptionCountAggregateOutputType>
+        : number
+    >
+
+    /**
+     * Allows you to perform aggregations operations on a Subscription.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {SubscriptionAggregateArgs} args - Select which aggregations you would like to apply and on what fields.
+     * @example
+     * // Ordered by age ascending
+     * // Where email contains prisma.io
+     * // Limited to the 10 users
+     * const aggregations = await prisma.user.aggregate({
+     *   _avg: {
+     *     age: true,
+     *   },
+     *   where: {
+     *     email: {
+     *       contains: "prisma.io",
+     *     },
+     *   },
+     *   orderBy: {
+     *     age: "asc",
+     *   },
+     *   take: 10,
+     * })
+    **/
+    aggregate<T extends SubscriptionAggregateArgs>(args: Subset<T, SubscriptionAggregateArgs>): Prisma.PrismaPromise<GetSubscriptionAggregateType<T>>
+
+    /**
+     * Group by Subscription.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {SubscriptionGroupByArgs} args - Group by arguments.
+     * @example
+     * // Group by city, order by createdAt, get count
+     * const result = await prisma.user.groupBy({
+     *   by: ['city', 'createdAt'],
+     *   orderBy: {
+     *     createdAt: true
+     *   },
+     *   _count: {
+     *     _all: true
+     *   },
+     * })
+     * 
+    **/
+    groupBy<
+      T extends SubscriptionGroupByArgs,
+      HasSelectOrTake extends Or<
+        Extends<'skip', Keys<T>>,
+        Extends<'take', Keys<T>>
+      >,
+      OrderByArg extends True extends HasSelectOrTake
+        ? { orderBy: SubscriptionGroupByArgs['orderBy'] }
+        : { orderBy?: SubscriptionGroupByArgs['orderBy'] },
+      OrderFields extends ExcludeUnderscoreKeys<Keys<MaybeTupleToUnion<T['orderBy']>>>,
+      ByFields extends MaybeTupleToUnion<T['by']>,
+      ByValid extends Has<ByFields, OrderFields>,
+      HavingFields extends GetHavingFields<T['having']>,
+      HavingValid extends Has<ByFields, HavingFields>,
+      ByEmpty extends T['by'] extends never[] ? True : False,
+      InputErrors extends ByEmpty extends True
+      ? `Error: "by" must not be empty.`
+      : HavingValid extends False
+      ? {
+          [P in HavingFields]: P extends ByFields
+            ? never
+            : P extends string
+            ? `Error: Field "${P}" used in "having" needs to be provided in "by".`
+            : [
+                Error,
+                'Field ',
+                P,
+                ` in "having" needs to be provided in "by"`,
+              ]
+        }[HavingFields]
+      : 'take' extends Keys<T>
+      ? 'orderBy' extends Keys<T>
+        ? ByValid extends True
+          ? {}
+          : {
+              [P in OrderFields]: P extends ByFields
+                ? never
+                : `Error: Field "${P}" in "orderBy" needs to be provided in "by"`
+            }[OrderFields]
+        : 'Error: If you provide "take", you also need to provide "orderBy"'
+      : 'skip' extends Keys<T>
+      ? 'orderBy' extends Keys<T>
+        ? ByValid extends True
+          ? {}
+          : {
+              [P in OrderFields]: P extends ByFields
+                ? never
+                : `Error: Field "${P}" in "orderBy" needs to be provided in "by"`
+            }[OrderFields]
+        : 'Error: If you provide "skip", you also need to provide "orderBy"'
+      : ByValid extends True
+      ? {}
+      : {
+          [P in OrderFields]: P extends ByFields
+            ? never
+            : `Error: Field "${P}" in "orderBy" needs to be provided in "by"`
+        }[OrderFields]
+    >(args: SubsetIntersection<T, SubscriptionGroupByArgs, OrderByArg> & InputErrors): {} extends InputErrors ? GetSubscriptionGroupByPayload<T> : Prisma.PrismaPromise<InputErrors>
+  /**
+   * Fields of the Subscription model
+   */
+  readonly fields: SubscriptionFieldRefs;
+  }
+
+  /**
+   * The delegate class that acts as a "Promise-like" for Subscription.
+   * Why is this prefixed with `Prisma__`?
+   * Because we want to prevent naming conflicts as mentioned in
+   * https://github.com/prisma/prisma-client-js/issues/707
+   */
+  export interface Prisma__SubscriptionClient<T, Null = never, ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs, GlobalOmitOptions = {}> extends Prisma.PrismaPromise<T> {
+    readonly [Symbol.toStringTag]: "PrismaPromise"
+    user<T extends UserDefaultArgs<ExtArgs> = {}>(args?: Subset<T, UserDefaultArgs<ExtArgs>>): Prisma__UserClient<$Result.GetResult<Prisma.$UserPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | Null, Null, ExtArgs, GlobalOmitOptions>
+    payments<T extends Subscription$paymentsArgs<ExtArgs> = {}>(args?: Subset<T, Subscription$paymentsArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$PaymentPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
+    /**
+     * Attaches callbacks for the resolution and/or rejection of the Promise.
+     * @param onfulfilled The callback to execute when the Promise is resolved.
+     * @param onrejected The callback to execute when the Promise is rejected.
+     * @returns A Promise for the completion of which ever callback is executed.
+     */
+    then<TResult1 = T, TResult2 = never>(onfulfilled?: ((value: T) => TResult1 | PromiseLike<TResult1>) | undefined | null, onrejected?: ((reason: any) => TResult2 | PromiseLike<TResult2>) | undefined | null): $Utils.JsPromise<TResult1 | TResult2>
+    /**
+     * Attaches a callback for only the rejection of the Promise.
+     * @param onrejected The callback to execute when the Promise is rejected.
+     * @returns A Promise for the completion of the callback.
+     */
+    catch<TResult = never>(onrejected?: ((reason: any) => TResult | PromiseLike<TResult>) | undefined | null): $Utils.JsPromise<T | TResult>
+    /**
+     * Attaches a callback that is invoked when the Promise is settled (fulfilled or rejected). The
+     * resolved value cannot be modified from the callback.
+     * @param onfinally The callback to execute when the Promise is settled (fulfilled or rejected).
+     * @returns A Promise for the completion of the callback.
+     */
+    finally(onfinally?: (() => void) | undefined | null): $Utils.JsPromise<T>
+  }
+
+
+
+
+  /**
+   * Fields of the Subscription model
+   */
+  interface SubscriptionFieldRefs {
+    readonly id: FieldRef<"Subscription", 'String'>
+    readonly stripeCustomerId: FieldRef<"Subscription", 'String'>
+    readonly stripeSubscriptionId: FieldRef<"Subscription", 'String'>
+    readonly stripePriceId: FieldRef<"Subscription", 'String'>
+    readonly stripeProductId: FieldRef<"Subscription", 'String'>
+    readonly status: FieldRef<"Subscription", 'SubscriptionStatus'>
+    readonly currentPeriodStart: FieldRef<"Subscription", 'DateTime'>
+    readonly currentPeriodEnd: FieldRef<"Subscription", 'DateTime'>
+    readonly cancelAtPeriodEnd: FieldRef<"Subscription", 'Boolean'>
+    readonly canceledAt: FieldRef<"Subscription", 'DateTime'>
+    readonly endedAt: FieldRef<"Subscription", 'DateTime'>
+    readonly trialStart: FieldRef<"Subscription", 'DateTime'>
+    readonly trialEnd: FieldRef<"Subscription", 'DateTime'>
+    readonly quantity: FieldRef<"Subscription", 'Int'>
+    readonly metadata: FieldRef<"Subscription", 'Json'>
+    readonly createdAt: FieldRef<"Subscription", 'DateTime'>
+    readonly updatedAt: FieldRef<"Subscription", 'DateTime'>
+    readonly userId: FieldRef<"Subscription", 'String'>
+  }
+    
+
+  // Custom InputTypes
+  /**
+   * Subscription findUnique
+   */
+  export type SubscriptionFindUniqueArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the Subscription
+     */
+    select?: SubscriptionSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the Subscription
+     */
+    omit?: SubscriptionOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: SubscriptionInclude<ExtArgs> | null
+    /**
+     * Filter, which Subscription to fetch.
+     */
+    where: SubscriptionWhereUniqueInput
+  }
+
+  /**
+   * Subscription findUniqueOrThrow
+   */
+  export type SubscriptionFindUniqueOrThrowArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the Subscription
+     */
+    select?: SubscriptionSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the Subscription
+     */
+    omit?: SubscriptionOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: SubscriptionInclude<ExtArgs> | null
+    /**
+     * Filter, which Subscription to fetch.
+     */
+    where: SubscriptionWhereUniqueInput
+  }
+
+  /**
+   * Subscription findFirst
+   */
+  export type SubscriptionFindFirstArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the Subscription
+     */
+    select?: SubscriptionSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the Subscription
+     */
+    omit?: SubscriptionOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: SubscriptionInclude<ExtArgs> | null
+    /**
+     * Filter, which Subscription to fetch.
+     */
+    where?: SubscriptionWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of Subscriptions to fetch.
+     */
+    orderBy?: SubscriptionOrderByWithRelationInput | SubscriptionOrderByWithRelationInput[]
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the position for searching for Subscriptions.
+     */
+    cursor?: SubscriptionWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` Subscriptions from the position of the cursor.
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` Subscriptions.
+     */
+    skip?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/distinct Distinct Docs}
+     * 
+     * Filter by unique combinations of Subscriptions.
+     */
+    distinct?: SubscriptionScalarFieldEnum | SubscriptionScalarFieldEnum[]
+  }
+
+  /**
+   * Subscription findFirstOrThrow
+   */
+  export type SubscriptionFindFirstOrThrowArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the Subscription
+     */
+    select?: SubscriptionSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the Subscription
+     */
+    omit?: SubscriptionOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: SubscriptionInclude<ExtArgs> | null
+    /**
+     * Filter, which Subscription to fetch.
+     */
+    where?: SubscriptionWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of Subscriptions to fetch.
+     */
+    orderBy?: SubscriptionOrderByWithRelationInput | SubscriptionOrderByWithRelationInput[]
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the position for searching for Subscriptions.
+     */
+    cursor?: SubscriptionWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` Subscriptions from the position of the cursor.
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` Subscriptions.
+     */
+    skip?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/distinct Distinct Docs}
+     * 
+     * Filter by unique combinations of Subscriptions.
+     */
+    distinct?: SubscriptionScalarFieldEnum | SubscriptionScalarFieldEnum[]
+  }
+
+  /**
+   * Subscription findMany
+   */
+  export type SubscriptionFindManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the Subscription
+     */
+    select?: SubscriptionSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the Subscription
+     */
+    omit?: SubscriptionOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: SubscriptionInclude<ExtArgs> | null
+    /**
+     * Filter, which Subscriptions to fetch.
+     */
+    where?: SubscriptionWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of Subscriptions to fetch.
+     */
+    orderBy?: SubscriptionOrderByWithRelationInput | SubscriptionOrderByWithRelationInput[]
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the position for listing Subscriptions.
+     */
+    cursor?: SubscriptionWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` Subscriptions from the position of the cursor.
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` Subscriptions.
+     */
+    skip?: number
+    distinct?: SubscriptionScalarFieldEnum | SubscriptionScalarFieldEnum[]
+  }
+
+  /**
+   * Subscription create
+   */
+  export type SubscriptionCreateArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the Subscription
+     */
+    select?: SubscriptionSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the Subscription
+     */
+    omit?: SubscriptionOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: SubscriptionInclude<ExtArgs> | null
+    /**
+     * The data needed to create a Subscription.
+     */
+    data: XOR<SubscriptionCreateInput, SubscriptionUncheckedCreateInput>
+  }
+
+  /**
+   * Subscription createMany
+   */
+  export type SubscriptionCreateManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * The data used to create many Subscriptions.
+     */
+    data: SubscriptionCreateManyInput | SubscriptionCreateManyInput[]
+    skipDuplicates?: boolean
+  }
+
+  /**
+   * Subscription createManyAndReturn
+   */
+  export type SubscriptionCreateManyAndReturnArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the Subscription
+     */
+    select?: SubscriptionSelectCreateManyAndReturn<ExtArgs> | null
+    /**
+     * Omit specific fields from the Subscription
+     */
+    omit?: SubscriptionOmit<ExtArgs> | null
+    /**
+     * The data used to create many Subscriptions.
+     */
+    data: SubscriptionCreateManyInput | SubscriptionCreateManyInput[]
+    skipDuplicates?: boolean
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: SubscriptionIncludeCreateManyAndReturn<ExtArgs> | null
+  }
+
+  /**
+   * Subscription update
+   */
+  export type SubscriptionUpdateArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the Subscription
+     */
+    select?: SubscriptionSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the Subscription
+     */
+    omit?: SubscriptionOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: SubscriptionInclude<ExtArgs> | null
+    /**
+     * The data needed to update a Subscription.
+     */
+    data: XOR<SubscriptionUpdateInput, SubscriptionUncheckedUpdateInput>
+    /**
+     * Choose, which Subscription to update.
+     */
+    where: SubscriptionWhereUniqueInput
+  }
+
+  /**
+   * Subscription updateMany
+   */
+  export type SubscriptionUpdateManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * The data used to update Subscriptions.
+     */
+    data: XOR<SubscriptionUpdateManyMutationInput, SubscriptionUncheckedUpdateManyInput>
+    /**
+     * Filter which Subscriptions to update
+     */
+    where?: SubscriptionWhereInput
+    /**
+     * Limit how many Subscriptions to update.
+     */
+    limit?: number
+  }
+
+  /**
+   * Subscription updateManyAndReturn
+   */
+  export type SubscriptionUpdateManyAndReturnArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the Subscription
+     */
+    select?: SubscriptionSelectUpdateManyAndReturn<ExtArgs> | null
+    /**
+     * Omit specific fields from the Subscription
+     */
+    omit?: SubscriptionOmit<ExtArgs> | null
+    /**
+     * The data used to update Subscriptions.
+     */
+    data: XOR<SubscriptionUpdateManyMutationInput, SubscriptionUncheckedUpdateManyInput>
+    /**
+     * Filter which Subscriptions to update
+     */
+    where?: SubscriptionWhereInput
+    /**
+     * Limit how many Subscriptions to update.
+     */
+    limit?: number
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: SubscriptionIncludeUpdateManyAndReturn<ExtArgs> | null
+  }
+
+  /**
+   * Subscription upsert
+   */
+  export type SubscriptionUpsertArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the Subscription
+     */
+    select?: SubscriptionSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the Subscription
+     */
+    omit?: SubscriptionOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: SubscriptionInclude<ExtArgs> | null
+    /**
+     * The filter to search for the Subscription to update in case it exists.
+     */
+    where: SubscriptionWhereUniqueInput
+    /**
+     * In case the Subscription found by the `where` argument doesn't exist, create a new Subscription with this data.
+     */
+    create: XOR<SubscriptionCreateInput, SubscriptionUncheckedCreateInput>
+    /**
+     * In case the Subscription was found with the provided `where` argument, update it with this data.
+     */
+    update: XOR<SubscriptionUpdateInput, SubscriptionUncheckedUpdateInput>
+  }
+
+  /**
+   * Subscription delete
+   */
+  export type SubscriptionDeleteArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the Subscription
+     */
+    select?: SubscriptionSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the Subscription
+     */
+    omit?: SubscriptionOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: SubscriptionInclude<ExtArgs> | null
+    /**
+     * Filter which Subscription to delete.
+     */
+    where: SubscriptionWhereUniqueInput
+  }
+
+  /**
+   * Subscription deleteMany
+   */
+  export type SubscriptionDeleteManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Filter which Subscriptions to delete
+     */
+    where?: SubscriptionWhereInput
+    /**
+     * Limit how many Subscriptions to delete.
+     */
+    limit?: number
+  }
+
+  /**
+   * Subscription.payments
+   */
+  export type Subscription$paymentsArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the Payment
+     */
+    select?: PaymentSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the Payment
+     */
+    omit?: PaymentOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: PaymentInclude<ExtArgs> | null
+    where?: PaymentWhereInput
+    orderBy?: PaymentOrderByWithRelationInput | PaymentOrderByWithRelationInput[]
+    cursor?: PaymentWhereUniqueInput
+    take?: number
+    skip?: number
+    distinct?: PaymentScalarFieldEnum | PaymentScalarFieldEnum[]
+  }
+
+  /**
+   * Subscription without action
+   */
+  export type SubscriptionDefaultArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the Subscription
+     */
+    select?: SubscriptionSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the Subscription
+     */
+    omit?: SubscriptionOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: SubscriptionInclude<ExtArgs> | null
+  }
+
+
+  /**
+   * Model Payment
+   */
+
+  export type AggregatePayment = {
+    _count: PaymentCountAggregateOutputType | null
+    _avg: PaymentAvgAggregateOutputType | null
+    _sum: PaymentSumAggregateOutputType | null
+    _min: PaymentMinAggregateOutputType | null
+    _max: PaymentMaxAggregateOutputType | null
+  }
+
+  export type PaymentAvgAggregateOutputType = {
+    amount: Decimal | null
+  }
+
+  export type PaymentSumAggregateOutputType = {
+    amount: Decimal | null
+  }
+
+  export type PaymentMinAggregateOutputType = {
+    id: string | null
+    stripePaymentId: string | null
+    stripeInvoiceId: string | null
+    amount: Decimal | null
+    currency: string | null
+    status: $Enums.PaymentStatus | null
+    description: string | null
+    paidAt: Date | null
+    failedAt: Date | null
+    createdAt: Date | null
+    updatedAt: Date | null
+    userId: string | null
+    subscriptionId: string | null
+  }
+
+  export type PaymentMaxAggregateOutputType = {
+    id: string | null
+    stripePaymentId: string | null
+    stripeInvoiceId: string | null
+    amount: Decimal | null
+    currency: string | null
+    status: $Enums.PaymentStatus | null
+    description: string | null
+    paidAt: Date | null
+    failedAt: Date | null
+    createdAt: Date | null
+    updatedAt: Date | null
+    userId: string | null
+    subscriptionId: string | null
+  }
+
+  export type PaymentCountAggregateOutputType = {
+    id: number
+    stripePaymentId: number
+    stripeInvoiceId: number
+    amount: number
+    currency: number
+    status: number
+    description: number
+    metadata: number
+    paidAt: number
+    failedAt: number
+    createdAt: number
+    updatedAt: number
+    userId: number
+    subscriptionId: number
+    _all: number
+  }
+
+
+  export type PaymentAvgAggregateInputType = {
+    amount?: true
+  }
+
+  export type PaymentSumAggregateInputType = {
+    amount?: true
+  }
+
+  export type PaymentMinAggregateInputType = {
+    id?: true
+    stripePaymentId?: true
+    stripeInvoiceId?: true
+    amount?: true
+    currency?: true
+    status?: true
+    description?: true
+    paidAt?: true
+    failedAt?: true
+    createdAt?: true
+    updatedAt?: true
+    userId?: true
+    subscriptionId?: true
+  }
+
+  export type PaymentMaxAggregateInputType = {
+    id?: true
+    stripePaymentId?: true
+    stripeInvoiceId?: true
+    amount?: true
+    currency?: true
+    status?: true
+    description?: true
+    paidAt?: true
+    failedAt?: true
+    createdAt?: true
+    updatedAt?: true
+    userId?: true
+    subscriptionId?: true
+  }
+
+  export type PaymentCountAggregateInputType = {
+    id?: true
+    stripePaymentId?: true
+    stripeInvoiceId?: true
+    amount?: true
+    currency?: true
+    status?: true
+    description?: true
+    metadata?: true
+    paidAt?: true
+    failedAt?: true
+    createdAt?: true
+    updatedAt?: true
+    userId?: true
+    subscriptionId?: true
+    _all?: true
+  }
+
+  export type PaymentAggregateArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Filter which Payment to aggregate.
+     */
+    where?: PaymentWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of Payments to fetch.
+     */
+    orderBy?: PaymentOrderByWithRelationInput | PaymentOrderByWithRelationInput[]
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the start position
+     */
+    cursor?: PaymentWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` Payments from the position of the cursor.
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` Payments.
+     */
+    skip?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Count returned Payments
+    **/
+    _count?: true | PaymentCountAggregateInputType
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Select which fields to average
+    **/
+    _avg?: PaymentAvgAggregateInputType
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Select which fields to sum
+    **/
+    _sum?: PaymentSumAggregateInputType
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Select which fields to find the minimum value
+    **/
+    _min?: PaymentMinAggregateInputType
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Select which fields to find the maximum value
+    **/
+    _max?: PaymentMaxAggregateInputType
+  }
+
+  export type GetPaymentAggregateType<T extends PaymentAggregateArgs> = {
+        [P in keyof T & keyof AggregatePayment]: P extends '_count' | 'count'
+      ? T[P] extends true
+        ? number
+        : GetScalarType<T[P], AggregatePayment[P]>
+      : GetScalarType<T[P], AggregatePayment[P]>
+  }
+
+
+
+
+  export type PaymentGroupByArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    where?: PaymentWhereInput
+    orderBy?: PaymentOrderByWithAggregationInput | PaymentOrderByWithAggregationInput[]
+    by: PaymentScalarFieldEnum[] | PaymentScalarFieldEnum
+    having?: PaymentScalarWhereWithAggregatesInput
+    take?: number
+    skip?: number
+    _count?: PaymentCountAggregateInputType | true
+    _avg?: PaymentAvgAggregateInputType
+    _sum?: PaymentSumAggregateInputType
+    _min?: PaymentMinAggregateInputType
+    _max?: PaymentMaxAggregateInputType
+  }
+
+  export type PaymentGroupByOutputType = {
+    id: string
+    stripePaymentId: string | null
+    stripeInvoiceId: string | null
+    amount: Decimal
+    currency: string
+    status: $Enums.PaymentStatus
+    description: string | null
+    metadata: JsonValue | null
+    paidAt: Date | null
+    failedAt: Date | null
+    createdAt: Date
+    updatedAt: Date
+    userId: string
+    subscriptionId: string | null
+    _count: PaymentCountAggregateOutputType | null
+    _avg: PaymentAvgAggregateOutputType | null
+    _sum: PaymentSumAggregateOutputType | null
+    _min: PaymentMinAggregateOutputType | null
+    _max: PaymentMaxAggregateOutputType | null
+  }
+
+  type GetPaymentGroupByPayload<T extends PaymentGroupByArgs> = Prisma.PrismaPromise<
+    Array<
+      PickEnumerable<PaymentGroupByOutputType, T['by']> &
+        {
+          [P in ((keyof T) & (keyof PaymentGroupByOutputType))]: P extends '_count'
+            ? T[P] extends boolean
+              ? number
+              : GetScalarType<T[P], PaymentGroupByOutputType[P]>
+            : GetScalarType<T[P], PaymentGroupByOutputType[P]>
+        }
+      >
+    >
+
+
+  export type PaymentSelect<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
+    id?: boolean
+    stripePaymentId?: boolean
+    stripeInvoiceId?: boolean
+    amount?: boolean
+    currency?: boolean
+    status?: boolean
+    description?: boolean
+    metadata?: boolean
+    paidAt?: boolean
+    failedAt?: boolean
+    createdAt?: boolean
+    updatedAt?: boolean
+    userId?: boolean
+    subscriptionId?: boolean
+    user?: boolean | UserDefaultArgs<ExtArgs>
+    subscription?: boolean | Payment$subscriptionArgs<ExtArgs>
+  }, ExtArgs["result"]["payment"]>
+
+  export type PaymentSelectCreateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
+    id?: boolean
+    stripePaymentId?: boolean
+    stripeInvoiceId?: boolean
+    amount?: boolean
+    currency?: boolean
+    status?: boolean
+    description?: boolean
+    metadata?: boolean
+    paidAt?: boolean
+    failedAt?: boolean
+    createdAt?: boolean
+    updatedAt?: boolean
+    userId?: boolean
+    subscriptionId?: boolean
+    user?: boolean | UserDefaultArgs<ExtArgs>
+    subscription?: boolean | Payment$subscriptionArgs<ExtArgs>
+  }, ExtArgs["result"]["payment"]>
+
+  export type PaymentSelectUpdateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
+    id?: boolean
+    stripePaymentId?: boolean
+    stripeInvoiceId?: boolean
+    amount?: boolean
+    currency?: boolean
+    status?: boolean
+    description?: boolean
+    metadata?: boolean
+    paidAt?: boolean
+    failedAt?: boolean
+    createdAt?: boolean
+    updatedAt?: boolean
+    userId?: boolean
+    subscriptionId?: boolean
+    user?: boolean | UserDefaultArgs<ExtArgs>
+    subscription?: boolean | Payment$subscriptionArgs<ExtArgs>
+  }, ExtArgs["result"]["payment"]>
+
+  export type PaymentSelectScalar = {
+    id?: boolean
+    stripePaymentId?: boolean
+    stripeInvoiceId?: boolean
+    amount?: boolean
+    currency?: boolean
+    status?: boolean
+    description?: boolean
+    metadata?: boolean
+    paidAt?: boolean
+    failedAt?: boolean
+    createdAt?: boolean
+    updatedAt?: boolean
+    userId?: boolean
+    subscriptionId?: boolean
+  }
+
+  export type PaymentOmit<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetOmit<"id" | "stripePaymentId" | "stripeInvoiceId" | "amount" | "currency" | "status" | "description" | "metadata" | "paidAt" | "failedAt" | "createdAt" | "updatedAt" | "userId" | "subscriptionId", ExtArgs["result"]["payment"]>
+  export type PaymentInclude<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    user?: boolean | UserDefaultArgs<ExtArgs>
+    subscription?: boolean | Payment$subscriptionArgs<ExtArgs>
+  }
+  export type PaymentIncludeCreateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    user?: boolean | UserDefaultArgs<ExtArgs>
+    subscription?: boolean | Payment$subscriptionArgs<ExtArgs>
+  }
+  export type PaymentIncludeUpdateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    user?: boolean | UserDefaultArgs<ExtArgs>
+    subscription?: boolean | Payment$subscriptionArgs<ExtArgs>
+  }
+
+  export type $PaymentPayload<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    name: "Payment"
+    objects: {
+      user: Prisma.$UserPayload<ExtArgs>
+      subscription: Prisma.$SubscriptionPayload<ExtArgs> | null
+    }
+    scalars: $Extensions.GetPayloadResult<{
+      id: string
+      stripePaymentId: string | null
+      stripeInvoiceId: string | null
+      amount: Prisma.Decimal
+      currency: string
+      status: $Enums.PaymentStatus
+      description: string | null
+      metadata: Prisma.JsonValue | null
+      paidAt: Date | null
+      failedAt: Date | null
+      createdAt: Date
+      updatedAt: Date
+      userId: string
+      subscriptionId: string | null
+    }, ExtArgs["result"]["payment"]>
+    composites: {}
+  }
+
+  type PaymentGetPayload<S extends boolean | null | undefined | PaymentDefaultArgs> = $Result.GetResult<Prisma.$PaymentPayload, S>
+
+  type PaymentCountArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> =
+    Omit<PaymentFindManyArgs, 'select' | 'include' | 'distinct' | 'omit'> & {
+      select?: PaymentCountAggregateInputType | true
+    }
+
+  export interface PaymentDelegate<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs, GlobalOmitOptions = {}> {
+    [K: symbol]: { types: Prisma.TypeMap<ExtArgs>['model']['Payment'], meta: { name: 'Payment' } }
+    /**
+     * Find zero or one Payment that matches the filter.
+     * @param {PaymentFindUniqueArgs} args - Arguments to find a Payment
+     * @example
+     * // Get one Payment
+     * const payment = await prisma.payment.findUnique({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     */
+    findUnique<T extends PaymentFindUniqueArgs>(args: SelectSubset<T, PaymentFindUniqueArgs<ExtArgs>>): Prisma__PaymentClient<$Result.GetResult<Prisma.$PaymentPayload<ExtArgs>, T, "findUnique", GlobalOmitOptions> | null, null, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Find one Payment that matches the filter or throw an error with `error.code='P2025'`
+     * if no matches were found.
+     * @param {PaymentFindUniqueOrThrowArgs} args - Arguments to find a Payment
+     * @example
+     * // Get one Payment
+     * const payment = await prisma.payment.findUniqueOrThrow({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     */
+    findUniqueOrThrow<T extends PaymentFindUniqueOrThrowArgs>(args: SelectSubset<T, PaymentFindUniqueOrThrowArgs<ExtArgs>>): Prisma__PaymentClient<$Result.GetResult<Prisma.$PaymentPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Find the first Payment that matches the filter.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {PaymentFindFirstArgs} args - Arguments to find a Payment
+     * @example
+     * // Get one Payment
+     * const payment = await prisma.payment.findFirst({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     */
+    findFirst<T extends PaymentFindFirstArgs>(args?: SelectSubset<T, PaymentFindFirstArgs<ExtArgs>>): Prisma__PaymentClient<$Result.GetResult<Prisma.$PaymentPayload<ExtArgs>, T, "findFirst", GlobalOmitOptions> | null, null, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Find the first Payment that matches the filter or
+     * throw `PrismaKnownClientError` with `P2025` code if no matches were found.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {PaymentFindFirstOrThrowArgs} args - Arguments to find a Payment
+     * @example
+     * // Get one Payment
+     * const payment = await prisma.payment.findFirstOrThrow({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     */
+    findFirstOrThrow<T extends PaymentFindFirstOrThrowArgs>(args?: SelectSubset<T, PaymentFindFirstOrThrowArgs<ExtArgs>>): Prisma__PaymentClient<$Result.GetResult<Prisma.$PaymentPayload<ExtArgs>, T, "findFirstOrThrow", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Find zero or more Payments that matches the filter.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {PaymentFindManyArgs} args - Arguments to filter and select certain fields only.
+     * @example
+     * // Get all Payments
+     * const payments = await prisma.payment.findMany()
+     * 
+     * // Get first 10 Payments
+     * const payments = await prisma.payment.findMany({ take: 10 })
+     * 
+     * // Only select the `id`
+     * const paymentWithIdOnly = await prisma.payment.findMany({ select: { id: true } })
+     * 
+     */
+    findMany<T extends PaymentFindManyArgs>(args?: SelectSubset<T, PaymentFindManyArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$PaymentPayload<ExtArgs>, T, "findMany", GlobalOmitOptions>>
+
+    /**
+     * Create a Payment.
+     * @param {PaymentCreateArgs} args - Arguments to create a Payment.
+     * @example
+     * // Create one Payment
+     * const Payment = await prisma.payment.create({
+     *   data: {
+     *     // ... data to create a Payment
+     *   }
+     * })
+     * 
+     */
+    create<T extends PaymentCreateArgs>(args: SelectSubset<T, PaymentCreateArgs<ExtArgs>>): Prisma__PaymentClient<$Result.GetResult<Prisma.$PaymentPayload<ExtArgs>, T, "create", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Create many Payments.
+     * @param {PaymentCreateManyArgs} args - Arguments to create many Payments.
+     * @example
+     * // Create many Payments
+     * const payment = await prisma.payment.createMany({
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     *     
+     */
+    createMany<T extends PaymentCreateManyArgs>(args?: SelectSubset<T, PaymentCreateManyArgs<ExtArgs>>): Prisma.PrismaPromise<BatchPayload>
+
+    /**
+     * Create many Payments and returns the data saved in the database.
+     * @param {PaymentCreateManyAndReturnArgs} args - Arguments to create many Payments.
+     * @example
+     * // Create many Payments
+     * const payment = await prisma.payment.createManyAndReturn({
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     * 
+     * // Create many Payments and only return the `id`
+     * const paymentWithIdOnly = await prisma.payment.createManyAndReturn({
+     *   select: { id: true },
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * 
+     */
+    createManyAndReturn<T extends PaymentCreateManyAndReturnArgs>(args?: SelectSubset<T, PaymentCreateManyAndReturnArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$PaymentPayload<ExtArgs>, T, "createManyAndReturn", GlobalOmitOptions>>
+
+    /**
+     * Delete a Payment.
+     * @param {PaymentDeleteArgs} args - Arguments to delete one Payment.
+     * @example
+     * // Delete one Payment
+     * const Payment = await prisma.payment.delete({
+     *   where: {
+     *     // ... filter to delete one Payment
+     *   }
+     * })
+     * 
+     */
+    delete<T extends PaymentDeleteArgs>(args: SelectSubset<T, PaymentDeleteArgs<ExtArgs>>): Prisma__PaymentClient<$Result.GetResult<Prisma.$PaymentPayload<ExtArgs>, T, "delete", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Update one Payment.
+     * @param {PaymentUpdateArgs} args - Arguments to update one Payment.
+     * @example
+     * // Update one Payment
+     * const payment = await prisma.payment.update({
+     *   where: {
+     *     // ... provide filter here
+     *   },
+     *   data: {
+     *     // ... provide data here
+     *   }
+     * })
+     * 
+     */
+    update<T extends PaymentUpdateArgs>(args: SelectSubset<T, PaymentUpdateArgs<ExtArgs>>): Prisma__PaymentClient<$Result.GetResult<Prisma.$PaymentPayload<ExtArgs>, T, "update", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Delete zero or more Payments.
+     * @param {PaymentDeleteManyArgs} args - Arguments to filter Payments to delete.
+     * @example
+     * // Delete a few Payments
+     * const { count } = await prisma.payment.deleteMany({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     * 
+     */
+    deleteMany<T extends PaymentDeleteManyArgs>(args?: SelectSubset<T, PaymentDeleteManyArgs<ExtArgs>>): Prisma.PrismaPromise<BatchPayload>
+
+    /**
+     * Update zero or more Payments.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {PaymentUpdateManyArgs} args - Arguments to update one or more rows.
+     * @example
+     * // Update many Payments
+     * const payment = await prisma.payment.updateMany({
+     *   where: {
+     *     // ... provide filter here
+     *   },
+     *   data: {
+     *     // ... provide data here
+     *   }
+     * })
+     * 
+     */
+    updateMany<T extends PaymentUpdateManyArgs>(args: SelectSubset<T, PaymentUpdateManyArgs<ExtArgs>>): Prisma.PrismaPromise<BatchPayload>
+
+    /**
+     * Update zero or more Payments and returns the data updated in the database.
+     * @param {PaymentUpdateManyAndReturnArgs} args - Arguments to update many Payments.
+     * @example
+     * // Update many Payments
+     * const payment = await prisma.payment.updateManyAndReturn({
+     *   where: {
+     *     // ... provide filter here
+     *   },
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     * 
+     * // Update zero or more Payments and only return the `id`
+     * const paymentWithIdOnly = await prisma.payment.updateManyAndReturn({
+     *   select: { id: true },
+     *   where: {
+     *     // ... provide filter here
+     *   },
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * 
+     */
+    updateManyAndReturn<T extends PaymentUpdateManyAndReturnArgs>(args: SelectSubset<T, PaymentUpdateManyAndReturnArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$PaymentPayload<ExtArgs>, T, "updateManyAndReturn", GlobalOmitOptions>>
+
+    /**
+     * Create or update one Payment.
+     * @param {PaymentUpsertArgs} args - Arguments to update or create a Payment.
+     * @example
+     * // Update or create a Payment
+     * const payment = await prisma.payment.upsert({
+     *   create: {
+     *     // ... data to create a Payment
+     *   },
+     *   update: {
+     *     // ... in case it already exists, update
+     *   },
+     *   where: {
+     *     // ... the filter for the Payment we want to update
+     *   }
+     * })
+     */
+    upsert<T extends PaymentUpsertArgs>(args: SelectSubset<T, PaymentUpsertArgs<ExtArgs>>): Prisma__PaymentClient<$Result.GetResult<Prisma.$PaymentPayload<ExtArgs>, T, "upsert", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+
+    /**
+     * Count the number of Payments.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {PaymentCountArgs} args - Arguments to filter Payments to count.
+     * @example
+     * // Count the number of Payments
+     * const count = await prisma.payment.count({
+     *   where: {
+     *     // ... the filter for the Payments we want to count
+     *   }
+     * })
+    **/
+    count<T extends PaymentCountArgs>(
+      args?: Subset<T, PaymentCountArgs>,
+    ): Prisma.PrismaPromise<
+      T extends $Utils.Record<'select', any>
+        ? T['select'] extends true
+          ? number
+          : GetScalarType<T['select'], PaymentCountAggregateOutputType>
+        : number
+    >
+
+    /**
+     * Allows you to perform aggregations operations on a Payment.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {PaymentAggregateArgs} args - Select which aggregations you would like to apply and on what fields.
+     * @example
+     * // Ordered by age ascending
+     * // Where email contains prisma.io
+     * // Limited to the 10 users
+     * const aggregations = await prisma.user.aggregate({
+     *   _avg: {
+     *     age: true,
+     *   },
+     *   where: {
+     *     email: {
+     *       contains: "prisma.io",
+     *     },
+     *   },
+     *   orderBy: {
+     *     age: "asc",
+     *   },
+     *   take: 10,
+     * })
+    **/
+    aggregate<T extends PaymentAggregateArgs>(args: Subset<T, PaymentAggregateArgs>): Prisma.PrismaPromise<GetPaymentAggregateType<T>>
+
+    /**
+     * Group by Payment.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {PaymentGroupByArgs} args - Group by arguments.
+     * @example
+     * // Group by city, order by createdAt, get count
+     * const result = await prisma.user.groupBy({
+     *   by: ['city', 'createdAt'],
+     *   orderBy: {
+     *     createdAt: true
+     *   },
+     *   _count: {
+     *     _all: true
+     *   },
+     * })
+     * 
+    **/
+    groupBy<
+      T extends PaymentGroupByArgs,
+      HasSelectOrTake extends Or<
+        Extends<'skip', Keys<T>>,
+        Extends<'take', Keys<T>>
+      >,
+      OrderByArg extends True extends HasSelectOrTake
+        ? { orderBy: PaymentGroupByArgs['orderBy'] }
+        : { orderBy?: PaymentGroupByArgs['orderBy'] },
+      OrderFields extends ExcludeUnderscoreKeys<Keys<MaybeTupleToUnion<T['orderBy']>>>,
+      ByFields extends MaybeTupleToUnion<T['by']>,
+      ByValid extends Has<ByFields, OrderFields>,
+      HavingFields extends GetHavingFields<T['having']>,
+      HavingValid extends Has<ByFields, HavingFields>,
+      ByEmpty extends T['by'] extends never[] ? True : False,
+      InputErrors extends ByEmpty extends True
+      ? `Error: "by" must not be empty.`
+      : HavingValid extends False
+      ? {
+          [P in HavingFields]: P extends ByFields
+            ? never
+            : P extends string
+            ? `Error: Field "${P}" used in "having" needs to be provided in "by".`
+            : [
+                Error,
+                'Field ',
+                P,
+                ` in "having" needs to be provided in "by"`,
+              ]
+        }[HavingFields]
+      : 'take' extends Keys<T>
+      ? 'orderBy' extends Keys<T>
+        ? ByValid extends True
+          ? {}
+          : {
+              [P in OrderFields]: P extends ByFields
+                ? never
+                : `Error: Field "${P}" in "orderBy" needs to be provided in "by"`
+            }[OrderFields]
+        : 'Error: If you provide "take", you also need to provide "orderBy"'
+      : 'skip' extends Keys<T>
+      ? 'orderBy' extends Keys<T>
+        ? ByValid extends True
+          ? {}
+          : {
+              [P in OrderFields]: P extends ByFields
+                ? never
+                : `Error: Field "${P}" in "orderBy" needs to be provided in "by"`
+            }[OrderFields]
+        : 'Error: If you provide "skip", you also need to provide "orderBy"'
+      : ByValid extends True
+      ? {}
+      : {
+          [P in OrderFields]: P extends ByFields
+            ? never
+            : `Error: Field "${P}" in "orderBy" needs to be provided in "by"`
+        }[OrderFields]
+    >(args: SubsetIntersection<T, PaymentGroupByArgs, OrderByArg> & InputErrors): {} extends InputErrors ? GetPaymentGroupByPayload<T> : Prisma.PrismaPromise<InputErrors>
+  /**
+   * Fields of the Payment model
+   */
+  readonly fields: PaymentFieldRefs;
+  }
+
+  /**
+   * The delegate class that acts as a "Promise-like" for Payment.
+   * Why is this prefixed with `Prisma__`?
+   * Because we want to prevent naming conflicts as mentioned in
+   * https://github.com/prisma/prisma-client-js/issues/707
+   */
+  export interface Prisma__PaymentClient<T, Null = never, ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs, GlobalOmitOptions = {}> extends Prisma.PrismaPromise<T> {
+    readonly [Symbol.toStringTag]: "PrismaPromise"
+    user<T extends UserDefaultArgs<ExtArgs> = {}>(args?: Subset<T, UserDefaultArgs<ExtArgs>>): Prisma__UserClient<$Result.GetResult<Prisma.$UserPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | Null, Null, ExtArgs, GlobalOmitOptions>
+    subscription<T extends Payment$subscriptionArgs<ExtArgs> = {}>(args?: Subset<T, Payment$subscriptionArgs<ExtArgs>>): Prisma__SubscriptionClient<$Result.GetResult<Prisma.$SubscriptionPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | null, null, ExtArgs, GlobalOmitOptions>
+    /**
+     * Attaches callbacks for the resolution and/or rejection of the Promise.
+     * @param onfulfilled The callback to execute when the Promise is resolved.
+     * @param onrejected The callback to execute when the Promise is rejected.
+     * @returns A Promise for the completion of which ever callback is executed.
+     */
+    then<TResult1 = T, TResult2 = never>(onfulfilled?: ((value: T) => TResult1 | PromiseLike<TResult1>) | undefined | null, onrejected?: ((reason: any) => TResult2 | PromiseLike<TResult2>) | undefined | null): $Utils.JsPromise<TResult1 | TResult2>
+    /**
+     * Attaches a callback for only the rejection of the Promise.
+     * @param onrejected The callback to execute when the Promise is rejected.
+     * @returns A Promise for the completion of the callback.
+     */
+    catch<TResult = never>(onrejected?: ((reason: any) => TResult | PromiseLike<TResult>) | undefined | null): $Utils.JsPromise<T | TResult>
+    /**
+     * Attaches a callback that is invoked when the Promise is settled (fulfilled or rejected). The
+     * resolved value cannot be modified from the callback.
+     * @param onfinally The callback to execute when the Promise is settled (fulfilled or rejected).
+     * @returns A Promise for the completion of the callback.
+     */
+    finally(onfinally?: (() => void) | undefined | null): $Utils.JsPromise<T>
+  }
+
+
+
+
+  /**
+   * Fields of the Payment model
+   */
+  interface PaymentFieldRefs {
+    readonly id: FieldRef<"Payment", 'String'>
+    readonly stripePaymentId: FieldRef<"Payment", 'String'>
+    readonly stripeInvoiceId: FieldRef<"Payment", 'String'>
+    readonly amount: FieldRef<"Payment", 'Decimal'>
+    readonly currency: FieldRef<"Payment", 'String'>
+    readonly status: FieldRef<"Payment", 'PaymentStatus'>
+    readonly description: FieldRef<"Payment", 'String'>
+    readonly metadata: FieldRef<"Payment", 'Json'>
+    readonly paidAt: FieldRef<"Payment", 'DateTime'>
+    readonly failedAt: FieldRef<"Payment", 'DateTime'>
+    readonly createdAt: FieldRef<"Payment", 'DateTime'>
+    readonly updatedAt: FieldRef<"Payment", 'DateTime'>
+    readonly userId: FieldRef<"Payment", 'String'>
+    readonly subscriptionId: FieldRef<"Payment", 'String'>
+  }
+    
+
+  // Custom InputTypes
+  /**
+   * Payment findUnique
+   */
+  export type PaymentFindUniqueArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the Payment
+     */
+    select?: PaymentSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the Payment
+     */
+    omit?: PaymentOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: PaymentInclude<ExtArgs> | null
+    /**
+     * Filter, which Payment to fetch.
+     */
+    where: PaymentWhereUniqueInput
+  }
+
+  /**
+   * Payment findUniqueOrThrow
+   */
+  export type PaymentFindUniqueOrThrowArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the Payment
+     */
+    select?: PaymentSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the Payment
+     */
+    omit?: PaymentOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: PaymentInclude<ExtArgs> | null
+    /**
+     * Filter, which Payment to fetch.
+     */
+    where: PaymentWhereUniqueInput
+  }
+
+  /**
+   * Payment findFirst
+   */
+  export type PaymentFindFirstArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the Payment
+     */
+    select?: PaymentSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the Payment
+     */
+    omit?: PaymentOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: PaymentInclude<ExtArgs> | null
+    /**
+     * Filter, which Payment to fetch.
+     */
+    where?: PaymentWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of Payments to fetch.
+     */
+    orderBy?: PaymentOrderByWithRelationInput | PaymentOrderByWithRelationInput[]
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the position for searching for Payments.
+     */
+    cursor?: PaymentWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` Payments from the position of the cursor.
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` Payments.
+     */
+    skip?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/distinct Distinct Docs}
+     * 
+     * Filter by unique combinations of Payments.
+     */
+    distinct?: PaymentScalarFieldEnum | PaymentScalarFieldEnum[]
+  }
+
+  /**
+   * Payment findFirstOrThrow
+   */
+  export type PaymentFindFirstOrThrowArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the Payment
+     */
+    select?: PaymentSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the Payment
+     */
+    omit?: PaymentOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: PaymentInclude<ExtArgs> | null
+    /**
+     * Filter, which Payment to fetch.
+     */
+    where?: PaymentWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of Payments to fetch.
+     */
+    orderBy?: PaymentOrderByWithRelationInput | PaymentOrderByWithRelationInput[]
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the position for searching for Payments.
+     */
+    cursor?: PaymentWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` Payments from the position of the cursor.
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` Payments.
+     */
+    skip?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/distinct Distinct Docs}
+     * 
+     * Filter by unique combinations of Payments.
+     */
+    distinct?: PaymentScalarFieldEnum | PaymentScalarFieldEnum[]
+  }
+
+  /**
+   * Payment findMany
+   */
+  export type PaymentFindManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the Payment
+     */
+    select?: PaymentSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the Payment
+     */
+    omit?: PaymentOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: PaymentInclude<ExtArgs> | null
+    /**
+     * Filter, which Payments to fetch.
+     */
+    where?: PaymentWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of Payments to fetch.
+     */
+    orderBy?: PaymentOrderByWithRelationInput | PaymentOrderByWithRelationInput[]
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the position for listing Payments.
+     */
+    cursor?: PaymentWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` Payments from the position of the cursor.
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` Payments.
+     */
+    skip?: number
+    distinct?: PaymentScalarFieldEnum | PaymentScalarFieldEnum[]
+  }
+
+  /**
+   * Payment create
+   */
+  export type PaymentCreateArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the Payment
+     */
+    select?: PaymentSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the Payment
+     */
+    omit?: PaymentOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: PaymentInclude<ExtArgs> | null
+    /**
+     * The data needed to create a Payment.
+     */
+    data: XOR<PaymentCreateInput, PaymentUncheckedCreateInput>
+  }
+
+  /**
+   * Payment createMany
+   */
+  export type PaymentCreateManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * The data used to create many Payments.
+     */
+    data: PaymentCreateManyInput | PaymentCreateManyInput[]
+    skipDuplicates?: boolean
+  }
+
+  /**
+   * Payment createManyAndReturn
+   */
+  export type PaymentCreateManyAndReturnArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the Payment
+     */
+    select?: PaymentSelectCreateManyAndReturn<ExtArgs> | null
+    /**
+     * Omit specific fields from the Payment
+     */
+    omit?: PaymentOmit<ExtArgs> | null
+    /**
+     * The data used to create many Payments.
+     */
+    data: PaymentCreateManyInput | PaymentCreateManyInput[]
+    skipDuplicates?: boolean
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: PaymentIncludeCreateManyAndReturn<ExtArgs> | null
+  }
+
+  /**
+   * Payment update
+   */
+  export type PaymentUpdateArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the Payment
+     */
+    select?: PaymentSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the Payment
+     */
+    omit?: PaymentOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: PaymentInclude<ExtArgs> | null
+    /**
+     * The data needed to update a Payment.
+     */
+    data: XOR<PaymentUpdateInput, PaymentUncheckedUpdateInput>
+    /**
+     * Choose, which Payment to update.
+     */
+    where: PaymentWhereUniqueInput
+  }
+
+  /**
+   * Payment updateMany
+   */
+  export type PaymentUpdateManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * The data used to update Payments.
+     */
+    data: XOR<PaymentUpdateManyMutationInput, PaymentUncheckedUpdateManyInput>
+    /**
+     * Filter which Payments to update
+     */
+    where?: PaymentWhereInput
+    /**
+     * Limit how many Payments to update.
+     */
+    limit?: number
+  }
+
+  /**
+   * Payment updateManyAndReturn
+   */
+  export type PaymentUpdateManyAndReturnArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the Payment
+     */
+    select?: PaymentSelectUpdateManyAndReturn<ExtArgs> | null
+    /**
+     * Omit specific fields from the Payment
+     */
+    omit?: PaymentOmit<ExtArgs> | null
+    /**
+     * The data used to update Payments.
+     */
+    data: XOR<PaymentUpdateManyMutationInput, PaymentUncheckedUpdateManyInput>
+    /**
+     * Filter which Payments to update
+     */
+    where?: PaymentWhereInput
+    /**
+     * Limit how many Payments to update.
+     */
+    limit?: number
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: PaymentIncludeUpdateManyAndReturn<ExtArgs> | null
+  }
+
+  /**
+   * Payment upsert
+   */
+  export type PaymentUpsertArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the Payment
+     */
+    select?: PaymentSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the Payment
+     */
+    omit?: PaymentOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: PaymentInclude<ExtArgs> | null
+    /**
+     * The filter to search for the Payment to update in case it exists.
+     */
+    where: PaymentWhereUniqueInput
+    /**
+     * In case the Payment found by the `where` argument doesn't exist, create a new Payment with this data.
+     */
+    create: XOR<PaymentCreateInput, PaymentUncheckedCreateInput>
+    /**
+     * In case the Payment was found with the provided `where` argument, update it with this data.
+     */
+    update: XOR<PaymentUpdateInput, PaymentUncheckedUpdateInput>
+  }
+
+  /**
+   * Payment delete
+   */
+  export type PaymentDeleteArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the Payment
+     */
+    select?: PaymentSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the Payment
+     */
+    omit?: PaymentOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: PaymentInclude<ExtArgs> | null
+    /**
+     * Filter which Payment to delete.
+     */
+    where: PaymentWhereUniqueInput
+  }
+
+  /**
+   * Payment deleteMany
+   */
+  export type PaymentDeleteManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Filter which Payments to delete
+     */
+    where?: PaymentWhereInput
+    /**
+     * Limit how many Payments to delete.
+     */
+    limit?: number
+  }
+
+  /**
+   * Payment.subscription
+   */
+  export type Payment$subscriptionArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the Subscription
+     */
+    select?: SubscriptionSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the Subscription
+     */
+    omit?: SubscriptionOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: SubscriptionInclude<ExtArgs> | null
+    where?: SubscriptionWhereInput
+  }
+
+  /**
+   * Payment without action
+   */
+  export type PaymentDefaultArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the Payment
+     */
+    select?: PaymentSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the Payment
+     */
+    omit?: PaymentOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: PaymentInclude<ExtArgs> | null
+  }
+
+
+  /**
+   * Model WebhookEvent
+   */
+
+  export type AggregateWebhookEvent = {
+    _count: WebhookEventCountAggregateOutputType | null
+    _min: WebhookEventMinAggregateOutputType | null
+    _max: WebhookEventMaxAggregateOutputType | null
+  }
+
+  export type WebhookEventMinAggregateOutputType = {
+    id: string | null
+    stripeEventId: string | null
+    type: string | null
+    processed: boolean | null
+    processedAt: Date | null
+    apiVersion: string | null
+    createdAt: Date | null
+    userId: string | null
+  }
+
+  export type WebhookEventMaxAggregateOutputType = {
+    id: string | null
+    stripeEventId: string | null
+    type: string | null
+    processed: boolean | null
+    processedAt: Date | null
+    apiVersion: string | null
+    createdAt: Date | null
+    userId: string | null
+  }
+
+  export type WebhookEventCountAggregateOutputType = {
+    id: number
+    stripeEventId: number
+    type: number
+    processed: number
+    processedAt: number
+    data: number
+    apiVersion: number
+    createdAt: number
+    userId: number
+    _all: number
+  }
+
+
+  export type WebhookEventMinAggregateInputType = {
+    id?: true
+    stripeEventId?: true
+    type?: true
+    processed?: true
+    processedAt?: true
+    apiVersion?: true
+    createdAt?: true
+    userId?: true
+  }
+
+  export type WebhookEventMaxAggregateInputType = {
+    id?: true
+    stripeEventId?: true
+    type?: true
+    processed?: true
+    processedAt?: true
+    apiVersion?: true
+    createdAt?: true
+    userId?: true
+  }
+
+  export type WebhookEventCountAggregateInputType = {
+    id?: true
+    stripeEventId?: true
+    type?: true
+    processed?: true
+    processedAt?: true
+    data?: true
+    apiVersion?: true
+    createdAt?: true
+    userId?: true
+    _all?: true
+  }
+
+  export type WebhookEventAggregateArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Filter which WebhookEvent to aggregate.
+     */
+    where?: WebhookEventWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of WebhookEvents to fetch.
+     */
+    orderBy?: WebhookEventOrderByWithRelationInput | WebhookEventOrderByWithRelationInput[]
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the start position
+     */
+    cursor?: WebhookEventWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` WebhookEvents from the position of the cursor.
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` WebhookEvents.
+     */
+    skip?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Count returned WebhookEvents
+    **/
+    _count?: true | WebhookEventCountAggregateInputType
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Select which fields to find the minimum value
+    **/
+    _min?: WebhookEventMinAggregateInputType
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Select which fields to find the maximum value
+    **/
+    _max?: WebhookEventMaxAggregateInputType
+  }
+
+  export type GetWebhookEventAggregateType<T extends WebhookEventAggregateArgs> = {
+        [P in keyof T & keyof AggregateWebhookEvent]: P extends '_count' | 'count'
+      ? T[P] extends true
+        ? number
+        : GetScalarType<T[P], AggregateWebhookEvent[P]>
+      : GetScalarType<T[P], AggregateWebhookEvent[P]>
+  }
+
+
+
+
+  export type WebhookEventGroupByArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    where?: WebhookEventWhereInput
+    orderBy?: WebhookEventOrderByWithAggregationInput | WebhookEventOrderByWithAggregationInput[]
+    by: WebhookEventScalarFieldEnum[] | WebhookEventScalarFieldEnum
+    having?: WebhookEventScalarWhereWithAggregatesInput
+    take?: number
+    skip?: number
+    _count?: WebhookEventCountAggregateInputType | true
+    _min?: WebhookEventMinAggregateInputType
+    _max?: WebhookEventMaxAggregateInputType
+  }
+
+  export type WebhookEventGroupByOutputType = {
+    id: string
+    stripeEventId: string
+    type: string
+    processed: boolean
+    processedAt: Date | null
+    data: JsonValue
+    apiVersion: string | null
+    createdAt: Date
+    userId: string | null
+    _count: WebhookEventCountAggregateOutputType | null
+    _min: WebhookEventMinAggregateOutputType | null
+    _max: WebhookEventMaxAggregateOutputType | null
+  }
+
+  type GetWebhookEventGroupByPayload<T extends WebhookEventGroupByArgs> = Prisma.PrismaPromise<
+    Array<
+      PickEnumerable<WebhookEventGroupByOutputType, T['by']> &
+        {
+          [P in ((keyof T) & (keyof WebhookEventGroupByOutputType))]: P extends '_count'
+            ? T[P] extends boolean
+              ? number
+              : GetScalarType<T[P], WebhookEventGroupByOutputType[P]>
+            : GetScalarType<T[P], WebhookEventGroupByOutputType[P]>
+        }
+      >
+    >
+
+
+  export type WebhookEventSelect<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
+    id?: boolean
+    stripeEventId?: boolean
+    type?: boolean
+    processed?: boolean
+    processedAt?: boolean
+    data?: boolean
+    apiVersion?: boolean
+    createdAt?: boolean
+    userId?: boolean
+    user?: boolean | WebhookEvent$userArgs<ExtArgs>
+  }, ExtArgs["result"]["webhookEvent"]>
+
+  export type WebhookEventSelectCreateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
+    id?: boolean
+    stripeEventId?: boolean
+    type?: boolean
+    processed?: boolean
+    processedAt?: boolean
+    data?: boolean
+    apiVersion?: boolean
+    createdAt?: boolean
+    userId?: boolean
+    user?: boolean | WebhookEvent$userArgs<ExtArgs>
+  }, ExtArgs["result"]["webhookEvent"]>
+
+  export type WebhookEventSelectUpdateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
+    id?: boolean
+    stripeEventId?: boolean
+    type?: boolean
+    processed?: boolean
+    processedAt?: boolean
+    data?: boolean
+    apiVersion?: boolean
+    createdAt?: boolean
+    userId?: boolean
+    user?: boolean | WebhookEvent$userArgs<ExtArgs>
+  }, ExtArgs["result"]["webhookEvent"]>
+
+  export type WebhookEventSelectScalar = {
+    id?: boolean
+    stripeEventId?: boolean
+    type?: boolean
+    processed?: boolean
+    processedAt?: boolean
+    data?: boolean
+    apiVersion?: boolean
+    createdAt?: boolean
+    userId?: boolean
+  }
+
+  export type WebhookEventOmit<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetOmit<"id" | "stripeEventId" | "type" | "processed" | "processedAt" | "data" | "apiVersion" | "createdAt" | "userId", ExtArgs["result"]["webhookEvent"]>
+  export type WebhookEventInclude<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    user?: boolean | WebhookEvent$userArgs<ExtArgs>
+  }
+  export type WebhookEventIncludeCreateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    user?: boolean | WebhookEvent$userArgs<ExtArgs>
+  }
+  export type WebhookEventIncludeUpdateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    user?: boolean | WebhookEvent$userArgs<ExtArgs>
+  }
+
+  export type $WebhookEventPayload<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    name: "WebhookEvent"
+    objects: {
+      user: Prisma.$UserPayload<ExtArgs> | null
+    }
+    scalars: $Extensions.GetPayloadResult<{
+      id: string
+      stripeEventId: string
+      type: string
+      processed: boolean
+      processedAt: Date | null
+      data: Prisma.JsonValue
+      apiVersion: string | null
+      createdAt: Date
+      userId: string | null
+    }, ExtArgs["result"]["webhookEvent"]>
+    composites: {}
+  }
+
+  type WebhookEventGetPayload<S extends boolean | null | undefined | WebhookEventDefaultArgs> = $Result.GetResult<Prisma.$WebhookEventPayload, S>
+
+  type WebhookEventCountArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> =
+    Omit<WebhookEventFindManyArgs, 'select' | 'include' | 'distinct' | 'omit'> & {
+      select?: WebhookEventCountAggregateInputType | true
+    }
+
+  export interface WebhookEventDelegate<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs, GlobalOmitOptions = {}> {
+    [K: symbol]: { types: Prisma.TypeMap<ExtArgs>['model']['WebhookEvent'], meta: { name: 'WebhookEvent' } }
+    /**
+     * Find zero or one WebhookEvent that matches the filter.
+     * @param {WebhookEventFindUniqueArgs} args - Arguments to find a WebhookEvent
+     * @example
+     * // Get one WebhookEvent
+     * const webhookEvent = await prisma.webhookEvent.findUnique({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     */
+    findUnique<T extends WebhookEventFindUniqueArgs>(args: SelectSubset<T, WebhookEventFindUniqueArgs<ExtArgs>>): Prisma__WebhookEventClient<$Result.GetResult<Prisma.$WebhookEventPayload<ExtArgs>, T, "findUnique", GlobalOmitOptions> | null, null, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Find one WebhookEvent that matches the filter or throw an error with `error.code='P2025'`
+     * if no matches were found.
+     * @param {WebhookEventFindUniqueOrThrowArgs} args - Arguments to find a WebhookEvent
+     * @example
+     * // Get one WebhookEvent
+     * const webhookEvent = await prisma.webhookEvent.findUniqueOrThrow({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     */
+    findUniqueOrThrow<T extends WebhookEventFindUniqueOrThrowArgs>(args: SelectSubset<T, WebhookEventFindUniqueOrThrowArgs<ExtArgs>>): Prisma__WebhookEventClient<$Result.GetResult<Prisma.$WebhookEventPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Find the first WebhookEvent that matches the filter.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {WebhookEventFindFirstArgs} args - Arguments to find a WebhookEvent
+     * @example
+     * // Get one WebhookEvent
+     * const webhookEvent = await prisma.webhookEvent.findFirst({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     */
+    findFirst<T extends WebhookEventFindFirstArgs>(args?: SelectSubset<T, WebhookEventFindFirstArgs<ExtArgs>>): Prisma__WebhookEventClient<$Result.GetResult<Prisma.$WebhookEventPayload<ExtArgs>, T, "findFirst", GlobalOmitOptions> | null, null, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Find the first WebhookEvent that matches the filter or
+     * throw `PrismaKnownClientError` with `P2025` code if no matches were found.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {WebhookEventFindFirstOrThrowArgs} args - Arguments to find a WebhookEvent
+     * @example
+     * // Get one WebhookEvent
+     * const webhookEvent = await prisma.webhookEvent.findFirstOrThrow({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     */
+    findFirstOrThrow<T extends WebhookEventFindFirstOrThrowArgs>(args?: SelectSubset<T, WebhookEventFindFirstOrThrowArgs<ExtArgs>>): Prisma__WebhookEventClient<$Result.GetResult<Prisma.$WebhookEventPayload<ExtArgs>, T, "findFirstOrThrow", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Find zero or more WebhookEvents that matches the filter.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {WebhookEventFindManyArgs} args - Arguments to filter and select certain fields only.
+     * @example
+     * // Get all WebhookEvents
+     * const webhookEvents = await prisma.webhookEvent.findMany()
+     * 
+     * // Get first 10 WebhookEvents
+     * const webhookEvents = await prisma.webhookEvent.findMany({ take: 10 })
+     * 
+     * // Only select the `id`
+     * const webhookEventWithIdOnly = await prisma.webhookEvent.findMany({ select: { id: true } })
+     * 
+     */
+    findMany<T extends WebhookEventFindManyArgs>(args?: SelectSubset<T, WebhookEventFindManyArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$WebhookEventPayload<ExtArgs>, T, "findMany", GlobalOmitOptions>>
+
+    /**
+     * Create a WebhookEvent.
+     * @param {WebhookEventCreateArgs} args - Arguments to create a WebhookEvent.
+     * @example
+     * // Create one WebhookEvent
+     * const WebhookEvent = await prisma.webhookEvent.create({
+     *   data: {
+     *     // ... data to create a WebhookEvent
+     *   }
+     * })
+     * 
+     */
+    create<T extends WebhookEventCreateArgs>(args: SelectSubset<T, WebhookEventCreateArgs<ExtArgs>>): Prisma__WebhookEventClient<$Result.GetResult<Prisma.$WebhookEventPayload<ExtArgs>, T, "create", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Create many WebhookEvents.
+     * @param {WebhookEventCreateManyArgs} args - Arguments to create many WebhookEvents.
+     * @example
+     * // Create many WebhookEvents
+     * const webhookEvent = await prisma.webhookEvent.createMany({
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     *     
+     */
+    createMany<T extends WebhookEventCreateManyArgs>(args?: SelectSubset<T, WebhookEventCreateManyArgs<ExtArgs>>): Prisma.PrismaPromise<BatchPayload>
+
+    /**
+     * Create many WebhookEvents and returns the data saved in the database.
+     * @param {WebhookEventCreateManyAndReturnArgs} args - Arguments to create many WebhookEvents.
+     * @example
+     * // Create many WebhookEvents
+     * const webhookEvent = await prisma.webhookEvent.createManyAndReturn({
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     * 
+     * // Create many WebhookEvents and only return the `id`
+     * const webhookEventWithIdOnly = await prisma.webhookEvent.createManyAndReturn({
+     *   select: { id: true },
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * 
+     */
+    createManyAndReturn<T extends WebhookEventCreateManyAndReturnArgs>(args?: SelectSubset<T, WebhookEventCreateManyAndReturnArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$WebhookEventPayload<ExtArgs>, T, "createManyAndReturn", GlobalOmitOptions>>
+
+    /**
+     * Delete a WebhookEvent.
+     * @param {WebhookEventDeleteArgs} args - Arguments to delete one WebhookEvent.
+     * @example
+     * // Delete one WebhookEvent
+     * const WebhookEvent = await prisma.webhookEvent.delete({
+     *   where: {
+     *     // ... filter to delete one WebhookEvent
+     *   }
+     * })
+     * 
+     */
+    delete<T extends WebhookEventDeleteArgs>(args: SelectSubset<T, WebhookEventDeleteArgs<ExtArgs>>): Prisma__WebhookEventClient<$Result.GetResult<Prisma.$WebhookEventPayload<ExtArgs>, T, "delete", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Update one WebhookEvent.
+     * @param {WebhookEventUpdateArgs} args - Arguments to update one WebhookEvent.
+     * @example
+     * // Update one WebhookEvent
+     * const webhookEvent = await prisma.webhookEvent.update({
+     *   where: {
+     *     // ... provide filter here
+     *   },
+     *   data: {
+     *     // ... provide data here
+     *   }
+     * })
+     * 
+     */
+    update<T extends WebhookEventUpdateArgs>(args: SelectSubset<T, WebhookEventUpdateArgs<ExtArgs>>): Prisma__WebhookEventClient<$Result.GetResult<Prisma.$WebhookEventPayload<ExtArgs>, T, "update", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Delete zero or more WebhookEvents.
+     * @param {WebhookEventDeleteManyArgs} args - Arguments to filter WebhookEvents to delete.
+     * @example
+     * // Delete a few WebhookEvents
+     * const { count } = await prisma.webhookEvent.deleteMany({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     * 
+     */
+    deleteMany<T extends WebhookEventDeleteManyArgs>(args?: SelectSubset<T, WebhookEventDeleteManyArgs<ExtArgs>>): Prisma.PrismaPromise<BatchPayload>
+
+    /**
+     * Update zero or more WebhookEvents.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {WebhookEventUpdateManyArgs} args - Arguments to update one or more rows.
+     * @example
+     * // Update many WebhookEvents
+     * const webhookEvent = await prisma.webhookEvent.updateMany({
+     *   where: {
+     *     // ... provide filter here
+     *   },
+     *   data: {
+     *     // ... provide data here
+     *   }
+     * })
+     * 
+     */
+    updateMany<T extends WebhookEventUpdateManyArgs>(args: SelectSubset<T, WebhookEventUpdateManyArgs<ExtArgs>>): Prisma.PrismaPromise<BatchPayload>
+
+    /**
+     * Update zero or more WebhookEvents and returns the data updated in the database.
+     * @param {WebhookEventUpdateManyAndReturnArgs} args - Arguments to update many WebhookEvents.
+     * @example
+     * // Update many WebhookEvents
+     * const webhookEvent = await prisma.webhookEvent.updateManyAndReturn({
+     *   where: {
+     *     // ... provide filter here
+     *   },
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     * 
+     * // Update zero or more WebhookEvents and only return the `id`
+     * const webhookEventWithIdOnly = await prisma.webhookEvent.updateManyAndReturn({
+     *   select: { id: true },
+     *   where: {
+     *     // ... provide filter here
+     *   },
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * 
+     */
+    updateManyAndReturn<T extends WebhookEventUpdateManyAndReturnArgs>(args: SelectSubset<T, WebhookEventUpdateManyAndReturnArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$WebhookEventPayload<ExtArgs>, T, "updateManyAndReturn", GlobalOmitOptions>>
+
+    /**
+     * Create or update one WebhookEvent.
+     * @param {WebhookEventUpsertArgs} args - Arguments to update or create a WebhookEvent.
+     * @example
+     * // Update or create a WebhookEvent
+     * const webhookEvent = await prisma.webhookEvent.upsert({
+     *   create: {
+     *     // ... data to create a WebhookEvent
+     *   },
+     *   update: {
+     *     // ... in case it already exists, update
+     *   },
+     *   where: {
+     *     // ... the filter for the WebhookEvent we want to update
+     *   }
+     * })
+     */
+    upsert<T extends WebhookEventUpsertArgs>(args: SelectSubset<T, WebhookEventUpsertArgs<ExtArgs>>): Prisma__WebhookEventClient<$Result.GetResult<Prisma.$WebhookEventPayload<ExtArgs>, T, "upsert", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+
+    /**
+     * Count the number of WebhookEvents.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {WebhookEventCountArgs} args - Arguments to filter WebhookEvents to count.
+     * @example
+     * // Count the number of WebhookEvents
+     * const count = await prisma.webhookEvent.count({
+     *   where: {
+     *     // ... the filter for the WebhookEvents we want to count
+     *   }
+     * })
+    **/
+    count<T extends WebhookEventCountArgs>(
+      args?: Subset<T, WebhookEventCountArgs>,
+    ): Prisma.PrismaPromise<
+      T extends $Utils.Record<'select', any>
+        ? T['select'] extends true
+          ? number
+          : GetScalarType<T['select'], WebhookEventCountAggregateOutputType>
+        : number
+    >
+
+    /**
+     * Allows you to perform aggregations operations on a WebhookEvent.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {WebhookEventAggregateArgs} args - Select which aggregations you would like to apply and on what fields.
+     * @example
+     * // Ordered by age ascending
+     * // Where email contains prisma.io
+     * // Limited to the 10 users
+     * const aggregations = await prisma.user.aggregate({
+     *   _avg: {
+     *     age: true,
+     *   },
+     *   where: {
+     *     email: {
+     *       contains: "prisma.io",
+     *     },
+     *   },
+     *   orderBy: {
+     *     age: "asc",
+     *   },
+     *   take: 10,
+     * })
+    **/
+    aggregate<T extends WebhookEventAggregateArgs>(args: Subset<T, WebhookEventAggregateArgs>): Prisma.PrismaPromise<GetWebhookEventAggregateType<T>>
+
+    /**
+     * Group by WebhookEvent.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {WebhookEventGroupByArgs} args - Group by arguments.
+     * @example
+     * // Group by city, order by createdAt, get count
+     * const result = await prisma.user.groupBy({
+     *   by: ['city', 'createdAt'],
+     *   orderBy: {
+     *     createdAt: true
+     *   },
+     *   _count: {
+     *     _all: true
+     *   },
+     * })
+     * 
+    **/
+    groupBy<
+      T extends WebhookEventGroupByArgs,
+      HasSelectOrTake extends Or<
+        Extends<'skip', Keys<T>>,
+        Extends<'take', Keys<T>>
+      >,
+      OrderByArg extends True extends HasSelectOrTake
+        ? { orderBy: WebhookEventGroupByArgs['orderBy'] }
+        : { orderBy?: WebhookEventGroupByArgs['orderBy'] },
+      OrderFields extends ExcludeUnderscoreKeys<Keys<MaybeTupleToUnion<T['orderBy']>>>,
+      ByFields extends MaybeTupleToUnion<T['by']>,
+      ByValid extends Has<ByFields, OrderFields>,
+      HavingFields extends GetHavingFields<T['having']>,
+      HavingValid extends Has<ByFields, HavingFields>,
+      ByEmpty extends T['by'] extends never[] ? True : False,
+      InputErrors extends ByEmpty extends True
+      ? `Error: "by" must not be empty.`
+      : HavingValid extends False
+      ? {
+          [P in HavingFields]: P extends ByFields
+            ? never
+            : P extends string
+            ? `Error: Field "${P}" used in "having" needs to be provided in "by".`
+            : [
+                Error,
+                'Field ',
+                P,
+                ` in "having" needs to be provided in "by"`,
+              ]
+        }[HavingFields]
+      : 'take' extends Keys<T>
+      ? 'orderBy' extends Keys<T>
+        ? ByValid extends True
+          ? {}
+          : {
+              [P in OrderFields]: P extends ByFields
+                ? never
+                : `Error: Field "${P}" in "orderBy" needs to be provided in "by"`
+            }[OrderFields]
+        : 'Error: If you provide "take", you also need to provide "orderBy"'
+      : 'skip' extends Keys<T>
+      ? 'orderBy' extends Keys<T>
+        ? ByValid extends True
+          ? {}
+          : {
+              [P in OrderFields]: P extends ByFields
+                ? never
+                : `Error: Field "${P}" in "orderBy" needs to be provided in "by"`
+            }[OrderFields]
+        : 'Error: If you provide "skip", you also need to provide "orderBy"'
+      : ByValid extends True
+      ? {}
+      : {
+          [P in OrderFields]: P extends ByFields
+            ? never
+            : `Error: Field "${P}" in "orderBy" needs to be provided in "by"`
+        }[OrderFields]
+    >(args: SubsetIntersection<T, WebhookEventGroupByArgs, OrderByArg> & InputErrors): {} extends InputErrors ? GetWebhookEventGroupByPayload<T> : Prisma.PrismaPromise<InputErrors>
+  /**
+   * Fields of the WebhookEvent model
+   */
+  readonly fields: WebhookEventFieldRefs;
+  }
+
+  /**
+   * The delegate class that acts as a "Promise-like" for WebhookEvent.
+   * Why is this prefixed with `Prisma__`?
+   * Because we want to prevent naming conflicts as mentioned in
+   * https://github.com/prisma/prisma-client-js/issues/707
+   */
+  export interface Prisma__WebhookEventClient<T, Null = never, ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs, GlobalOmitOptions = {}> extends Prisma.PrismaPromise<T> {
+    readonly [Symbol.toStringTag]: "PrismaPromise"
+    user<T extends WebhookEvent$userArgs<ExtArgs> = {}>(args?: Subset<T, WebhookEvent$userArgs<ExtArgs>>): Prisma__UserClient<$Result.GetResult<Prisma.$UserPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | null, null, ExtArgs, GlobalOmitOptions>
+    /**
+     * Attaches callbacks for the resolution and/or rejection of the Promise.
+     * @param onfulfilled The callback to execute when the Promise is resolved.
+     * @param onrejected The callback to execute when the Promise is rejected.
+     * @returns A Promise for the completion of which ever callback is executed.
+     */
+    then<TResult1 = T, TResult2 = never>(onfulfilled?: ((value: T) => TResult1 | PromiseLike<TResult1>) | undefined | null, onrejected?: ((reason: any) => TResult2 | PromiseLike<TResult2>) | undefined | null): $Utils.JsPromise<TResult1 | TResult2>
+    /**
+     * Attaches a callback for only the rejection of the Promise.
+     * @param onrejected The callback to execute when the Promise is rejected.
+     * @returns A Promise for the completion of the callback.
+     */
+    catch<TResult = never>(onrejected?: ((reason: any) => TResult | PromiseLike<TResult>) | undefined | null): $Utils.JsPromise<T | TResult>
+    /**
+     * Attaches a callback that is invoked when the Promise is settled (fulfilled or rejected). The
+     * resolved value cannot be modified from the callback.
+     * @param onfinally The callback to execute when the Promise is settled (fulfilled or rejected).
+     * @returns A Promise for the completion of the callback.
+     */
+    finally(onfinally?: (() => void) | undefined | null): $Utils.JsPromise<T>
+  }
+
+
+
+
+  /**
+   * Fields of the WebhookEvent model
+   */
+  interface WebhookEventFieldRefs {
+    readonly id: FieldRef<"WebhookEvent", 'String'>
+    readonly stripeEventId: FieldRef<"WebhookEvent", 'String'>
+    readonly type: FieldRef<"WebhookEvent", 'String'>
+    readonly processed: FieldRef<"WebhookEvent", 'Boolean'>
+    readonly processedAt: FieldRef<"WebhookEvent", 'DateTime'>
+    readonly data: FieldRef<"WebhookEvent", 'Json'>
+    readonly apiVersion: FieldRef<"WebhookEvent", 'String'>
+    readonly createdAt: FieldRef<"WebhookEvent", 'DateTime'>
+    readonly userId: FieldRef<"WebhookEvent", 'String'>
+  }
+    
+
+  // Custom InputTypes
+  /**
+   * WebhookEvent findUnique
+   */
+  export type WebhookEventFindUniqueArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the WebhookEvent
+     */
+    select?: WebhookEventSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the WebhookEvent
+     */
+    omit?: WebhookEventOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: WebhookEventInclude<ExtArgs> | null
+    /**
+     * Filter, which WebhookEvent to fetch.
+     */
+    where: WebhookEventWhereUniqueInput
+  }
+
+  /**
+   * WebhookEvent findUniqueOrThrow
+   */
+  export type WebhookEventFindUniqueOrThrowArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the WebhookEvent
+     */
+    select?: WebhookEventSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the WebhookEvent
+     */
+    omit?: WebhookEventOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: WebhookEventInclude<ExtArgs> | null
+    /**
+     * Filter, which WebhookEvent to fetch.
+     */
+    where: WebhookEventWhereUniqueInput
+  }
+
+  /**
+   * WebhookEvent findFirst
+   */
+  export type WebhookEventFindFirstArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the WebhookEvent
+     */
+    select?: WebhookEventSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the WebhookEvent
+     */
+    omit?: WebhookEventOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: WebhookEventInclude<ExtArgs> | null
+    /**
+     * Filter, which WebhookEvent to fetch.
+     */
+    where?: WebhookEventWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of WebhookEvents to fetch.
+     */
+    orderBy?: WebhookEventOrderByWithRelationInput | WebhookEventOrderByWithRelationInput[]
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the position for searching for WebhookEvents.
+     */
+    cursor?: WebhookEventWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` WebhookEvents from the position of the cursor.
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` WebhookEvents.
+     */
+    skip?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/distinct Distinct Docs}
+     * 
+     * Filter by unique combinations of WebhookEvents.
+     */
+    distinct?: WebhookEventScalarFieldEnum | WebhookEventScalarFieldEnum[]
+  }
+
+  /**
+   * WebhookEvent findFirstOrThrow
+   */
+  export type WebhookEventFindFirstOrThrowArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the WebhookEvent
+     */
+    select?: WebhookEventSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the WebhookEvent
+     */
+    omit?: WebhookEventOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: WebhookEventInclude<ExtArgs> | null
+    /**
+     * Filter, which WebhookEvent to fetch.
+     */
+    where?: WebhookEventWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of WebhookEvents to fetch.
+     */
+    orderBy?: WebhookEventOrderByWithRelationInput | WebhookEventOrderByWithRelationInput[]
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the position for searching for WebhookEvents.
+     */
+    cursor?: WebhookEventWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` WebhookEvents from the position of the cursor.
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` WebhookEvents.
+     */
+    skip?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/distinct Distinct Docs}
+     * 
+     * Filter by unique combinations of WebhookEvents.
+     */
+    distinct?: WebhookEventScalarFieldEnum | WebhookEventScalarFieldEnum[]
+  }
+
+  /**
+   * WebhookEvent findMany
+   */
+  export type WebhookEventFindManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the WebhookEvent
+     */
+    select?: WebhookEventSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the WebhookEvent
+     */
+    omit?: WebhookEventOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: WebhookEventInclude<ExtArgs> | null
+    /**
+     * Filter, which WebhookEvents to fetch.
+     */
+    where?: WebhookEventWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of WebhookEvents to fetch.
+     */
+    orderBy?: WebhookEventOrderByWithRelationInput | WebhookEventOrderByWithRelationInput[]
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the position for listing WebhookEvents.
+     */
+    cursor?: WebhookEventWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` WebhookEvents from the position of the cursor.
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` WebhookEvents.
+     */
+    skip?: number
+    distinct?: WebhookEventScalarFieldEnum | WebhookEventScalarFieldEnum[]
+  }
+
+  /**
+   * WebhookEvent create
+   */
+  export type WebhookEventCreateArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the WebhookEvent
+     */
+    select?: WebhookEventSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the WebhookEvent
+     */
+    omit?: WebhookEventOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: WebhookEventInclude<ExtArgs> | null
+    /**
+     * The data needed to create a WebhookEvent.
+     */
+    data: XOR<WebhookEventCreateInput, WebhookEventUncheckedCreateInput>
+  }
+
+  /**
+   * WebhookEvent createMany
+   */
+  export type WebhookEventCreateManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * The data used to create many WebhookEvents.
+     */
+    data: WebhookEventCreateManyInput | WebhookEventCreateManyInput[]
+    skipDuplicates?: boolean
+  }
+
+  /**
+   * WebhookEvent createManyAndReturn
+   */
+  export type WebhookEventCreateManyAndReturnArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the WebhookEvent
+     */
+    select?: WebhookEventSelectCreateManyAndReturn<ExtArgs> | null
+    /**
+     * Omit specific fields from the WebhookEvent
+     */
+    omit?: WebhookEventOmit<ExtArgs> | null
+    /**
+     * The data used to create many WebhookEvents.
+     */
+    data: WebhookEventCreateManyInput | WebhookEventCreateManyInput[]
+    skipDuplicates?: boolean
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: WebhookEventIncludeCreateManyAndReturn<ExtArgs> | null
+  }
+
+  /**
+   * WebhookEvent update
+   */
+  export type WebhookEventUpdateArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the WebhookEvent
+     */
+    select?: WebhookEventSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the WebhookEvent
+     */
+    omit?: WebhookEventOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: WebhookEventInclude<ExtArgs> | null
+    /**
+     * The data needed to update a WebhookEvent.
+     */
+    data: XOR<WebhookEventUpdateInput, WebhookEventUncheckedUpdateInput>
+    /**
+     * Choose, which WebhookEvent to update.
+     */
+    where: WebhookEventWhereUniqueInput
+  }
+
+  /**
+   * WebhookEvent updateMany
+   */
+  export type WebhookEventUpdateManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * The data used to update WebhookEvents.
+     */
+    data: XOR<WebhookEventUpdateManyMutationInput, WebhookEventUncheckedUpdateManyInput>
+    /**
+     * Filter which WebhookEvents to update
+     */
+    where?: WebhookEventWhereInput
+    /**
+     * Limit how many WebhookEvents to update.
+     */
+    limit?: number
+  }
+
+  /**
+   * WebhookEvent updateManyAndReturn
+   */
+  export type WebhookEventUpdateManyAndReturnArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the WebhookEvent
+     */
+    select?: WebhookEventSelectUpdateManyAndReturn<ExtArgs> | null
+    /**
+     * Omit specific fields from the WebhookEvent
+     */
+    omit?: WebhookEventOmit<ExtArgs> | null
+    /**
+     * The data used to update WebhookEvents.
+     */
+    data: XOR<WebhookEventUpdateManyMutationInput, WebhookEventUncheckedUpdateManyInput>
+    /**
+     * Filter which WebhookEvents to update
+     */
+    where?: WebhookEventWhereInput
+    /**
+     * Limit how many WebhookEvents to update.
+     */
+    limit?: number
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: WebhookEventIncludeUpdateManyAndReturn<ExtArgs> | null
+  }
+
+  /**
+   * WebhookEvent upsert
+   */
+  export type WebhookEventUpsertArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the WebhookEvent
+     */
+    select?: WebhookEventSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the WebhookEvent
+     */
+    omit?: WebhookEventOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: WebhookEventInclude<ExtArgs> | null
+    /**
+     * The filter to search for the WebhookEvent to update in case it exists.
+     */
+    where: WebhookEventWhereUniqueInput
+    /**
+     * In case the WebhookEvent found by the `where` argument doesn't exist, create a new WebhookEvent with this data.
+     */
+    create: XOR<WebhookEventCreateInput, WebhookEventUncheckedCreateInput>
+    /**
+     * In case the WebhookEvent was found with the provided `where` argument, update it with this data.
+     */
+    update: XOR<WebhookEventUpdateInput, WebhookEventUncheckedUpdateInput>
+  }
+
+  /**
+   * WebhookEvent delete
+   */
+  export type WebhookEventDeleteArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the WebhookEvent
+     */
+    select?: WebhookEventSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the WebhookEvent
+     */
+    omit?: WebhookEventOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: WebhookEventInclude<ExtArgs> | null
+    /**
+     * Filter which WebhookEvent to delete.
+     */
+    where: WebhookEventWhereUniqueInput
+  }
+
+  /**
+   * WebhookEvent deleteMany
+   */
+  export type WebhookEventDeleteManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Filter which WebhookEvents to delete
+     */
+    where?: WebhookEventWhereInput
+    /**
+     * Limit how many WebhookEvents to delete.
+     */
+    limit?: number
+  }
+
+  /**
+   * WebhookEvent.user
+   */
+  export type WebhookEvent$userArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the User
+     */
+    select?: UserSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the User
+     */
+    omit?: UserOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: UserInclude<ExtArgs> | null
+    where?: UserWhereInput
+  }
+
+  /**
+   * WebhookEvent without action
+   */
+  export type WebhookEventDefaultArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the WebhookEvent
+     */
+    select?: WebhookEventSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the WebhookEvent
+     */
+    omit?: WebhookEventOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: WebhookEventInclude<ExtArgs> | null
+  }
+
+
+  /**
+   * Model SubscriptionPlan
+   */
+
+  export type AggregateSubscriptionPlan = {
+    _count: SubscriptionPlanCountAggregateOutputType | null
+    _avg: SubscriptionPlanAvgAggregateOutputType | null
+    _sum: SubscriptionPlanSumAggregateOutputType | null
+    _min: SubscriptionPlanMinAggregateOutputType | null
+    _max: SubscriptionPlanMaxAggregateOutputType | null
+  }
+
+  export type SubscriptionPlanAvgAggregateOutputType = {
+    price: Decimal | null
+    intervalCount: number | null
+    maxUsers: number | null
+  }
+
+  export type SubscriptionPlanSumAggregateOutputType = {
+    price: Decimal | null
+    intervalCount: number | null
+    maxUsers: number | null
+  }
+
+  export type SubscriptionPlanMinAggregateOutputType = {
+    id: string | null
+    name: string | null
+    description: string | null
+    price: Decimal | null
+    currency: string | null
+    interval: string | null
+    intervalCount: number | null
+    stripePriceId: string | null
+    stripeProductId: string | null
+    isActive: boolean | null
+    maxUsers: number | null
+    createdAt: Date | null
+    updatedAt: Date | null
+  }
+
+  export type SubscriptionPlanMaxAggregateOutputType = {
+    id: string | null
+    name: string | null
+    description: string | null
+    price: Decimal | null
+    currency: string | null
+    interval: string | null
+    intervalCount: number | null
+    stripePriceId: string | null
+    stripeProductId: string | null
+    isActive: boolean | null
+    maxUsers: number | null
+    createdAt: Date | null
+    updatedAt: Date | null
+  }
+
+  export type SubscriptionPlanCountAggregateOutputType = {
+    id: number
+    name: number
+    description: number
+    price: number
+    currency: number
+    interval: number
+    intervalCount: number
+    stripePriceId: number
+    stripeProductId: number
+    isActive: number
+    features: number
+    maxUsers: number
+    createdAt: number
+    updatedAt: number
+    _all: number
+  }
+
+
+  export type SubscriptionPlanAvgAggregateInputType = {
+    price?: true
+    intervalCount?: true
+    maxUsers?: true
+  }
+
+  export type SubscriptionPlanSumAggregateInputType = {
+    price?: true
+    intervalCount?: true
+    maxUsers?: true
+  }
+
+  export type SubscriptionPlanMinAggregateInputType = {
+    id?: true
+    name?: true
+    description?: true
+    price?: true
+    currency?: true
+    interval?: true
+    intervalCount?: true
+    stripePriceId?: true
+    stripeProductId?: true
+    isActive?: true
+    maxUsers?: true
+    createdAt?: true
+    updatedAt?: true
+  }
+
+  export type SubscriptionPlanMaxAggregateInputType = {
+    id?: true
+    name?: true
+    description?: true
+    price?: true
+    currency?: true
+    interval?: true
+    intervalCount?: true
+    stripePriceId?: true
+    stripeProductId?: true
+    isActive?: true
+    maxUsers?: true
+    createdAt?: true
+    updatedAt?: true
+  }
+
+  export type SubscriptionPlanCountAggregateInputType = {
+    id?: true
+    name?: true
+    description?: true
+    price?: true
+    currency?: true
+    interval?: true
+    intervalCount?: true
+    stripePriceId?: true
+    stripeProductId?: true
+    isActive?: true
+    features?: true
+    maxUsers?: true
+    createdAt?: true
+    updatedAt?: true
+    _all?: true
+  }
+
+  export type SubscriptionPlanAggregateArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Filter which SubscriptionPlan to aggregate.
+     */
+    where?: SubscriptionPlanWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of SubscriptionPlans to fetch.
+     */
+    orderBy?: SubscriptionPlanOrderByWithRelationInput | SubscriptionPlanOrderByWithRelationInput[]
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the start position
+     */
+    cursor?: SubscriptionPlanWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` SubscriptionPlans from the position of the cursor.
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` SubscriptionPlans.
+     */
+    skip?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Count returned SubscriptionPlans
+    **/
+    _count?: true | SubscriptionPlanCountAggregateInputType
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Select which fields to average
+    **/
+    _avg?: SubscriptionPlanAvgAggregateInputType
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Select which fields to sum
+    **/
+    _sum?: SubscriptionPlanSumAggregateInputType
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Select which fields to find the minimum value
+    **/
+    _min?: SubscriptionPlanMinAggregateInputType
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Select which fields to find the maximum value
+    **/
+    _max?: SubscriptionPlanMaxAggregateInputType
+  }
+
+  export type GetSubscriptionPlanAggregateType<T extends SubscriptionPlanAggregateArgs> = {
+        [P in keyof T & keyof AggregateSubscriptionPlan]: P extends '_count' | 'count'
+      ? T[P] extends true
+        ? number
+        : GetScalarType<T[P], AggregateSubscriptionPlan[P]>
+      : GetScalarType<T[P], AggregateSubscriptionPlan[P]>
+  }
+
+
+
+
+  export type SubscriptionPlanGroupByArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    where?: SubscriptionPlanWhereInput
+    orderBy?: SubscriptionPlanOrderByWithAggregationInput | SubscriptionPlanOrderByWithAggregationInput[]
+    by: SubscriptionPlanScalarFieldEnum[] | SubscriptionPlanScalarFieldEnum
+    having?: SubscriptionPlanScalarWhereWithAggregatesInput
+    take?: number
+    skip?: number
+    _count?: SubscriptionPlanCountAggregateInputType | true
+    _avg?: SubscriptionPlanAvgAggregateInputType
+    _sum?: SubscriptionPlanSumAggregateInputType
+    _min?: SubscriptionPlanMinAggregateInputType
+    _max?: SubscriptionPlanMaxAggregateInputType
+  }
+
+  export type SubscriptionPlanGroupByOutputType = {
+    id: string
+    name: string
+    description: string | null
+    price: Decimal
+    currency: string
+    interval: string
+    intervalCount: number
+    stripePriceId: string
+    stripeProductId: string
+    isActive: boolean
+    features: JsonValue
+    maxUsers: number | null
+    createdAt: Date
+    updatedAt: Date
+    _count: SubscriptionPlanCountAggregateOutputType | null
+    _avg: SubscriptionPlanAvgAggregateOutputType | null
+    _sum: SubscriptionPlanSumAggregateOutputType | null
+    _min: SubscriptionPlanMinAggregateOutputType | null
+    _max: SubscriptionPlanMaxAggregateOutputType | null
+  }
+
+  type GetSubscriptionPlanGroupByPayload<T extends SubscriptionPlanGroupByArgs> = Prisma.PrismaPromise<
+    Array<
+      PickEnumerable<SubscriptionPlanGroupByOutputType, T['by']> &
+        {
+          [P in ((keyof T) & (keyof SubscriptionPlanGroupByOutputType))]: P extends '_count'
+            ? T[P] extends boolean
+              ? number
+              : GetScalarType<T[P], SubscriptionPlanGroupByOutputType[P]>
+            : GetScalarType<T[P], SubscriptionPlanGroupByOutputType[P]>
+        }
+      >
+    >
+
+
+  export type SubscriptionPlanSelect<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
+    id?: boolean
+    name?: boolean
+    description?: boolean
+    price?: boolean
+    currency?: boolean
+    interval?: boolean
+    intervalCount?: boolean
+    stripePriceId?: boolean
+    stripeProductId?: boolean
+    isActive?: boolean
+    features?: boolean
+    maxUsers?: boolean
+    createdAt?: boolean
+    updatedAt?: boolean
+  }, ExtArgs["result"]["subscriptionPlan"]>
+
+  export type SubscriptionPlanSelectCreateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
+    id?: boolean
+    name?: boolean
+    description?: boolean
+    price?: boolean
+    currency?: boolean
+    interval?: boolean
+    intervalCount?: boolean
+    stripePriceId?: boolean
+    stripeProductId?: boolean
+    isActive?: boolean
+    features?: boolean
+    maxUsers?: boolean
+    createdAt?: boolean
+    updatedAt?: boolean
+  }, ExtArgs["result"]["subscriptionPlan"]>
+
+  export type SubscriptionPlanSelectUpdateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
+    id?: boolean
+    name?: boolean
+    description?: boolean
+    price?: boolean
+    currency?: boolean
+    interval?: boolean
+    intervalCount?: boolean
+    stripePriceId?: boolean
+    stripeProductId?: boolean
+    isActive?: boolean
+    features?: boolean
+    maxUsers?: boolean
+    createdAt?: boolean
+    updatedAt?: boolean
+  }, ExtArgs["result"]["subscriptionPlan"]>
+
+  export type SubscriptionPlanSelectScalar = {
+    id?: boolean
+    name?: boolean
+    description?: boolean
+    price?: boolean
+    currency?: boolean
+    interval?: boolean
+    intervalCount?: boolean
+    stripePriceId?: boolean
+    stripeProductId?: boolean
+    isActive?: boolean
+    features?: boolean
+    maxUsers?: boolean
+    createdAt?: boolean
+    updatedAt?: boolean
+  }
+
+  export type SubscriptionPlanOmit<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetOmit<"id" | "name" | "description" | "price" | "currency" | "interval" | "intervalCount" | "stripePriceId" | "stripeProductId" | "isActive" | "features" | "maxUsers" | "createdAt" | "updatedAt", ExtArgs["result"]["subscriptionPlan"]>
+
+  export type $SubscriptionPlanPayload<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    name: "SubscriptionPlan"
+    objects: {}
+    scalars: $Extensions.GetPayloadResult<{
+      id: string
+      name: string
+      description: string | null
+      price: Prisma.Decimal
+      currency: string
+      interval: string
+      intervalCount: number
+      stripePriceId: string
+      stripeProductId: string
+      isActive: boolean
+      features: Prisma.JsonValue
+      maxUsers: number | null
+      createdAt: Date
+      updatedAt: Date
+    }, ExtArgs["result"]["subscriptionPlan"]>
+    composites: {}
+  }
+
+  type SubscriptionPlanGetPayload<S extends boolean | null | undefined | SubscriptionPlanDefaultArgs> = $Result.GetResult<Prisma.$SubscriptionPlanPayload, S>
+
+  type SubscriptionPlanCountArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> =
+    Omit<SubscriptionPlanFindManyArgs, 'select' | 'include' | 'distinct' | 'omit'> & {
+      select?: SubscriptionPlanCountAggregateInputType | true
+    }
+
+  export interface SubscriptionPlanDelegate<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs, GlobalOmitOptions = {}> {
+    [K: symbol]: { types: Prisma.TypeMap<ExtArgs>['model']['SubscriptionPlan'], meta: { name: 'SubscriptionPlan' } }
+    /**
+     * Find zero or one SubscriptionPlan that matches the filter.
+     * @param {SubscriptionPlanFindUniqueArgs} args - Arguments to find a SubscriptionPlan
+     * @example
+     * // Get one SubscriptionPlan
+     * const subscriptionPlan = await prisma.subscriptionPlan.findUnique({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     */
+    findUnique<T extends SubscriptionPlanFindUniqueArgs>(args: SelectSubset<T, SubscriptionPlanFindUniqueArgs<ExtArgs>>): Prisma__SubscriptionPlanClient<$Result.GetResult<Prisma.$SubscriptionPlanPayload<ExtArgs>, T, "findUnique", GlobalOmitOptions> | null, null, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Find one SubscriptionPlan that matches the filter or throw an error with `error.code='P2025'`
+     * if no matches were found.
+     * @param {SubscriptionPlanFindUniqueOrThrowArgs} args - Arguments to find a SubscriptionPlan
+     * @example
+     * // Get one SubscriptionPlan
+     * const subscriptionPlan = await prisma.subscriptionPlan.findUniqueOrThrow({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     */
+    findUniqueOrThrow<T extends SubscriptionPlanFindUniqueOrThrowArgs>(args: SelectSubset<T, SubscriptionPlanFindUniqueOrThrowArgs<ExtArgs>>): Prisma__SubscriptionPlanClient<$Result.GetResult<Prisma.$SubscriptionPlanPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Find the first SubscriptionPlan that matches the filter.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {SubscriptionPlanFindFirstArgs} args - Arguments to find a SubscriptionPlan
+     * @example
+     * // Get one SubscriptionPlan
+     * const subscriptionPlan = await prisma.subscriptionPlan.findFirst({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     */
+    findFirst<T extends SubscriptionPlanFindFirstArgs>(args?: SelectSubset<T, SubscriptionPlanFindFirstArgs<ExtArgs>>): Prisma__SubscriptionPlanClient<$Result.GetResult<Prisma.$SubscriptionPlanPayload<ExtArgs>, T, "findFirst", GlobalOmitOptions> | null, null, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Find the first SubscriptionPlan that matches the filter or
+     * throw `PrismaKnownClientError` with `P2025` code if no matches were found.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {SubscriptionPlanFindFirstOrThrowArgs} args - Arguments to find a SubscriptionPlan
+     * @example
+     * // Get one SubscriptionPlan
+     * const subscriptionPlan = await prisma.subscriptionPlan.findFirstOrThrow({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     */
+    findFirstOrThrow<T extends SubscriptionPlanFindFirstOrThrowArgs>(args?: SelectSubset<T, SubscriptionPlanFindFirstOrThrowArgs<ExtArgs>>): Prisma__SubscriptionPlanClient<$Result.GetResult<Prisma.$SubscriptionPlanPayload<ExtArgs>, T, "findFirstOrThrow", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Find zero or more SubscriptionPlans that matches the filter.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {SubscriptionPlanFindManyArgs} args - Arguments to filter and select certain fields only.
+     * @example
+     * // Get all SubscriptionPlans
+     * const subscriptionPlans = await prisma.subscriptionPlan.findMany()
+     * 
+     * // Get first 10 SubscriptionPlans
+     * const subscriptionPlans = await prisma.subscriptionPlan.findMany({ take: 10 })
+     * 
+     * // Only select the `id`
+     * const subscriptionPlanWithIdOnly = await prisma.subscriptionPlan.findMany({ select: { id: true } })
+     * 
+     */
+    findMany<T extends SubscriptionPlanFindManyArgs>(args?: SelectSubset<T, SubscriptionPlanFindManyArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$SubscriptionPlanPayload<ExtArgs>, T, "findMany", GlobalOmitOptions>>
+
+    /**
+     * Create a SubscriptionPlan.
+     * @param {SubscriptionPlanCreateArgs} args - Arguments to create a SubscriptionPlan.
+     * @example
+     * // Create one SubscriptionPlan
+     * const SubscriptionPlan = await prisma.subscriptionPlan.create({
+     *   data: {
+     *     // ... data to create a SubscriptionPlan
+     *   }
+     * })
+     * 
+     */
+    create<T extends SubscriptionPlanCreateArgs>(args: SelectSubset<T, SubscriptionPlanCreateArgs<ExtArgs>>): Prisma__SubscriptionPlanClient<$Result.GetResult<Prisma.$SubscriptionPlanPayload<ExtArgs>, T, "create", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Create many SubscriptionPlans.
+     * @param {SubscriptionPlanCreateManyArgs} args - Arguments to create many SubscriptionPlans.
+     * @example
+     * // Create many SubscriptionPlans
+     * const subscriptionPlan = await prisma.subscriptionPlan.createMany({
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     *     
+     */
+    createMany<T extends SubscriptionPlanCreateManyArgs>(args?: SelectSubset<T, SubscriptionPlanCreateManyArgs<ExtArgs>>): Prisma.PrismaPromise<BatchPayload>
+
+    /**
+     * Create many SubscriptionPlans and returns the data saved in the database.
+     * @param {SubscriptionPlanCreateManyAndReturnArgs} args - Arguments to create many SubscriptionPlans.
+     * @example
+     * // Create many SubscriptionPlans
+     * const subscriptionPlan = await prisma.subscriptionPlan.createManyAndReturn({
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     * 
+     * // Create many SubscriptionPlans and only return the `id`
+     * const subscriptionPlanWithIdOnly = await prisma.subscriptionPlan.createManyAndReturn({
+     *   select: { id: true },
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * 
+     */
+    createManyAndReturn<T extends SubscriptionPlanCreateManyAndReturnArgs>(args?: SelectSubset<T, SubscriptionPlanCreateManyAndReturnArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$SubscriptionPlanPayload<ExtArgs>, T, "createManyAndReturn", GlobalOmitOptions>>
+
+    /**
+     * Delete a SubscriptionPlan.
+     * @param {SubscriptionPlanDeleteArgs} args - Arguments to delete one SubscriptionPlan.
+     * @example
+     * // Delete one SubscriptionPlan
+     * const SubscriptionPlan = await prisma.subscriptionPlan.delete({
+     *   where: {
+     *     // ... filter to delete one SubscriptionPlan
+     *   }
+     * })
+     * 
+     */
+    delete<T extends SubscriptionPlanDeleteArgs>(args: SelectSubset<T, SubscriptionPlanDeleteArgs<ExtArgs>>): Prisma__SubscriptionPlanClient<$Result.GetResult<Prisma.$SubscriptionPlanPayload<ExtArgs>, T, "delete", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Update one SubscriptionPlan.
+     * @param {SubscriptionPlanUpdateArgs} args - Arguments to update one SubscriptionPlan.
+     * @example
+     * // Update one SubscriptionPlan
+     * const subscriptionPlan = await prisma.subscriptionPlan.update({
+     *   where: {
+     *     // ... provide filter here
+     *   },
+     *   data: {
+     *     // ... provide data here
+     *   }
+     * })
+     * 
+     */
+    update<T extends SubscriptionPlanUpdateArgs>(args: SelectSubset<T, SubscriptionPlanUpdateArgs<ExtArgs>>): Prisma__SubscriptionPlanClient<$Result.GetResult<Prisma.$SubscriptionPlanPayload<ExtArgs>, T, "update", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Delete zero or more SubscriptionPlans.
+     * @param {SubscriptionPlanDeleteManyArgs} args - Arguments to filter SubscriptionPlans to delete.
+     * @example
+     * // Delete a few SubscriptionPlans
+     * const { count } = await prisma.subscriptionPlan.deleteMany({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     * 
+     */
+    deleteMany<T extends SubscriptionPlanDeleteManyArgs>(args?: SelectSubset<T, SubscriptionPlanDeleteManyArgs<ExtArgs>>): Prisma.PrismaPromise<BatchPayload>
+
+    /**
+     * Update zero or more SubscriptionPlans.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {SubscriptionPlanUpdateManyArgs} args - Arguments to update one or more rows.
+     * @example
+     * // Update many SubscriptionPlans
+     * const subscriptionPlan = await prisma.subscriptionPlan.updateMany({
+     *   where: {
+     *     // ... provide filter here
+     *   },
+     *   data: {
+     *     // ... provide data here
+     *   }
+     * })
+     * 
+     */
+    updateMany<T extends SubscriptionPlanUpdateManyArgs>(args: SelectSubset<T, SubscriptionPlanUpdateManyArgs<ExtArgs>>): Prisma.PrismaPromise<BatchPayload>
+
+    /**
+     * Update zero or more SubscriptionPlans and returns the data updated in the database.
+     * @param {SubscriptionPlanUpdateManyAndReturnArgs} args - Arguments to update many SubscriptionPlans.
+     * @example
+     * // Update many SubscriptionPlans
+     * const subscriptionPlan = await prisma.subscriptionPlan.updateManyAndReturn({
+     *   where: {
+     *     // ... provide filter here
+     *   },
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     * 
+     * // Update zero or more SubscriptionPlans and only return the `id`
+     * const subscriptionPlanWithIdOnly = await prisma.subscriptionPlan.updateManyAndReturn({
+     *   select: { id: true },
+     *   where: {
+     *     // ... provide filter here
+     *   },
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * 
+     */
+    updateManyAndReturn<T extends SubscriptionPlanUpdateManyAndReturnArgs>(args: SelectSubset<T, SubscriptionPlanUpdateManyAndReturnArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$SubscriptionPlanPayload<ExtArgs>, T, "updateManyAndReturn", GlobalOmitOptions>>
+
+    /**
+     * Create or update one SubscriptionPlan.
+     * @param {SubscriptionPlanUpsertArgs} args - Arguments to update or create a SubscriptionPlan.
+     * @example
+     * // Update or create a SubscriptionPlan
+     * const subscriptionPlan = await prisma.subscriptionPlan.upsert({
+     *   create: {
+     *     // ... data to create a SubscriptionPlan
+     *   },
+     *   update: {
+     *     // ... in case it already exists, update
+     *   },
+     *   where: {
+     *     // ... the filter for the SubscriptionPlan we want to update
+     *   }
+     * })
+     */
+    upsert<T extends SubscriptionPlanUpsertArgs>(args: SelectSubset<T, SubscriptionPlanUpsertArgs<ExtArgs>>): Prisma__SubscriptionPlanClient<$Result.GetResult<Prisma.$SubscriptionPlanPayload<ExtArgs>, T, "upsert", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+
+    /**
+     * Count the number of SubscriptionPlans.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {SubscriptionPlanCountArgs} args - Arguments to filter SubscriptionPlans to count.
+     * @example
+     * // Count the number of SubscriptionPlans
+     * const count = await prisma.subscriptionPlan.count({
+     *   where: {
+     *     // ... the filter for the SubscriptionPlans we want to count
+     *   }
+     * })
+    **/
+    count<T extends SubscriptionPlanCountArgs>(
+      args?: Subset<T, SubscriptionPlanCountArgs>,
+    ): Prisma.PrismaPromise<
+      T extends $Utils.Record<'select', any>
+        ? T['select'] extends true
+          ? number
+          : GetScalarType<T['select'], SubscriptionPlanCountAggregateOutputType>
+        : number
+    >
+
+    /**
+     * Allows you to perform aggregations operations on a SubscriptionPlan.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {SubscriptionPlanAggregateArgs} args - Select which aggregations you would like to apply and on what fields.
+     * @example
+     * // Ordered by age ascending
+     * // Where email contains prisma.io
+     * // Limited to the 10 users
+     * const aggregations = await prisma.user.aggregate({
+     *   _avg: {
+     *     age: true,
+     *   },
+     *   where: {
+     *     email: {
+     *       contains: "prisma.io",
+     *     },
+     *   },
+     *   orderBy: {
+     *     age: "asc",
+     *   },
+     *   take: 10,
+     * })
+    **/
+    aggregate<T extends SubscriptionPlanAggregateArgs>(args: Subset<T, SubscriptionPlanAggregateArgs>): Prisma.PrismaPromise<GetSubscriptionPlanAggregateType<T>>
+
+    /**
+     * Group by SubscriptionPlan.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {SubscriptionPlanGroupByArgs} args - Group by arguments.
+     * @example
+     * // Group by city, order by createdAt, get count
+     * const result = await prisma.user.groupBy({
+     *   by: ['city', 'createdAt'],
+     *   orderBy: {
+     *     createdAt: true
+     *   },
+     *   _count: {
+     *     _all: true
+     *   },
+     * })
+     * 
+    **/
+    groupBy<
+      T extends SubscriptionPlanGroupByArgs,
+      HasSelectOrTake extends Or<
+        Extends<'skip', Keys<T>>,
+        Extends<'take', Keys<T>>
+      >,
+      OrderByArg extends True extends HasSelectOrTake
+        ? { orderBy: SubscriptionPlanGroupByArgs['orderBy'] }
+        : { orderBy?: SubscriptionPlanGroupByArgs['orderBy'] },
+      OrderFields extends ExcludeUnderscoreKeys<Keys<MaybeTupleToUnion<T['orderBy']>>>,
+      ByFields extends MaybeTupleToUnion<T['by']>,
+      ByValid extends Has<ByFields, OrderFields>,
+      HavingFields extends GetHavingFields<T['having']>,
+      HavingValid extends Has<ByFields, HavingFields>,
+      ByEmpty extends T['by'] extends never[] ? True : False,
+      InputErrors extends ByEmpty extends True
+      ? `Error: "by" must not be empty.`
+      : HavingValid extends False
+      ? {
+          [P in HavingFields]: P extends ByFields
+            ? never
+            : P extends string
+            ? `Error: Field "${P}" used in "having" needs to be provided in "by".`
+            : [
+                Error,
+                'Field ',
+                P,
+                ` in "having" needs to be provided in "by"`,
+              ]
+        }[HavingFields]
+      : 'take' extends Keys<T>
+      ? 'orderBy' extends Keys<T>
+        ? ByValid extends True
+          ? {}
+          : {
+              [P in OrderFields]: P extends ByFields
+                ? never
+                : `Error: Field "${P}" in "orderBy" needs to be provided in "by"`
+            }[OrderFields]
+        : 'Error: If you provide "take", you also need to provide "orderBy"'
+      : 'skip' extends Keys<T>
+      ? 'orderBy' extends Keys<T>
+        ? ByValid extends True
+          ? {}
+          : {
+              [P in OrderFields]: P extends ByFields
+                ? never
+                : `Error: Field "${P}" in "orderBy" needs to be provided in "by"`
+            }[OrderFields]
+        : 'Error: If you provide "skip", you also need to provide "orderBy"'
+      : ByValid extends True
+      ? {}
+      : {
+          [P in OrderFields]: P extends ByFields
+            ? never
+            : `Error: Field "${P}" in "orderBy" needs to be provided in "by"`
+        }[OrderFields]
+    >(args: SubsetIntersection<T, SubscriptionPlanGroupByArgs, OrderByArg> & InputErrors): {} extends InputErrors ? GetSubscriptionPlanGroupByPayload<T> : Prisma.PrismaPromise<InputErrors>
+  /**
+   * Fields of the SubscriptionPlan model
+   */
+  readonly fields: SubscriptionPlanFieldRefs;
+  }
+
+  /**
+   * The delegate class that acts as a "Promise-like" for SubscriptionPlan.
+   * Why is this prefixed with `Prisma__`?
+   * Because we want to prevent naming conflicts as mentioned in
+   * https://github.com/prisma/prisma-client-js/issues/707
+   */
+  export interface Prisma__SubscriptionPlanClient<T, Null = never, ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs, GlobalOmitOptions = {}> extends Prisma.PrismaPromise<T> {
+    readonly [Symbol.toStringTag]: "PrismaPromise"
+    /**
+     * Attaches callbacks for the resolution and/or rejection of the Promise.
+     * @param onfulfilled The callback to execute when the Promise is resolved.
+     * @param onrejected The callback to execute when the Promise is rejected.
+     * @returns A Promise for the completion of which ever callback is executed.
+     */
+    then<TResult1 = T, TResult2 = never>(onfulfilled?: ((value: T) => TResult1 | PromiseLike<TResult1>) | undefined | null, onrejected?: ((reason: any) => TResult2 | PromiseLike<TResult2>) | undefined | null): $Utils.JsPromise<TResult1 | TResult2>
+    /**
+     * Attaches a callback for only the rejection of the Promise.
+     * @param onrejected The callback to execute when the Promise is rejected.
+     * @returns A Promise for the completion of the callback.
+     */
+    catch<TResult = never>(onrejected?: ((reason: any) => TResult | PromiseLike<TResult>) | undefined | null): $Utils.JsPromise<T | TResult>
+    /**
+     * Attaches a callback that is invoked when the Promise is settled (fulfilled or rejected). The
+     * resolved value cannot be modified from the callback.
+     * @param onfinally The callback to execute when the Promise is settled (fulfilled or rejected).
+     * @returns A Promise for the completion of the callback.
+     */
+    finally(onfinally?: (() => void) | undefined | null): $Utils.JsPromise<T>
+  }
+
+
+
+
+  /**
+   * Fields of the SubscriptionPlan model
+   */
+  interface SubscriptionPlanFieldRefs {
+    readonly id: FieldRef<"SubscriptionPlan", 'String'>
+    readonly name: FieldRef<"SubscriptionPlan", 'String'>
+    readonly description: FieldRef<"SubscriptionPlan", 'String'>
+    readonly price: FieldRef<"SubscriptionPlan", 'Decimal'>
+    readonly currency: FieldRef<"SubscriptionPlan", 'String'>
+    readonly interval: FieldRef<"SubscriptionPlan", 'String'>
+    readonly intervalCount: FieldRef<"SubscriptionPlan", 'Int'>
+    readonly stripePriceId: FieldRef<"SubscriptionPlan", 'String'>
+    readonly stripeProductId: FieldRef<"SubscriptionPlan", 'String'>
+    readonly isActive: FieldRef<"SubscriptionPlan", 'Boolean'>
+    readonly features: FieldRef<"SubscriptionPlan", 'Json'>
+    readonly maxUsers: FieldRef<"SubscriptionPlan", 'Int'>
+    readonly createdAt: FieldRef<"SubscriptionPlan", 'DateTime'>
+    readonly updatedAt: FieldRef<"SubscriptionPlan", 'DateTime'>
+  }
+    
+
+  // Custom InputTypes
+  /**
+   * SubscriptionPlan findUnique
+   */
+  export type SubscriptionPlanFindUniqueArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the SubscriptionPlan
+     */
+    select?: SubscriptionPlanSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the SubscriptionPlan
+     */
+    omit?: SubscriptionPlanOmit<ExtArgs> | null
+    /**
+     * Filter, which SubscriptionPlan to fetch.
+     */
+    where: SubscriptionPlanWhereUniqueInput
+  }
+
+  /**
+   * SubscriptionPlan findUniqueOrThrow
+   */
+  export type SubscriptionPlanFindUniqueOrThrowArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the SubscriptionPlan
+     */
+    select?: SubscriptionPlanSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the SubscriptionPlan
+     */
+    omit?: SubscriptionPlanOmit<ExtArgs> | null
+    /**
+     * Filter, which SubscriptionPlan to fetch.
+     */
+    where: SubscriptionPlanWhereUniqueInput
+  }
+
+  /**
+   * SubscriptionPlan findFirst
+   */
+  export type SubscriptionPlanFindFirstArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the SubscriptionPlan
+     */
+    select?: SubscriptionPlanSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the SubscriptionPlan
+     */
+    omit?: SubscriptionPlanOmit<ExtArgs> | null
+    /**
+     * Filter, which SubscriptionPlan to fetch.
+     */
+    where?: SubscriptionPlanWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of SubscriptionPlans to fetch.
+     */
+    orderBy?: SubscriptionPlanOrderByWithRelationInput | SubscriptionPlanOrderByWithRelationInput[]
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the position for searching for SubscriptionPlans.
+     */
+    cursor?: SubscriptionPlanWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` SubscriptionPlans from the position of the cursor.
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` SubscriptionPlans.
+     */
+    skip?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/distinct Distinct Docs}
+     * 
+     * Filter by unique combinations of SubscriptionPlans.
+     */
+    distinct?: SubscriptionPlanScalarFieldEnum | SubscriptionPlanScalarFieldEnum[]
+  }
+
+  /**
+   * SubscriptionPlan findFirstOrThrow
+   */
+  export type SubscriptionPlanFindFirstOrThrowArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the SubscriptionPlan
+     */
+    select?: SubscriptionPlanSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the SubscriptionPlan
+     */
+    omit?: SubscriptionPlanOmit<ExtArgs> | null
+    /**
+     * Filter, which SubscriptionPlan to fetch.
+     */
+    where?: SubscriptionPlanWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of SubscriptionPlans to fetch.
+     */
+    orderBy?: SubscriptionPlanOrderByWithRelationInput | SubscriptionPlanOrderByWithRelationInput[]
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the position for searching for SubscriptionPlans.
+     */
+    cursor?: SubscriptionPlanWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` SubscriptionPlans from the position of the cursor.
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` SubscriptionPlans.
+     */
+    skip?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/distinct Distinct Docs}
+     * 
+     * Filter by unique combinations of SubscriptionPlans.
+     */
+    distinct?: SubscriptionPlanScalarFieldEnum | SubscriptionPlanScalarFieldEnum[]
+  }
+
+  /**
+   * SubscriptionPlan findMany
+   */
+  export type SubscriptionPlanFindManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the SubscriptionPlan
+     */
+    select?: SubscriptionPlanSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the SubscriptionPlan
+     */
+    omit?: SubscriptionPlanOmit<ExtArgs> | null
+    /**
+     * Filter, which SubscriptionPlans to fetch.
+     */
+    where?: SubscriptionPlanWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of SubscriptionPlans to fetch.
+     */
+    orderBy?: SubscriptionPlanOrderByWithRelationInput | SubscriptionPlanOrderByWithRelationInput[]
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the position for listing SubscriptionPlans.
+     */
+    cursor?: SubscriptionPlanWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` SubscriptionPlans from the position of the cursor.
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` SubscriptionPlans.
+     */
+    skip?: number
+    distinct?: SubscriptionPlanScalarFieldEnum | SubscriptionPlanScalarFieldEnum[]
+  }
+
+  /**
+   * SubscriptionPlan create
+   */
+  export type SubscriptionPlanCreateArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the SubscriptionPlan
+     */
+    select?: SubscriptionPlanSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the SubscriptionPlan
+     */
+    omit?: SubscriptionPlanOmit<ExtArgs> | null
+    /**
+     * The data needed to create a SubscriptionPlan.
+     */
+    data: XOR<SubscriptionPlanCreateInput, SubscriptionPlanUncheckedCreateInput>
+  }
+
+  /**
+   * SubscriptionPlan createMany
+   */
+  export type SubscriptionPlanCreateManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * The data used to create many SubscriptionPlans.
+     */
+    data: SubscriptionPlanCreateManyInput | SubscriptionPlanCreateManyInput[]
+    skipDuplicates?: boolean
+  }
+
+  /**
+   * SubscriptionPlan createManyAndReturn
+   */
+  export type SubscriptionPlanCreateManyAndReturnArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the SubscriptionPlan
+     */
+    select?: SubscriptionPlanSelectCreateManyAndReturn<ExtArgs> | null
+    /**
+     * Omit specific fields from the SubscriptionPlan
+     */
+    omit?: SubscriptionPlanOmit<ExtArgs> | null
+    /**
+     * The data used to create many SubscriptionPlans.
+     */
+    data: SubscriptionPlanCreateManyInput | SubscriptionPlanCreateManyInput[]
+    skipDuplicates?: boolean
+  }
+
+  /**
+   * SubscriptionPlan update
+   */
+  export type SubscriptionPlanUpdateArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the SubscriptionPlan
+     */
+    select?: SubscriptionPlanSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the SubscriptionPlan
+     */
+    omit?: SubscriptionPlanOmit<ExtArgs> | null
+    /**
+     * The data needed to update a SubscriptionPlan.
+     */
+    data: XOR<SubscriptionPlanUpdateInput, SubscriptionPlanUncheckedUpdateInput>
+    /**
+     * Choose, which SubscriptionPlan to update.
+     */
+    where: SubscriptionPlanWhereUniqueInput
+  }
+
+  /**
+   * SubscriptionPlan updateMany
+   */
+  export type SubscriptionPlanUpdateManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * The data used to update SubscriptionPlans.
+     */
+    data: XOR<SubscriptionPlanUpdateManyMutationInput, SubscriptionPlanUncheckedUpdateManyInput>
+    /**
+     * Filter which SubscriptionPlans to update
+     */
+    where?: SubscriptionPlanWhereInput
+    /**
+     * Limit how many SubscriptionPlans to update.
+     */
+    limit?: number
+  }
+
+  /**
+   * SubscriptionPlan updateManyAndReturn
+   */
+  export type SubscriptionPlanUpdateManyAndReturnArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the SubscriptionPlan
+     */
+    select?: SubscriptionPlanSelectUpdateManyAndReturn<ExtArgs> | null
+    /**
+     * Omit specific fields from the SubscriptionPlan
+     */
+    omit?: SubscriptionPlanOmit<ExtArgs> | null
+    /**
+     * The data used to update SubscriptionPlans.
+     */
+    data: XOR<SubscriptionPlanUpdateManyMutationInput, SubscriptionPlanUncheckedUpdateManyInput>
+    /**
+     * Filter which SubscriptionPlans to update
+     */
+    where?: SubscriptionPlanWhereInput
+    /**
+     * Limit how many SubscriptionPlans to update.
+     */
+    limit?: number
+  }
+
+  /**
+   * SubscriptionPlan upsert
+   */
+  export type SubscriptionPlanUpsertArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the SubscriptionPlan
+     */
+    select?: SubscriptionPlanSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the SubscriptionPlan
+     */
+    omit?: SubscriptionPlanOmit<ExtArgs> | null
+    /**
+     * The filter to search for the SubscriptionPlan to update in case it exists.
+     */
+    where: SubscriptionPlanWhereUniqueInput
+    /**
+     * In case the SubscriptionPlan found by the `where` argument doesn't exist, create a new SubscriptionPlan with this data.
+     */
+    create: XOR<SubscriptionPlanCreateInput, SubscriptionPlanUncheckedCreateInput>
+    /**
+     * In case the SubscriptionPlan was found with the provided `where` argument, update it with this data.
+     */
+    update: XOR<SubscriptionPlanUpdateInput, SubscriptionPlanUncheckedUpdateInput>
+  }
+
+  /**
+   * SubscriptionPlan delete
+   */
+  export type SubscriptionPlanDeleteArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the SubscriptionPlan
+     */
+    select?: SubscriptionPlanSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the SubscriptionPlan
+     */
+    omit?: SubscriptionPlanOmit<ExtArgs> | null
+    /**
+     * Filter which SubscriptionPlan to delete.
+     */
+    where: SubscriptionPlanWhereUniqueInput
+  }
+
+  /**
+   * SubscriptionPlan deleteMany
+   */
+  export type SubscriptionPlanDeleteManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Filter which SubscriptionPlans to delete
+     */
+    where?: SubscriptionPlanWhereInput
+    /**
+     * Limit how many SubscriptionPlans to delete.
+     */
+    limit?: number
+  }
+
+  /**
+   * SubscriptionPlan without action
+   */
+  export type SubscriptionPlanDefaultArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the SubscriptionPlan
+     */
+    select?: SubscriptionPlanSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the SubscriptionPlan
+     */
+    omit?: SubscriptionPlanOmit<ExtArgs> | null
+  }
+
+
+  /**
+   * Model EmailNotification
+   */
+
+  export type AggregateEmailNotification = {
+    _count: EmailNotificationCountAggregateOutputType | null
+    _avg: EmailNotificationAvgAggregateOutputType | null
+    _sum: EmailNotificationSumAggregateOutputType | null
+    _min: EmailNotificationMinAggregateOutputType | null
+    _max: EmailNotificationMaxAggregateOutputType | null
+  }
+
+  export type EmailNotificationAvgAggregateOutputType = {
+    retryCount: number | null
+  }
+
+  export type EmailNotificationSumAggregateOutputType = {
+    retryCount: number | null
+  }
+
+  export type EmailNotificationMinAggregateOutputType = {
+    id: string | null
+    type: $Enums.EmailNotificationType | null
+    recipient: string | null
+    subject: string | null
+    content: string | null
+    status: $Enums.EmailStatus | null
+    sentAt: Date | null
+    failedAt: Date | null
+    retryCount: number | null
+    template: string | null
+    scheduledFor: Date | null
+    createdAt: Date | null
+    updatedAt: Date | null
+  }
+
+  export type EmailNotificationMaxAggregateOutputType = {
+    id: string | null
+    type: $Enums.EmailNotificationType | null
+    recipient: string | null
+    subject: string | null
+    content: string | null
+    status: $Enums.EmailStatus | null
+    sentAt: Date | null
+    failedAt: Date | null
+    retryCount: number | null
+    template: string | null
+    scheduledFor: Date | null
+    createdAt: Date | null
+    updatedAt: Date | null
+  }
+
+  export type EmailNotificationCountAggregateOutputType = {
+    id: number
+    type: number
+    recipient: number
+    subject: number
+    content: number
+    status: number
+    sentAt: number
+    failedAt: number
+    retryCount: number
+    template: number
+    variables: number
+    scheduledFor: number
+    createdAt: number
+    updatedAt: number
+    _all: number
+  }
+
+
+  export type EmailNotificationAvgAggregateInputType = {
+    retryCount?: true
+  }
+
+  export type EmailNotificationSumAggregateInputType = {
+    retryCount?: true
+  }
+
+  export type EmailNotificationMinAggregateInputType = {
+    id?: true
+    type?: true
+    recipient?: true
+    subject?: true
+    content?: true
+    status?: true
+    sentAt?: true
+    failedAt?: true
+    retryCount?: true
+    template?: true
+    scheduledFor?: true
+    createdAt?: true
+    updatedAt?: true
+  }
+
+  export type EmailNotificationMaxAggregateInputType = {
+    id?: true
+    type?: true
+    recipient?: true
+    subject?: true
+    content?: true
+    status?: true
+    sentAt?: true
+    failedAt?: true
+    retryCount?: true
+    template?: true
+    scheduledFor?: true
+    createdAt?: true
+    updatedAt?: true
+  }
+
+  export type EmailNotificationCountAggregateInputType = {
+    id?: true
+    type?: true
+    recipient?: true
+    subject?: true
+    content?: true
+    status?: true
+    sentAt?: true
+    failedAt?: true
+    retryCount?: true
+    template?: true
+    variables?: true
+    scheduledFor?: true
+    createdAt?: true
+    updatedAt?: true
+    _all?: true
+  }
+
+  export type EmailNotificationAggregateArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Filter which EmailNotification to aggregate.
+     */
+    where?: EmailNotificationWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of EmailNotifications to fetch.
+     */
+    orderBy?: EmailNotificationOrderByWithRelationInput | EmailNotificationOrderByWithRelationInput[]
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the start position
+     */
+    cursor?: EmailNotificationWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` EmailNotifications from the position of the cursor.
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` EmailNotifications.
+     */
+    skip?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Count returned EmailNotifications
+    **/
+    _count?: true | EmailNotificationCountAggregateInputType
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Select which fields to average
+    **/
+    _avg?: EmailNotificationAvgAggregateInputType
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Select which fields to sum
+    **/
+    _sum?: EmailNotificationSumAggregateInputType
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Select which fields to find the minimum value
+    **/
+    _min?: EmailNotificationMinAggregateInputType
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Select which fields to find the maximum value
+    **/
+    _max?: EmailNotificationMaxAggregateInputType
+  }
+
+  export type GetEmailNotificationAggregateType<T extends EmailNotificationAggregateArgs> = {
+        [P in keyof T & keyof AggregateEmailNotification]: P extends '_count' | 'count'
+      ? T[P] extends true
+        ? number
+        : GetScalarType<T[P], AggregateEmailNotification[P]>
+      : GetScalarType<T[P], AggregateEmailNotification[P]>
+  }
+
+
+
+
+  export type EmailNotificationGroupByArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    where?: EmailNotificationWhereInput
+    orderBy?: EmailNotificationOrderByWithAggregationInput | EmailNotificationOrderByWithAggregationInput[]
+    by: EmailNotificationScalarFieldEnum[] | EmailNotificationScalarFieldEnum
+    having?: EmailNotificationScalarWhereWithAggregatesInput
+    take?: number
+    skip?: number
+    _count?: EmailNotificationCountAggregateInputType | true
+    _avg?: EmailNotificationAvgAggregateInputType
+    _sum?: EmailNotificationSumAggregateInputType
+    _min?: EmailNotificationMinAggregateInputType
+    _max?: EmailNotificationMaxAggregateInputType
+  }
+
+  export type EmailNotificationGroupByOutputType = {
+    id: string
+    type: $Enums.EmailNotificationType
+    recipient: string
+    subject: string
+    content: string
+    status: $Enums.EmailStatus
+    sentAt: Date | null
+    failedAt: Date | null
+    retryCount: number
+    template: string | null
+    variables: JsonValue | null
+    scheduledFor: Date | null
+    createdAt: Date
+    updatedAt: Date
+    _count: EmailNotificationCountAggregateOutputType | null
+    _avg: EmailNotificationAvgAggregateOutputType | null
+    _sum: EmailNotificationSumAggregateOutputType | null
+    _min: EmailNotificationMinAggregateOutputType | null
+    _max: EmailNotificationMaxAggregateOutputType | null
+  }
+
+  type GetEmailNotificationGroupByPayload<T extends EmailNotificationGroupByArgs> = Prisma.PrismaPromise<
+    Array<
+      PickEnumerable<EmailNotificationGroupByOutputType, T['by']> &
+        {
+          [P in ((keyof T) & (keyof EmailNotificationGroupByOutputType))]: P extends '_count'
+            ? T[P] extends boolean
+              ? number
+              : GetScalarType<T[P], EmailNotificationGroupByOutputType[P]>
+            : GetScalarType<T[P], EmailNotificationGroupByOutputType[P]>
+        }
+      >
+    >
+
+
+  export type EmailNotificationSelect<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
+    id?: boolean
+    type?: boolean
+    recipient?: boolean
+    subject?: boolean
+    content?: boolean
+    status?: boolean
+    sentAt?: boolean
+    failedAt?: boolean
+    retryCount?: boolean
+    template?: boolean
+    variables?: boolean
+    scheduledFor?: boolean
+    createdAt?: boolean
+    updatedAt?: boolean
+  }, ExtArgs["result"]["emailNotification"]>
+
+  export type EmailNotificationSelectCreateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
+    id?: boolean
+    type?: boolean
+    recipient?: boolean
+    subject?: boolean
+    content?: boolean
+    status?: boolean
+    sentAt?: boolean
+    failedAt?: boolean
+    retryCount?: boolean
+    template?: boolean
+    variables?: boolean
+    scheduledFor?: boolean
+    createdAt?: boolean
+    updatedAt?: boolean
+  }, ExtArgs["result"]["emailNotification"]>
+
+  export type EmailNotificationSelectUpdateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
+    id?: boolean
+    type?: boolean
+    recipient?: boolean
+    subject?: boolean
+    content?: boolean
+    status?: boolean
+    sentAt?: boolean
+    failedAt?: boolean
+    retryCount?: boolean
+    template?: boolean
+    variables?: boolean
+    scheduledFor?: boolean
+    createdAt?: boolean
+    updatedAt?: boolean
+  }, ExtArgs["result"]["emailNotification"]>
+
+  export type EmailNotificationSelectScalar = {
+    id?: boolean
+    type?: boolean
+    recipient?: boolean
+    subject?: boolean
+    content?: boolean
+    status?: boolean
+    sentAt?: boolean
+    failedAt?: boolean
+    retryCount?: boolean
+    template?: boolean
+    variables?: boolean
+    scheduledFor?: boolean
+    createdAt?: boolean
+    updatedAt?: boolean
+  }
+
+  export type EmailNotificationOmit<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetOmit<"id" | "type" | "recipient" | "subject" | "content" | "status" | "sentAt" | "failedAt" | "retryCount" | "template" | "variables" | "scheduledFor" | "createdAt" | "updatedAt", ExtArgs["result"]["emailNotification"]>
+
+  export type $EmailNotificationPayload<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    name: "EmailNotification"
+    objects: {}
+    scalars: $Extensions.GetPayloadResult<{
+      id: string
+      type: $Enums.EmailNotificationType
+      recipient: string
+      subject: string
+      content: string
+      status: $Enums.EmailStatus
+      sentAt: Date | null
+      failedAt: Date | null
+      retryCount: number
+      template: string | null
+      variables: Prisma.JsonValue | null
+      scheduledFor: Date | null
+      createdAt: Date
+      updatedAt: Date
+    }, ExtArgs["result"]["emailNotification"]>
+    composites: {}
+  }
+
+  type EmailNotificationGetPayload<S extends boolean | null | undefined | EmailNotificationDefaultArgs> = $Result.GetResult<Prisma.$EmailNotificationPayload, S>
+
+  type EmailNotificationCountArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> =
+    Omit<EmailNotificationFindManyArgs, 'select' | 'include' | 'distinct' | 'omit'> & {
+      select?: EmailNotificationCountAggregateInputType | true
+    }
+
+  export interface EmailNotificationDelegate<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs, GlobalOmitOptions = {}> {
+    [K: symbol]: { types: Prisma.TypeMap<ExtArgs>['model']['EmailNotification'], meta: { name: 'EmailNotification' } }
+    /**
+     * Find zero or one EmailNotification that matches the filter.
+     * @param {EmailNotificationFindUniqueArgs} args - Arguments to find a EmailNotification
+     * @example
+     * // Get one EmailNotification
+     * const emailNotification = await prisma.emailNotification.findUnique({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     */
+    findUnique<T extends EmailNotificationFindUniqueArgs>(args: SelectSubset<T, EmailNotificationFindUniqueArgs<ExtArgs>>): Prisma__EmailNotificationClient<$Result.GetResult<Prisma.$EmailNotificationPayload<ExtArgs>, T, "findUnique", GlobalOmitOptions> | null, null, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Find one EmailNotification that matches the filter or throw an error with `error.code='P2025'`
+     * if no matches were found.
+     * @param {EmailNotificationFindUniqueOrThrowArgs} args - Arguments to find a EmailNotification
+     * @example
+     * // Get one EmailNotification
+     * const emailNotification = await prisma.emailNotification.findUniqueOrThrow({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     */
+    findUniqueOrThrow<T extends EmailNotificationFindUniqueOrThrowArgs>(args: SelectSubset<T, EmailNotificationFindUniqueOrThrowArgs<ExtArgs>>): Prisma__EmailNotificationClient<$Result.GetResult<Prisma.$EmailNotificationPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Find the first EmailNotification that matches the filter.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {EmailNotificationFindFirstArgs} args - Arguments to find a EmailNotification
+     * @example
+     * // Get one EmailNotification
+     * const emailNotification = await prisma.emailNotification.findFirst({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     */
+    findFirst<T extends EmailNotificationFindFirstArgs>(args?: SelectSubset<T, EmailNotificationFindFirstArgs<ExtArgs>>): Prisma__EmailNotificationClient<$Result.GetResult<Prisma.$EmailNotificationPayload<ExtArgs>, T, "findFirst", GlobalOmitOptions> | null, null, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Find the first EmailNotification that matches the filter or
+     * throw `PrismaKnownClientError` with `P2025` code if no matches were found.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {EmailNotificationFindFirstOrThrowArgs} args - Arguments to find a EmailNotification
+     * @example
+     * // Get one EmailNotification
+     * const emailNotification = await prisma.emailNotification.findFirstOrThrow({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     */
+    findFirstOrThrow<T extends EmailNotificationFindFirstOrThrowArgs>(args?: SelectSubset<T, EmailNotificationFindFirstOrThrowArgs<ExtArgs>>): Prisma__EmailNotificationClient<$Result.GetResult<Prisma.$EmailNotificationPayload<ExtArgs>, T, "findFirstOrThrow", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Find zero or more EmailNotifications that matches the filter.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {EmailNotificationFindManyArgs} args - Arguments to filter and select certain fields only.
+     * @example
+     * // Get all EmailNotifications
+     * const emailNotifications = await prisma.emailNotification.findMany()
+     * 
+     * // Get first 10 EmailNotifications
+     * const emailNotifications = await prisma.emailNotification.findMany({ take: 10 })
+     * 
+     * // Only select the `id`
+     * const emailNotificationWithIdOnly = await prisma.emailNotification.findMany({ select: { id: true } })
+     * 
+     */
+    findMany<T extends EmailNotificationFindManyArgs>(args?: SelectSubset<T, EmailNotificationFindManyArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$EmailNotificationPayload<ExtArgs>, T, "findMany", GlobalOmitOptions>>
+
+    /**
+     * Create a EmailNotification.
+     * @param {EmailNotificationCreateArgs} args - Arguments to create a EmailNotification.
+     * @example
+     * // Create one EmailNotification
+     * const EmailNotification = await prisma.emailNotification.create({
+     *   data: {
+     *     // ... data to create a EmailNotification
+     *   }
+     * })
+     * 
+     */
+    create<T extends EmailNotificationCreateArgs>(args: SelectSubset<T, EmailNotificationCreateArgs<ExtArgs>>): Prisma__EmailNotificationClient<$Result.GetResult<Prisma.$EmailNotificationPayload<ExtArgs>, T, "create", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Create many EmailNotifications.
+     * @param {EmailNotificationCreateManyArgs} args - Arguments to create many EmailNotifications.
+     * @example
+     * // Create many EmailNotifications
+     * const emailNotification = await prisma.emailNotification.createMany({
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     *     
+     */
+    createMany<T extends EmailNotificationCreateManyArgs>(args?: SelectSubset<T, EmailNotificationCreateManyArgs<ExtArgs>>): Prisma.PrismaPromise<BatchPayload>
+
+    /**
+     * Create many EmailNotifications and returns the data saved in the database.
+     * @param {EmailNotificationCreateManyAndReturnArgs} args - Arguments to create many EmailNotifications.
+     * @example
+     * // Create many EmailNotifications
+     * const emailNotification = await prisma.emailNotification.createManyAndReturn({
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     * 
+     * // Create many EmailNotifications and only return the `id`
+     * const emailNotificationWithIdOnly = await prisma.emailNotification.createManyAndReturn({
+     *   select: { id: true },
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * 
+     */
+    createManyAndReturn<T extends EmailNotificationCreateManyAndReturnArgs>(args?: SelectSubset<T, EmailNotificationCreateManyAndReturnArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$EmailNotificationPayload<ExtArgs>, T, "createManyAndReturn", GlobalOmitOptions>>
+
+    /**
+     * Delete a EmailNotification.
+     * @param {EmailNotificationDeleteArgs} args - Arguments to delete one EmailNotification.
+     * @example
+     * // Delete one EmailNotification
+     * const EmailNotification = await prisma.emailNotification.delete({
+     *   where: {
+     *     // ... filter to delete one EmailNotification
+     *   }
+     * })
+     * 
+     */
+    delete<T extends EmailNotificationDeleteArgs>(args: SelectSubset<T, EmailNotificationDeleteArgs<ExtArgs>>): Prisma__EmailNotificationClient<$Result.GetResult<Prisma.$EmailNotificationPayload<ExtArgs>, T, "delete", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Update one EmailNotification.
+     * @param {EmailNotificationUpdateArgs} args - Arguments to update one EmailNotification.
+     * @example
+     * // Update one EmailNotification
+     * const emailNotification = await prisma.emailNotification.update({
+     *   where: {
+     *     // ... provide filter here
+     *   },
+     *   data: {
+     *     // ... provide data here
+     *   }
+     * })
+     * 
+     */
+    update<T extends EmailNotificationUpdateArgs>(args: SelectSubset<T, EmailNotificationUpdateArgs<ExtArgs>>): Prisma__EmailNotificationClient<$Result.GetResult<Prisma.$EmailNotificationPayload<ExtArgs>, T, "update", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Delete zero or more EmailNotifications.
+     * @param {EmailNotificationDeleteManyArgs} args - Arguments to filter EmailNotifications to delete.
+     * @example
+     * // Delete a few EmailNotifications
+     * const { count } = await prisma.emailNotification.deleteMany({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     * 
+     */
+    deleteMany<T extends EmailNotificationDeleteManyArgs>(args?: SelectSubset<T, EmailNotificationDeleteManyArgs<ExtArgs>>): Prisma.PrismaPromise<BatchPayload>
+
+    /**
+     * Update zero or more EmailNotifications.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {EmailNotificationUpdateManyArgs} args - Arguments to update one or more rows.
+     * @example
+     * // Update many EmailNotifications
+     * const emailNotification = await prisma.emailNotification.updateMany({
+     *   where: {
+     *     // ... provide filter here
+     *   },
+     *   data: {
+     *     // ... provide data here
+     *   }
+     * })
+     * 
+     */
+    updateMany<T extends EmailNotificationUpdateManyArgs>(args: SelectSubset<T, EmailNotificationUpdateManyArgs<ExtArgs>>): Prisma.PrismaPromise<BatchPayload>
+
+    /**
+     * Update zero or more EmailNotifications and returns the data updated in the database.
+     * @param {EmailNotificationUpdateManyAndReturnArgs} args - Arguments to update many EmailNotifications.
+     * @example
+     * // Update many EmailNotifications
+     * const emailNotification = await prisma.emailNotification.updateManyAndReturn({
+     *   where: {
+     *     // ... provide filter here
+     *   },
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     * 
+     * // Update zero or more EmailNotifications and only return the `id`
+     * const emailNotificationWithIdOnly = await prisma.emailNotification.updateManyAndReturn({
+     *   select: { id: true },
+     *   where: {
+     *     // ... provide filter here
+     *   },
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * 
+     */
+    updateManyAndReturn<T extends EmailNotificationUpdateManyAndReturnArgs>(args: SelectSubset<T, EmailNotificationUpdateManyAndReturnArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$EmailNotificationPayload<ExtArgs>, T, "updateManyAndReturn", GlobalOmitOptions>>
+
+    /**
+     * Create or update one EmailNotification.
+     * @param {EmailNotificationUpsertArgs} args - Arguments to update or create a EmailNotification.
+     * @example
+     * // Update or create a EmailNotification
+     * const emailNotification = await prisma.emailNotification.upsert({
+     *   create: {
+     *     // ... data to create a EmailNotification
+     *   },
+     *   update: {
+     *     // ... in case it already exists, update
+     *   },
+     *   where: {
+     *     // ... the filter for the EmailNotification we want to update
+     *   }
+     * })
+     */
+    upsert<T extends EmailNotificationUpsertArgs>(args: SelectSubset<T, EmailNotificationUpsertArgs<ExtArgs>>): Prisma__EmailNotificationClient<$Result.GetResult<Prisma.$EmailNotificationPayload<ExtArgs>, T, "upsert", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+
+    /**
+     * Count the number of EmailNotifications.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {EmailNotificationCountArgs} args - Arguments to filter EmailNotifications to count.
+     * @example
+     * // Count the number of EmailNotifications
+     * const count = await prisma.emailNotification.count({
+     *   where: {
+     *     // ... the filter for the EmailNotifications we want to count
+     *   }
+     * })
+    **/
+    count<T extends EmailNotificationCountArgs>(
+      args?: Subset<T, EmailNotificationCountArgs>,
+    ): Prisma.PrismaPromise<
+      T extends $Utils.Record<'select', any>
+        ? T['select'] extends true
+          ? number
+          : GetScalarType<T['select'], EmailNotificationCountAggregateOutputType>
+        : number
+    >
+
+    /**
+     * Allows you to perform aggregations operations on a EmailNotification.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {EmailNotificationAggregateArgs} args - Select which aggregations you would like to apply and on what fields.
+     * @example
+     * // Ordered by age ascending
+     * // Where email contains prisma.io
+     * // Limited to the 10 users
+     * const aggregations = await prisma.user.aggregate({
+     *   _avg: {
+     *     age: true,
+     *   },
+     *   where: {
+     *     email: {
+     *       contains: "prisma.io",
+     *     },
+     *   },
+     *   orderBy: {
+     *     age: "asc",
+     *   },
+     *   take: 10,
+     * })
+    **/
+    aggregate<T extends EmailNotificationAggregateArgs>(args: Subset<T, EmailNotificationAggregateArgs>): Prisma.PrismaPromise<GetEmailNotificationAggregateType<T>>
+
+    /**
+     * Group by EmailNotification.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {EmailNotificationGroupByArgs} args - Group by arguments.
+     * @example
+     * // Group by city, order by createdAt, get count
+     * const result = await prisma.user.groupBy({
+     *   by: ['city', 'createdAt'],
+     *   orderBy: {
+     *     createdAt: true
+     *   },
+     *   _count: {
+     *     _all: true
+     *   },
+     * })
+     * 
+    **/
+    groupBy<
+      T extends EmailNotificationGroupByArgs,
+      HasSelectOrTake extends Or<
+        Extends<'skip', Keys<T>>,
+        Extends<'take', Keys<T>>
+      >,
+      OrderByArg extends True extends HasSelectOrTake
+        ? { orderBy: EmailNotificationGroupByArgs['orderBy'] }
+        : { orderBy?: EmailNotificationGroupByArgs['orderBy'] },
+      OrderFields extends ExcludeUnderscoreKeys<Keys<MaybeTupleToUnion<T['orderBy']>>>,
+      ByFields extends MaybeTupleToUnion<T['by']>,
+      ByValid extends Has<ByFields, OrderFields>,
+      HavingFields extends GetHavingFields<T['having']>,
+      HavingValid extends Has<ByFields, HavingFields>,
+      ByEmpty extends T['by'] extends never[] ? True : False,
+      InputErrors extends ByEmpty extends True
+      ? `Error: "by" must not be empty.`
+      : HavingValid extends False
+      ? {
+          [P in HavingFields]: P extends ByFields
+            ? never
+            : P extends string
+            ? `Error: Field "${P}" used in "having" needs to be provided in "by".`
+            : [
+                Error,
+                'Field ',
+                P,
+                ` in "having" needs to be provided in "by"`,
+              ]
+        }[HavingFields]
+      : 'take' extends Keys<T>
+      ? 'orderBy' extends Keys<T>
+        ? ByValid extends True
+          ? {}
+          : {
+              [P in OrderFields]: P extends ByFields
+                ? never
+                : `Error: Field "${P}" in "orderBy" needs to be provided in "by"`
+            }[OrderFields]
+        : 'Error: If you provide "take", you also need to provide "orderBy"'
+      : 'skip' extends Keys<T>
+      ? 'orderBy' extends Keys<T>
+        ? ByValid extends True
+          ? {}
+          : {
+              [P in OrderFields]: P extends ByFields
+                ? never
+                : `Error: Field "${P}" in "orderBy" needs to be provided in "by"`
+            }[OrderFields]
+        : 'Error: If you provide "skip", you also need to provide "orderBy"'
+      : ByValid extends True
+      ? {}
+      : {
+          [P in OrderFields]: P extends ByFields
+            ? never
+            : `Error: Field "${P}" in "orderBy" needs to be provided in "by"`
+        }[OrderFields]
+    >(args: SubsetIntersection<T, EmailNotificationGroupByArgs, OrderByArg> & InputErrors): {} extends InputErrors ? GetEmailNotificationGroupByPayload<T> : Prisma.PrismaPromise<InputErrors>
+  /**
+   * Fields of the EmailNotification model
+   */
+  readonly fields: EmailNotificationFieldRefs;
+  }
+
+  /**
+   * The delegate class that acts as a "Promise-like" for EmailNotification.
+   * Why is this prefixed with `Prisma__`?
+   * Because we want to prevent naming conflicts as mentioned in
+   * https://github.com/prisma/prisma-client-js/issues/707
+   */
+  export interface Prisma__EmailNotificationClient<T, Null = never, ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs, GlobalOmitOptions = {}> extends Prisma.PrismaPromise<T> {
+    readonly [Symbol.toStringTag]: "PrismaPromise"
+    /**
+     * Attaches callbacks for the resolution and/or rejection of the Promise.
+     * @param onfulfilled The callback to execute when the Promise is resolved.
+     * @param onrejected The callback to execute when the Promise is rejected.
+     * @returns A Promise for the completion of which ever callback is executed.
+     */
+    then<TResult1 = T, TResult2 = never>(onfulfilled?: ((value: T) => TResult1 | PromiseLike<TResult1>) | undefined | null, onrejected?: ((reason: any) => TResult2 | PromiseLike<TResult2>) | undefined | null): $Utils.JsPromise<TResult1 | TResult2>
+    /**
+     * Attaches a callback for only the rejection of the Promise.
+     * @param onrejected The callback to execute when the Promise is rejected.
+     * @returns A Promise for the completion of the callback.
+     */
+    catch<TResult = never>(onrejected?: ((reason: any) => TResult | PromiseLike<TResult>) | undefined | null): $Utils.JsPromise<T | TResult>
+    /**
+     * Attaches a callback that is invoked when the Promise is settled (fulfilled or rejected). The
+     * resolved value cannot be modified from the callback.
+     * @param onfinally The callback to execute when the Promise is settled (fulfilled or rejected).
+     * @returns A Promise for the completion of the callback.
+     */
+    finally(onfinally?: (() => void) | undefined | null): $Utils.JsPromise<T>
+  }
+
+
+
+
+  /**
+   * Fields of the EmailNotification model
+   */
+  interface EmailNotificationFieldRefs {
+    readonly id: FieldRef<"EmailNotification", 'String'>
+    readonly type: FieldRef<"EmailNotification", 'EmailNotificationType'>
+    readonly recipient: FieldRef<"EmailNotification", 'String'>
+    readonly subject: FieldRef<"EmailNotification", 'String'>
+    readonly content: FieldRef<"EmailNotification", 'String'>
+    readonly status: FieldRef<"EmailNotification", 'EmailStatus'>
+    readonly sentAt: FieldRef<"EmailNotification", 'DateTime'>
+    readonly failedAt: FieldRef<"EmailNotification", 'DateTime'>
+    readonly retryCount: FieldRef<"EmailNotification", 'Int'>
+    readonly template: FieldRef<"EmailNotification", 'String'>
+    readonly variables: FieldRef<"EmailNotification", 'Json'>
+    readonly scheduledFor: FieldRef<"EmailNotification", 'DateTime'>
+    readonly createdAt: FieldRef<"EmailNotification", 'DateTime'>
+    readonly updatedAt: FieldRef<"EmailNotification", 'DateTime'>
+  }
+    
+
+  // Custom InputTypes
+  /**
+   * EmailNotification findUnique
+   */
+  export type EmailNotificationFindUniqueArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the EmailNotification
+     */
+    select?: EmailNotificationSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the EmailNotification
+     */
+    omit?: EmailNotificationOmit<ExtArgs> | null
+    /**
+     * Filter, which EmailNotification to fetch.
+     */
+    where: EmailNotificationWhereUniqueInput
+  }
+
+  /**
+   * EmailNotification findUniqueOrThrow
+   */
+  export type EmailNotificationFindUniqueOrThrowArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the EmailNotification
+     */
+    select?: EmailNotificationSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the EmailNotification
+     */
+    omit?: EmailNotificationOmit<ExtArgs> | null
+    /**
+     * Filter, which EmailNotification to fetch.
+     */
+    where: EmailNotificationWhereUniqueInput
+  }
+
+  /**
+   * EmailNotification findFirst
+   */
+  export type EmailNotificationFindFirstArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the EmailNotification
+     */
+    select?: EmailNotificationSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the EmailNotification
+     */
+    omit?: EmailNotificationOmit<ExtArgs> | null
+    /**
+     * Filter, which EmailNotification to fetch.
+     */
+    where?: EmailNotificationWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of EmailNotifications to fetch.
+     */
+    orderBy?: EmailNotificationOrderByWithRelationInput | EmailNotificationOrderByWithRelationInput[]
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the position for searching for EmailNotifications.
+     */
+    cursor?: EmailNotificationWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` EmailNotifications from the position of the cursor.
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` EmailNotifications.
+     */
+    skip?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/distinct Distinct Docs}
+     * 
+     * Filter by unique combinations of EmailNotifications.
+     */
+    distinct?: EmailNotificationScalarFieldEnum | EmailNotificationScalarFieldEnum[]
+  }
+
+  /**
+   * EmailNotification findFirstOrThrow
+   */
+  export type EmailNotificationFindFirstOrThrowArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the EmailNotification
+     */
+    select?: EmailNotificationSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the EmailNotification
+     */
+    omit?: EmailNotificationOmit<ExtArgs> | null
+    /**
+     * Filter, which EmailNotification to fetch.
+     */
+    where?: EmailNotificationWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of EmailNotifications to fetch.
+     */
+    orderBy?: EmailNotificationOrderByWithRelationInput | EmailNotificationOrderByWithRelationInput[]
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the position for searching for EmailNotifications.
+     */
+    cursor?: EmailNotificationWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` EmailNotifications from the position of the cursor.
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` EmailNotifications.
+     */
+    skip?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/distinct Distinct Docs}
+     * 
+     * Filter by unique combinations of EmailNotifications.
+     */
+    distinct?: EmailNotificationScalarFieldEnum | EmailNotificationScalarFieldEnum[]
+  }
+
+  /**
+   * EmailNotification findMany
+   */
+  export type EmailNotificationFindManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the EmailNotification
+     */
+    select?: EmailNotificationSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the EmailNotification
+     */
+    omit?: EmailNotificationOmit<ExtArgs> | null
+    /**
+     * Filter, which EmailNotifications to fetch.
+     */
+    where?: EmailNotificationWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of EmailNotifications to fetch.
+     */
+    orderBy?: EmailNotificationOrderByWithRelationInput | EmailNotificationOrderByWithRelationInput[]
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the position for listing EmailNotifications.
+     */
+    cursor?: EmailNotificationWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` EmailNotifications from the position of the cursor.
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` EmailNotifications.
+     */
+    skip?: number
+    distinct?: EmailNotificationScalarFieldEnum | EmailNotificationScalarFieldEnum[]
+  }
+
+  /**
+   * EmailNotification create
+   */
+  export type EmailNotificationCreateArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the EmailNotification
+     */
+    select?: EmailNotificationSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the EmailNotification
+     */
+    omit?: EmailNotificationOmit<ExtArgs> | null
+    /**
+     * The data needed to create a EmailNotification.
+     */
+    data: XOR<EmailNotificationCreateInput, EmailNotificationUncheckedCreateInput>
+  }
+
+  /**
+   * EmailNotification createMany
+   */
+  export type EmailNotificationCreateManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * The data used to create many EmailNotifications.
+     */
+    data: EmailNotificationCreateManyInput | EmailNotificationCreateManyInput[]
+    skipDuplicates?: boolean
+  }
+
+  /**
+   * EmailNotification createManyAndReturn
+   */
+  export type EmailNotificationCreateManyAndReturnArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the EmailNotification
+     */
+    select?: EmailNotificationSelectCreateManyAndReturn<ExtArgs> | null
+    /**
+     * Omit specific fields from the EmailNotification
+     */
+    omit?: EmailNotificationOmit<ExtArgs> | null
+    /**
+     * The data used to create many EmailNotifications.
+     */
+    data: EmailNotificationCreateManyInput | EmailNotificationCreateManyInput[]
+    skipDuplicates?: boolean
+  }
+
+  /**
+   * EmailNotification update
+   */
+  export type EmailNotificationUpdateArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the EmailNotification
+     */
+    select?: EmailNotificationSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the EmailNotification
+     */
+    omit?: EmailNotificationOmit<ExtArgs> | null
+    /**
+     * The data needed to update a EmailNotification.
+     */
+    data: XOR<EmailNotificationUpdateInput, EmailNotificationUncheckedUpdateInput>
+    /**
+     * Choose, which EmailNotification to update.
+     */
+    where: EmailNotificationWhereUniqueInput
+  }
+
+  /**
+   * EmailNotification updateMany
+   */
+  export type EmailNotificationUpdateManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * The data used to update EmailNotifications.
+     */
+    data: XOR<EmailNotificationUpdateManyMutationInput, EmailNotificationUncheckedUpdateManyInput>
+    /**
+     * Filter which EmailNotifications to update
+     */
+    where?: EmailNotificationWhereInput
+    /**
+     * Limit how many EmailNotifications to update.
+     */
+    limit?: number
+  }
+
+  /**
+   * EmailNotification updateManyAndReturn
+   */
+  export type EmailNotificationUpdateManyAndReturnArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the EmailNotification
+     */
+    select?: EmailNotificationSelectUpdateManyAndReturn<ExtArgs> | null
+    /**
+     * Omit specific fields from the EmailNotification
+     */
+    omit?: EmailNotificationOmit<ExtArgs> | null
+    /**
+     * The data used to update EmailNotifications.
+     */
+    data: XOR<EmailNotificationUpdateManyMutationInput, EmailNotificationUncheckedUpdateManyInput>
+    /**
+     * Filter which EmailNotifications to update
+     */
+    where?: EmailNotificationWhereInput
+    /**
+     * Limit how many EmailNotifications to update.
+     */
+    limit?: number
+  }
+
+  /**
+   * EmailNotification upsert
+   */
+  export type EmailNotificationUpsertArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the EmailNotification
+     */
+    select?: EmailNotificationSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the EmailNotification
+     */
+    omit?: EmailNotificationOmit<ExtArgs> | null
+    /**
+     * The filter to search for the EmailNotification to update in case it exists.
+     */
+    where: EmailNotificationWhereUniqueInput
+    /**
+     * In case the EmailNotification found by the `where` argument doesn't exist, create a new EmailNotification with this data.
+     */
+    create: XOR<EmailNotificationCreateInput, EmailNotificationUncheckedCreateInput>
+    /**
+     * In case the EmailNotification was found with the provided `where` argument, update it with this data.
+     */
+    update: XOR<EmailNotificationUpdateInput, EmailNotificationUncheckedUpdateInput>
+  }
+
+  /**
+   * EmailNotification delete
+   */
+  export type EmailNotificationDeleteArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the EmailNotification
+     */
+    select?: EmailNotificationSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the EmailNotification
+     */
+    omit?: EmailNotificationOmit<ExtArgs> | null
+    /**
+     * Filter which EmailNotification to delete.
+     */
+    where: EmailNotificationWhereUniqueInput
+  }
+
+  /**
+   * EmailNotification deleteMany
+   */
+  export type EmailNotificationDeleteManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Filter which EmailNotifications to delete
+     */
+    where?: EmailNotificationWhereInput
+    /**
+     * Limit how many EmailNotifications to delete.
+     */
+    limit?: number
+  }
+
+  /**
+   * EmailNotification without action
+   */
+  export type EmailNotificationDefaultArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the EmailNotification
+     */
+    select?: EmailNotificationSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the EmailNotification
+     */
+    omit?: EmailNotificationOmit<ExtArgs> | null
+  }
+
+
+  /**
    * Model UserActivity
    */
 
@@ -95527,6 +102155,8 @@ export namespace Prisma {
     isPublic: 'isPublic',
     isPremium: 'isPremium',
     allowDownload: 'allowDownload',
+    stripeProductId: 'stripeProductId',
+    stripePriceId: 'stripePriceId',
     hasPrerequisites: 'hasPrerequisites',
     seriesId: 'seriesId',
     unlockCriteria: 'unlockCriteria',
@@ -96536,6 +103166,105 @@ export namespace Prisma {
   export type AuditLogScalarFieldEnum = (typeof AuditLogScalarFieldEnum)[keyof typeof AuditLogScalarFieldEnum]
 
 
+  export const SubscriptionScalarFieldEnum: {
+    id: 'id',
+    stripeCustomerId: 'stripeCustomerId',
+    stripeSubscriptionId: 'stripeSubscriptionId',
+    stripePriceId: 'stripePriceId',
+    stripeProductId: 'stripeProductId',
+    status: 'status',
+    currentPeriodStart: 'currentPeriodStart',
+    currentPeriodEnd: 'currentPeriodEnd',
+    cancelAtPeriodEnd: 'cancelAtPeriodEnd',
+    canceledAt: 'canceledAt',
+    endedAt: 'endedAt',
+    trialStart: 'trialStart',
+    trialEnd: 'trialEnd',
+    quantity: 'quantity',
+    metadata: 'metadata',
+    createdAt: 'createdAt',
+    updatedAt: 'updatedAt',
+    userId: 'userId'
+  };
+
+  export type SubscriptionScalarFieldEnum = (typeof SubscriptionScalarFieldEnum)[keyof typeof SubscriptionScalarFieldEnum]
+
+
+  export const PaymentScalarFieldEnum: {
+    id: 'id',
+    stripePaymentId: 'stripePaymentId',
+    stripeInvoiceId: 'stripeInvoiceId',
+    amount: 'amount',
+    currency: 'currency',
+    status: 'status',
+    description: 'description',
+    metadata: 'metadata',
+    paidAt: 'paidAt',
+    failedAt: 'failedAt',
+    createdAt: 'createdAt',
+    updatedAt: 'updatedAt',
+    userId: 'userId',
+    subscriptionId: 'subscriptionId'
+  };
+
+  export type PaymentScalarFieldEnum = (typeof PaymentScalarFieldEnum)[keyof typeof PaymentScalarFieldEnum]
+
+
+  export const WebhookEventScalarFieldEnum: {
+    id: 'id',
+    stripeEventId: 'stripeEventId',
+    type: 'type',
+    processed: 'processed',
+    processedAt: 'processedAt',
+    data: 'data',
+    apiVersion: 'apiVersion',
+    createdAt: 'createdAt',
+    userId: 'userId'
+  };
+
+  export type WebhookEventScalarFieldEnum = (typeof WebhookEventScalarFieldEnum)[keyof typeof WebhookEventScalarFieldEnum]
+
+
+  export const SubscriptionPlanScalarFieldEnum: {
+    id: 'id',
+    name: 'name',
+    description: 'description',
+    price: 'price',
+    currency: 'currency',
+    interval: 'interval',
+    intervalCount: 'intervalCount',
+    stripePriceId: 'stripePriceId',
+    stripeProductId: 'stripeProductId',
+    isActive: 'isActive',
+    features: 'features',
+    maxUsers: 'maxUsers',
+    createdAt: 'createdAt',
+    updatedAt: 'updatedAt'
+  };
+
+  export type SubscriptionPlanScalarFieldEnum = (typeof SubscriptionPlanScalarFieldEnum)[keyof typeof SubscriptionPlanScalarFieldEnum]
+
+
+  export const EmailNotificationScalarFieldEnum: {
+    id: 'id',
+    type: 'type',
+    recipient: 'recipient',
+    subject: 'subject',
+    content: 'content',
+    status: 'status',
+    sentAt: 'sentAt',
+    failedAt: 'failedAt',
+    retryCount: 'retryCount',
+    template: 'template',
+    variables: 'variables',
+    scheduledFor: 'scheduledFor',
+    createdAt: 'createdAt',
+    updatedAt: 'updatedAt'
+  };
+
+  export type EmailNotificationScalarFieldEnum = (typeof EmailNotificationScalarFieldEnum)[keyof typeof EmailNotificationScalarFieldEnum]
+
+
   export const UserActivityScalarFieldEnum: {
     id: 'id',
     userId: 'userId',
@@ -97169,6 +103898,62 @@ export namespace Prisma {
 
 
   /**
+   * Reference to a field of type 'SubscriptionStatus'
+   */
+  export type EnumSubscriptionStatusFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaModel, 'SubscriptionStatus'>
+    
+
+
+  /**
+   * Reference to a field of type 'SubscriptionStatus[]'
+   */
+  export type ListEnumSubscriptionStatusFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaModel, 'SubscriptionStatus[]'>
+    
+
+
+  /**
+   * Reference to a field of type 'PaymentStatus'
+   */
+  export type EnumPaymentStatusFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaModel, 'PaymentStatus'>
+    
+
+
+  /**
+   * Reference to a field of type 'PaymentStatus[]'
+   */
+  export type ListEnumPaymentStatusFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaModel, 'PaymentStatus[]'>
+    
+
+
+  /**
+   * Reference to a field of type 'EmailNotificationType'
+   */
+  export type EnumEmailNotificationTypeFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaModel, 'EmailNotificationType'>
+    
+
+
+  /**
+   * Reference to a field of type 'EmailNotificationType[]'
+   */
+  export type ListEnumEmailNotificationTypeFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaModel, 'EmailNotificationType[]'>
+    
+
+
+  /**
+   * Reference to a field of type 'EmailStatus'
+   */
+  export type EnumEmailStatusFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaModel, 'EmailStatus'>
+    
+
+
+  /**
+   * Reference to a field of type 'EmailStatus[]'
+   */
+  export type ListEnumEmailStatusFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaModel, 'EmailStatus[]'>
+    
+
+
+  /**
    * Reference to a field of type 'ActivityType'
    */
   export type EnumActivityTypeFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaModel, 'ActivityType'>
@@ -97283,6 +104068,9 @@ export namespace Prisma {
     goals?: UserGoalListRelationFilter
     challenges?: UserChallengeListRelationFilter
     levelRewards?: UserLevelRewardListRelationFilter
+    subscriptions?: SubscriptionListRelationFilter
+    payments?: PaymentListRelationFilter
+    webhookEvents?: WebhookEventListRelationFilter
   }
 
   export type UserOrderByWithRelationInput = {
@@ -97352,6 +104140,9 @@ export namespace Prisma {
     goals?: UserGoalOrderByRelationAggregateInput
     challenges?: UserChallengeOrderByRelationAggregateInput
     levelRewards?: UserLevelRewardOrderByRelationAggregateInput
+    subscriptions?: SubscriptionOrderByRelationAggregateInput
+    payments?: PaymentOrderByRelationAggregateInput
+    webhookEvents?: WebhookEventOrderByRelationAggregateInput
   }
 
   export type UserWhereUniqueInput = Prisma.AtLeast<{
@@ -97424,6 +104215,9 @@ export namespace Prisma {
     goals?: UserGoalListRelationFilter
     challenges?: UserChallengeListRelationFilter
     levelRewards?: UserLevelRewardListRelationFilter
+    subscriptions?: SubscriptionListRelationFilter
+    payments?: PaymentListRelationFilter
+    webhookEvents?: WebhookEventListRelationFilter
   }, "id" | "email">
 
   export type UserOrderByWithAggregationInput = {
@@ -97964,6 +104758,8 @@ export namespace Prisma {
     isPublic?: BoolFilter<"Course"> | boolean
     isPremium?: BoolFilter<"Course"> | boolean
     allowDownload?: BoolFilter<"Course"> | boolean
+    stripeProductId?: StringNullableFilter<"Course"> | string | null
+    stripePriceId?: StringNullableFilter<"Course"> | string | null
     hasPrerequisites?: BoolFilter<"Course"> | boolean
     seriesId?: StringNullableFilter<"Course"> | string | null
     unlockCriteria?: JsonNullableFilter<"Course">
@@ -98028,6 +104824,8 @@ export namespace Prisma {
     isPublic?: SortOrder
     isPremium?: SortOrder
     allowDownload?: SortOrder
+    stripeProductId?: SortOrderInput | SortOrder
+    stripePriceId?: SortOrderInput | SortOrder
     hasPrerequisites?: SortOrder
     seriesId?: SortOrderInput | SortOrder
     unlockCriteria?: SortOrderInput | SortOrder
@@ -98074,6 +104872,8 @@ export namespace Prisma {
   export type CourseWhereUniqueInput = Prisma.AtLeast<{
     id?: string
     slug?: string
+    stripeProductId?: string
+    stripePriceId?: string
     AND?: CourseWhereInput | CourseWhereInput[]
     OR?: CourseWhereInput[]
     NOT?: CourseWhereInput | CourseWhereInput[]
@@ -98136,7 +104936,7 @@ export namespace Prisma {
     playlistItems?: PlaylistItemListRelationFilter
     groups?: GroupListRelationFilter
     activities?: UserActivityListRelationFilter
-  }, "id" | "slug">
+  }, "id" | "slug" | "stripeProductId" | "stripePriceId">
 
   export type CourseOrderByWithAggregationInput = {
     id?: SortOrder
@@ -98159,6 +104959,8 @@ export namespace Prisma {
     isPublic?: SortOrder
     isPremium?: SortOrder
     allowDownload?: SortOrder
+    stripeProductId?: SortOrderInput | SortOrder
+    stripePriceId?: SortOrderInput | SortOrder
     hasPrerequisites?: SortOrder
     seriesId?: SortOrderInput | SortOrder
     unlockCriteria?: SortOrderInput | SortOrder
@@ -98210,6 +105012,8 @@ export namespace Prisma {
     isPublic?: BoolWithAggregatesFilter<"Course"> | boolean
     isPremium?: BoolWithAggregatesFilter<"Course"> | boolean
     allowDownload?: BoolWithAggregatesFilter<"Course"> | boolean
+    stripeProductId?: StringNullableWithAggregatesFilter<"Course"> | string | null
+    stripePriceId?: StringNullableWithAggregatesFilter<"Course"> | string | null
     hasPrerequisites?: BoolWithAggregatesFilter<"Course"> | boolean
     seriesId?: StringNullableWithAggregatesFilter<"Course"> | string | null
     unlockCriteria?: JsonNullableWithAggregatesFilter<"Course">
@@ -103519,6 +110323,509 @@ export namespace Prisma {
     timestamp?: DateTimeWithAggregatesFilter<"AuditLog"> | Date | string
   }
 
+  export type SubscriptionWhereInput = {
+    AND?: SubscriptionWhereInput | SubscriptionWhereInput[]
+    OR?: SubscriptionWhereInput[]
+    NOT?: SubscriptionWhereInput | SubscriptionWhereInput[]
+    id?: StringFilter<"Subscription"> | string
+    stripeCustomerId?: StringNullableFilter<"Subscription"> | string | null
+    stripeSubscriptionId?: StringNullableFilter<"Subscription"> | string | null
+    stripePriceId?: StringNullableFilter<"Subscription"> | string | null
+    stripeProductId?: StringNullableFilter<"Subscription"> | string | null
+    status?: EnumSubscriptionStatusFilter<"Subscription"> | $Enums.SubscriptionStatus
+    currentPeriodStart?: DateTimeNullableFilter<"Subscription"> | Date | string | null
+    currentPeriodEnd?: DateTimeNullableFilter<"Subscription"> | Date | string | null
+    cancelAtPeriodEnd?: BoolFilter<"Subscription"> | boolean
+    canceledAt?: DateTimeNullableFilter<"Subscription"> | Date | string | null
+    endedAt?: DateTimeNullableFilter<"Subscription"> | Date | string | null
+    trialStart?: DateTimeNullableFilter<"Subscription"> | Date | string | null
+    trialEnd?: DateTimeNullableFilter<"Subscription"> | Date | string | null
+    quantity?: IntFilter<"Subscription"> | number
+    metadata?: JsonNullableFilter<"Subscription">
+    createdAt?: DateTimeFilter<"Subscription"> | Date | string
+    updatedAt?: DateTimeFilter<"Subscription"> | Date | string
+    userId?: StringFilter<"Subscription"> | string
+    user?: XOR<UserScalarRelationFilter, UserWhereInput>
+    payments?: PaymentListRelationFilter
+  }
+
+  export type SubscriptionOrderByWithRelationInput = {
+    id?: SortOrder
+    stripeCustomerId?: SortOrderInput | SortOrder
+    stripeSubscriptionId?: SortOrderInput | SortOrder
+    stripePriceId?: SortOrderInput | SortOrder
+    stripeProductId?: SortOrderInput | SortOrder
+    status?: SortOrder
+    currentPeriodStart?: SortOrderInput | SortOrder
+    currentPeriodEnd?: SortOrderInput | SortOrder
+    cancelAtPeriodEnd?: SortOrder
+    canceledAt?: SortOrderInput | SortOrder
+    endedAt?: SortOrderInput | SortOrder
+    trialStart?: SortOrderInput | SortOrder
+    trialEnd?: SortOrderInput | SortOrder
+    quantity?: SortOrder
+    metadata?: SortOrderInput | SortOrder
+    createdAt?: SortOrder
+    updatedAt?: SortOrder
+    userId?: SortOrder
+    user?: UserOrderByWithRelationInput
+    payments?: PaymentOrderByRelationAggregateInput
+  }
+
+  export type SubscriptionWhereUniqueInput = Prisma.AtLeast<{
+    id?: string
+    stripeCustomerId?: string
+    stripeSubscriptionId?: string
+    AND?: SubscriptionWhereInput | SubscriptionWhereInput[]
+    OR?: SubscriptionWhereInput[]
+    NOT?: SubscriptionWhereInput | SubscriptionWhereInput[]
+    stripePriceId?: StringNullableFilter<"Subscription"> | string | null
+    stripeProductId?: StringNullableFilter<"Subscription"> | string | null
+    status?: EnumSubscriptionStatusFilter<"Subscription"> | $Enums.SubscriptionStatus
+    currentPeriodStart?: DateTimeNullableFilter<"Subscription"> | Date | string | null
+    currentPeriodEnd?: DateTimeNullableFilter<"Subscription"> | Date | string | null
+    cancelAtPeriodEnd?: BoolFilter<"Subscription"> | boolean
+    canceledAt?: DateTimeNullableFilter<"Subscription"> | Date | string | null
+    endedAt?: DateTimeNullableFilter<"Subscription"> | Date | string | null
+    trialStart?: DateTimeNullableFilter<"Subscription"> | Date | string | null
+    trialEnd?: DateTimeNullableFilter<"Subscription"> | Date | string | null
+    quantity?: IntFilter<"Subscription"> | number
+    metadata?: JsonNullableFilter<"Subscription">
+    createdAt?: DateTimeFilter<"Subscription"> | Date | string
+    updatedAt?: DateTimeFilter<"Subscription"> | Date | string
+    userId?: StringFilter<"Subscription"> | string
+    user?: XOR<UserScalarRelationFilter, UserWhereInput>
+    payments?: PaymentListRelationFilter
+  }, "id" | "stripeCustomerId" | "stripeSubscriptionId">
+
+  export type SubscriptionOrderByWithAggregationInput = {
+    id?: SortOrder
+    stripeCustomerId?: SortOrderInput | SortOrder
+    stripeSubscriptionId?: SortOrderInput | SortOrder
+    stripePriceId?: SortOrderInput | SortOrder
+    stripeProductId?: SortOrderInput | SortOrder
+    status?: SortOrder
+    currentPeriodStart?: SortOrderInput | SortOrder
+    currentPeriodEnd?: SortOrderInput | SortOrder
+    cancelAtPeriodEnd?: SortOrder
+    canceledAt?: SortOrderInput | SortOrder
+    endedAt?: SortOrderInput | SortOrder
+    trialStart?: SortOrderInput | SortOrder
+    trialEnd?: SortOrderInput | SortOrder
+    quantity?: SortOrder
+    metadata?: SortOrderInput | SortOrder
+    createdAt?: SortOrder
+    updatedAt?: SortOrder
+    userId?: SortOrder
+    _count?: SubscriptionCountOrderByAggregateInput
+    _avg?: SubscriptionAvgOrderByAggregateInput
+    _max?: SubscriptionMaxOrderByAggregateInput
+    _min?: SubscriptionMinOrderByAggregateInput
+    _sum?: SubscriptionSumOrderByAggregateInput
+  }
+
+  export type SubscriptionScalarWhereWithAggregatesInput = {
+    AND?: SubscriptionScalarWhereWithAggregatesInput | SubscriptionScalarWhereWithAggregatesInput[]
+    OR?: SubscriptionScalarWhereWithAggregatesInput[]
+    NOT?: SubscriptionScalarWhereWithAggregatesInput | SubscriptionScalarWhereWithAggregatesInput[]
+    id?: StringWithAggregatesFilter<"Subscription"> | string
+    stripeCustomerId?: StringNullableWithAggregatesFilter<"Subscription"> | string | null
+    stripeSubscriptionId?: StringNullableWithAggregatesFilter<"Subscription"> | string | null
+    stripePriceId?: StringNullableWithAggregatesFilter<"Subscription"> | string | null
+    stripeProductId?: StringNullableWithAggregatesFilter<"Subscription"> | string | null
+    status?: EnumSubscriptionStatusWithAggregatesFilter<"Subscription"> | $Enums.SubscriptionStatus
+    currentPeriodStart?: DateTimeNullableWithAggregatesFilter<"Subscription"> | Date | string | null
+    currentPeriodEnd?: DateTimeNullableWithAggregatesFilter<"Subscription"> | Date | string | null
+    cancelAtPeriodEnd?: BoolWithAggregatesFilter<"Subscription"> | boolean
+    canceledAt?: DateTimeNullableWithAggregatesFilter<"Subscription"> | Date | string | null
+    endedAt?: DateTimeNullableWithAggregatesFilter<"Subscription"> | Date | string | null
+    trialStart?: DateTimeNullableWithAggregatesFilter<"Subscription"> | Date | string | null
+    trialEnd?: DateTimeNullableWithAggregatesFilter<"Subscription"> | Date | string | null
+    quantity?: IntWithAggregatesFilter<"Subscription"> | number
+    metadata?: JsonNullableWithAggregatesFilter<"Subscription">
+    createdAt?: DateTimeWithAggregatesFilter<"Subscription"> | Date | string
+    updatedAt?: DateTimeWithAggregatesFilter<"Subscription"> | Date | string
+    userId?: StringWithAggregatesFilter<"Subscription"> | string
+  }
+
+  export type PaymentWhereInput = {
+    AND?: PaymentWhereInput | PaymentWhereInput[]
+    OR?: PaymentWhereInput[]
+    NOT?: PaymentWhereInput | PaymentWhereInput[]
+    id?: StringFilter<"Payment"> | string
+    stripePaymentId?: StringNullableFilter<"Payment"> | string | null
+    stripeInvoiceId?: StringNullableFilter<"Payment"> | string | null
+    amount?: DecimalFilter<"Payment"> | Decimal | DecimalJsLike | number | string
+    currency?: StringFilter<"Payment"> | string
+    status?: EnumPaymentStatusFilter<"Payment"> | $Enums.PaymentStatus
+    description?: StringNullableFilter<"Payment"> | string | null
+    metadata?: JsonNullableFilter<"Payment">
+    paidAt?: DateTimeNullableFilter<"Payment"> | Date | string | null
+    failedAt?: DateTimeNullableFilter<"Payment"> | Date | string | null
+    createdAt?: DateTimeFilter<"Payment"> | Date | string
+    updatedAt?: DateTimeFilter<"Payment"> | Date | string
+    userId?: StringFilter<"Payment"> | string
+    subscriptionId?: StringNullableFilter<"Payment"> | string | null
+    user?: XOR<UserScalarRelationFilter, UserWhereInput>
+    subscription?: XOR<SubscriptionNullableScalarRelationFilter, SubscriptionWhereInput> | null
+  }
+
+  export type PaymentOrderByWithRelationInput = {
+    id?: SortOrder
+    stripePaymentId?: SortOrderInput | SortOrder
+    stripeInvoiceId?: SortOrderInput | SortOrder
+    amount?: SortOrder
+    currency?: SortOrder
+    status?: SortOrder
+    description?: SortOrderInput | SortOrder
+    metadata?: SortOrderInput | SortOrder
+    paidAt?: SortOrderInput | SortOrder
+    failedAt?: SortOrderInput | SortOrder
+    createdAt?: SortOrder
+    updatedAt?: SortOrder
+    userId?: SortOrder
+    subscriptionId?: SortOrderInput | SortOrder
+    user?: UserOrderByWithRelationInput
+    subscription?: SubscriptionOrderByWithRelationInput
+  }
+
+  export type PaymentWhereUniqueInput = Prisma.AtLeast<{
+    id?: string
+    stripePaymentId?: string
+    AND?: PaymentWhereInput | PaymentWhereInput[]
+    OR?: PaymentWhereInput[]
+    NOT?: PaymentWhereInput | PaymentWhereInput[]
+    stripeInvoiceId?: StringNullableFilter<"Payment"> | string | null
+    amount?: DecimalFilter<"Payment"> | Decimal | DecimalJsLike | number | string
+    currency?: StringFilter<"Payment"> | string
+    status?: EnumPaymentStatusFilter<"Payment"> | $Enums.PaymentStatus
+    description?: StringNullableFilter<"Payment"> | string | null
+    metadata?: JsonNullableFilter<"Payment">
+    paidAt?: DateTimeNullableFilter<"Payment"> | Date | string | null
+    failedAt?: DateTimeNullableFilter<"Payment"> | Date | string | null
+    createdAt?: DateTimeFilter<"Payment"> | Date | string
+    updatedAt?: DateTimeFilter<"Payment"> | Date | string
+    userId?: StringFilter<"Payment"> | string
+    subscriptionId?: StringNullableFilter<"Payment"> | string | null
+    user?: XOR<UserScalarRelationFilter, UserWhereInput>
+    subscription?: XOR<SubscriptionNullableScalarRelationFilter, SubscriptionWhereInput> | null
+  }, "id" | "stripePaymentId">
+
+  export type PaymentOrderByWithAggregationInput = {
+    id?: SortOrder
+    stripePaymentId?: SortOrderInput | SortOrder
+    stripeInvoiceId?: SortOrderInput | SortOrder
+    amount?: SortOrder
+    currency?: SortOrder
+    status?: SortOrder
+    description?: SortOrderInput | SortOrder
+    metadata?: SortOrderInput | SortOrder
+    paidAt?: SortOrderInput | SortOrder
+    failedAt?: SortOrderInput | SortOrder
+    createdAt?: SortOrder
+    updatedAt?: SortOrder
+    userId?: SortOrder
+    subscriptionId?: SortOrderInput | SortOrder
+    _count?: PaymentCountOrderByAggregateInput
+    _avg?: PaymentAvgOrderByAggregateInput
+    _max?: PaymentMaxOrderByAggregateInput
+    _min?: PaymentMinOrderByAggregateInput
+    _sum?: PaymentSumOrderByAggregateInput
+  }
+
+  export type PaymentScalarWhereWithAggregatesInput = {
+    AND?: PaymentScalarWhereWithAggregatesInput | PaymentScalarWhereWithAggregatesInput[]
+    OR?: PaymentScalarWhereWithAggregatesInput[]
+    NOT?: PaymentScalarWhereWithAggregatesInput | PaymentScalarWhereWithAggregatesInput[]
+    id?: StringWithAggregatesFilter<"Payment"> | string
+    stripePaymentId?: StringNullableWithAggregatesFilter<"Payment"> | string | null
+    stripeInvoiceId?: StringNullableWithAggregatesFilter<"Payment"> | string | null
+    amount?: DecimalWithAggregatesFilter<"Payment"> | Decimal | DecimalJsLike | number | string
+    currency?: StringWithAggregatesFilter<"Payment"> | string
+    status?: EnumPaymentStatusWithAggregatesFilter<"Payment"> | $Enums.PaymentStatus
+    description?: StringNullableWithAggregatesFilter<"Payment"> | string | null
+    metadata?: JsonNullableWithAggregatesFilter<"Payment">
+    paidAt?: DateTimeNullableWithAggregatesFilter<"Payment"> | Date | string | null
+    failedAt?: DateTimeNullableWithAggregatesFilter<"Payment"> | Date | string | null
+    createdAt?: DateTimeWithAggregatesFilter<"Payment"> | Date | string
+    updatedAt?: DateTimeWithAggregatesFilter<"Payment"> | Date | string
+    userId?: StringWithAggregatesFilter<"Payment"> | string
+    subscriptionId?: StringNullableWithAggregatesFilter<"Payment"> | string | null
+  }
+
+  export type WebhookEventWhereInput = {
+    AND?: WebhookEventWhereInput | WebhookEventWhereInput[]
+    OR?: WebhookEventWhereInput[]
+    NOT?: WebhookEventWhereInput | WebhookEventWhereInput[]
+    id?: StringFilter<"WebhookEvent"> | string
+    stripeEventId?: StringFilter<"WebhookEvent"> | string
+    type?: StringFilter<"WebhookEvent"> | string
+    processed?: BoolFilter<"WebhookEvent"> | boolean
+    processedAt?: DateTimeNullableFilter<"WebhookEvent"> | Date | string | null
+    data?: JsonFilter<"WebhookEvent">
+    apiVersion?: StringNullableFilter<"WebhookEvent"> | string | null
+    createdAt?: DateTimeFilter<"WebhookEvent"> | Date | string
+    userId?: StringNullableFilter<"WebhookEvent"> | string | null
+    user?: XOR<UserNullableScalarRelationFilter, UserWhereInput> | null
+  }
+
+  export type WebhookEventOrderByWithRelationInput = {
+    id?: SortOrder
+    stripeEventId?: SortOrder
+    type?: SortOrder
+    processed?: SortOrder
+    processedAt?: SortOrderInput | SortOrder
+    data?: SortOrder
+    apiVersion?: SortOrderInput | SortOrder
+    createdAt?: SortOrder
+    userId?: SortOrderInput | SortOrder
+    user?: UserOrderByWithRelationInput
+  }
+
+  export type WebhookEventWhereUniqueInput = Prisma.AtLeast<{
+    id?: string
+    stripeEventId?: string
+    AND?: WebhookEventWhereInput | WebhookEventWhereInput[]
+    OR?: WebhookEventWhereInput[]
+    NOT?: WebhookEventWhereInput | WebhookEventWhereInput[]
+    type?: StringFilter<"WebhookEvent"> | string
+    processed?: BoolFilter<"WebhookEvent"> | boolean
+    processedAt?: DateTimeNullableFilter<"WebhookEvent"> | Date | string | null
+    data?: JsonFilter<"WebhookEvent">
+    apiVersion?: StringNullableFilter<"WebhookEvent"> | string | null
+    createdAt?: DateTimeFilter<"WebhookEvent"> | Date | string
+    userId?: StringNullableFilter<"WebhookEvent"> | string | null
+    user?: XOR<UserNullableScalarRelationFilter, UserWhereInput> | null
+  }, "id" | "stripeEventId">
+
+  export type WebhookEventOrderByWithAggregationInput = {
+    id?: SortOrder
+    stripeEventId?: SortOrder
+    type?: SortOrder
+    processed?: SortOrder
+    processedAt?: SortOrderInput | SortOrder
+    data?: SortOrder
+    apiVersion?: SortOrderInput | SortOrder
+    createdAt?: SortOrder
+    userId?: SortOrderInput | SortOrder
+    _count?: WebhookEventCountOrderByAggregateInput
+    _max?: WebhookEventMaxOrderByAggregateInput
+    _min?: WebhookEventMinOrderByAggregateInput
+  }
+
+  export type WebhookEventScalarWhereWithAggregatesInput = {
+    AND?: WebhookEventScalarWhereWithAggregatesInput | WebhookEventScalarWhereWithAggregatesInput[]
+    OR?: WebhookEventScalarWhereWithAggregatesInput[]
+    NOT?: WebhookEventScalarWhereWithAggregatesInput | WebhookEventScalarWhereWithAggregatesInput[]
+    id?: StringWithAggregatesFilter<"WebhookEvent"> | string
+    stripeEventId?: StringWithAggregatesFilter<"WebhookEvent"> | string
+    type?: StringWithAggregatesFilter<"WebhookEvent"> | string
+    processed?: BoolWithAggregatesFilter<"WebhookEvent"> | boolean
+    processedAt?: DateTimeNullableWithAggregatesFilter<"WebhookEvent"> | Date | string | null
+    data?: JsonWithAggregatesFilter<"WebhookEvent">
+    apiVersion?: StringNullableWithAggregatesFilter<"WebhookEvent"> | string | null
+    createdAt?: DateTimeWithAggregatesFilter<"WebhookEvent"> | Date | string
+    userId?: StringNullableWithAggregatesFilter<"WebhookEvent"> | string | null
+  }
+
+  export type SubscriptionPlanWhereInput = {
+    AND?: SubscriptionPlanWhereInput | SubscriptionPlanWhereInput[]
+    OR?: SubscriptionPlanWhereInput[]
+    NOT?: SubscriptionPlanWhereInput | SubscriptionPlanWhereInput[]
+    id?: StringFilter<"SubscriptionPlan"> | string
+    name?: StringFilter<"SubscriptionPlan"> | string
+    description?: StringNullableFilter<"SubscriptionPlan"> | string | null
+    price?: DecimalFilter<"SubscriptionPlan"> | Decimal | DecimalJsLike | number | string
+    currency?: StringFilter<"SubscriptionPlan"> | string
+    interval?: StringFilter<"SubscriptionPlan"> | string
+    intervalCount?: IntFilter<"SubscriptionPlan"> | number
+    stripePriceId?: StringFilter<"SubscriptionPlan"> | string
+    stripeProductId?: StringFilter<"SubscriptionPlan"> | string
+    isActive?: BoolFilter<"SubscriptionPlan"> | boolean
+    features?: JsonFilter<"SubscriptionPlan">
+    maxUsers?: IntNullableFilter<"SubscriptionPlan"> | number | null
+    createdAt?: DateTimeFilter<"SubscriptionPlan"> | Date | string
+    updatedAt?: DateTimeFilter<"SubscriptionPlan"> | Date | string
+  }
+
+  export type SubscriptionPlanOrderByWithRelationInput = {
+    id?: SortOrder
+    name?: SortOrder
+    description?: SortOrderInput | SortOrder
+    price?: SortOrder
+    currency?: SortOrder
+    interval?: SortOrder
+    intervalCount?: SortOrder
+    stripePriceId?: SortOrder
+    stripeProductId?: SortOrder
+    isActive?: SortOrder
+    features?: SortOrder
+    maxUsers?: SortOrderInput | SortOrder
+    createdAt?: SortOrder
+    updatedAt?: SortOrder
+  }
+
+  export type SubscriptionPlanWhereUniqueInput = Prisma.AtLeast<{
+    id?: string
+    stripePriceId?: string
+    AND?: SubscriptionPlanWhereInput | SubscriptionPlanWhereInput[]
+    OR?: SubscriptionPlanWhereInput[]
+    NOT?: SubscriptionPlanWhereInput | SubscriptionPlanWhereInput[]
+    name?: StringFilter<"SubscriptionPlan"> | string
+    description?: StringNullableFilter<"SubscriptionPlan"> | string | null
+    price?: DecimalFilter<"SubscriptionPlan"> | Decimal | DecimalJsLike | number | string
+    currency?: StringFilter<"SubscriptionPlan"> | string
+    interval?: StringFilter<"SubscriptionPlan"> | string
+    intervalCount?: IntFilter<"SubscriptionPlan"> | number
+    stripeProductId?: StringFilter<"SubscriptionPlan"> | string
+    isActive?: BoolFilter<"SubscriptionPlan"> | boolean
+    features?: JsonFilter<"SubscriptionPlan">
+    maxUsers?: IntNullableFilter<"SubscriptionPlan"> | number | null
+    createdAt?: DateTimeFilter<"SubscriptionPlan"> | Date | string
+    updatedAt?: DateTimeFilter<"SubscriptionPlan"> | Date | string
+  }, "id" | "stripePriceId">
+
+  export type SubscriptionPlanOrderByWithAggregationInput = {
+    id?: SortOrder
+    name?: SortOrder
+    description?: SortOrderInput | SortOrder
+    price?: SortOrder
+    currency?: SortOrder
+    interval?: SortOrder
+    intervalCount?: SortOrder
+    stripePriceId?: SortOrder
+    stripeProductId?: SortOrder
+    isActive?: SortOrder
+    features?: SortOrder
+    maxUsers?: SortOrderInput | SortOrder
+    createdAt?: SortOrder
+    updatedAt?: SortOrder
+    _count?: SubscriptionPlanCountOrderByAggregateInput
+    _avg?: SubscriptionPlanAvgOrderByAggregateInput
+    _max?: SubscriptionPlanMaxOrderByAggregateInput
+    _min?: SubscriptionPlanMinOrderByAggregateInput
+    _sum?: SubscriptionPlanSumOrderByAggregateInput
+  }
+
+  export type SubscriptionPlanScalarWhereWithAggregatesInput = {
+    AND?: SubscriptionPlanScalarWhereWithAggregatesInput | SubscriptionPlanScalarWhereWithAggregatesInput[]
+    OR?: SubscriptionPlanScalarWhereWithAggregatesInput[]
+    NOT?: SubscriptionPlanScalarWhereWithAggregatesInput | SubscriptionPlanScalarWhereWithAggregatesInput[]
+    id?: StringWithAggregatesFilter<"SubscriptionPlan"> | string
+    name?: StringWithAggregatesFilter<"SubscriptionPlan"> | string
+    description?: StringNullableWithAggregatesFilter<"SubscriptionPlan"> | string | null
+    price?: DecimalWithAggregatesFilter<"SubscriptionPlan"> | Decimal | DecimalJsLike | number | string
+    currency?: StringWithAggregatesFilter<"SubscriptionPlan"> | string
+    interval?: StringWithAggregatesFilter<"SubscriptionPlan"> | string
+    intervalCount?: IntWithAggregatesFilter<"SubscriptionPlan"> | number
+    stripePriceId?: StringWithAggregatesFilter<"SubscriptionPlan"> | string
+    stripeProductId?: StringWithAggregatesFilter<"SubscriptionPlan"> | string
+    isActive?: BoolWithAggregatesFilter<"SubscriptionPlan"> | boolean
+    features?: JsonWithAggregatesFilter<"SubscriptionPlan">
+    maxUsers?: IntNullableWithAggregatesFilter<"SubscriptionPlan"> | number | null
+    createdAt?: DateTimeWithAggregatesFilter<"SubscriptionPlan"> | Date | string
+    updatedAt?: DateTimeWithAggregatesFilter<"SubscriptionPlan"> | Date | string
+  }
+
+  export type EmailNotificationWhereInput = {
+    AND?: EmailNotificationWhereInput | EmailNotificationWhereInput[]
+    OR?: EmailNotificationWhereInput[]
+    NOT?: EmailNotificationWhereInput | EmailNotificationWhereInput[]
+    id?: StringFilter<"EmailNotification"> | string
+    type?: EnumEmailNotificationTypeFilter<"EmailNotification"> | $Enums.EmailNotificationType
+    recipient?: StringFilter<"EmailNotification"> | string
+    subject?: StringFilter<"EmailNotification"> | string
+    content?: StringFilter<"EmailNotification"> | string
+    status?: EnumEmailStatusFilter<"EmailNotification"> | $Enums.EmailStatus
+    sentAt?: DateTimeNullableFilter<"EmailNotification"> | Date | string | null
+    failedAt?: DateTimeNullableFilter<"EmailNotification"> | Date | string | null
+    retryCount?: IntFilter<"EmailNotification"> | number
+    template?: StringNullableFilter<"EmailNotification"> | string | null
+    variables?: JsonNullableFilter<"EmailNotification">
+    scheduledFor?: DateTimeNullableFilter<"EmailNotification"> | Date | string | null
+    createdAt?: DateTimeFilter<"EmailNotification"> | Date | string
+    updatedAt?: DateTimeFilter<"EmailNotification"> | Date | string
+  }
+
+  export type EmailNotificationOrderByWithRelationInput = {
+    id?: SortOrder
+    type?: SortOrder
+    recipient?: SortOrder
+    subject?: SortOrder
+    content?: SortOrder
+    status?: SortOrder
+    sentAt?: SortOrderInput | SortOrder
+    failedAt?: SortOrderInput | SortOrder
+    retryCount?: SortOrder
+    template?: SortOrderInput | SortOrder
+    variables?: SortOrderInput | SortOrder
+    scheduledFor?: SortOrderInput | SortOrder
+    createdAt?: SortOrder
+    updatedAt?: SortOrder
+  }
+
+  export type EmailNotificationWhereUniqueInput = Prisma.AtLeast<{
+    id?: string
+    AND?: EmailNotificationWhereInput | EmailNotificationWhereInput[]
+    OR?: EmailNotificationWhereInput[]
+    NOT?: EmailNotificationWhereInput | EmailNotificationWhereInput[]
+    type?: EnumEmailNotificationTypeFilter<"EmailNotification"> | $Enums.EmailNotificationType
+    recipient?: StringFilter<"EmailNotification"> | string
+    subject?: StringFilter<"EmailNotification"> | string
+    content?: StringFilter<"EmailNotification"> | string
+    status?: EnumEmailStatusFilter<"EmailNotification"> | $Enums.EmailStatus
+    sentAt?: DateTimeNullableFilter<"EmailNotification"> | Date | string | null
+    failedAt?: DateTimeNullableFilter<"EmailNotification"> | Date | string | null
+    retryCount?: IntFilter<"EmailNotification"> | number
+    template?: StringNullableFilter<"EmailNotification"> | string | null
+    variables?: JsonNullableFilter<"EmailNotification">
+    scheduledFor?: DateTimeNullableFilter<"EmailNotification"> | Date | string | null
+    createdAt?: DateTimeFilter<"EmailNotification"> | Date | string
+    updatedAt?: DateTimeFilter<"EmailNotification"> | Date | string
+  }, "id">
+
+  export type EmailNotificationOrderByWithAggregationInput = {
+    id?: SortOrder
+    type?: SortOrder
+    recipient?: SortOrder
+    subject?: SortOrder
+    content?: SortOrder
+    status?: SortOrder
+    sentAt?: SortOrderInput | SortOrder
+    failedAt?: SortOrderInput | SortOrder
+    retryCount?: SortOrder
+    template?: SortOrderInput | SortOrder
+    variables?: SortOrderInput | SortOrder
+    scheduledFor?: SortOrderInput | SortOrder
+    createdAt?: SortOrder
+    updatedAt?: SortOrder
+    _count?: EmailNotificationCountOrderByAggregateInput
+    _avg?: EmailNotificationAvgOrderByAggregateInput
+    _max?: EmailNotificationMaxOrderByAggregateInput
+    _min?: EmailNotificationMinOrderByAggregateInput
+    _sum?: EmailNotificationSumOrderByAggregateInput
+  }
+
+  export type EmailNotificationScalarWhereWithAggregatesInput = {
+    AND?: EmailNotificationScalarWhereWithAggregatesInput | EmailNotificationScalarWhereWithAggregatesInput[]
+    OR?: EmailNotificationScalarWhereWithAggregatesInput[]
+    NOT?: EmailNotificationScalarWhereWithAggregatesInput | EmailNotificationScalarWhereWithAggregatesInput[]
+    id?: StringWithAggregatesFilter<"EmailNotification"> | string
+    type?: EnumEmailNotificationTypeWithAggregatesFilter<"EmailNotification"> | $Enums.EmailNotificationType
+    recipient?: StringWithAggregatesFilter<"EmailNotification"> | string
+    subject?: StringWithAggregatesFilter<"EmailNotification"> | string
+    content?: StringWithAggregatesFilter<"EmailNotification"> | string
+    status?: EnumEmailStatusWithAggregatesFilter<"EmailNotification"> | $Enums.EmailStatus
+    sentAt?: DateTimeNullableWithAggregatesFilter<"EmailNotification"> | Date | string | null
+    failedAt?: DateTimeNullableWithAggregatesFilter<"EmailNotification"> | Date | string | null
+    retryCount?: IntWithAggregatesFilter<"EmailNotification"> | number
+    template?: StringNullableWithAggregatesFilter<"EmailNotification"> | string | null
+    variables?: JsonNullableWithAggregatesFilter<"EmailNotification">
+    scheduledFor?: DateTimeNullableWithAggregatesFilter<"EmailNotification"> | Date | string | null
+    createdAt?: DateTimeWithAggregatesFilter<"EmailNotification"> | Date | string
+    updatedAt?: DateTimeWithAggregatesFilter<"EmailNotification"> | Date | string
+  }
+
   export type UserActivityWhereInput = {
     AND?: UserActivityWhereInput | UserActivityWhereInput[]
     OR?: UserActivityWhereInput[]
@@ -103797,6 +111104,9 @@ export namespace Prisma {
     goals?: UserGoalCreateNestedManyWithoutUserInput
     challenges?: UserChallengeCreateNestedManyWithoutUserInput
     levelRewards?: UserLevelRewardCreateNestedManyWithoutUserInput
+    subscriptions?: SubscriptionCreateNestedManyWithoutUserInput
+    payments?: PaymentCreateNestedManyWithoutUserInput
+    webhookEvents?: WebhookEventCreateNestedManyWithoutUserInput
   }
 
   export type UserUncheckedCreateInput = {
@@ -103866,6 +111176,9 @@ export namespace Prisma {
     goals?: UserGoalUncheckedCreateNestedManyWithoutUserInput
     challenges?: UserChallengeUncheckedCreateNestedManyWithoutUserInput
     levelRewards?: UserLevelRewardUncheckedCreateNestedManyWithoutUserInput
+    subscriptions?: SubscriptionUncheckedCreateNestedManyWithoutUserInput
+    payments?: PaymentUncheckedCreateNestedManyWithoutUserInput
+    webhookEvents?: WebhookEventUncheckedCreateNestedManyWithoutUserInput
   }
 
   export type UserUpdateInput = {
@@ -103935,6 +111248,9 @@ export namespace Prisma {
     goals?: UserGoalUpdateManyWithoutUserNestedInput
     challenges?: UserChallengeUpdateManyWithoutUserNestedInput
     levelRewards?: UserLevelRewardUpdateManyWithoutUserNestedInput
+    subscriptions?: SubscriptionUpdateManyWithoutUserNestedInput
+    payments?: PaymentUpdateManyWithoutUserNestedInput
+    webhookEvents?: WebhookEventUpdateManyWithoutUserNestedInput
   }
 
   export type UserUncheckedUpdateInput = {
@@ -104004,6 +111320,9 @@ export namespace Prisma {
     goals?: UserGoalUncheckedUpdateManyWithoutUserNestedInput
     challenges?: UserChallengeUncheckedUpdateManyWithoutUserNestedInput
     levelRewards?: UserLevelRewardUncheckedUpdateManyWithoutUserNestedInput
+    subscriptions?: SubscriptionUncheckedUpdateManyWithoutUserNestedInput
+    payments?: PaymentUncheckedUpdateManyWithoutUserNestedInput
+    webhookEvents?: WebhookEventUncheckedUpdateManyWithoutUserNestedInput
   }
 
   export type UserCreateManyInput = {
@@ -104626,6 +111945,8 @@ export namespace Prisma {
     isPublic?: boolean
     isPremium?: boolean
     allowDownload?: boolean
+    stripeProductId?: string | null
+    stripePriceId?: string | null
     hasPrerequisites?: boolean
     unlockCriteria?: NullableJsonNullValueInput | InputJsonValue
     status?: $Enums.CourseStatus
@@ -104688,6 +112009,8 @@ export namespace Prisma {
     isPublic?: boolean
     isPremium?: boolean
     allowDownload?: boolean
+    stripeProductId?: string | null
+    stripePriceId?: string | null
     hasPrerequisites?: boolean
     seriesId?: string | null
     unlockCriteria?: NullableJsonNullValueInput | InputJsonValue
@@ -104746,6 +112069,8 @@ export namespace Prisma {
     isPublic?: BoolFieldUpdateOperationsInput | boolean
     isPremium?: BoolFieldUpdateOperationsInput | boolean
     allowDownload?: BoolFieldUpdateOperationsInput | boolean
+    stripeProductId?: NullableStringFieldUpdateOperationsInput | string | null
+    stripePriceId?: NullableStringFieldUpdateOperationsInput | string | null
     hasPrerequisites?: BoolFieldUpdateOperationsInput | boolean
     unlockCriteria?: NullableJsonNullValueInput | InputJsonValue
     status?: EnumCourseStatusFieldUpdateOperationsInput | $Enums.CourseStatus
@@ -104808,6 +112133,8 @@ export namespace Prisma {
     isPublic?: BoolFieldUpdateOperationsInput | boolean
     isPremium?: BoolFieldUpdateOperationsInput | boolean
     allowDownload?: BoolFieldUpdateOperationsInput | boolean
+    stripeProductId?: NullableStringFieldUpdateOperationsInput | string | null
+    stripePriceId?: NullableStringFieldUpdateOperationsInput | string | null
     hasPrerequisites?: BoolFieldUpdateOperationsInput | boolean
     seriesId?: NullableStringFieldUpdateOperationsInput | string | null
     unlockCriteria?: NullableJsonNullValueInput | InputJsonValue
@@ -104868,6 +112195,8 @@ export namespace Prisma {
     isPublic?: boolean
     isPremium?: boolean
     allowDownload?: boolean
+    stripeProductId?: string | null
+    stripePriceId?: string | null
     hasPrerequisites?: boolean
     seriesId?: string | null
     unlockCriteria?: NullableJsonNullValueInput | InputJsonValue
@@ -104909,6 +112238,8 @@ export namespace Prisma {
     isPublic?: BoolFieldUpdateOperationsInput | boolean
     isPremium?: BoolFieldUpdateOperationsInput | boolean
     allowDownload?: BoolFieldUpdateOperationsInput | boolean
+    stripeProductId?: NullableStringFieldUpdateOperationsInput | string | null
+    stripePriceId?: NullableStringFieldUpdateOperationsInput | string | null
     hasPrerequisites?: BoolFieldUpdateOperationsInput | boolean
     unlockCriteria?: NullableJsonNullValueInput | InputJsonValue
     status?: EnumCourseStatusFieldUpdateOperationsInput | $Enums.CourseStatus
@@ -104950,6 +112281,8 @@ export namespace Prisma {
     isPublic?: BoolFieldUpdateOperationsInput | boolean
     isPremium?: BoolFieldUpdateOperationsInput | boolean
     allowDownload?: BoolFieldUpdateOperationsInput | boolean
+    stripeProductId?: NullableStringFieldUpdateOperationsInput | string | null
+    stripePriceId?: NullableStringFieldUpdateOperationsInput | string | null
     hasPrerequisites?: BoolFieldUpdateOperationsInput | boolean
     seriesId?: NullableStringFieldUpdateOperationsInput | string | null
     unlockCriteria?: NullableJsonNullValueInput | InputJsonValue
@@ -110626,6 +117959,594 @@ export namespace Prisma {
     timestamp?: DateTimeFieldUpdateOperationsInput | Date | string
   }
 
+  export type SubscriptionCreateInput = {
+    id?: string
+    stripeCustomerId?: string | null
+    stripeSubscriptionId?: string | null
+    stripePriceId?: string | null
+    stripeProductId?: string | null
+    status?: $Enums.SubscriptionStatus
+    currentPeriodStart?: Date | string | null
+    currentPeriodEnd?: Date | string | null
+    cancelAtPeriodEnd?: boolean
+    canceledAt?: Date | string | null
+    endedAt?: Date | string | null
+    trialStart?: Date | string | null
+    trialEnd?: Date | string | null
+    quantity?: number
+    metadata?: NullableJsonNullValueInput | InputJsonValue
+    createdAt?: Date | string
+    updatedAt?: Date | string
+    user: UserCreateNestedOneWithoutSubscriptionsInput
+    payments?: PaymentCreateNestedManyWithoutSubscriptionInput
+  }
+
+  export type SubscriptionUncheckedCreateInput = {
+    id?: string
+    stripeCustomerId?: string | null
+    stripeSubscriptionId?: string | null
+    stripePriceId?: string | null
+    stripeProductId?: string | null
+    status?: $Enums.SubscriptionStatus
+    currentPeriodStart?: Date | string | null
+    currentPeriodEnd?: Date | string | null
+    cancelAtPeriodEnd?: boolean
+    canceledAt?: Date | string | null
+    endedAt?: Date | string | null
+    trialStart?: Date | string | null
+    trialEnd?: Date | string | null
+    quantity?: number
+    metadata?: NullableJsonNullValueInput | InputJsonValue
+    createdAt?: Date | string
+    updatedAt?: Date | string
+    userId: string
+    payments?: PaymentUncheckedCreateNestedManyWithoutSubscriptionInput
+  }
+
+  export type SubscriptionUpdateInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    stripeCustomerId?: NullableStringFieldUpdateOperationsInput | string | null
+    stripeSubscriptionId?: NullableStringFieldUpdateOperationsInput | string | null
+    stripePriceId?: NullableStringFieldUpdateOperationsInput | string | null
+    stripeProductId?: NullableStringFieldUpdateOperationsInput | string | null
+    status?: EnumSubscriptionStatusFieldUpdateOperationsInput | $Enums.SubscriptionStatus
+    currentPeriodStart?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    currentPeriodEnd?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    cancelAtPeriodEnd?: BoolFieldUpdateOperationsInput | boolean
+    canceledAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    endedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    trialStart?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    trialEnd?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    quantity?: IntFieldUpdateOperationsInput | number
+    metadata?: NullableJsonNullValueInput | InputJsonValue
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    user?: UserUpdateOneRequiredWithoutSubscriptionsNestedInput
+    payments?: PaymentUpdateManyWithoutSubscriptionNestedInput
+  }
+
+  export type SubscriptionUncheckedUpdateInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    stripeCustomerId?: NullableStringFieldUpdateOperationsInput | string | null
+    stripeSubscriptionId?: NullableStringFieldUpdateOperationsInput | string | null
+    stripePriceId?: NullableStringFieldUpdateOperationsInput | string | null
+    stripeProductId?: NullableStringFieldUpdateOperationsInput | string | null
+    status?: EnumSubscriptionStatusFieldUpdateOperationsInput | $Enums.SubscriptionStatus
+    currentPeriodStart?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    currentPeriodEnd?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    cancelAtPeriodEnd?: BoolFieldUpdateOperationsInput | boolean
+    canceledAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    endedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    trialStart?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    trialEnd?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    quantity?: IntFieldUpdateOperationsInput | number
+    metadata?: NullableJsonNullValueInput | InputJsonValue
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    userId?: StringFieldUpdateOperationsInput | string
+    payments?: PaymentUncheckedUpdateManyWithoutSubscriptionNestedInput
+  }
+
+  export type SubscriptionCreateManyInput = {
+    id?: string
+    stripeCustomerId?: string | null
+    stripeSubscriptionId?: string | null
+    stripePriceId?: string | null
+    stripeProductId?: string | null
+    status?: $Enums.SubscriptionStatus
+    currentPeriodStart?: Date | string | null
+    currentPeriodEnd?: Date | string | null
+    cancelAtPeriodEnd?: boolean
+    canceledAt?: Date | string | null
+    endedAt?: Date | string | null
+    trialStart?: Date | string | null
+    trialEnd?: Date | string | null
+    quantity?: number
+    metadata?: NullableJsonNullValueInput | InputJsonValue
+    createdAt?: Date | string
+    updatedAt?: Date | string
+    userId: string
+  }
+
+  export type SubscriptionUpdateManyMutationInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    stripeCustomerId?: NullableStringFieldUpdateOperationsInput | string | null
+    stripeSubscriptionId?: NullableStringFieldUpdateOperationsInput | string | null
+    stripePriceId?: NullableStringFieldUpdateOperationsInput | string | null
+    stripeProductId?: NullableStringFieldUpdateOperationsInput | string | null
+    status?: EnumSubscriptionStatusFieldUpdateOperationsInput | $Enums.SubscriptionStatus
+    currentPeriodStart?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    currentPeriodEnd?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    cancelAtPeriodEnd?: BoolFieldUpdateOperationsInput | boolean
+    canceledAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    endedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    trialStart?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    trialEnd?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    quantity?: IntFieldUpdateOperationsInput | number
+    metadata?: NullableJsonNullValueInput | InputJsonValue
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
+  export type SubscriptionUncheckedUpdateManyInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    stripeCustomerId?: NullableStringFieldUpdateOperationsInput | string | null
+    stripeSubscriptionId?: NullableStringFieldUpdateOperationsInput | string | null
+    stripePriceId?: NullableStringFieldUpdateOperationsInput | string | null
+    stripeProductId?: NullableStringFieldUpdateOperationsInput | string | null
+    status?: EnumSubscriptionStatusFieldUpdateOperationsInput | $Enums.SubscriptionStatus
+    currentPeriodStart?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    currentPeriodEnd?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    cancelAtPeriodEnd?: BoolFieldUpdateOperationsInput | boolean
+    canceledAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    endedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    trialStart?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    trialEnd?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    quantity?: IntFieldUpdateOperationsInput | number
+    metadata?: NullableJsonNullValueInput | InputJsonValue
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    userId?: StringFieldUpdateOperationsInput | string
+  }
+
+  export type PaymentCreateInput = {
+    id?: string
+    stripePaymentId?: string | null
+    stripeInvoiceId?: string | null
+    amount: Decimal | DecimalJsLike | number | string
+    currency?: string
+    status?: $Enums.PaymentStatus
+    description?: string | null
+    metadata?: NullableJsonNullValueInput | InputJsonValue
+    paidAt?: Date | string | null
+    failedAt?: Date | string | null
+    createdAt?: Date | string
+    updatedAt?: Date | string
+    user: UserCreateNestedOneWithoutPaymentsInput
+    subscription?: SubscriptionCreateNestedOneWithoutPaymentsInput
+  }
+
+  export type PaymentUncheckedCreateInput = {
+    id?: string
+    stripePaymentId?: string | null
+    stripeInvoiceId?: string | null
+    amount: Decimal | DecimalJsLike | number | string
+    currency?: string
+    status?: $Enums.PaymentStatus
+    description?: string | null
+    metadata?: NullableJsonNullValueInput | InputJsonValue
+    paidAt?: Date | string | null
+    failedAt?: Date | string | null
+    createdAt?: Date | string
+    updatedAt?: Date | string
+    userId: string
+    subscriptionId?: string | null
+  }
+
+  export type PaymentUpdateInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    stripePaymentId?: NullableStringFieldUpdateOperationsInput | string | null
+    stripeInvoiceId?: NullableStringFieldUpdateOperationsInput | string | null
+    amount?: DecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string
+    currency?: StringFieldUpdateOperationsInput | string
+    status?: EnumPaymentStatusFieldUpdateOperationsInput | $Enums.PaymentStatus
+    description?: NullableStringFieldUpdateOperationsInput | string | null
+    metadata?: NullableJsonNullValueInput | InputJsonValue
+    paidAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    failedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    user?: UserUpdateOneRequiredWithoutPaymentsNestedInput
+    subscription?: SubscriptionUpdateOneWithoutPaymentsNestedInput
+  }
+
+  export type PaymentUncheckedUpdateInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    stripePaymentId?: NullableStringFieldUpdateOperationsInput | string | null
+    stripeInvoiceId?: NullableStringFieldUpdateOperationsInput | string | null
+    amount?: DecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string
+    currency?: StringFieldUpdateOperationsInput | string
+    status?: EnumPaymentStatusFieldUpdateOperationsInput | $Enums.PaymentStatus
+    description?: NullableStringFieldUpdateOperationsInput | string | null
+    metadata?: NullableJsonNullValueInput | InputJsonValue
+    paidAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    failedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    userId?: StringFieldUpdateOperationsInput | string
+    subscriptionId?: NullableStringFieldUpdateOperationsInput | string | null
+  }
+
+  export type PaymentCreateManyInput = {
+    id?: string
+    stripePaymentId?: string | null
+    stripeInvoiceId?: string | null
+    amount: Decimal | DecimalJsLike | number | string
+    currency?: string
+    status?: $Enums.PaymentStatus
+    description?: string | null
+    metadata?: NullableJsonNullValueInput | InputJsonValue
+    paidAt?: Date | string | null
+    failedAt?: Date | string | null
+    createdAt?: Date | string
+    updatedAt?: Date | string
+    userId: string
+    subscriptionId?: string | null
+  }
+
+  export type PaymentUpdateManyMutationInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    stripePaymentId?: NullableStringFieldUpdateOperationsInput | string | null
+    stripeInvoiceId?: NullableStringFieldUpdateOperationsInput | string | null
+    amount?: DecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string
+    currency?: StringFieldUpdateOperationsInput | string
+    status?: EnumPaymentStatusFieldUpdateOperationsInput | $Enums.PaymentStatus
+    description?: NullableStringFieldUpdateOperationsInput | string | null
+    metadata?: NullableJsonNullValueInput | InputJsonValue
+    paidAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    failedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
+  export type PaymentUncheckedUpdateManyInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    stripePaymentId?: NullableStringFieldUpdateOperationsInput | string | null
+    stripeInvoiceId?: NullableStringFieldUpdateOperationsInput | string | null
+    amount?: DecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string
+    currency?: StringFieldUpdateOperationsInput | string
+    status?: EnumPaymentStatusFieldUpdateOperationsInput | $Enums.PaymentStatus
+    description?: NullableStringFieldUpdateOperationsInput | string | null
+    metadata?: NullableJsonNullValueInput | InputJsonValue
+    paidAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    failedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    userId?: StringFieldUpdateOperationsInput | string
+    subscriptionId?: NullableStringFieldUpdateOperationsInput | string | null
+  }
+
+  export type WebhookEventCreateInput = {
+    id?: string
+    stripeEventId: string
+    type: string
+    processed?: boolean
+    processedAt?: Date | string | null
+    data: JsonNullValueInput | InputJsonValue
+    apiVersion?: string | null
+    createdAt?: Date | string
+    user?: UserCreateNestedOneWithoutWebhookEventsInput
+  }
+
+  export type WebhookEventUncheckedCreateInput = {
+    id?: string
+    stripeEventId: string
+    type: string
+    processed?: boolean
+    processedAt?: Date | string | null
+    data: JsonNullValueInput | InputJsonValue
+    apiVersion?: string | null
+    createdAt?: Date | string
+    userId?: string | null
+  }
+
+  export type WebhookEventUpdateInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    stripeEventId?: StringFieldUpdateOperationsInput | string
+    type?: StringFieldUpdateOperationsInput | string
+    processed?: BoolFieldUpdateOperationsInput | boolean
+    processedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    data?: JsonNullValueInput | InputJsonValue
+    apiVersion?: NullableStringFieldUpdateOperationsInput | string | null
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    user?: UserUpdateOneWithoutWebhookEventsNestedInput
+  }
+
+  export type WebhookEventUncheckedUpdateInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    stripeEventId?: StringFieldUpdateOperationsInput | string
+    type?: StringFieldUpdateOperationsInput | string
+    processed?: BoolFieldUpdateOperationsInput | boolean
+    processedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    data?: JsonNullValueInput | InputJsonValue
+    apiVersion?: NullableStringFieldUpdateOperationsInput | string | null
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    userId?: NullableStringFieldUpdateOperationsInput | string | null
+  }
+
+  export type WebhookEventCreateManyInput = {
+    id?: string
+    stripeEventId: string
+    type: string
+    processed?: boolean
+    processedAt?: Date | string | null
+    data: JsonNullValueInput | InputJsonValue
+    apiVersion?: string | null
+    createdAt?: Date | string
+    userId?: string | null
+  }
+
+  export type WebhookEventUpdateManyMutationInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    stripeEventId?: StringFieldUpdateOperationsInput | string
+    type?: StringFieldUpdateOperationsInput | string
+    processed?: BoolFieldUpdateOperationsInput | boolean
+    processedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    data?: JsonNullValueInput | InputJsonValue
+    apiVersion?: NullableStringFieldUpdateOperationsInput | string | null
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
+  export type WebhookEventUncheckedUpdateManyInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    stripeEventId?: StringFieldUpdateOperationsInput | string
+    type?: StringFieldUpdateOperationsInput | string
+    processed?: BoolFieldUpdateOperationsInput | boolean
+    processedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    data?: JsonNullValueInput | InputJsonValue
+    apiVersion?: NullableStringFieldUpdateOperationsInput | string | null
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    userId?: NullableStringFieldUpdateOperationsInput | string | null
+  }
+
+  export type SubscriptionPlanCreateInput = {
+    id?: string
+    name: string
+    description?: string | null
+    price: Decimal | DecimalJsLike | number | string
+    currency?: string
+    interval: string
+    intervalCount?: number
+    stripePriceId: string
+    stripeProductId: string
+    isActive?: boolean
+    features: JsonNullValueInput | InputJsonValue
+    maxUsers?: number | null
+    createdAt?: Date | string
+    updatedAt?: Date | string
+  }
+
+  export type SubscriptionPlanUncheckedCreateInput = {
+    id?: string
+    name: string
+    description?: string | null
+    price: Decimal | DecimalJsLike | number | string
+    currency?: string
+    interval: string
+    intervalCount?: number
+    stripePriceId: string
+    stripeProductId: string
+    isActive?: boolean
+    features: JsonNullValueInput | InputJsonValue
+    maxUsers?: number | null
+    createdAt?: Date | string
+    updatedAt?: Date | string
+  }
+
+  export type SubscriptionPlanUpdateInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    name?: StringFieldUpdateOperationsInput | string
+    description?: NullableStringFieldUpdateOperationsInput | string | null
+    price?: DecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string
+    currency?: StringFieldUpdateOperationsInput | string
+    interval?: StringFieldUpdateOperationsInput | string
+    intervalCount?: IntFieldUpdateOperationsInput | number
+    stripePriceId?: StringFieldUpdateOperationsInput | string
+    stripeProductId?: StringFieldUpdateOperationsInput | string
+    isActive?: BoolFieldUpdateOperationsInput | boolean
+    features?: JsonNullValueInput | InputJsonValue
+    maxUsers?: NullableIntFieldUpdateOperationsInput | number | null
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
+  export type SubscriptionPlanUncheckedUpdateInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    name?: StringFieldUpdateOperationsInput | string
+    description?: NullableStringFieldUpdateOperationsInput | string | null
+    price?: DecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string
+    currency?: StringFieldUpdateOperationsInput | string
+    interval?: StringFieldUpdateOperationsInput | string
+    intervalCount?: IntFieldUpdateOperationsInput | number
+    stripePriceId?: StringFieldUpdateOperationsInput | string
+    stripeProductId?: StringFieldUpdateOperationsInput | string
+    isActive?: BoolFieldUpdateOperationsInput | boolean
+    features?: JsonNullValueInput | InputJsonValue
+    maxUsers?: NullableIntFieldUpdateOperationsInput | number | null
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
+  export type SubscriptionPlanCreateManyInput = {
+    id?: string
+    name: string
+    description?: string | null
+    price: Decimal | DecimalJsLike | number | string
+    currency?: string
+    interval: string
+    intervalCount?: number
+    stripePriceId: string
+    stripeProductId: string
+    isActive?: boolean
+    features: JsonNullValueInput | InputJsonValue
+    maxUsers?: number | null
+    createdAt?: Date | string
+    updatedAt?: Date | string
+  }
+
+  export type SubscriptionPlanUpdateManyMutationInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    name?: StringFieldUpdateOperationsInput | string
+    description?: NullableStringFieldUpdateOperationsInput | string | null
+    price?: DecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string
+    currency?: StringFieldUpdateOperationsInput | string
+    interval?: StringFieldUpdateOperationsInput | string
+    intervalCount?: IntFieldUpdateOperationsInput | number
+    stripePriceId?: StringFieldUpdateOperationsInput | string
+    stripeProductId?: StringFieldUpdateOperationsInput | string
+    isActive?: BoolFieldUpdateOperationsInput | boolean
+    features?: JsonNullValueInput | InputJsonValue
+    maxUsers?: NullableIntFieldUpdateOperationsInput | number | null
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
+  export type SubscriptionPlanUncheckedUpdateManyInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    name?: StringFieldUpdateOperationsInput | string
+    description?: NullableStringFieldUpdateOperationsInput | string | null
+    price?: DecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string
+    currency?: StringFieldUpdateOperationsInput | string
+    interval?: StringFieldUpdateOperationsInput | string
+    intervalCount?: IntFieldUpdateOperationsInput | number
+    stripePriceId?: StringFieldUpdateOperationsInput | string
+    stripeProductId?: StringFieldUpdateOperationsInput | string
+    isActive?: BoolFieldUpdateOperationsInput | boolean
+    features?: JsonNullValueInput | InputJsonValue
+    maxUsers?: NullableIntFieldUpdateOperationsInput | number | null
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
+  export type EmailNotificationCreateInput = {
+    id?: string
+    type: $Enums.EmailNotificationType
+    recipient: string
+    subject: string
+    content: string
+    status?: $Enums.EmailStatus
+    sentAt?: Date | string | null
+    failedAt?: Date | string | null
+    retryCount?: number
+    template?: string | null
+    variables?: NullableJsonNullValueInput | InputJsonValue
+    scheduledFor?: Date | string | null
+    createdAt?: Date | string
+    updatedAt?: Date | string
+  }
+
+  export type EmailNotificationUncheckedCreateInput = {
+    id?: string
+    type: $Enums.EmailNotificationType
+    recipient: string
+    subject: string
+    content: string
+    status?: $Enums.EmailStatus
+    sentAt?: Date | string | null
+    failedAt?: Date | string | null
+    retryCount?: number
+    template?: string | null
+    variables?: NullableJsonNullValueInput | InputJsonValue
+    scheduledFor?: Date | string | null
+    createdAt?: Date | string
+    updatedAt?: Date | string
+  }
+
+  export type EmailNotificationUpdateInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    type?: EnumEmailNotificationTypeFieldUpdateOperationsInput | $Enums.EmailNotificationType
+    recipient?: StringFieldUpdateOperationsInput | string
+    subject?: StringFieldUpdateOperationsInput | string
+    content?: StringFieldUpdateOperationsInput | string
+    status?: EnumEmailStatusFieldUpdateOperationsInput | $Enums.EmailStatus
+    sentAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    failedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    retryCount?: IntFieldUpdateOperationsInput | number
+    template?: NullableStringFieldUpdateOperationsInput | string | null
+    variables?: NullableJsonNullValueInput | InputJsonValue
+    scheduledFor?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
+  export type EmailNotificationUncheckedUpdateInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    type?: EnumEmailNotificationTypeFieldUpdateOperationsInput | $Enums.EmailNotificationType
+    recipient?: StringFieldUpdateOperationsInput | string
+    subject?: StringFieldUpdateOperationsInput | string
+    content?: StringFieldUpdateOperationsInput | string
+    status?: EnumEmailStatusFieldUpdateOperationsInput | $Enums.EmailStatus
+    sentAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    failedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    retryCount?: IntFieldUpdateOperationsInput | number
+    template?: NullableStringFieldUpdateOperationsInput | string | null
+    variables?: NullableJsonNullValueInput | InputJsonValue
+    scheduledFor?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
+  export type EmailNotificationCreateManyInput = {
+    id?: string
+    type: $Enums.EmailNotificationType
+    recipient: string
+    subject: string
+    content: string
+    status?: $Enums.EmailStatus
+    sentAt?: Date | string | null
+    failedAt?: Date | string | null
+    retryCount?: number
+    template?: string | null
+    variables?: NullableJsonNullValueInput | InputJsonValue
+    scheduledFor?: Date | string | null
+    createdAt?: Date | string
+    updatedAt?: Date | string
+  }
+
+  export type EmailNotificationUpdateManyMutationInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    type?: EnumEmailNotificationTypeFieldUpdateOperationsInput | $Enums.EmailNotificationType
+    recipient?: StringFieldUpdateOperationsInput | string
+    subject?: StringFieldUpdateOperationsInput | string
+    content?: StringFieldUpdateOperationsInput | string
+    status?: EnumEmailStatusFieldUpdateOperationsInput | $Enums.EmailStatus
+    sentAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    failedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    retryCount?: IntFieldUpdateOperationsInput | number
+    template?: NullableStringFieldUpdateOperationsInput | string | null
+    variables?: NullableJsonNullValueInput | InputJsonValue
+    scheduledFor?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
+  export type EmailNotificationUncheckedUpdateManyInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    type?: EnumEmailNotificationTypeFieldUpdateOperationsInput | $Enums.EmailNotificationType
+    recipient?: StringFieldUpdateOperationsInput | string
+    subject?: StringFieldUpdateOperationsInput | string
+    content?: StringFieldUpdateOperationsInput | string
+    status?: EnumEmailStatusFieldUpdateOperationsInput | $Enums.EmailStatus
+    sentAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    failedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    retryCount?: IntFieldUpdateOperationsInput | number
+    template?: NullableStringFieldUpdateOperationsInput | string | null
+    variables?: NullableJsonNullValueInput | InputJsonValue
+    scheduledFor?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
   export type UserActivityCreateInput = {
     id?: string
     type: $Enums.ActivityType
@@ -111221,6 +119142,24 @@ export namespace Prisma {
     none?: UserLevelRewardWhereInput
   }
 
+  export type SubscriptionListRelationFilter = {
+    every?: SubscriptionWhereInput
+    some?: SubscriptionWhereInput
+    none?: SubscriptionWhereInput
+  }
+
+  export type PaymentListRelationFilter = {
+    every?: PaymentWhereInput
+    some?: PaymentWhereInput
+    none?: PaymentWhereInput
+  }
+
+  export type WebhookEventListRelationFilter = {
+    every?: WebhookEventWhereInput
+    some?: WebhookEventWhereInput
+    none?: WebhookEventWhereInput
+  }
+
   export type SortOrderInput = {
     sort: SortOrder
     nulls?: NullsOrder
@@ -111391,6 +119330,18 @@ export namespace Prisma {
   }
 
   export type UserLevelRewardOrderByRelationAggregateInput = {
+    _count?: SortOrder
+  }
+
+  export type SubscriptionOrderByRelationAggregateInput = {
+    _count?: SortOrder
+  }
+
+  export type PaymentOrderByRelationAggregateInput = {
+    _count?: SortOrder
+  }
+
+  export type WebhookEventOrderByRelationAggregateInput = {
     _count?: SortOrder
   }
 
@@ -112026,6 +119977,8 @@ export namespace Prisma {
     isPublic?: SortOrder
     isPremium?: SortOrder
     allowDownload?: SortOrder
+    stripeProductId?: SortOrder
+    stripePriceId?: SortOrder
     hasPrerequisites?: SortOrder
     seriesId?: SortOrder
     unlockCriteria?: SortOrder
@@ -112080,6 +120033,8 @@ export namespace Prisma {
     isPublic?: SortOrder
     isPremium?: SortOrder
     allowDownload?: SortOrder
+    stripeProductId?: SortOrder
+    stripePriceId?: SortOrder
     hasPrerequisites?: SortOrder
     seriesId?: SortOrder
     status?: SortOrder
@@ -112120,6 +120075,8 @@ export namespace Prisma {
     isPublic?: SortOrder
     isPremium?: SortOrder
     allowDownload?: SortOrder
+    stripeProductId?: SortOrder
+    stripePriceId?: SortOrder
     hasPrerequisites?: SortOrder
     seriesId?: SortOrder
     status?: SortOrder
@@ -116038,6 +123995,362 @@ export namespace Prisma {
     timestamp?: SortOrder
   }
 
+  export type EnumSubscriptionStatusFilter<$PrismaModel = never> = {
+    equals?: $Enums.SubscriptionStatus | EnumSubscriptionStatusFieldRefInput<$PrismaModel>
+    in?: $Enums.SubscriptionStatus[] | ListEnumSubscriptionStatusFieldRefInput<$PrismaModel>
+    notIn?: $Enums.SubscriptionStatus[] | ListEnumSubscriptionStatusFieldRefInput<$PrismaModel>
+    not?: NestedEnumSubscriptionStatusFilter<$PrismaModel> | $Enums.SubscriptionStatus
+  }
+
+  export type SubscriptionCountOrderByAggregateInput = {
+    id?: SortOrder
+    stripeCustomerId?: SortOrder
+    stripeSubscriptionId?: SortOrder
+    stripePriceId?: SortOrder
+    stripeProductId?: SortOrder
+    status?: SortOrder
+    currentPeriodStart?: SortOrder
+    currentPeriodEnd?: SortOrder
+    cancelAtPeriodEnd?: SortOrder
+    canceledAt?: SortOrder
+    endedAt?: SortOrder
+    trialStart?: SortOrder
+    trialEnd?: SortOrder
+    quantity?: SortOrder
+    metadata?: SortOrder
+    createdAt?: SortOrder
+    updatedAt?: SortOrder
+    userId?: SortOrder
+  }
+
+  export type SubscriptionAvgOrderByAggregateInput = {
+    quantity?: SortOrder
+  }
+
+  export type SubscriptionMaxOrderByAggregateInput = {
+    id?: SortOrder
+    stripeCustomerId?: SortOrder
+    stripeSubscriptionId?: SortOrder
+    stripePriceId?: SortOrder
+    stripeProductId?: SortOrder
+    status?: SortOrder
+    currentPeriodStart?: SortOrder
+    currentPeriodEnd?: SortOrder
+    cancelAtPeriodEnd?: SortOrder
+    canceledAt?: SortOrder
+    endedAt?: SortOrder
+    trialStart?: SortOrder
+    trialEnd?: SortOrder
+    quantity?: SortOrder
+    createdAt?: SortOrder
+    updatedAt?: SortOrder
+    userId?: SortOrder
+  }
+
+  export type SubscriptionMinOrderByAggregateInput = {
+    id?: SortOrder
+    stripeCustomerId?: SortOrder
+    stripeSubscriptionId?: SortOrder
+    stripePriceId?: SortOrder
+    stripeProductId?: SortOrder
+    status?: SortOrder
+    currentPeriodStart?: SortOrder
+    currentPeriodEnd?: SortOrder
+    cancelAtPeriodEnd?: SortOrder
+    canceledAt?: SortOrder
+    endedAt?: SortOrder
+    trialStart?: SortOrder
+    trialEnd?: SortOrder
+    quantity?: SortOrder
+    createdAt?: SortOrder
+    updatedAt?: SortOrder
+    userId?: SortOrder
+  }
+
+  export type SubscriptionSumOrderByAggregateInput = {
+    quantity?: SortOrder
+  }
+
+  export type EnumSubscriptionStatusWithAggregatesFilter<$PrismaModel = never> = {
+    equals?: $Enums.SubscriptionStatus | EnumSubscriptionStatusFieldRefInput<$PrismaModel>
+    in?: $Enums.SubscriptionStatus[] | ListEnumSubscriptionStatusFieldRefInput<$PrismaModel>
+    notIn?: $Enums.SubscriptionStatus[] | ListEnumSubscriptionStatusFieldRefInput<$PrismaModel>
+    not?: NestedEnumSubscriptionStatusWithAggregatesFilter<$PrismaModel> | $Enums.SubscriptionStatus
+    _count?: NestedIntFilter<$PrismaModel>
+    _min?: NestedEnumSubscriptionStatusFilter<$PrismaModel>
+    _max?: NestedEnumSubscriptionStatusFilter<$PrismaModel>
+  }
+
+  export type EnumPaymentStatusFilter<$PrismaModel = never> = {
+    equals?: $Enums.PaymentStatus | EnumPaymentStatusFieldRefInput<$PrismaModel>
+    in?: $Enums.PaymentStatus[] | ListEnumPaymentStatusFieldRefInput<$PrismaModel>
+    notIn?: $Enums.PaymentStatus[] | ListEnumPaymentStatusFieldRefInput<$PrismaModel>
+    not?: NestedEnumPaymentStatusFilter<$PrismaModel> | $Enums.PaymentStatus
+  }
+
+  export type SubscriptionNullableScalarRelationFilter = {
+    is?: SubscriptionWhereInput | null
+    isNot?: SubscriptionWhereInput | null
+  }
+
+  export type PaymentCountOrderByAggregateInput = {
+    id?: SortOrder
+    stripePaymentId?: SortOrder
+    stripeInvoiceId?: SortOrder
+    amount?: SortOrder
+    currency?: SortOrder
+    status?: SortOrder
+    description?: SortOrder
+    metadata?: SortOrder
+    paidAt?: SortOrder
+    failedAt?: SortOrder
+    createdAt?: SortOrder
+    updatedAt?: SortOrder
+    userId?: SortOrder
+    subscriptionId?: SortOrder
+  }
+
+  export type PaymentAvgOrderByAggregateInput = {
+    amount?: SortOrder
+  }
+
+  export type PaymentMaxOrderByAggregateInput = {
+    id?: SortOrder
+    stripePaymentId?: SortOrder
+    stripeInvoiceId?: SortOrder
+    amount?: SortOrder
+    currency?: SortOrder
+    status?: SortOrder
+    description?: SortOrder
+    paidAt?: SortOrder
+    failedAt?: SortOrder
+    createdAt?: SortOrder
+    updatedAt?: SortOrder
+    userId?: SortOrder
+    subscriptionId?: SortOrder
+  }
+
+  export type PaymentMinOrderByAggregateInput = {
+    id?: SortOrder
+    stripePaymentId?: SortOrder
+    stripeInvoiceId?: SortOrder
+    amount?: SortOrder
+    currency?: SortOrder
+    status?: SortOrder
+    description?: SortOrder
+    paidAt?: SortOrder
+    failedAt?: SortOrder
+    createdAt?: SortOrder
+    updatedAt?: SortOrder
+    userId?: SortOrder
+    subscriptionId?: SortOrder
+  }
+
+  export type PaymentSumOrderByAggregateInput = {
+    amount?: SortOrder
+  }
+
+  export type EnumPaymentStatusWithAggregatesFilter<$PrismaModel = never> = {
+    equals?: $Enums.PaymentStatus | EnumPaymentStatusFieldRefInput<$PrismaModel>
+    in?: $Enums.PaymentStatus[] | ListEnumPaymentStatusFieldRefInput<$PrismaModel>
+    notIn?: $Enums.PaymentStatus[] | ListEnumPaymentStatusFieldRefInput<$PrismaModel>
+    not?: NestedEnumPaymentStatusWithAggregatesFilter<$PrismaModel> | $Enums.PaymentStatus
+    _count?: NestedIntFilter<$PrismaModel>
+    _min?: NestedEnumPaymentStatusFilter<$PrismaModel>
+    _max?: NestedEnumPaymentStatusFilter<$PrismaModel>
+  }
+
+  export type UserNullableScalarRelationFilter = {
+    is?: UserWhereInput | null
+    isNot?: UserWhereInput | null
+  }
+
+  export type WebhookEventCountOrderByAggregateInput = {
+    id?: SortOrder
+    stripeEventId?: SortOrder
+    type?: SortOrder
+    processed?: SortOrder
+    processedAt?: SortOrder
+    data?: SortOrder
+    apiVersion?: SortOrder
+    createdAt?: SortOrder
+    userId?: SortOrder
+  }
+
+  export type WebhookEventMaxOrderByAggregateInput = {
+    id?: SortOrder
+    stripeEventId?: SortOrder
+    type?: SortOrder
+    processed?: SortOrder
+    processedAt?: SortOrder
+    apiVersion?: SortOrder
+    createdAt?: SortOrder
+    userId?: SortOrder
+  }
+
+  export type WebhookEventMinOrderByAggregateInput = {
+    id?: SortOrder
+    stripeEventId?: SortOrder
+    type?: SortOrder
+    processed?: SortOrder
+    processedAt?: SortOrder
+    apiVersion?: SortOrder
+    createdAt?: SortOrder
+    userId?: SortOrder
+  }
+
+  export type SubscriptionPlanCountOrderByAggregateInput = {
+    id?: SortOrder
+    name?: SortOrder
+    description?: SortOrder
+    price?: SortOrder
+    currency?: SortOrder
+    interval?: SortOrder
+    intervalCount?: SortOrder
+    stripePriceId?: SortOrder
+    stripeProductId?: SortOrder
+    isActive?: SortOrder
+    features?: SortOrder
+    maxUsers?: SortOrder
+    createdAt?: SortOrder
+    updatedAt?: SortOrder
+  }
+
+  export type SubscriptionPlanAvgOrderByAggregateInput = {
+    price?: SortOrder
+    intervalCount?: SortOrder
+    maxUsers?: SortOrder
+  }
+
+  export type SubscriptionPlanMaxOrderByAggregateInput = {
+    id?: SortOrder
+    name?: SortOrder
+    description?: SortOrder
+    price?: SortOrder
+    currency?: SortOrder
+    interval?: SortOrder
+    intervalCount?: SortOrder
+    stripePriceId?: SortOrder
+    stripeProductId?: SortOrder
+    isActive?: SortOrder
+    maxUsers?: SortOrder
+    createdAt?: SortOrder
+    updatedAt?: SortOrder
+  }
+
+  export type SubscriptionPlanMinOrderByAggregateInput = {
+    id?: SortOrder
+    name?: SortOrder
+    description?: SortOrder
+    price?: SortOrder
+    currency?: SortOrder
+    interval?: SortOrder
+    intervalCount?: SortOrder
+    stripePriceId?: SortOrder
+    stripeProductId?: SortOrder
+    isActive?: SortOrder
+    maxUsers?: SortOrder
+    createdAt?: SortOrder
+    updatedAt?: SortOrder
+  }
+
+  export type SubscriptionPlanSumOrderByAggregateInput = {
+    price?: SortOrder
+    intervalCount?: SortOrder
+    maxUsers?: SortOrder
+  }
+
+  export type EnumEmailNotificationTypeFilter<$PrismaModel = never> = {
+    equals?: $Enums.EmailNotificationType | EnumEmailNotificationTypeFieldRefInput<$PrismaModel>
+    in?: $Enums.EmailNotificationType[] | ListEnumEmailNotificationTypeFieldRefInput<$PrismaModel>
+    notIn?: $Enums.EmailNotificationType[] | ListEnumEmailNotificationTypeFieldRefInput<$PrismaModel>
+    not?: NestedEnumEmailNotificationTypeFilter<$PrismaModel> | $Enums.EmailNotificationType
+  }
+
+  export type EnumEmailStatusFilter<$PrismaModel = never> = {
+    equals?: $Enums.EmailStatus | EnumEmailStatusFieldRefInput<$PrismaModel>
+    in?: $Enums.EmailStatus[] | ListEnumEmailStatusFieldRefInput<$PrismaModel>
+    notIn?: $Enums.EmailStatus[] | ListEnumEmailStatusFieldRefInput<$PrismaModel>
+    not?: NestedEnumEmailStatusFilter<$PrismaModel> | $Enums.EmailStatus
+  }
+
+  export type EmailNotificationCountOrderByAggregateInput = {
+    id?: SortOrder
+    type?: SortOrder
+    recipient?: SortOrder
+    subject?: SortOrder
+    content?: SortOrder
+    status?: SortOrder
+    sentAt?: SortOrder
+    failedAt?: SortOrder
+    retryCount?: SortOrder
+    template?: SortOrder
+    variables?: SortOrder
+    scheduledFor?: SortOrder
+    createdAt?: SortOrder
+    updatedAt?: SortOrder
+  }
+
+  export type EmailNotificationAvgOrderByAggregateInput = {
+    retryCount?: SortOrder
+  }
+
+  export type EmailNotificationMaxOrderByAggregateInput = {
+    id?: SortOrder
+    type?: SortOrder
+    recipient?: SortOrder
+    subject?: SortOrder
+    content?: SortOrder
+    status?: SortOrder
+    sentAt?: SortOrder
+    failedAt?: SortOrder
+    retryCount?: SortOrder
+    template?: SortOrder
+    scheduledFor?: SortOrder
+    createdAt?: SortOrder
+    updatedAt?: SortOrder
+  }
+
+  export type EmailNotificationMinOrderByAggregateInput = {
+    id?: SortOrder
+    type?: SortOrder
+    recipient?: SortOrder
+    subject?: SortOrder
+    content?: SortOrder
+    status?: SortOrder
+    sentAt?: SortOrder
+    failedAt?: SortOrder
+    retryCount?: SortOrder
+    template?: SortOrder
+    scheduledFor?: SortOrder
+    createdAt?: SortOrder
+    updatedAt?: SortOrder
+  }
+
+  export type EmailNotificationSumOrderByAggregateInput = {
+    retryCount?: SortOrder
+  }
+
+  export type EnumEmailNotificationTypeWithAggregatesFilter<$PrismaModel = never> = {
+    equals?: $Enums.EmailNotificationType | EnumEmailNotificationTypeFieldRefInput<$PrismaModel>
+    in?: $Enums.EmailNotificationType[] | ListEnumEmailNotificationTypeFieldRefInput<$PrismaModel>
+    notIn?: $Enums.EmailNotificationType[] | ListEnumEmailNotificationTypeFieldRefInput<$PrismaModel>
+    not?: NestedEnumEmailNotificationTypeWithAggregatesFilter<$PrismaModel> | $Enums.EmailNotificationType
+    _count?: NestedIntFilter<$PrismaModel>
+    _min?: NestedEnumEmailNotificationTypeFilter<$PrismaModel>
+    _max?: NestedEnumEmailNotificationTypeFilter<$PrismaModel>
+  }
+
+  export type EnumEmailStatusWithAggregatesFilter<$PrismaModel = never> = {
+    equals?: $Enums.EmailStatus | EnumEmailStatusFieldRefInput<$PrismaModel>
+    in?: $Enums.EmailStatus[] | ListEnumEmailStatusFieldRefInput<$PrismaModel>
+    notIn?: $Enums.EmailStatus[] | ListEnumEmailStatusFieldRefInput<$PrismaModel>
+    not?: NestedEnumEmailStatusWithAggregatesFilter<$PrismaModel> | $Enums.EmailStatus
+    _count?: NestedIntFilter<$PrismaModel>
+    _min?: NestedEnumEmailStatusFilter<$PrismaModel>
+    _max?: NestedEnumEmailStatusFilter<$PrismaModel>
+  }
+
   export type EnumActivityTypeFilter<$PrismaModel = never> = {
     equals?: $Enums.ActivityType | EnumActivityTypeFieldRefInput<$PrismaModel>
     in?: $Enums.ActivityType[] | ListEnumActivityTypeFieldRefInput<$PrismaModel>
@@ -116492,6 +124805,27 @@ export namespace Prisma {
     connect?: UserLevelRewardWhereUniqueInput | UserLevelRewardWhereUniqueInput[]
   }
 
+  export type SubscriptionCreateNestedManyWithoutUserInput = {
+    create?: XOR<SubscriptionCreateWithoutUserInput, SubscriptionUncheckedCreateWithoutUserInput> | SubscriptionCreateWithoutUserInput[] | SubscriptionUncheckedCreateWithoutUserInput[]
+    connectOrCreate?: SubscriptionCreateOrConnectWithoutUserInput | SubscriptionCreateOrConnectWithoutUserInput[]
+    createMany?: SubscriptionCreateManyUserInputEnvelope
+    connect?: SubscriptionWhereUniqueInput | SubscriptionWhereUniqueInput[]
+  }
+
+  export type PaymentCreateNestedManyWithoutUserInput = {
+    create?: XOR<PaymentCreateWithoutUserInput, PaymentUncheckedCreateWithoutUserInput> | PaymentCreateWithoutUserInput[] | PaymentUncheckedCreateWithoutUserInput[]
+    connectOrCreate?: PaymentCreateOrConnectWithoutUserInput | PaymentCreateOrConnectWithoutUserInput[]
+    createMany?: PaymentCreateManyUserInputEnvelope
+    connect?: PaymentWhereUniqueInput | PaymentWhereUniqueInput[]
+  }
+
+  export type WebhookEventCreateNestedManyWithoutUserInput = {
+    create?: XOR<WebhookEventCreateWithoutUserInput, WebhookEventUncheckedCreateWithoutUserInput> | WebhookEventCreateWithoutUserInput[] | WebhookEventUncheckedCreateWithoutUserInput[]
+    connectOrCreate?: WebhookEventCreateOrConnectWithoutUserInput | WebhookEventCreateOrConnectWithoutUserInput[]
+    createMany?: WebhookEventCreateManyUserInputEnvelope
+    connect?: WebhookEventWhereUniqueInput | WebhookEventWhereUniqueInput[]
+  }
+
   export type SessionUncheckedCreateNestedManyWithoutUserInput = {
     create?: XOR<SessionCreateWithoutUserInput, SessionUncheckedCreateWithoutUserInput> | SessionCreateWithoutUserInput[] | SessionUncheckedCreateWithoutUserInput[]
     connectOrCreate?: SessionCreateOrConnectWithoutUserInput | SessionCreateOrConnectWithoutUserInput[]
@@ -116804,6 +125138,27 @@ export namespace Prisma {
     connectOrCreate?: UserLevelRewardCreateOrConnectWithoutUserInput | UserLevelRewardCreateOrConnectWithoutUserInput[]
     createMany?: UserLevelRewardCreateManyUserInputEnvelope
     connect?: UserLevelRewardWhereUniqueInput | UserLevelRewardWhereUniqueInput[]
+  }
+
+  export type SubscriptionUncheckedCreateNestedManyWithoutUserInput = {
+    create?: XOR<SubscriptionCreateWithoutUserInput, SubscriptionUncheckedCreateWithoutUserInput> | SubscriptionCreateWithoutUserInput[] | SubscriptionUncheckedCreateWithoutUserInput[]
+    connectOrCreate?: SubscriptionCreateOrConnectWithoutUserInput | SubscriptionCreateOrConnectWithoutUserInput[]
+    createMany?: SubscriptionCreateManyUserInputEnvelope
+    connect?: SubscriptionWhereUniqueInput | SubscriptionWhereUniqueInput[]
+  }
+
+  export type PaymentUncheckedCreateNestedManyWithoutUserInput = {
+    create?: XOR<PaymentCreateWithoutUserInput, PaymentUncheckedCreateWithoutUserInput> | PaymentCreateWithoutUserInput[] | PaymentUncheckedCreateWithoutUserInput[]
+    connectOrCreate?: PaymentCreateOrConnectWithoutUserInput | PaymentCreateOrConnectWithoutUserInput[]
+    createMany?: PaymentCreateManyUserInputEnvelope
+    connect?: PaymentWhereUniqueInput | PaymentWhereUniqueInput[]
+  }
+
+  export type WebhookEventUncheckedCreateNestedManyWithoutUserInput = {
+    create?: XOR<WebhookEventCreateWithoutUserInput, WebhookEventUncheckedCreateWithoutUserInput> | WebhookEventCreateWithoutUserInput[] | WebhookEventUncheckedCreateWithoutUserInput[]
+    connectOrCreate?: WebhookEventCreateOrConnectWithoutUserInput | WebhookEventCreateOrConnectWithoutUserInput[]
+    createMany?: WebhookEventCreateManyUserInputEnvelope
+    connect?: WebhookEventWhereUniqueInput | WebhookEventWhereUniqueInput[]
   }
 
   export type StringFieldUpdateOperationsInput = {
@@ -117468,6 +125823,48 @@ export namespace Prisma {
     deleteMany?: UserLevelRewardScalarWhereInput | UserLevelRewardScalarWhereInput[]
   }
 
+  export type SubscriptionUpdateManyWithoutUserNestedInput = {
+    create?: XOR<SubscriptionCreateWithoutUserInput, SubscriptionUncheckedCreateWithoutUserInput> | SubscriptionCreateWithoutUserInput[] | SubscriptionUncheckedCreateWithoutUserInput[]
+    connectOrCreate?: SubscriptionCreateOrConnectWithoutUserInput | SubscriptionCreateOrConnectWithoutUserInput[]
+    upsert?: SubscriptionUpsertWithWhereUniqueWithoutUserInput | SubscriptionUpsertWithWhereUniqueWithoutUserInput[]
+    createMany?: SubscriptionCreateManyUserInputEnvelope
+    set?: SubscriptionWhereUniqueInput | SubscriptionWhereUniqueInput[]
+    disconnect?: SubscriptionWhereUniqueInput | SubscriptionWhereUniqueInput[]
+    delete?: SubscriptionWhereUniqueInput | SubscriptionWhereUniqueInput[]
+    connect?: SubscriptionWhereUniqueInput | SubscriptionWhereUniqueInput[]
+    update?: SubscriptionUpdateWithWhereUniqueWithoutUserInput | SubscriptionUpdateWithWhereUniqueWithoutUserInput[]
+    updateMany?: SubscriptionUpdateManyWithWhereWithoutUserInput | SubscriptionUpdateManyWithWhereWithoutUserInput[]
+    deleteMany?: SubscriptionScalarWhereInput | SubscriptionScalarWhereInput[]
+  }
+
+  export type PaymentUpdateManyWithoutUserNestedInput = {
+    create?: XOR<PaymentCreateWithoutUserInput, PaymentUncheckedCreateWithoutUserInput> | PaymentCreateWithoutUserInput[] | PaymentUncheckedCreateWithoutUserInput[]
+    connectOrCreate?: PaymentCreateOrConnectWithoutUserInput | PaymentCreateOrConnectWithoutUserInput[]
+    upsert?: PaymentUpsertWithWhereUniqueWithoutUserInput | PaymentUpsertWithWhereUniqueWithoutUserInput[]
+    createMany?: PaymentCreateManyUserInputEnvelope
+    set?: PaymentWhereUniqueInput | PaymentWhereUniqueInput[]
+    disconnect?: PaymentWhereUniqueInput | PaymentWhereUniqueInput[]
+    delete?: PaymentWhereUniqueInput | PaymentWhereUniqueInput[]
+    connect?: PaymentWhereUniqueInput | PaymentWhereUniqueInput[]
+    update?: PaymentUpdateWithWhereUniqueWithoutUserInput | PaymentUpdateWithWhereUniqueWithoutUserInput[]
+    updateMany?: PaymentUpdateManyWithWhereWithoutUserInput | PaymentUpdateManyWithWhereWithoutUserInput[]
+    deleteMany?: PaymentScalarWhereInput | PaymentScalarWhereInput[]
+  }
+
+  export type WebhookEventUpdateManyWithoutUserNestedInput = {
+    create?: XOR<WebhookEventCreateWithoutUserInput, WebhookEventUncheckedCreateWithoutUserInput> | WebhookEventCreateWithoutUserInput[] | WebhookEventUncheckedCreateWithoutUserInput[]
+    connectOrCreate?: WebhookEventCreateOrConnectWithoutUserInput | WebhookEventCreateOrConnectWithoutUserInput[]
+    upsert?: WebhookEventUpsertWithWhereUniqueWithoutUserInput | WebhookEventUpsertWithWhereUniqueWithoutUserInput[]
+    createMany?: WebhookEventCreateManyUserInputEnvelope
+    set?: WebhookEventWhereUniqueInput | WebhookEventWhereUniqueInput[]
+    disconnect?: WebhookEventWhereUniqueInput | WebhookEventWhereUniqueInput[]
+    delete?: WebhookEventWhereUniqueInput | WebhookEventWhereUniqueInput[]
+    connect?: WebhookEventWhereUniqueInput | WebhookEventWhereUniqueInput[]
+    update?: WebhookEventUpdateWithWhereUniqueWithoutUserInput | WebhookEventUpdateWithWhereUniqueWithoutUserInput[]
+    updateMany?: WebhookEventUpdateManyWithWhereWithoutUserInput | WebhookEventUpdateManyWithWhereWithoutUserInput[]
+    deleteMany?: WebhookEventScalarWhereInput | WebhookEventScalarWhereInput[]
+  }
+
   export type SessionUncheckedUpdateManyWithoutUserNestedInput = {
     create?: XOR<SessionCreateWithoutUserInput, SessionUncheckedCreateWithoutUserInput> | SessionCreateWithoutUserInput[] | SessionUncheckedCreateWithoutUserInput[]
     connectOrCreate?: SessionCreateOrConnectWithoutUserInput | SessionCreateOrConnectWithoutUserInput[]
@@ -118092,6 +126489,48 @@ export namespace Prisma {
     update?: UserLevelRewardUpdateWithWhereUniqueWithoutUserInput | UserLevelRewardUpdateWithWhereUniqueWithoutUserInput[]
     updateMany?: UserLevelRewardUpdateManyWithWhereWithoutUserInput | UserLevelRewardUpdateManyWithWhereWithoutUserInput[]
     deleteMany?: UserLevelRewardScalarWhereInput | UserLevelRewardScalarWhereInput[]
+  }
+
+  export type SubscriptionUncheckedUpdateManyWithoutUserNestedInput = {
+    create?: XOR<SubscriptionCreateWithoutUserInput, SubscriptionUncheckedCreateWithoutUserInput> | SubscriptionCreateWithoutUserInput[] | SubscriptionUncheckedCreateWithoutUserInput[]
+    connectOrCreate?: SubscriptionCreateOrConnectWithoutUserInput | SubscriptionCreateOrConnectWithoutUserInput[]
+    upsert?: SubscriptionUpsertWithWhereUniqueWithoutUserInput | SubscriptionUpsertWithWhereUniqueWithoutUserInput[]
+    createMany?: SubscriptionCreateManyUserInputEnvelope
+    set?: SubscriptionWhereUniqueInput | SubscriptionWhereUniqueInput[]
+    disconnect?: SubscriptionWhereUniqueInput | SubscriptionWhereUniqueInput[]
+    delete?: SubscriptionWhereUniqueInput | SubscriptionWhereUniqueInput[]
+    connect?: SubscriptionWhereUniqueInput | SubscriptionWhereUniqueInput[]
+    update?: SubscriptionUpdateWithWhereUniqueWithoutUserInput | SubscriptionUpdateWithWhereUniqueWithoutUserInput[]
+    updateMany?: SubscriptionUpdateManyWithWhereWithoutUserInput | SubscriptionUpdateManyWithWhereWithoutUserInput[]
+    deleteMany?: SubscriptionScalarWhereInput | SubscriptionScalarWhereInput[]
+  }
+
+  export type PaymentUncheckedUpdateManyWithoutUserNestedInput = {
+    create?: XOR<PaymentCreateWithoutUserInput, PaymentUncheckedCreateWithoutUserInput> | PaymentCreateWithoutUserInput[] | PaymentUncheckedCreateWithoutUserInput[]
+    connectOrCreate?: PaymentCreateOrConnectWithoutUserInput | PaymentCreateOrConnectWithoutUserInput[]
+    upsert?: PaymentUpsertWithWhereUniqueWithoutUserInput | PaymentUpsertWithWhereUniqueWithoutUserInput[]
+    createMany?: PaymentCreateManyUserInputEnvelope
+    set?: PaymentWhereUniqueInput | PaymentWhereUniqueInput[]
+    disconnect?: PaymentWhereUniqueInput | PaymentWhereUniqueInput[]
+    delete?: PaymentWhereUniqueInput | PaymentWhereUniqueInput[]
+    connect?: PaymentWhereUniqueInput | PaymentWhereUniqueInput[]
+    update?: PaymentUpdateWithWhereUniqueWithoutUserInput | PaymentUpdateWithWhereUniqueWithoutUserInput[]
+    updateMany?: PaymentUpdateManyWithWhereWithoutUserInput | PaymentUpdateManyWithWhereWithoutUserInput[]
+    deleteMany?: PaymentScalarWhereInput | PaymentScalarWhereInput[]
+  }
+
+  export type WebhookEventUncheckedUpdateManyWithoutUserNestedInput = {
+    create?: XOR<WebhookEventCreateWithoutUserInput, WebhookEventUncheckedCreateWithoutUserInput> | WebhookEventCreateWithoutUserInput[] | WebhookEventUncheckedCreateWithoutUserInput[]
+    connectOrCreate?: WebhookEventCreateOrConnectWithoutUserInput | WebhookEventCreateOrConnectWithoutUserInput[]
+    upsert?: WebhookEventUpsertWithWhereUniqueWithoutUserInput | WebhookEventUpsertWithWhereUniqueWithoutUserInput[]
+    createMany?: WebhookEventCreateManyUserInputEnvelope
+    set?: WebhookEventWhereUniqueInput | WebhookEventWhereUniqueInput[]
+    disconnect?: WebhookEventWhereUniqueInput | WebhookEventWhereUniqueInput[]
+    delete?: WebhookEventWhereUniqueInput | WebhookEventWhereUniqueInput[]
+    connect?: WebhookEventWhereUniqueInput | WebhookEventWhereUniqueInput[]
+    update?: WebhookEventUpdateWithWhereUniqueWithoutUserInput | WebhookEventUpdateWithWhereUniqueWithoutUserInput[]
+    updateMany?: WebhookEventUpdateManyWithWhereWithoutUserInput | WebhookEventUpdateManyWithWhereWithoutUserInput[]
+    deleteMany?: WebhookEventScalarWhereInput | WebhookEventScalarWhereInput[]
   }
 
   export type UserCreateNestedOneWithoutSessionsInput = {
@@ -122745,6 +131184,124 @@ export namespace Prisma {
     update?: XOR<XOR<LevelRewardUpdateToOneWithWhereWithoutUserRewardsInput, LevelRewardUpdateWithoutUserRewardsInput>, LevelRewardUncheckedUpdateWithoutUserRewardsInput>
   }
 
+  export type UserCreateNestedOneWithoutSubscriptionsInput = {
+    create?: XOR<UserCreateWithoutSubscriptionsInput, UserUncheckedCreateWithoutSubscriptionsInput>
+    connectOrCreate?: UserCreateOrConnectWithoutSubscriptionsInput
+    connect?: UserWhereUniqueInput
+  }
+
+  export type PaymentCreateNestedManyWithoutSubscriptionInput = {
+    create?: XOR<PaymentCreateWithoutSubscriptionInput, PaymentUncheckedCreateWithoutSubscriptionInput> | PaymentCreateWithoutSubscriptionInput[] | PaymentUncheckedCreateWithoutSubscriptionInput[]
+    connectOrCreate?: PaymentCreateOrConnectWithoutSubscriptionInput | PaymentCreateOrConnectWithoutSubscriptionInput[]
+    createMany?: PaymentCreateManySubscriptionInputEnvelope
+    connect?: PaymentWhereUniqueInput | PaymentWhereUniqueInput[]
+  }
+
+  export type PaymentUncheckedCreateNestedManyWithoutSubscriptionInput = {
+    create?: XOR<PaymentCreateWithoutSubscriptionInput, PaymentUncheckedCreateWithoutSubscriptionInput> | PaymentCreateWithoutSubscriptionInput[] | PaymentUncheckedCreateWithoutSubscriptionInput[]
+    connectOrCreate?: PaymentCreateOrConnectWithoutSubscriptionInput | PaymentCreateOrConnectWithoutSubscriptionInput[]
+    createMany?: PaymentCreateManySubscriptionInputEnvelope
+    connect?: PaymentWhereUniqueInput | PaymentWhereUniqueInput[]
+  }
+
+  export type EnumSubscriptionStatusFieldUpdateOperationsInput = {
+    set?: $Enums.SubscriptionStatus
+  }
+
+  export type UserUpdateOneRequiredWithoutSubscriptionsNestedInput = {
+    create?: XOR<UserCreateWithoutSubscriptionsInput, UserUncheckedCreateWithoutSubscriptionsInput>
+    connectOrCreate?: UserCreateOrConnectWithoutSubscriptionsInput
+    upsert?: UserUpsertWithoutSubscriptionsInput
+    connect?: UserWhereUniqueInput
+    update?: XOR<XOR<UserUpdateToOneWithWhereWithoutSubscriptionsInput, UserUpdateWithoutSubscriptionsInput>, UserUncheckedUpdateWithoutSubscriptionsInput>
+  }
+
+  export type PaymentUpdateManyWithoutSubscriptionNestedInput = {
+    create?: XOR<PaymentCreateWithoutSubscriptionInput, PaymentUncheckedCreateWithoutSubscriptionInput> | PaymentCreateWithoutSubscriptionInput[] | PaymentUncheckedCreateWithoutSubscriptionInput[]
+    connectOrCreate?: PaymentCreateOrConnectWithoutSubscriptionInput | PaymentCreateOrConnectWithoutSubscriptionInput[]
+    upsert?: PaymentUpsertWithWhereUniqueWithoutSubscriptionInput | PaymentUpsertWithWhereUniqueWithoutSubscriptionInput[]
+    createMany?: PaymentCreateManySubscriptionInputEnvelope
+    set?: PaymentWhereUniqueInput | PaymentWhereUniqueInput[]
+    disconnect?: PaymentWhereUniqueInput | PaymentWhereUniqueInput[]
+    delete?: PaymentWhereUniqueInput | PaymentWhereUniqueInput[]
+    connect?: PaymentWhereUniqueInput | PaymentWhereUniqueInput[]
+    update?: PaymentUpdateWithWhereUniqueWithoutSubscriptionInput | PaymentUpdateWithWhereUniqueWithoutSubscriptionInput[]
+    updateMany?: PaymentUpdateManyWithWhereWithoutSubscriptionInput | PaymentUpdateManyWithWhereWithoutSubscriptionInput[]
+    deleteMany?: PaymentScalarWhereInput | PaymentScalarWhereInput[]
+  }
+
+  export type PaymentUncheckedUpdateManyWithoutSubscriptionNestedInput = {
+    create?: XOR<PaymentCreateWithoutSubscriptionInput, PaymentUncheckedCreateWithoutSubscriptionInput> | PaymentCreateWithoutSubscriptionInput[] | PaymentUncheckedCreateWithoutSubscriptionInput[]
+    connectOrCreate?: PaymentCreateOrConnectWithoutSubscriptionInput | PaymentCreateOrConnectWithoutSubscriptionInput[]
+    upsert?: PaymentUpsertWithWhereUniqueWithoutSubscriptionInput | PaymentUpsertWithWhereUniqueWithoutSubscriptionInput[]
+    createMany?: PaymentCreateManySubscriptionInputEnvelope
+    set?: PaymentWhereUniqueInput | PaymentWhereUniqueInput[]
+    disconnect?: PaymentWhereUniqueInput | PaymentWhereUniqueInput[]
+    delete?: PaymentWhereUniqueInput | PaymentWhereUniqueInput[]
+    connect?: PaymentWhereUniqueInput | PaymentWhereUniqueInput[]
+    update?: PaymentUpdateWithWhereUniqueWithoutSubscriptionInput | PaymentUpdateWithWhereUniqueWithoutSubscriptionInput[]
+    updateMany?: PaymentUpdateManyWithWhereWithoutSubscriptionInput | PaymentUpdateManyWithWhereWithoutSubscriptionInput[]
+    deleteMany?: PaymentScalarWhereInput | PaymentScalarWhereInput[]
+  }
+
+  export type UserCreateNestedOneWithoutPaymentsInput = {
+    create?: XOR<UserCreateWithoutPaymentsInput, UserUncheckedCreateWithoutPaymentsInput>
+    connectOrCreate?: UserCreateOrConnectWithoutPaymentsInput
+    connect?: UserWhereUniqueInput
+  }
+
+  export type SubscriptionCreateNestedOneWithoutPaymentsInput = {
+    create?: XOR<SubscriptionCreateWithoutPaymentsInput, SubscriptionUncheckedCreateWithoutPaymentsInput>
+    connectOrCreate?: SubscriptionCreateOrConnectWithoutPaymentsInput
+    connect?: SubscriptionWhereUniqueInput
+  }
+
+  export type EnumPaymentStatusFieldUpdateOperationsInput = {
+    set?: $Enums.PaymentStatus
+  }
+
+  export type UserUpdateOneRequiredWithoutPaymentsNestedInput = {
+    create?: XOR<UserCreateWithoutPaymentsInput, UserUncheckedCreateWithoutPaymentsInput>
+    connectOrCreate?: UserCreateOrConnectWithoutPaymentsInput
+    upsert?: UserUpsertWithoutPaymentsInput
+    connect?: UserWhereUniqueInput
+    update?: XOR<XOR<UserUpdateToOneWithWhereWithoutPaymentsInput, UserUpdateWithoutPaymentsInput>, UserUncheckedUpdateWithoutPaymentsInput>
+  }
+
+  export type SubscriptionUpdateOneWithoutPaymentsNestedInput = {
+    create?: XOR<SubscriptionCreateWithoutPaymentsInput, SubscriptionUncheckedCreateWithoutPaymentsInput>
+    connectOrCreate?: SubscriptionCreateOrConnectWithoutPaymentsInput
+    upsert?: SubscriptionUpsertWithoutPaymentsInput
+    disconnect?: SubscriptionWhereInput | boolean
+    delete?: SubscriptionWhereInput | boolean
+    connect?: SubscriptionWhereUniqueInput
+    update?: XOR<XOR<SubscriptionUpdateToOneWithWhereWithoutPaymentsInput, SubscriptionUpdateWithoutPaymentsInput>, SubscriptionUncheckedUpdateWithoutPaymentsInput>
+  }
+
+  export type UserCreateNestedOneWithoutWebhookEventsInput = {
+    create?: XOR<UserCreateWithoutWebhookEventsInput, UserUncheckedCreateWithoutWebhookEventsInput>
+    connectOrCreate?: UserCreateOrConnectWithoutWebhookEventsInput
+    connect?: UserWhereUniqueInput
+  }
+
+  export type UserUpdateOneWithoutWebhookEventsNestedInput = {
+    create?: XOR<UserCreateWithoutWebhookEventsInput, UserUncheckedCreateWithoutWebhookEventsInput>
+    connectOrCreate?: UserCreateOrConnectWithoutWebhookEventsInput
+    upsert?: UserUpsertWithoutWebhookEventsInput
+    disconnect?: UserWhereInput | boolean
+    delete?: UserWhereInput | boolean
+    connect?: UserWhereUniqueInput
+    update?: XOR<XOR<UserUpdateToOneWithWhereWithoutWebhookEventsInput, UserUpdateWithoutWebhookEventsInput>, UserUncheckedUpdateWithoutWebhookEventsInput>
+  }
+
+  export type EnumEmailNotificationTypeFieldUpdateOperationsInput = {
+    set?: $Enums.EmailNotificationType
+  }
+
+  export type EnumEmailStatusFieldUpdateOperationsInput = {
+    set?: $Enums.EmailStatus
+  }
+
   export type UserCreateNestedOneWithoutActivitiesInput = {
     create?: XOR<UserCreateWithoutActivitiesInput, UserUncheckedCreateWithoutActivitiesInput>
     connectOrCreate?: UserCreateOrConnectWithoutActivitiesInput
@@ -123713,6 +132270,74 @@ export namespace Prisma {
     _max?: NestedEnumRewardTypeFilter<$PrismaModel>
   }
 
+  export type NestedEnumSubscriptionStatusFilter<$PrismaModel = never> = {
+    equals?: $Enums.SubscriptionStatus | EnumSubscriptionStatusFieldRefInput<$PrismaModel>
+    in?: $Enums.SubscriptionStatus[] | ListEnumSubscriptionStatusFieldRefInput<$PrismaModel>
+    notIn?: $Enums.SubscriptionStatus[] | ListEnumSubscriptionStatusFieldRefInput<$PrismaModel>
+    not?: NestedEnumSubscriptionStatusFilter<$PrismaModel> | $Enums.SubscriptionStatus
+  }
+
+  export type NestedEnumSubscriptionStatusWithAggregatesFilter<$PrismaModel = never> = {
+    equals?: $Enums.SubscriptionStatus | EnumSubscriptionStatusFieldRefInput<$PrismaModel>
+    in?: $Enums.SubscriptionStatus[] | ListEnumSubscriptionStatusFieldRefInput<$PrismaModel>
+    notIn?: $Enums.SubscriptionStatus[] | ListEnumSubscriptionStatusFieldRefInput<$PrismaModel>
+    not?: NestedEnumSubscriptionStatusWithAggregatesFilter<$PrismaModel> | $Enums.SubscriptionStatus
+    _count?: NestedIntFilter<$PrismaModel>
+    _min?: NestedEnumSubscriptionStatusFilter<$PrismaModel>
+    _max?: NestedEnumSubscriptionStatusFilter<$PrismaModel>
+  }
+
+  export type NestedEnumPaymentStatusFilter<$PrismaModel = never> = {
+    equals?: $Enums.PaymentStatus | EnumPaymentStatusFieldRefInput<$PrismaModel>
+    in?: $Enums.PaymentStatus[] | ListEnumPaymentStatusFieldRefInput<$PrismaModel>
+    notIn?: $Enums.PaymentStatus[] | ListEnumPaymentStatusFieldRefInput<$PrismaModel>
+    not?: NestedEnumPaymentStatusFilter<$PrismaModel> | $Enums.PaymentStatus
+  }
+
+  export type NestedEnumPaymentStatusWithAggregatesFilter<$PrismaModel = never> = {
+    equals?: $Enums.PaymentStatus | EnumPaymentStatusFieldRefInput<$PrismaModel>
+    in?: $Enums.PaymentStatus[] | ListEnumPaymentStatusFieldRefInput<$PrismaModel>
+    notIn?: $Enums.PaymentStatus[] | ListEnumPaymentStatusFieldRefInput<$PrismaModel>
+    not?: NestedEnumPaymentStatusWithAggregatesFilter<$PrismaModel> | $Enums.PaymentStatus
+    _count?: NestedIntFilter<$PrismaModel>
+    _min?: NestedEnumPaymentStatusFilter<$PrismaModel>
+    _max?: NestedEnumPaymentStatusFilter<$PrismaModel>
+  }
+
+  export type NestedEnumEmailNotificationTypeFilter<$PrismaModel = never> = {
+    equals?: $Enums.EmailNotificationType | EnumEmailNotificationTypeFieldRefInput<$PrismaModel>
+    in?: $Enums.EmailNotificationType[] | ListEnumEmailNotificationTypeFieldRefInput<$PrismaModel>
+    notIn?: $Enums.EmailNotificationType[] | ListEnumEmailNotificationTypeFieldRefInput<$PrismaModel>
+    not?: NestedEnumEmailNotificationTypeFilter<$PrismaModel> | $Enums.EmailNotificationType
+  }
+
+  export type NestedEnumEmailStatusFilter<$PrismaModel = never> = {
+    equals?: $Enums.EmailStatus | EnumEmailStatusFieldRefInput<$PrismaModel>
+    in?: $Enums.EmailStatus[] | ListEnumEmailStatusFieldRefInput<$PrismaModel>
+    notIn?: $Enums.EmailStatus[] | ListEnumEmailStatusFieldRefInput<$PrismaModel>
+    not?: NestedEnumEmailStatusFilter<$PrismaModel> | $Enums.EmailStatus
+  }
+
+  export type NestedEnumEmailNotificationTypeWithAggregatesFilter<$PrismaModel = never> = {
+    equals?: $Enums.EmailNotificationType | EnumEmailNotificationTypeFieldRefInput<$PrismaModel>
+    in?: $Enums.EmailNotificationType[] | ListEnumEmailNotificationTypeFieldRefInput<$PrismaModel>
+    notIn?: $Enums.EmailNotificationType[] | ListEnumEmailNotificationTypeFieldRefInput<$PrismaModel>
+    not?: NestedEnumEmailNotificationTypeWithAggregatesFilter<$PrismaModel> | $Enums.EmailNotificationType
+    _count?: NestedIntFilter<$PrismaModel>
+    _min?: NestedEnumEmailNotificationTypeFilter<$PrismaModel>
+    _max?: NestedEnumEmailNotificationTypeFilter<$PrismaModel>
+  }
+
+  export type NestedEnumEmailStatusWithAggregatesFilter<$PrismaModel = never> = {
+    equals?: $Enums.EmailStatus | EnumEmailStatusFieldRefInput<$PrismaModel>
+    in?: $Enums.EmailStatus[] | ListEnumEmailStatusFieldRefInput<$PrismaModel>
+    notIn?: $Enums.EmailStatus[] | ListEnumEmailStatusFieldRefInput<$PrismaModel>
+    not?: NestedEnumEmailStatusWithAggregatesFilter<$PrismaModel> | $Enums.EmailStatus
+    _count?: NestedIntFilter<$PrismaModel>
+    _min?: NestedEnumEmailStatusFilter<$PrismaModel>
+    _max?: NestedEnumEmailStatusFilter<$PrismaModel>
+  }
+
   export type NestedEnumActivityTypeFilter<$PrismaModel = never> = {
     equals?: $Enums.ActivityType | EnumActivityTypeFieldRefInput<$PrismaModel>
     in?: $Enums.ActivityType[] | ListEnumActivityTypeFieldRefInput<$PrismaModel>
@@ -123905,6 +132530,8 @@ export namespace Prisma {
     isPublic?: boolean
     isPremium?: boolean
     allowDownload?: boolean
+    stripeProductId?: string | null
+    stripePriceId?: string | null
     hasPrerequisites?: boolean
     unlockCriteria?: NullableJsonNullValueInput | InputJsonValue
     status?: $Enums.CourseStatus
@@ -123966,6 +132593,8 @@ export namespace Prisma {
     isPublic?: boolean
     isPremium?: boolean
     allowDownload?: boolean
+    stripeProductId?: string | null
+    stripePriceId?: string | null
     hasPrerequisites?: boolean
     seriesId?: string | null
     unlockCriteria?: NullableJsonNullValueInput | InputJsonValue
@@ -125476,6 +134105,132 @@ export namespace Prisma {
     skipDuplicates?: boolean
   }
 
+  export type SubscriptionCreateWithoutUserInput = {
+    id?: string
+    stripeCustomerId?: string | null
+    stripeSubscriptionId?: string | null
+    stripePriceId?: string | null
+    stripeProductId?: string | null
+    status?: $Enums.SubscriptionStatus
+    currentPeriodStart?: Date | string | null
+    currentPeriodEnd?: Date | string | null
+    cancelAtPeriodEnd?: boolean
+    canceledAt?: Date | string | null
+    endedAt?: Date | string | null
+    trialStart?: Date | string | null
+    trialEnd?: Date | string | null
+    quantity?: number
+    metadata?: NullableJsonNullValueInput | InputJsonValue
+    createdAt?: Date | string
+    updatedAt?: Date | string
+    payments?: PaymentCreateNestedManyWithoutSubscriptionInput
+  }
+
+  export type SubscriptionUncheckedCreateWithoutUserInput = {
+    id?: string
+    stripeCustomerId?: string | null
+    stripeSubscriptionId?: string | null
+    stripePriceId?: string | null
+    stripeProductId?: string | null
+    status?: $Enums.SubscriptionStatus
+    currentPeriodStart?: Date | string | null
+    currentPeriodEnd?: Date | string | null
+    cancelAtPeriodEnd?: boolean
+    canceledAt?: Date | string | null
+    endedAt?: Date | string | null
+    trialStart?: Date | string | null
+    trialEnd?: Date | string | null
+    quantity?: number
+    metadata?: NullableJsonNullValueInput | InputJsonValue
+    createdAt?: Date | string
+    updatedAt?: Date | string
+    payments?: PaymentUncheckedCreateNestedManyWithoutSubscriptionInput
+  }
+
+  export type SubscriptionCreateOrConnectWithoutUserInput = {
+    where: SubscriptionWhereUniqueInput
+    create: XOR<SubscriptionCreateWithoutUserInput, SubscriptionUncheckedCreateWithoutUserInput>
+  }
+
+  export type SubscriptionCreateManyUserInputEnvelope = {
+    data: SubscriptionCreateManyUserInput | SubscriptionCreateManyUserInput[]
+    skipDuplicates?: boolean
+  }
+
+  export type PaymentCreateWithoutUserInput = {
+    id?: string
+    stripePaymentId?: string | null
+    stripeInvoiceId?: string | null
+    amount: Decimal | DecimalJsLike | number | string
+    currency?: string
+    status?: $Enums.PaymentStatus
+    description?: string | null
+    metadata?: NullableJsonNullValueInput | InputJsonValue
+    paidAt?: Date | string | null
+    failedAt?: Date | string | null
+    createdAt?: Date | string
+    updatedAt?: Date | string
+    subscription?: SubscriptionCreateNestedOneWithoutPaymentsInput
+  }
+
+  export type PaymentUncheckedCreateWithoutUserInput = {
+    id?: string
+    stripePaymentId?: string | null
+    stripeInvoiceId?: string | null
+    amount: Decimal | DecimalJsLike | number | string
+    currency?: string
+    status?: $Enums.PaymentStatus
+    description?: string | null
+    metadata?: NullableJsonNullValueInput | InputJsonValue
+    paidAt?: Date | string | null
+    failedAt?: Date | string | null
+    createdAt?: Date | string
+    updatedAt?: Date | string
+    subscriptionId?: string | null
+  }
+
+  export type PaymentCreateOrConnectWithoutUserInput = {
+    where: PaymentWhereUniqueInput
+    create: XOR<PaymentCreateWithoutUserInput, PaymentUncheckedCreateWithoutUserInput>
+  }
+
+  export type PaymentCreateManyUserInputEnvelope = {
+    data: PaymentCreateManyUserInput | PaymentCreateManyUserInput[]
+    skipDuplicates?: boolean
+  }
+
+  export type WebhookEventCreateWithoutUserInput = {
+    id?: string
+    stripeEventId: string
+    type: string
+    processed?: boolean
+    processedAt?: Date | string | null
+    data: JsonNullValueInput | InputJsonValue
+    apiVersion?: string | null
+    createdAt?: Date | string
+  }
+
+  export type WebhookEventUncheckedCreateWithoutUserInput = {
+    id?: string
+    stripeEventId: string
+    type: string
+    processed?: boolean
+    processedAt?: Date | string | null
+    data: JsonNullValueInput | InputJsonValue
+    apiVersion?: string | null
+    createdAt?: Date | string
+  }
+
+  export type WebhookEventCreateOrConnectWithoutUserInput = {
+    where: WebhookEventWhereUniqueInput
+    create: XOR<WebhookEventCreateWithoutUserInput, WebhookEventUncheckedCreateWithoutUserInput>
+  }
+
+  export type WebhookEventCreateManyUserInputEnvelope = {
+    data: WebhookEventCreateManyUserInput | WebhookEventCreateManyUserInput[]
+    skipDuplicates?: boolean
+  }
+
   export type SessionUpsertWithWhereUniqueWithoutUserInput = {
     where: SessionWhereUniqueInput
     update: XOR<SessionUpdateWithoutUserInput, SessionUncheckedUpdateWithoutUserInput>
@@ -125654,6 +134409,8 @@ export namespace Prisma {
     isPublic?: BoolFilter<"Course"> | boolean
     isPremium?: BoolFilter<"Course"> | boolean
     allowDownload?: BoolFilter<"Course"> | boolean
+    stripeProductId?: StringNullableFilter<"Course"> | string | null
+    stripePriceId?: StringNullableFilter<"Course"> | string | null
     hasPrerequisites?: BoolFilter<"Course"> | boolean
     seriesId?: StringNullableFilter<"Course"> | string | null
     unlockCriteria?: JsonNullableFilter<"Course">
@@ -126951,6 +135708,113 @@ export namespace Prisma {
     levelRewardId?: StringFilter<"UserLevelReward"> | string
   }
 
+  export type SubscriptionUpsertWithWhereUniqueWithoutUserInput = {
+    where: SubscriptionWhereUniqueInput
+    update: XOR<SubscriptionUpdateWithoutUserInput, SubscriptionUncheckedUpdateWithoutUserInput>
+    create: XOR<SubscriptionCreateWithoutUserInput, SubscriptionUncheckedCreateWithoutUserInput>
+  }
+
+  export type SubscriptionUpdateWithWhereUniqueWithoutUserInput = {
+    where: SubscriptionWhereUniqueInput
+    data: XOR<SubscriptionUpdateWithoutUserInput, SubscriptionUncheckedUpdateWithoutUserInput>
+  }
+
+  export type SubscriptionUpdateManyWithWhereWithoutUserInput = {
+    where: SubscriptionScalarWhereInput
+    data: XOR<SubscriptionUpdateManyMutationInput, SubscriptionUncheckedUpdateManyWithoutUserInput>
+  }
+
+  export type SubscriptionScalarWhereInput = {
+    AND?: SubscriptionScalarWhereInput | SubscriptionScalarWhereInput[]
+    OR?: SubscriptionScalarWhereInput[]
+    NOT?: SubscriptionScalarWhereInput | SubscriptionScalarWhereInput[]
+    id?: StringFilter<"Subscription"> | string
+    stripeCustomerId?: StringNullableFilter<"Subscription"> | string | null
+    stripeSubscriptionId?: StringNullableFilter<"Subscription"> | string | null
+    stripePriceId?: StringNullableFilter<"Subscription"> | string | null
+    stripeProductId?: StringNullableFilter<"Subscription"> | string | null
+    status?: EnumSubscriptionStatusFilter<"Subscription"> | $Enums.SubscriptionStatus
+    currentPeriodStart?: DateTimeNullableFilter<"Subscription"> | Date | string | null
+    currentPeriodEnd?: DateTimeNullableFilter<"Subscription"> | Date | string | null
+    cancelAtPeriodEnd?: BoolFilter<"Subscription"> | boolean
+    canceledAt?: DateTimeNullableFilter<"Subscription"> | Date | string | null
+    endedAt?: DateTimeNullableFilter<"Subscription"> | Date | string | null
+    trialStart?: DateTimeNullableFilter<"Subscription"> | Date | string | null
+    trialEnd?: DateTimeNullableFilter<"Subscription"> | Date | string | null
+    quantity?: IntFilter<"Subscription"> | number
+    metadata?: JsonNullableFilter<"Subscription">
+    createdAt?: DateTimeFilter<"Subscription"> | Date | string
+    updatedAt?: DateTimeFilter<"Subscription"> | Date | string
+    userId?: StringFilter<"Subscription"> | string
+  }
+
+  export type PaymentUpsertWithWhereUniqueWithoutUserInput = {
+    where: PaymentWhereUniqueInput
+    update: XOR<PaymentUpdateWithoutUserInput, PaymentUncheckedUpdateWithoutUserInput>
+    create: XOR<PaymentCreateWithoutUserInput, PaymentUncheckedCreateWithoutUserInput>
+  }
+
+  export type PaymentUpdateWithWhereUniqueWithoutUserInput = {
+    where: PaymentWhereUniqueInput
+    data: XOR<PaymentUpdateWithoutUserInput, PaymentUncheckedUpdateWithoutUserInput>
+  }
+
+  export type PaymentUpdateManyWithWhereWithoutUserInput = {
+    where: PaymentScalarWhereInput
+    data: XOR<PaymentUpdateManyMutationInput, PaymentUncheckedUpdateManyWithoutUserInput>
+  }
+
+  export type PaymentScalarWhereInput = {
+    AND?: PaymentScalarWhereInput | PaymentScalarWhereInput[]
+    OR?: PaymentScalarWhereInput[]
+    NOT?: PaymentScalarWhereInput | PaymentScalarWhereInput[]
+    id?: StringFilter<"Payment"> | string
+    stripePaymentId?: StringNullableFilter<"Payment"> | string | null
+    stripeInvoiceId?: StringNullableFilter<"Payment"> | string | null
+    amount?: DecimalFilter<"Payment"> | Decimal | DecimalJsLike | number | string
+    currency?: StringFilter<"Payment"> | string
+    status?: EnumPaymentStatusFilter<"Payment"> | $Enums.PaymentStatus
+    description?: StringNullableFilter<"Payment"> | string | null
+    metadata?: JsonNullableFilter<"Payment">
+    paidAt?: DateTimeNullableFilter<"Payment"> | Date | string | null
+    failedAt?: DateTimeNullableFilter<"Payment"> | Date | string | null
+    createdAt?: DateTimeFilter<"Payment"> | Date | string
+    updatedAt?: DateTimeFilter<"Payment"> | Date | string
+    userId?: StringFilter<"Payment"> | string
+    subscriptionId?: StringNullableFilter<"Payment"> | string | null
+  }
+
+  export type WebhookEventUpsertWithWhereUniqueWithoutUserInput = {
+    where: WebhookEventWhereUniqueInput
+    update: XOR<WebhookEventUpdateWithoutUserInput, WebhookEventUncheckedUpdateWithoutUserInput>
+    create: XOR<WebhookEventCreateWithoutUserInput, WebhookEventUncheckedCreateWithoutUserInput>
+  }
+
+  export type WebhookEventUpdateWithWhereUniqueWithoutUserInput = {
+    where: WebhookEventWhereUniqueInput
+    data: XOR<WebhookEventUpdateWithoutUserInput, WebhookEventUncheckedUpdateWithoutUserInput>
+  }
+
+  export type WebhookEventUpdateManyWithWhereWithoutUserInput = {
+    where: WebhookEventScalarWhereInput
+    data: XOR<WebhookEventUpdateManyMutationInput, WebhookEventUncheckedUpdateManyWithoutUserInput>
+  }
+
+  export type WebhookEventScalarWhereInput = {
+    AND?: WebhookEventScalarWhereInput | WebhookEventScalarWhereInput[]
+    OR?: WebhookEventScalarWhereInput[]
+    NOT?: WebhookEventScalarWhereInput | WebhookEventScalarWhereInput[]
+    id?: StringFilter<"WebhookEvent"> | string
+    stripeEventId?: StringFilter<"WebhookEvent"> | string
+    type?: StringFilter<"WebhookEvent"> | string
+    processed?: BoolFilter<"WebhookEvent"> | boolean
+    processedAt?: DateTimeNullableFilter<"WebhookEvent"> | Date | string | null
+    data?: JsonFilter<"WebhookEvent">
+    apiVersion?: StringNullableFilter<"WebhookEvent"> | string | null
+    createdAt?: DateTimeFilter<"WebhookEvent"> | Date | string
+    userId?: StringNullableFilter<"WebhookEvent"> | string | null
+  }
+
   export type UserCreateWithoutSessionsInput = {
     id?: string
     name: string
@@ -127017,6 +135881,9 @@ export namespace Prisma {
     goals?: UserGoalCreateNestedManyWithoutUserInput
     challenges?: UserChallengeCreateNestedManyWithoutUserInput
     levelRewards?: UserLevelRewardCreateNestedManyWithoutUserInput
+    subscriptions?: SubscriptionCreateNestedManyWithoutUserInput
+    payments?: PaymentCreateNestedManyWithoutUserInput
+    webhookEvents?: WebhookEventCreateNestedManyWithoutUserInput
   }
 
   export type UserUncheckedCreateWithoutSessionsInput = {
@@ -127085,6 +135952,9 @@ export namespace Prisma {
     goals?: UserGoalUncheckedCreateNestedManyWithoutUserInput
     challenges?: UserChallengeUncheckedCreateNestedManyWithoutUserInput
     levelRewards?: UserLevelRewardUncheckedCreateNestedManyWithoutUserInput
+    subscriptions?: SubscriptionUncheckedCreateNestedManyWithoutUserInput
+    payments?: PaymentUncheckedCreateNestedManyWithoutUserInput
+    webhookEvents?: WebhookEventUncheckedCreateNestedManyWithoutUserInput
   }
 
   export type UserCreateOrConnectWithoutSessionsInput = {
@@ -127169,6 +136039,9 @@ export namespace Prisma {
     goals?: UserGoalUpdateManyWithoutUserNestedInput
     challenges?: UserChallengeUpdateManyWithoutUserNestedInput
     levelRewards?: UserLevelRewardUpdateManyWithoutUserNestedInput
+    subscriptions?: SubscriptionUpdateManyWithoutUserNestedInput
+    payments?: PaymentUpdateManyWithoutUserNestedInput
+    webhookEvents?: WebhookEventUpdateManyWithoutUserNestedInput
   }
 
   export type UserUncheckedUpdateWithoutSessionsInput = {
@@ -127237,6 +136110,9 @@ export namespace Prisma {
     goals?: UserGoalUncheckedUpdateManyWithoutUserNestedInput
     challenges?: UserChallengeUncheckedUpdateManyWithoutUserNestedInput
     levelRewards?: UserLevelRewardUncheckedUpdateManyWithoutUserNestedInput
+    subscriptions?: SubscriptionUncheckedUpdateManyWithoutUserNestedInput
+    payments?: PaymentUncheckedUpdateManyWithoutUserNestedInput
+    webhookEvents?: WebhookEventUncheckedUpdateManyWithoutUserNestedInput
   }
 
   export type UserCreateWithoutAccountsInput = {
@@ -127305,6 +136181,9 @@ export namespace Prisma {
     goals?: UserGoalCreateNestedManyWithoutUserInput
     challenges?: UserChallengeCreateNestedManyWithoutUserInput
     levelRewards?: UserLevelRewardCreateNestedManyWithoutUserInput
+    subscriptions?: SubscriptionCreateNestedManyWithoutUserInput
+    payments?: PaymentCreateNestedManyWithoutUserInput
+    webhookEvents?: WebhookEventCreateNestedManyWithoutUserInput
   }
 
   export type UserUncheckedCreateWithoutAccountsInput = {
@@ -127373,6 +136252,9 @@ export namespace Prisma {
     goals?: UserGoalUncheckedCreateNestedManyWithoutUserInput
     challenges?: UserChallengeUncheckedCreateNestedManyWithoutUserInput
     levelRewards?: UserLevelRewardUncheckedCreateNestedManyWithoutUserInput
+    subscriptions?: SubscriptionUncheckedCreateNestedManyWithoutUserInput
+    payments?: PaymentUncheckedCreateNestedManyWithoutUserInput
+    webhookEvents?: WebhookEventUncheckedCreateNestedManyWithoutUserInput
   }
 
   export type UserCreateOrConnectWithoutAccountsInput = {
@@ -127457,6 +136339,9 @@ export namespace Prisma {
     goals?: UserGoalUpdateManyWithoutUserNestedInput
     challenges?: UserChallengeUpdateManyWithoutUserNestedInput
     levelRewards?: UserLevelRewardUpdateManyWithoutUserNestedInput
+    subscriptions?: SubscriptionUpdateManyWithoutUserNestedInput
+    payments?: PaymentUpdateManyWithoutUserNestedInput
+    webhookEvents?: WebhookEventUpdateManyWithoutUserNestedInput
   }
 
   export type UserUncheckedUpdateWithoutAccountsInput = {
@@ -127525,6 +136410,9 @@ export namespace Prisma {
     goals?: UserGoalUncheckedUpdateManyWithoutUserNestedInput
     challenges?: UserChallengeUncheckedUpdateManyWithoutUserNestedInput
     levelRewards?: UserLevelRewardUncheckedUpdateManyWithoutUserNestedInput
+    subscriptions?: SubscriptionUncheckedUpdateManyWithoutUserNestedInput
+    payments?: PaymentUncheckedUpdateManyWithoutUserNestedInput
+    webhookEvents?: WebhookEventUncheckedUpdateManyWithoutUserNestedInput
   }
 
   export type CategoryCreateWithoutChildrenInput = {
@@ -127661,6 +136549,8 @@ export namespace Prisma {
     isPublic?: boolean
     isPremium?: boolean
     allowDownload?: boolean
+    stripeProductId?: string | null
+    stripePriceId?: string | null
     hasPrerequisites?: boolean
     unlockCriteria?: NullableJsonNullValueInput | InputJsonValue
     status?: $Enums.CourseStatus
@@ -127721,6 +136611,8 @@ export namespace Prisma {
     isPublic?: boolean
     isPremium?: boolean
     allowDownload?: boolean
+    stripeProductId?: string | null
+    stripePriceId?: string | null
     hasPrerequisites?: boolean
     seriesId?: string | null
     unlockCriteria?: NullableJsonNullValueInput | InputJsonValue
@@ -128284,6 +137176,8 @@ export namespace Prisma {
     isPublic?: boolean
     isPremium?: boolean
     allowDownload?: boolean
+    stripeProductId?: string | null
+    stripePriceId?: string | null
     hasPrerequisites?: boolean
     unlockCriteria?: NullableJsonNullValueInput | InputJsonValue
     status?: $Enums.CourseStatus
@@ -128344,6 +137238,8 @@ export namespace Prisma {
     isPublic?: boolean
     isPremium?: boolean
     allowDownload?: boolean
+    stripeProductId?: string | null
+    stripePriceId?: string | null
     hasPrerequisites?: boolean
     seriesId?: string | null
     unlockCriteria?: NullableJsonNullValueInput | InputJsonValue
@@ -128979,6 +137875,9 @@ export namespace Prisma {
     goals?: UserGoalCreateNestedManyWithoutUserInput
     challenges?: UserChallengeCreateNestedManyWithoutUserInput
     levelRewards?: UserLevelRewardCreateNestedManyWithoutUserInput
+    subscriptions?: SubscriptionCreateNestedManyWithoutUserInput
+    payments?: PaymentCreateNestedManyWithoutUserInput
+    webhookEvents?: WebhookEventCreateNestedManyWithoutUserInput
   }
 
   export type UserUncheckedCreateWithoutCoursesCreatedInput = {
@@ -129047,6 +137946,9 @@ export namespace Prisma {
     goals?: UserGoalUncheckedCreateNestedManyWithoutUserInput
     challenges?: UserChallengeUncheckedCreateNestedManyWithoutUserInput
     levelRewards?: UserLevelRewardUncheckedCreateNestedManyWithoutUserInput
+    subscriptions?: SubscriptionUncheckedCreateNestedManyWithoutUserInput
+    payments?: PaymentUncheckedCreateNestedManyWithoutUserInput
+    webhookEvents?: WebhookEventUncheckedCreateNestedManyWithoutUserInput
   }
 
   export type UserCreateOrConnectWithoutCoursesCreatedInput = {
@@ -129833,6 +138735,9 @@ export namespace Prisma {
     goals?: UserGoalUpdateManyWithoutUserNestedInput
     challenges?: UserChallengeUpdateManyWithoutUserNestedInput
     levelRewards?: UserLevelRewardUpdateManyWithoutUserNestedInput
+    subscriptions?: SubscriptionUpdateManyWithoutUserNestedInput
+    payments?: PaymentUpdateManyWithoutUserNestedInput
+    webhookEvents?: WebhookEventUpdateManyWithoutUserNestedInput
   }
 
   export type UserUncheckedUpdateWithoutCoursesCreatedInput = {
@@ -129901,6 +138806,9 @@ export namespace Prisma {
     goals?: UserGoalUncheckedUpdateManyWithoutUserNestedInput
     challenges?: UserChallengeUncheckedUpdateManyWithoutUserNestedInput
     levelRewards?: UserLevelRewardUncheckedUpdateManyWithoutUserNestedInput
+    subscriptions?: SubscriptionUncheckedUpdateManyWithoutUserNestedInput
+    payments?: PaymentUncheckedUpdateManyWithoutUserNestedInput
+    webhookEvents?: WebhookEventUncheckedUpdateManyWithoutUserNestedInput
   }
 
   export type ModuleUpsertWithWhereUniqueWithoutCourseInput = {
@@ -130169,6 +139077,8 @@ export namespace Prisma {
     isPublic?: boolean
     isPremium?: boolean
     allowDownload?: boolean
+    stripeProductId?: string | null
+    stripePriceId?: string | null
     hasPrerequisites?: boolean
     unlockCriteria?: NullableJsonNullValueInput | InputJsonValue
     status?: $Enums.CourseStatus
@@ -130230,6 +139140,8 @@ export namespace Prisma {
     isPublic?: boolean
     isPremium?: boolean
     allowDownload?: boolean
+    stripeProductId?: string | null
+    stripePriceId?: string | null
     hasPrerequisites?: boolean
     seriesId?: string | null
     unlockCriteria?: NullableJsonNullValueInput | InputJsonValue
@@ -130292,6 +139204,8 @@ export namespace Prisma {
     isPublic?: boolean
     isPremium?: boolean
     allowDownload?: boolean
+    stripeProductId?: string | null
+    stripePriceId?: string | null
     hasPrerequisites?: boolean
     unlockCriteria?: NullableJsonNullValueInput | InputJsonValue
     status?: $Enums.CourseStatus
@@ -130353,6 +139267,8 @@ export namespace Prisma {
     isPublic?: boolean
     isPremium?: boolean
     allowDownload?: boolean
+    stripeProductId?: string | null
+    stripePriceId?: string | null
     hasPrerequisites?: boolean
     seriesId?: string | null
     unlockCriteria?: NullableJsonNullValueInput | InputJsonValue
@@ -130426,6 +139342,8 @@ export namespace Prisma {
     isPublic?: BoolFieldUpdateOperationsInput | boolean
     isPremium?: BoolFieldUpdateOperationsInput | boolean
     allowDownload?: BoolFieldUpdateOperationsInput | boolean
+    stripeProductId?: NullableStringFieldUpdateOperationsInput | string | null
+    stripePriceId?: NullableStringFieldUpdateOperationsInput | string | null
     hasPrerequisites?: BoolFieldUpdateOperationsInput | boolean
     unlockCriteria?: NullableJsonNullValueInput | InputJsonValue
     status?: EnumCourseStatusFieldUpdateOperationsInput | $Enums.CourseStatus
@@ -130487,6 +139405,8 @@ export namespace Prisma {
     isPublic?: BoolFieldUpdateOperationsInput | boolean
     isPremium?: BoolFieldUpdateOperationsInput | boolean
     allowDownload?: BoolFieldUpdateOperationsInput | boolean
+    stripeProductId?: NullableStringFieldUpdateOperationsInput | string | null
+    stripePriceId?: NullableStringFieldUpdateOperationsInput | string | null
     hasPrerequisites?: BoolFieldUpdateOperationsInput | boolean
     seriesId?: NullableStringFieldUpdateOperationsInput | string | null
     unlockCriteria?: NullableJsonNullValueInput | InputJsonValue
@@ -130555,6 +139475,8 @@ export namespace Prisma {
     isPublic?: BoolFieldUpdateOperationsInput | boolean
     isPremium?: BoolFieldUpdateOperationsInput | boolean
     allowDownload?: BoolFieldUpdateOperationsInput | boolean
+    stripeProductId?: NullableStringFieldUpdateOperationsInput | string | null
+    stripePriceId?: NullableStringFieldUpdateOperationsInput | string | null
     hasPrerequisites?: BoolFieldUpdateOperationsInput | boolean
     unlockCriteria?: NullableJsonNullValueInput | InputJsonValue
     status?: EnumCourseStatusFieldUpdateOperationsInput | $Enums.CourseStatus
@@ -130616,6 +139538,8 @@ export namespace Prisma {
     isPublic?: BoolFieldUpdateOperationsInput | boolean
     isPremium?: BoolFieldUpdateOperationsInput | boolean
     allowDownload?: BoolFieldUpdateOperationsInput | boolean
+    stripeProductId?: NullableStringFieldUpdateOperationsInput | string | null
+    stripePriceId?: NullableStringFieldUpdateOperationsInput | string | null
     hasPrerequisites?: BoolFieldUpdateOperationsInput | boolean
     seriesId?: NullableStringFieldUpdateOperationsInput | string | null
     unlockCriteria?: NullableJsonNullValueInput | InputJsonValue
@@ -130728,6 +139652,8 @@ export namespace Prisma {
     isPublic?: boolean
     isPremium?: boolean
     allowDownload?: boolean
+    stripeProductId?: string | null
+    stripePriceId?: string | null
     hasPrerequisites?: boolean
     unlockCriteria?: NullableJsonNullValueInput | InputJsonValue
     status?: $Enums.CourseStatus
@@ -130789,6 +139715,8 @@ export namespace Prisma {
     isPublic?: boolean
     isPremium?: boolean
     allowDownload?: boolean
+    stripeProductId?: string | null
+    stripePriceId?: string | null
     hasPrerequisites?: boolean
     unlockCriteria?: NullableJsonNullValueInput | InputJsonValue
     status?: $Enums.CourseStatus
@@ -130903,6 +139831,9 @@ export namespace Prisma {
     goals?: UserGoalCreateNestedManyWithoutUserInput
     challenges?: UserChallengeCreateNestedManyWithoutUserInput
     levelRewards?: UserLevelRewardCreateNestedManyWithoutUserInput
+    subscriptions?: SubscriptionCreateNestedManyWithoutUserInput
+    payments?: PaymentCreateNestedManyWithoutUserInput
+    webhookEvents?: WebhookEventCreateNestedManyWithoutUserInput
   }
 
   export type UserUncheckedCreateWithoutCourseSeriesCreatedInput = {
@@ -130971,6 +139902,9 @@ export namespace Prisma {
     goals?: UserGoalUncheckedCreateNestedManyWithoutUserInput
     challenges?: UserChallengeUncheckedCreateNestedManyWithoutUserInput
     levelRewards?: UserLevelRewardUncheckedCreateNestedManyWithoutUserInput
+    subscriptions?: SubscriptionUncheckedCreateNestedManyWithoutUserInput
+    payments?: PaymentUncheckedCreateNestedManyWithoutUserInput
+    webhookEvents?: WebhookEventUncheckedCreateNestedManyWithoutUserInput
   }
 
   export type UserCreateOrConnectWithoutCourseSeriesCreatedInput = {
@@ -131132,6 +140066,9 @@ export namespace Prisma {
     goals?: UserGoalUpdateManyWithoutUserNestedInput
     challenges?: UserChallengeUpdateManyWithoutUserNestedInput
     levelRewards?: UserLevelRewardUpdateManyWithoutUserNestedInput
+    subscriptions?: SubscriptionUpdateManyWithoutUserNestedInput
+    payments?: PaymentUpdateManyWithoutUserNestedInput
+    webhookEvents?: WebhookEventUpdateManyWithoutUserNestedInput
   }
 
   export type UserUncheckedUpdateWithoutCourseSeriesCreatedInput = {
@@ -131200,6 +140137,9 @@ export namespace Prisma {
     goals?: UserGoalUncheckedUpdateManyWithoutUserNestedInput
     challenges?: UserChallengeUncheckedUpdateManyWithoutUserNestedInput
     levelRewards?: UserLevelRewardUncheckedUpdateManyWithoutUserNestedInput
+    subscriptions?: SubscriptionUncheckedUpdateManyWithoutUserNestedInput
+    payments?: PaymentUncheckedUpdateManyWithoutUserNestedInput
+    webhookEvents?: WebhookEventUncheckedUpdateManyWithoutUserNestedInput
   }
 
   export type CourseCreateWithoutRelatedCoursesInput = {
@@ -131221,6 +140161,8 @@ export namespace Prisma {
     isPublic?: boolean
     isPremium?: boolean
     allowDownload?: boolean
+    stripeProductId?: string | null
+    stripePriceId?: string | null
     hasPrerequisites?: boolean
     unlockCriteria?: NullableJsonNullValueInput | InputJsonValue
     status?: $Enums.CourseStatus
@@ -131282,6 +140224,8 @@ export namespace Prisma {
     isPublic?: boolean
     isPremium?: boolean
     allowDownload?: boolean
+    stripeProductId?: string | null
+    stripePriceId?: string | null
     hasPrerequisites?: boolean
     seriesId?: string | null
     unlockCriteria?: NullableJsonNullValueInput | InputJsonValue
@@ -131344,6 +140288,8 @@ export namespace Prisma {
     isPublic?: boolean
     isPremium?: boolean
     allowDownload?: boolean
+    stripeProductId?: string | null
+    stripePriceId?: string | null
     hasPrerequisites?: boolean
     unlockCriteria?: NullableJsonNullValueInput | InputJsonValue
     status?: $Enums.CourseStatus
@@ -131405,6 +140351,8 @@ export namespace Prisma {
     isPublic?: boolean
     isPremium?: boolean
     allowDownload?: boolean
+    stripeProductId?: string | null
+    stripePriceId?: string | null
     hasPrerequisites?: boolean
     seriesId?: string | null
     unlockCriteria?: NullableJsonNullValueInput | InputJsonValue
@@ -131478,6 +140426,8 @@ export namespace Prisma {
     isPublic?: BoolFieldUpdateOperationsInput | boolean
     isPremium?: BoolFieldUpdateOperationsInput | boolean
     allowDownload?: BoolFieldUpdateOperationsInput | boolean
+    stripeProductId?: NullableStringFieldUpdateOperationsInput | string | null
+    stripePriceId?: NullableStringFieldUpdateOperationsInput | string | null
     hasPrerequisites?: BoolFieldUpdateOperationsInput | boolean
     unlockCriteria?: NullableJsonNullValueInput | InputJsonValue
     status?: EnumCourseStatusFieldUpdateOperationsInput | $Enums.CourseStatus
@@ -131539,6 +140489,8 @@ export namespace Prisma {
     isPublic?: BoolFieldUpdateOperationsInput | boolean
     isPremium?: BoolFieldUpdateOperationsInput | boolean
     allowDownload?: BoolFieldUpdateOperationsInput | boolean
+    stripeProductId?: NullableStringFieldUpdateOperationsInput | string | null
+    stripePriceId?: NullableStringFieldUpdateOperationsInput | string | null
     hasPrerequisites?: BoolFieldUpdateOperationsInput | boolean
     seriesId?: NullableStringFieldUpdateOperationsInput | string | null
     unlockCriteria?: NullableJsonNullValueInput | InputJsonValue
@@ -131607,6 +140559,8 @@ export namespace Prisma {
     isPublic?: BoolFieldUpdateOperationsInput | boolean
     isPremium?: BoolFieldUpdateOperationsInput | boolean
     allowDownload?: BoolFieldUpdateOperationsInput | boolean
+    stripeProductId?: NullableStringFieldUpdateOperationsInput | string | null
+    stripePriceId?: NullableStringFieldUpdateOperationsInput | string | null
     hasPrerequisites?: BoolFieldUpdateOperationsInput | boolean
     unlockCriteria?: NullableJsonNullValueInput | InputJsonValue
     status?: EnumCourseStatusFieldUpdateOperationsInput | $Enums.CourseStatus
@@ -131668,6 +140622,8 @@ export namespace Prisma {
     isPublic?: BoolFieldUpdateOperationsInput | boolean
     isPremium?: BoolFieldUpdateOperationsInput | boolean
     allowDownload?: BoolFieldUpdateOperationsInput | boolean
+    stripeProductId?: NullableStringFieldUpdateOperationsInput | string | null
+    stripePriceId?: NullableStringFieldUpdateOperationsInput | string | null
     hasPrerequisites?: BoolFieldUpdateOperationsInput | boolean
     seriesId?: NullableStringFieldUpdateOperationsInput | string | null
     unlockCriteria?: NullableJsonNullValueInput | InputJsonValue
@@ -131772,6 +140728,9 @@ export namespace Prisma {
     goals?: UserGoalCreateNestedManyWithoutUserInput
     challenges?: UserChallengeCreateNestedManyWithoutUserInput
     levelRewards?: UserLevelRewardCreateNestedManyWithoutUserInput
+    subscriptions?: SubscriptionCreateNestedManyWithoutUserInput
+    payments?: PaymentCreateNestedManyWithoutUserInput
+    webhookEvents?: WebhookEventCreateNestedManyWithoutUserInput
   }
 
   export type UserUncheckedCreateWithoutLearningPathsCreatedInput = {
@@ -131840,6 +140799,9 @@ export namespace Prisma {
     goals?: UserGoalUncheckedCreateNestedManyWithoutUserInput
     challenges?: UserChallengeUncheckedCreateNestedManyWithoutUserInput
     levelRewards?: UserLevelRewardUncheckedCreateNestedManyWithoutUserInput
+    subscriptions?: SubscriptionUncheckedCreateNestedManyWithoutUserInput
+    payments?: PaymentUncheckedCreateNestedManyWithoutUserInput
+    webhookEvents?: WebhookEventUncheckedCreateNestedManyWithoutUserInput
   }
 
   export type UserCreateOrConnectWithoutLearningPathsCreatedInput = {
@@ -131970,6 +140932,9 @@ export namespace Prisma {
     goals?: UserGoalUpdateManyWithoutUserNestedInput
     challenges?: UserChallengeUpdateManyWithoutUserNestedInput
     levelRewards?: UserLevelRewardUpdateManyWithoutUserNestedInput
+    subscriptions?: SubscriptionUpdateManyWithoutUserNestedInput
+    payments?: PaymentUpdateManyWithoutUserNestedInput
+    webhookEvents?: WebhookEventUpdateManyWithoutUserNestedInput
   }
 
   export type UserUncheckedUpdateWithoutLearningPathsCreatedInput = {
@@ -132038,6 +141003,9 @@ export namespace Prisma {
     goals?: UserGoalUncheckedUpdateManyWithoutUserNestedInput
     challenges?: UserChallengeUncheckedUpdateManyWithoutUserNestedInput
     levelRewards?: UserLevelRewardUncheckedUpdateManyWithoutUserNestedInput
+    subscriptions?: SubscriptionUncheckedUpdateManyWithoutUserNestedInput
+    payments?: PaymentUncheckedUpdateManyWithoutUserNestedInput
+    webhookEvents?: WebhookEventUncheckedUpdateManyWithoutUserNestedInput
   }
 
   export type LearningPathCourseUpsertWithWhereUniqueWithoutPathInput = {
@@ -132120,6 +141088,8 @@ export namespace Prisma {
     isPublic?: boolean
     isPremium?: boolean
     allowDownload?: boolean
+    stripeProductId?: string | null
+    stripePriceId?: string | null
     hasPrerequisites?: boolean
     unlockCriteria?: NullableJsonNullValueInput | InputJsonValue
     status?: $Enums.CourseStatus
@@ -132181,6 +141151,8 @@ export namespace Prisma {
     isPublic?: boolean
     isPremium?: boolean
     allowDownload?: boolean
+    stripeProductId?: string | null
+    stripePriceId?: string | null
     hasPrerequisites?: boolean
     seriesId?: string | null
     unlockCriteria?: NullableJsonNullValueInput | InputJsonValue
@@ -132289,6 +141261,8 @@ export namespace Prisma {
     isPublic?: BoolFieldUpdateOperationsInput | boolean
     isPremium?: BoolFieldUpdateOperationsInput | boolean
     allowDownload?: BoolFieldUpdateOperationsInput | boolean
+    stripeProductId?: NullableStringFieldUpdateOperationsInput | string | null
+    stripePriceId?: NullableStringFieldUpdateOperationsInput | string | null
     hasPrerequisites?: BoolFieldUpdateOperationsInput | boolean
     unlockCriteria?: NullableJsonNullValueInput | InputJsonValue
     status?: EnumCourseStatusFieldUpdateOperationsInput | $Enums.CourseStatus
@@ -132350,6 +141324,8 @@ export namespace Prisma {
     isPublic?: BoolFieldUpdateOperationsInput | boolean
     isPremium?: BoolFieldUpdateOperationsInput | boolean
     allowDownload?: BoolFieldUpdateOperationsInput | boolean
+    stripeProductId?: NullableStringFieldUpdateOperationsInput | string | null
+    stripePriceId?: NullableStringFieldUpdateOperationsInput | string | null
     hasPrerequisites?: BoolFieldUpdateOperationsInput | boolean
     seriesId?: NullableStringFieldUpdateOperationsInput | string | null
     unlockCriteria?: NullableJsonNullValueInput | InputJsonValue
@@ -132454,6 +141430,9 @@ export namespace Prisma {
     goals?: UserGoalCreateNestedManyWithoutUserInput
     challenges?: UserChallengeCreateNestedManyWithoutUserInput
     levelRewards?: UserLevelRewardCreateNestedManyWithoutUserInput
+    subscriptions?: SubscriptionCreateNestedManyWithoutUserInput
+    payments?: PaymentCreateNestedManyWithoutUserInput
+    webhookEvents?: WebhookEventCreateNestedManyWithoutUserInput
   }
 
   export type UserUncheckedCreateWithoutLearningPathsFollowedInput = {
@@ -132522,6 +141501,9 @@ export namespace Prisma {
     goals?: UserGoalUncheckedCreateNestedManyWithoutUserInput
     challenges?: UserChallengeUncheckedCreateNestedManyWithoutUserInput
     levelRewards?: UserLevelRewardUncheckedCreateNestedManyWithoutUserInput
+    subscriptions?: SubscriptionUncheckedCreateNestedManyWithoutUserInput
+    payments?: PaymentUncheckedCreateNestedManyWithoutUserInput
+    webhookEvents?: WebhookEventUncheckedCreateNestedManyWithoutUserInput
   }
 
   export type UserCreateOrConnectWithoutLearningPathsFollowedInput = {
@@ -132635,6 +141617,9 @@ export namespace Prisma {
     goals?: UserGoalUpdateManyWithoutUserNestedInput
     challenges?: UserChallengeUpdateManyWithoutUserNestedInput
     levelRewards?: UserLevelRewardUpdateManyWithoutUserNestedInput
+    subscriptions?: SubscriptionUpdateManyWithoutUserNestedInput
+    payments?: PaymentUpdateManyWithoutUserNestedInput
+    webhookEvents?: WebhookEventUpdateManyWithoutUserNestedInput
   }
 
   export type UserUncheckedUpdateWithoutLearningPathsFollowedInput = {
@@ -132703,6 +141688,9 @@ export namespace Prisma {
     goals?: UserGoalUncheckedUpdateManyWithoutUserNestedInput
     challenges?: UserChallengeUncheckedUpdateManyWithoutUserNestedInput
     levelRewards?: UserLevelRewardUncheckedUpdateManyWithoutUserNestedInput
+    subscriptions?: SubscriptionUncheckedUpdateManyWithoutUserNestedInput
+    payments?: PaymentUncheckedUpdateManyWithoutUserNestedInput
+    webhookEvents?: WebhookEventUncheckedUpdateManyWithoutUserNestedInput
   }
 
   export type LearningPathUpsertWithoutFollowersInput = {
@@ -132806,6 +141794,9 @@ export namespace Prisma {
     goals?: UserGoalCreateNestedManyWithoutUserInput
     challenges?: UserChallengeCreateNestedManyWithoutUserInput
     levelRewards?: UserLevelRewardCreateNestedManyWithoutUserInput
+    subscriptions?: SubscriptionCreateNestedManyWithoutUserInput
+    payments?: PaymentCreateNestedManyWithoutUserInput
+    webhookEvents?: WebhookEventCreateNestedManyWithoutUserInput
   }
 
   export type UserUncheckedCreateWithoutCourseRecommendationsInput = {
@@ -132874,6 +141865,9 @@ export namespace Prisma {
     goals?: UserGoalUncheckedCreateNestedManyWithoutUserInput
     challenges?: UserChallengeUncheckedCreateNestedManyWithoutUserInput
     levelRewards?: UserLevelRewardUncheckedCreateNestedManyWithoutUserInput
+    subscriptions?: SubscriptionUncheckedCreateNestedManyWithoutUserInput
+    payments?: PaymentUncheckedCreateNestedManyWithoutUserInput
+    webhookEvents?: WebhookEventUncheckedCreateNestedManyWithoutUserInput
   }
 
   export type UserCreateOrConnectWithoutCourseRecommendationsInput = {
@@ -132900,6 +141894,8 @@ export namespace Prisma {
     isPublic?: boolean
     isPremium?: boolean
     allowDownload?: boolean
+    stripeProductId?: string | null
+    stripePriceId?: string | null
     hasPrerequisites?: boolean
     unlockCriteria?: NullableJsonNullValueInput | InputJsonValue
     status?: $Enums.CourseStatus
@@ -132961,6 +141957,8 @@ export namespace Prisma {
     isPublic?: boolean
     isPremium?: boolean
     allowDownload?: boolean
+    stripeProductId?: string | null
+    stripePriceId?: string | null
     hasPrerequisites?: boolean
     seriesId?: string | null
     unlockCriteria?: NullableJsonNullValueInput | InputJsonValue
@@ -133081,6 +142079,9 @@ export namespace Prisma {
     goals?: UserGoalUpdateManyWithoutUserNestedInput
     challenges?: UserChallengeUpdateManyWithoutUserNestedInput
     levelRewards?: UserLevelRewardUpdateManyWithoutUserNestedInput
+    subscriptions?: SubscriptionUpdateManyWithoutUserNestedInput
+    payments?: PaymentUpdateManyWithoutUserNestedInput
+    webhookEvents?: WebhookEventUpdateManyWithoutUserNestedInput
   }
 
   export type UserUncheckedUpdateWithoutCourseRecommendationsInput = {
@@ -133149,6 +142150,9 @@ export namespace Prisma {
     goals?: UserGoalUncheckedUpdateManyWithoutUserNestedInput
     challenges?: UserChallengeUncheckedUpdateManyWithoutUserNestedInput
     levelRewards?: UserLevelRewardUncheckedUpdateManyWithoutUserNestedInput
+    subscriptions?: SubscriptionUncheckedUpdateManyWithoutUserNestedInput
+    payments?: PaymentUncheckedUpdateManyWithoutUserNestedInput
+    webhookEvents?: WebhookEventUncheckedUpdateManyWithoutUserNestedInput
   }
 
   export type CourseUpsertWithoutCourseRecommendationsInput = {
@@ -133181,6 +142185,8 @@ export namespace Prisma {
     isPublic?: BoolFieldUpdateOperationsInput | boolean
     isPremium?: BoolFieldUpdateOperationsInput | boolean
     allowDownload?: BoolFieldUpdateOperationsInput | boolean
+    stripeProductId?: NullableStringFieldUpdateOperationsInput | string | null
+    stripePriceId?: NullableStringFieldUpdateOperationsInput | string | null
     hasPrerequisites?: BoolFieldUpdateOperationsInput | boolean
     unlockCriteria?: NullableJsonNullValueInput | InputJsonValue
     status?: EnumCourseStatusFieldUpdateOperationsInput | $Enums.CourseStatus
@@ -133242,6 +142248,8 @@ export namespace Prisma {
     isPublic?: BoolFieldUpdateOperationsInput | boolean
     isPremium?: BoolFieldUpdateOperationsInput | boolean
     allowDownload?: BoolFieldUpdateOperationsInput | boolean
+    stripeProductId?: NullableStringFieldUpdateOperationsInput | string | null
+    stripePriceId?: NullableStringFieldUpdateOperationsInput | string | null
     hasPrerequisites?: BoolFieldUpdateOperationsInput | boolean
     seriesId?: NullableStringFieldUpdateOperationsInput | string | null
     unlockCriteria?: NullableJsonNullValueInput | InputJsonValue
@@ -133440,6 +142448,9 @@ export namespace Prisma {
     goals?: UserGoalCreateNestedManyWithoutUserInput
     challenges?: UserChallengeCreateNestedManyWithoutUserInput
     levelRewards?: UserLevelRewardCreateNestedManyWithoutUserInput
+    subscriptions?: SubscriptionCreateNestedManyWithoutUserInput
+    payments?: PaymentCreateNestedManyWithoutUserInput
+    webhookEvents?: WebhookEventCreateNestedManyWithoutUserInput
   }
 
   export type UserUncheckedCreateWithoutRoadmapsCreatedInput = {
@@ -133508,6 +142519,9 @@ export namespace Prisma {
     goals?: UserGoalUncheckedCreateNestedManyWithoutUserInput
     challenges?: UserChallengeUncheckedCreateNestedManyWithoutUserInput
     levelRewards?: UserLevelRewardUncheckedCreateNestedManyWithoutUserInput
+    subscriptions?: SubscriptionUncheckedCreateNestedManyWithoutUserInput
+    payments?: PaymentUncheckedCreateNestedManyWithoutUserInput
+    webhookEvents?: WebhookEventUncheckedCreateNestedManyWithoutUserInput
   }
 
   export type UserCreateOrConnectWithoutRoadmapsCreatedInput = {
@@ -133796,6 +142810,9 @@ export namespace Prisma {
     goals?: UserGoalUpdateManyWithoutUserNestedInput
     challenges?: UserChallengeUpdateManyWithoutUserNestedInput
     levelRewards?: UserLevelRewardUpdateManyWithoutUserNestedInput
+    subscriptions?: SubscriptionUpdateManyWithoutUserNestedInput
+    payments?: PaymentUpdateManyWithoutUserNestedInput
+    webhookEvents?: WebhookEventUpdateManyWithoutUserNestedInput
   }
 
   export type UserUncheckedUpdateWithoutRoadmapsCreatedInput = {
@@ -133864,6 +142881,9 @@ export namespace Prisma {
     goals?: UserGoalUncheckedUpdateManyWithoutUserNestedInput
     challenges?: UserChallengeUncheckedUpdateManyWithoutUserNestedInput
     levelRewards?: UserLevelRewardUncheckedUpdateManyWithoutUserNestedInput
+    subscriptions?: SubscriptionUncheckedUpdateManyWithoutUserNestedInput
+    payments?: PaymentUncheckedUpdateManyWithoutUserNestedInput
+    webhookEvents?: WebhookEventUncheckedUpdateManyWithoutUserNestedInput
   }
 
   export type RoadmapPathUpsertWithWhereUniqueWithoutRoadmapInput = {
@@ -134164,6 +143184,8 @@ export namespace Prisma {
     isPublic?: boolean
     isPremium?: boolean
     allowDownload?: boolean
+    stripeProductId?: string | null
+    stripePriceId?: string | null
     hasPrerequisites?: boolean
     unlockCriteria?: NullableJsonNullValueInput | InputJsonValue
     status?: $Enums.CourseStatus
@@ -134225,6 +143247,8 @@ export namespace Prisma {
     isPublic?: boolean
     isPremium?: boolean
     allowDownload?: boolean
+    stripeProductId?: string | null
+    stripePriceId?: string | null
     hasPrerequisites?: boolean
     seriesId?: string | null
     unlockCriteria?: NullableJsonNullValueInput | InputJsonValue
@@ -134331,6 +143355,8 @@ export namespace Prisma {
     isPublic?: BoolFieldUpdateOperationsInput | boolean
     isPremium?: BoolFieldUpdateOperationsInput | boolean
     allowDownload?: BoolFieldUpdateOperationsInput | boolean
+    stripeProductId?: NullableStringFieldUpdateOperationsInput | string | null
+    stripePriceId?: NullableStringFieldUpdateOperationsInput | string | null
     hasPrerequisites?: BoolFieldUpdateOperationsInput | boolean
     unlockCriteria?: NullableJsonNullValueInput | InputJsonValue
     status?: EnumCourseStatusFieldUpdateOperationsInput | $Enums.CourseStatus
@@ -134392,6 +143418,8 @@ export namespace Prisma {
     isPublic?: BoolFieldUpdateOperationsInput | boolean
     isPremium?: BoolFieldUpdateOperationsInput | boolean
     allowDownload?: BoolFieldUpdateOperationsInput | boolean
+    stripeProductId?: NullableStringFieldUpdateOperationsInput | string | null
+    stripePriceId?: NullableStringFieldUpdateOperationsInput | string | null
     hasPrerequisites?: BoolFieldUpdateOperationsInput | boolean
     seriesId?: NullableStringFieldUpdateOperationsInput | string | null
     unlockCriteria?: NullableJsonNullValueInput | InputJsonValue
@@ -134496,6 +143524,9 @@ export namespace Prisma {
     goals?: UserGoalCreateNestedManyWithoutUserInput
     challenges?: UserChallengeCreateNestedManyWithoutUserInput
     levelRewards?: UserLevelRewardCreateNestedManyWithoutUserInput
+    subscriptions?: SubscriptionCreateNestedManyWithoutUserInput
+    payments?: PaymentCreateNestedManyWithoutUserInput
+    webhookEvents?: WebhookEventCreateNestedManyWithoutUserInput
   }
 
   export type UserUncheckedCreateWithoutRoadmapEnrollmentsInput = {
@@ -134564,6 +143595,9 @@ export namespace Prisma {
     goals?: UserGoalUncheckedCreateNestedManyWithoutUserInput
     challenges?: UserChallengeUncheckedCreateNestedManyWithoutUserInput
     levelRewards?: UserLevelRewardUncheckedCreateNestedManyWithoutUserInput
+    subscriptions?: SubscriptionUncheckedCreateNestedManyWithoutUserInput
+    payments?: PaymentUncheckedCreateNestedManyWithoutUserInput
+    webhookEvents?: WebhookEventUncheckedCreateNestedManyWithoutUserInput
   }
 
   export type UserCreateOrConnectWithoutRoadmapEnrollmentsInput = {
@@ -134711,6 +143745,9 @@ export namespace Prisma {
     goals?: UserGoalUpdateManyWithoutUserNestedInput
     challenges?: UserChallengeUpdateManyWithoutUserNestedInput
     levelRewards?: UserLevelRewardUpdateManyWithoutUserNestedInput
+    subscriptions?: SubscriptionUpdateManyWithoutUserNestedInput
+    payments?: PaymentUpdateManyWithoutUserNestedInput
+    webhookEvents?: WebhookEventUpdateManyWithoutUserNestedInput
   }
 
   export type UserUncheckedUpdateWithoutRoadmapEnrollmentsInput = {
@@ -134779,6 +143816,9 @@ export namespace Prisma {
     goals?: UserGoalUncheckedUpdateManyWithoutUserNestedInput
     challenges?: UserChallengeUncheckedUpdateManyWithoutUserNestedInput
     levelRewards?: UserLevelRewardUncheckedUpdateManyWithoutUserNestedInput
+    subscriptions?: SubscriptionUncheckedUpdateManyWithoutUserNestedInput
+    payments?: PaymentUncheckedUpdateManyWithoutUserNestedInput
+    webhookEvents?: WebhookEventUncheckedUpdateManyWithoutUserNestedInput
   }
 
   export type RoadmapUpsertWithoutEnrollmentsInput = {
@@ -135001,6 +144041,8 @@ export namespace Prisma {
     isPublic?: boolean
     isPremium?: boolean
     allowDownload?: boolean
+    stripeProductId?: string | null
+    stripePriceId?: string | null
     hasPrerequisites?: boolean
     unlockCriteria?: NullableJsonNullValueInput | InputJsonValue
     status?: $Enums.CourseStatus
@@ -135062,6 +144104,8 @@ export namespace Prisma {
     isPublic?: boolean
     isPremium?: boolean
     allowDownload?: boolean
+    stripeProductId?: string | null
+    stripePriceId?: string | null
     hasPrerequisites?: boolean
     seriesId?: string | null
     unlockCriteria?: NullableJsonNullValueInput | InputJsonValue
@@ -135275,6 +144319,8 @@ export namespace Prisma {
     isPublic?: BoolFieldUpdateOperationsInput | boolean
     isPremium?: BoolFieldUpdateOperationsInput | boolean
     allowDownload?: BoolFieldUpdateOperationsInput | boolean
+    stripeProductId?: NullableStringFieldUpdateOperationsInput | string | null
+    stripePriceId?: NullableStringFieldUpdateOperationsInput | string | null
     hasPrerequisites?: BoolFieldUpdateOperationsInput | boolean
     unlockCriteria?: NullableJsonNullValueInput | InputJsonValue
     status?: EnumCourseStatusFieldUpdateOperationsInput | $Enums.CourseStatus
@@ -135336,6 +144382,8 @@ export namespace Prisma {
     isPublic?: BoolFieldUpdateOperationsInput | boolean
     isPremium?: BoolFieldUpdateOperationsInput | boolean
     allowDownload?: BoolFieldUpdateOperationsInput | boolean
+    stripeProductId?: NullableStringFieldUpdateOperationsInput | string | null
+    stripePriceId?: NullableStringFieldUpdateOperationsInput | string | null
     hasPrerequisites?: BoolFieldUpdateOperationsInput | boolean
     seriesId?: NullableStringFieldUpdateOperationsInput | string | null
     unlockCriteria?: NullableJsonNullValueInput | InputJsonValue
@@ -135959,6 +145007,9 @@ export namespace Prisma {
     goals?: UserGoalCreateNestedManyWithoutUserInput
     challenges?: UserChallengeCreateNestedManyWithoutUserInput
     levelRewards?: UserLevelRewardCreateNestedManyWithoutUserInput
+    subscriptions?: SubscriptionCreateNestedManyWithoutUserInput
+    payments?: PaymentCreateNestedManyWithoutUserInput
+    webhookEvents?: WebhookEventCreateNestedManyWithoutUserInput
   }
 
   export type UserUncheckedCreateWithoutEnrollmentsInput = {
@@ -136027,6 +145078,9 @@ export namespace Prisma {
     goals?: UserGoalUncheckedCreateNestedManyWithoutUserInput
     challenges?: UserChallengeUncheckedCreateNestedManyWithoutUserInput
     levelRewards?: UserLevelRewardUncheckedCreateNestedManyWithoutUserInput
+    subscriptions?: SubscriptionUncheckedCreateNestedManyWithoutUserInput
+    payments?: PaymentUncheckedCreateNestedManyWithoutUserInput
+    webhookEvents?: WebhookEventUncheckedCreateNestedManyWithoutUserInput
   }
 
   export type UserCreateOrConnectWithoutEnrollmentsInput = {
@@ -136053,6 +145107,8 @@ export namespace Prisma {
     isPublic?: boolean
     isPremium?: boolean
     allowDownload?: boolean
+    stripeProductId?: string | null
+    stripePriceId?: string | null
     hasPrerequisites?: boolean
     unlockCriteria?: NullableJsonNullValueInput | InputJsonValue
     status?: $Enums.CourseStatus
@@ -136114,6 +145170,8 @@ export namespace Prisma {
     isPublic?: boolean
     isPremium?: boolean
     allowDownload?: boolean
+    stripeProductId?: string | null
+    stripePriceId?: string | null
     hasPrerequisites?: boolean
     seriesId?: string | null
     unlockCriteria?: NullableJsonNullValueInput | InputJsonValue
@@ -136234,6 +145292,9 @@ export namespace Prisma {
     goals?: UserGoalUpdateManyWithoutUserNestedInput
     challenges?: UserChallengeUpdateManyWithoutUserNestedInput
     levelRewards?: UserLevelRewardUpdateManyWithoutUserNestedInput
+    subscriptions?: SubscriptionUpdateManyWithoutUserNestedInput
+    payments?: PaymentUpdateManyWithoutUserNestedInput
+    webhookEvents?: WebhookEventUpdateManyWithoutUserNestedInput
   }
 
   export type UserUncheckedUpdateWithoutEnrollmentsInput = {
@@ -136302,6 +145363,9 @@ export namespace Prisma {
     goals?: UserGoalUncheckedUpdateManyWithoutUserNestedInput
     challenges?: UserChallengeUncheckedUpdateManyWithoutUserNestedInput
     levelRewards?: UserLevelRewardUncheckedUpdateManyWithoutUserNestedInput
+    subscriptions?: SubscriptionUncheckedUpdateManyWithoutUserNestedInput
+    payments?: PaymentUncheckedUpdateManyWithoutUserNestedInput
+    webhookEvents?: WebhookEventUncheckedUpdateManyWithoutUserNestedInput
   }
 
   export type CourseUpsertWithoutEnrollmentsInput = {
@@ -136334,6 +145398,8 @@ export namespace Prisma {
     isPublic?: BoolFieldUpdateOperationsInput | boolean
     isPremium?: BoolFieldUpdateOperationsInput | boolean
     allowDownload?: BoolFieldUpdateOperationsInput | boolean
+    stripeProductId?: NullableStringFieldUpdateOperationsInput | string | null
+    stripePriceId?: NullableStringFieldUpdateOperationsInput | string | null
     hasPrerequisites?: BoolFieldUpdateOperationsInput | boolean
     unlockCriteria?: NullableJsonNullValueInput | InputJsonValue
     status?: EnumCourseStatusFieldUpdateOperationsInput | $Enums.CourseStatus
@@ -136395,6 +145461,8 @@ export namespace Prisma {
     isPublic?: BoolFieldUpdateOperationsInput | boolean
     isPremium?: BoolFieldUpdateOperationsInput | boolean
     allowDownload?: BoolFieldUpdateOperationsInput | boolean
+    stripeProductId?: NullableStringFieldUpdateOperationsInput | string | null
+    stripePriceId?: NullableStringFieldUpdateOperationsInput | string | null
     hasPrerequisites?: BoolFieldUpdateOperationsInput | boolean
     seriesId?: NullableStringFieldUpdateOperationsInput | string | null
     unlockCriteria?: NullableJsonNullValueInput | InputJsonValue
@@ -136499,6 +145567,9 @@ export namespace Prisma {
     goals?: UserGoalCreateNestedManyWithoutUserInput
     challenges?: UserChallengeCreateNestedManyWithoutUserInput
     levelRewards?: UserLevelRewardCreateNestedManyWithoutUserInput
+    subscriptions?: SubscriptionCreateNestedManyWithoutUserInput
+    payments?: PaymentCreateNestedManyWithoutUserInput
+    webhookEvents?: WebhookEventCreateNestedManyWithoutUserInput
   }
 
   export type UserUncheckedCreateWithoutProgressInput = {
@@ -136567,6 +145638,9 @@ export namespace Prisma {
     goals?: UserGoalUncheckedCreateNestedManyWithoutUserInput
     challenges?: UserChallengeUncheckedCreateNestedManyWithoutUserInput
     levelRewards?: UserLevelRewardUncheckedCreateNestedManyWithoutUserInput
+    subscriptions?: SubscriptionUncheckedCreateNestedManyWithoutUserInput
+    payments?: PaymentUncheckedCreateNestedManyWithoutUserInput
+    webhookEvents?: WebhookEventUncheckedCreateNestedManyWithoutUserInput
   }
 
   export type UserCreateOrConnectWithoutProgressInput = {
@@ -136702,6 +145776,9 @@ export namespace Prisma {
     goals?: UserGoalUpdateManyWithoutUserNestedInput
     challenges?: UserChallengeUpdateManyWithoutUserNestedInput
     levelRewards?: UserLevelRewardUpdateManyWithoutUserNestedInput
+    subscriptions?: SubscriptionUpdateManyWithoutUserNestedInput
+    payments?: PaymentUpdateManyWithoutUserNestedInput
+    webhookEvents?: WebhookEventUpdateManyWithoutUserNestedInput
   }
 
   export type UserUncheckedUpdateWithoutProgressInput = {
@@ -136770,6 +145847,9 @@ export namespace Prisma {
     goals?: UserGoalUncheckedUpdateManyWithoutUserNestedInput
     challenges?: UserChallengeUncheckedUpdateManyWithoutUserNestedInput
     levelRewards?: UserLevelRewardUncheckedUpdateManyWithoutUserNestedInput
+    subscriptions?: SubscriptionUncheckedUpdateManyWithoutUserNestedInput
+    payments?: PaymentUncheckedUpdateManyWithoutUserNestedInput
+    webhookEvents?: WebhookEventUncheckedUpdateManyWithoutUserNestedInput
   }
 
   export type LessonUpsertWithoutProgressInput = {
@@ -136895,6 +145975,9 @@ export namespace Prisma {
     goals?: UserGoalCreateNestedManyWithoutUserInput
     challenges?: UserChallengeCreateNestedManyWithoutUserInput
     levelRewards?: UserLevelRewardCreateNestedManyWithoutUserInput
+    subscriptions?: SubscriptionCreateNestedManyWithoutUserInput
+    payments?: PaymentCreateNestedManyWithoutUserInput
+    webhookEvents?: WebhookEventCreateNestedManyWithoutUserInput
   }
 
   export type UserUncheckedCreateWithoutGamificationInput = {
@@ -136963,6 +146046,9 @@ export namespace Prisma {
     goals?: UserGoalUncheckedCreateNestedManyWithoutUserInput
     challenges?: UserChallengeUncheckedCreateNestedManyWithoutUserInput
     levelRewards?: UserLevelRewardUncheckedCreateNestedManyWithoutUserInput
+    subscriptions?: SubscriptionUncheckedCreateNestedManyWithoutUserInput
+    payments?: PaymentUncheckedCreateNestedManyWithoutUserInput
+    webhookEvents?: WebhookEventUncheckedCreateNestedManyWithoutUserInput
   }
 
   export type UserCreateOrConnectWithoutGamificationInput = {
@@ -137101,6 +146187,9 @@ export namespace Prisma {
     goals?: UserGoalUpdateManyWithoutUserNestedInput
     challenges?: UserChallengeUpdateManyWithoutUserNestedInput
     levelRewards?: UserLevelRewardUpdateManyWithoutUserNestedInput
+    subscriptions?: SubscriptionUpdateManyWithoutUserNestedInput
+    payments?: PaymentUpdateManyWithoutUserNestedInput
+    webhookEvents?: WebhookEventUpdateManyWithoutUserNestedInput
   }
 
   export type UserUncheckedUpdateWithoutGamificationInput = {
@@ -137169,6 +146258,9 @@ export namespace Prisma {
     goals?: UserGoalUncheckedUpdateManyWithoutUserNestedInput
     challenges?: UserChallengeUncheckedUpdateManyWithoutUserNestedInput
     levelRewards?: UserLevelRewardUncheckedUpdateManyWithoutUserNestedInput
+    subscriptions?: SubscriptionUncheckedUpdateManyWithoutUserNestedInput
+    payments?: PaymentUncheckedUpdateManyWithoutUserNestedInput
+    webhookEvents?: WebhookEventUncheckedUpdateManyWithoutUserNestedInput
   }
 
   export type UserBadgeUpsertWithWhereUniqueWithoutGamificationInput = {
@@ -137323,6 +146415,9 @@ export namespace Prisma {
     goals?: UserGoalCreateNestedManyWithoutUserInput
     challenges?: UserChallengeCreateNestedManyWithoutUserInput
     levelRewards?: UserLevelRewardCreateNestedManyWithoutUserInput
+    subscriptions?: SubscriptionCreateNestedManyWithoutUserInput
+    payments?: PaymentCreateNestedManyWithoutUserInput
+    webhookEvents?: WebhookEventCreateNestedManyWithoutUserInput
   }
 
   export type UserUncheckedCreateWithoutUserBadgesInput = {
@@ -137391,6 +146486,9 @@ export namespace Prisma {
     goals?: UserGoalUncheckedCreateNestedManyWithoutUserInput
     challenges?: UserChallengeUncheckedCreateNestedManyWithoutUserInput
     levelRewards?: UserLevelRewardUncheckedCreateNestedManyWithoutUserInput
+    subscriptions?: SubscriptionUncheckedCreateNestedManyWithoutUserInput
+    payments?: PaymentUncheckedCreateNestedManyWithoutUserInput
+    webhookEvents?: WebhookEventUncheckedCreateNestedManyWithoutUserInput
   }
 
   export type UserCreateOrConnectWithoutUserBadgesInput = {
@@ -137547,6 +146645,9 @@ export namespace Prisma {
     goals?: UserGoalUpdateManyWithoutUserNestedInput
     challenges?: UserChallengeUpdateManyWithoutUserNestedInput
     levelRewards?: UserLevelRewardUpdateManyWithoutUserNestedInput
+    subscriptions?: SubscriptionUpdateManyWithoutUserNestedInput
+    payments?: PaymentUpdateManyWithoutUserNestedInput
+    webhookEvents?: WebhookEventUpdateManyWithoutUserNestedInput
   }
 
   export type UserUncheckedUpdateWithoutUserBadgesInput = {
@@ -137615,6 +146716,9 @@ export namespace Prisma {
     goals?: UserGoalUncheckedUpdateManyWithoutUserNestedInput
     challenges?: UserChallengeUncheckedUpdateManyWithoutUserNestedInput
     levelRewards?: UserLevelRewardUncheckedUpdateManyWithoutUserNestedInput
+    subscriptions?: SubscriptionUncheckedUpdateManyWithoutUserNestedInput
+    payments?: PaymentUncheckedUpdateManyWithoutUserNestedInput
+    webhookEvents?: WebhookEventUncheckedUpdateManyWithoutUserNestedInput
   }
 
   export type BadgeUpsertWithoutUserBadgesInput = {
@@ -137847,6 +146951,9 @@ export namespace Prisma {
     goals?: UserGoalCreateNestedManyWithoutUserInput
     challenges?: UserChallengeCreateNestedManyWithoutUserInput
     levelRewards?: UserLevelRewardCreateNestedManyWithoutUserInput
+    subscriptions?: SubscriptionCreateNestedManyWithoutUserInput
+    payments?: PaymentCreateNestedManyWithoutUserInput
+    webhookEvents?: WebhookEventCreateNestedManyWithoutUserInput
   }
 
   export type UserUncheckedCreateWithoutPostsInput = {
@@ -137915,6 +147022,9 @@ export namespace Prisma {
     goals?: UserGoalUncheckedCreateNestedManyWithoutUserInput
     challenges?: UserChallengeUncheckedCreateNestedManyWithoutUserInput
     levelRewards?: UserLevelRewardUncheckedCreateNestedManyWithoutUserInput
+    subscriptions?: SubscriptionUncheckedCreateNestedManyWithoutUserInput
+    payments?: PaymentUncheckedCreateNestedManyWithoutUserInput
+    webhookEvents?: WebhookEventUncheckedCreateNestedManyWithoutUserInput
   }
 
   export type UserCreateOrConnectWithoutPostsInput = {
@@ -137941,6 +147051,8 @@ export namespace Prisma {
     isPublic?: boolean
     isPremium?: boolean
     allowDownload?: boolean
+    stripeProductId?: string | null
+    stripePriceId?: string | null
     hasPrerequisites?: boolean
     unlockCriteria?: NullableJsonNullValueInput | InputJsonValue
     status?: $Enums.CourseStatus
@@ -138002,6 +147114,8 @@ export namespace Prisma {
     isPublic?: boolean
     isPremium?: boolean
     allowDownload?: boolean
+    stripeProductId?: string | null
+    stripePriceId?: string | null
     hasPrerequisites?: boolean
     seriesId?: string | null
     unlockCriteria?: NullableJsonNullValueInput | InputJsonValue
@@ -138182,6 +147296,9 @@ export namespace Prisma {
     goals?: UserGoalUpdateManyWithoutUserNestedInput
     challenges?: UserChallengeUpdateManyWithoutUserNestedInput
     levelRewards?: UserLevelRewardUpdateManyWithoutUserNestedInput
+    subscriptions?: SubscriptionUpdateManyWithoutUserNestedInput
+    payments?: PaymentUpdateManyWithoutUserNestedInput
+    webhookEvents?: WebhookEventUpdateManyWithoutUserNestedInput
   }
 
   export type UserUncheckedUpdateWithoutPostsInput = {
@@ -138250,6 +147367,9 @@ export namespace Prisma {
     goals?: UserGoalUncheckedUpdateManyWithoutUserNestedInput
     challenges?: UserChallengeUncheckedUpdateManyWithoutUserNestedInput
     levelRewards?: UserLevelRewardUncheckedUpdateManyWithoutUserNestedInput
+    subscriptions?: SubscriptionUncheckedUpdateManyWithoutUserNestedInput
+    payments?: PaymentUncheckedUpdateManyWithoutUserNestedInput
+    webhookEvents?: WebhookEventUncheckedUpdateManyWithoutUserNestedInput
   }
 
   export type CourseUpsertWithoutSocialPostsInput = {
@@ -138282,6 +147402,8 @@ export namespace Prisma {
     isPublic?: BoolFieldUpdateOperationsInput | boolean
     isPremium?: BoolFieldUpdateOperationsInput | boolean
     allowDownload?: BoolFieldUpdateOperationsInput | boolean
+    stripeProductId?: NullableStringFieldUpdateOperationsInput | string | null
+    stripePriceId?: NullableStringFieldUpdateOperationsInput | string | null
     hasPrerequisites?: BoolFieldUpdateOperationsInput | boolean
     unlockCriteria?: NullableJsonNullValueInput | InputJsonValue
     status?: EnumCourseStatusFieldUpdateOperationsInput | $Enums.CourseStatus
@@ -138343,6 +147465,8 @@ export namespace Prisma {
     isPublic?: BoolFieldUpdateOperationsInput | boolean
     isPremium?: BoolFieldUpdateOperationsInput | boolean
     allowDownload?: BoolFieldUpdateOperationsInput | boolean
+    stripeProductId?: NullableStringFieldUpdateOperationsInput | string | null
+    stripePriceId?: NullableStringFieldUpdateOperationsInput | string | null
     hasPrerequisites?: BoolFieldUpdateOperationsInput | boolean
     seriesId?: NullableStringFieldUpdateOperationsInput | string | null
     unlockCriteria?: NullableJsonNullValueInput | InputJsonValue
@@ -138542,6 +147666,9 @@ export namespace Prisma {
     goals?: UserGoalCreateNestedManyWithoutUserInput
     challenges?: UserChallengeCreateNestedManyWithoutUserInput
     levelRewards?: UserLevelRewardCreateNestedManyWithoutUserInput
+    subscriptions?: SubscriptionCreateNestedManyWithoutUserInput
+    payments?: PaymentCreateNestedManyWithoutUserInput
+    webhookEvents?: WebhookEventCreateNestedManyWithoutUserInput
   }
 
   export type UserUncheckedCreateWithoutCommentsInput = {
@@ -138610,6 +147737,9 @@ export namespace Prisma {
     goals?: UserGoalUncheckedCreateNestedManyWithoutUserInput
     challenges?: UserChallengeUncheckedCreateNestedManyWithoutUserInput
     levelRewards?: UserLevelRewardUncheckedCreateNestedManyWithoutUserInput
+    subscriptions?: SubscriptionUncheckedCreateNestedManyWithoutUserInput
+    payments?: PaymentUncheckedCreateNestedManyWithoutUserInput
+    webhookEvents?: WebhookEventUncheckedCreateNestedManyWithoutUserInput
   }
 
   export type UserCreateOrConnectWithoutCommentsInput = {
@@ -138814,6 +147944,9 @@ export namespace Prisma {
     goals?: UserGoalUpdateManyWithoutUserNestedInput
     challenges?: UserChallengeUpdateManyWithoutUserNestedInput
     levelRewards?: UserLevelRewardUpdateManyWithoutUserNestedInput
+    subscriptions?: SubscriptionUpdateManyWithoutUserNestedInput
+    payments?: PaymentUpdateManyWithoutUserNestedInput
+    webhookEvents?: WebhookEventUpdateManyWithoutUserNestedInput
   }
 
   export type UserUncheckedUpdateWithoutCommentsInput = {
@@ -138882,6 +148015,9 @@ export namespace Prisma {
     goals?: UserGoalUncheckedUpdateManyWithoutUserNestedInput
     challenges?: UserChallengeUncheckedUpdateManyWithoutUserNestedInput
     levelRewards?: UserLevelRewardUncheckedUpdateManyWithoutUserNestedInput
+    subscriptions?: SubscriptionUncheckedUpdateManyWithoutUserNestedInput
+    payments?: PaymentUncheckedUpdateManyWithoutUserNestedInput
+    webhookEvents?: WebhookEventUncheckedUpdateManyWithoutUserNestedInput
   }
 
   export type PostUpsertWithoutCommentsInput = {
@@ -139015,6 +148151,9 @@ export namespace Prisma {
     goals?: UserGoalCreateNestedManyWithoutUserInput
     challenges?: UserChallengeCreateNestedManyWithoutUserInput
     levelRewards?: UserLevelRewardCreateNestedManyWithoutUserInput
+    subscriptions?: SubscriptionCreateNestedManyWithoutUserInput
+    payments?: PaymentCreateNestedManyWithoutUserInput
+    webhookEvents?: WebhookEventCreateNestedManyWithoutUserInput
   }
 
   export type UserUncheckedCreateWithoutReactionsInput = {
@@ -139083,6 +148222,9 @@ export namespace Prisma {
     goals?: UserGoalUncheckedCreateNestedManyWithoutUserInput
     challenges?: UserChallengeUncheckedCreateNestedManyWithoutUserInput
     levelRewards?: UserLevelRewardUncheckedCreateNestedManyWithoutUserInput
+    subscriptions?: SubscriptionUncheckedCreateNestedManyWithoutUserInput
+    payments?: PaymentUncheckedCreateNestedManyWithoutUserInput
+    webhookEvents?: WebhookEventUncheckedCreateNestedManyWithoutUserInput
   }
 
   export type UserCreateOrConnectWithoutReactionsInput = {
@@ -139239,6 +148381,9 @@ export namespace Prisma {
     goals?: UserGoalUpdateManyWithoutUserNestedInput
     challenges?: UserChallengeUpdateManyWithoutUserNestedInput
     levelRewards?: UserLevelRewardUpdateManyWithoutUserNestedInput
+    subscriptions?: SubscriptionUpdateManyWithoutUserNestedInput
+    payments?: PaymentUpdateManyWithoutUserNestedInput
+    webhookEvents?: WebhookEventUpdateManyWithoutUserNestedInput
   }
 
   export type UserUncheckedUpdateWithoutReactionsInput = {
@@ -139307,6 +148452,9 @@ export namespace Prisma {
     goals?: UserGoalUncheckedUpdateManyWithoutUserNestedInput
     challenges?: UserChallengeUncheckedUpdateManyWithoutUserNestedInput
     levelRewards?: UserLevelRewardUncheckedUpdateManyWithoutUserNestedInput
+    subscriptions?: SubscriptionUncheckedUpdateManyWithoutUserNestedInput
+    payments?: PaymentUncheckedUpdateManyWithoutUserNestedInput
+    webhookEvents?: WebhookEventUncheckedUpdateManyWithoutUserNestedInput
   }
 
   export type PostUpsertWithoutReactionsInput = {
@@ -139459,6 +148607,9 @@ export namespace Prisma {
     goals?: UserGoalCreateNestedManyWithoutUserInput
     challenges?: UserChallengeCreateNestedManyWithoutUserInput
     levelRewards?: UserLevelRewardCreateNestedManyWithoutUserInput
+    subscriptions?: SubscriptionCreateNestedManyWithoutUserInput
+    payments?: PaymentCreateNestedManyWithoutUserInput
+    webhookEvents?: WebhookEventCreateNestedManyWithoutUserInput
   }
 
   export type UserUncheckedCreateWithoutFollowingInput = {
@@ -139527,6 +148678,9 @@ export namespace Prisma {
     goals?: UserGoalUncheckedCreateNestedManyWithoutUserInput
     challenges?: UserChallengeUncheckedCreateNestedManyWithoutUserInput
     levelRewards?: UserLevelRewardUncheckedCreateNestedManyWithoutUserInput
+    subscriptions?: SubscriptionUncheckedCreateNestedManyWithoutUserInput
+    payments?: PaymentUncheckedCreateNestedManyWithoutUserInput
+    webhookEvents?: WebhookEventUncheckedCreateNestedManyWithoutUserInput
   }
 
   export type UserCreateOrConnectWithoutFollowingInput = {
@@ -139600,6 +148754,9 @@ export namespace Prisma {
     goals?: UserGoalCreateNestedManyWithoutUserInput
     challenges?: UserChallengeCreateNestedManyWithoutUserInput
     levelRewards?: UserLevelRewardCreateNestedManyWithoutUserInput
+    subscriptions?: SubscriptionCreateNestedManyWithoutUserInput
+    payments?: PaymentCreateNestedManyWithoutUserInput
+    webhookEvents?: WebhookEventCreateNestedManyWithoutUserInput
   }
 
   export type UserUncheckedCreateWithoutFollowersInput = {
@@ -139668,6 +148825,9 @@ export namespace Prisma {
     goals?: UserGoalUncheckedCreateNestedManyWithoutUserInput
     challenges?: UserChallengeUncheckedCreateNestedManyWithoutUserInput
     levelRewards?: UserLevelRewardUncheckedCreateNestedManyWithoutUserInput
+    subscriptions?: SubscriptionUncheckedCreateNestedManyWithoutUserInput
+    payments?: PaymentUncheckedCreateNestedManyWithoutUserInput
+    webhookEvents?: WebhookEventUncheckedCreateNestedManyWithoutUserInput
   }
 
   export type UserCreateOrConnectWithoutFollowersInput = {
@@ -139752,6 +148912,9 @@ export namespace Prisma {
     goals?: UserGoalUpdateManyWithoutUserNestedInput
     challenges?: UserChallengeUpdateManyWithoutUserNestedInput
     levelRewards?: UserLevelRewardUpdateManyWithoutUserNestedInput
+    subscriptions?: SubscriptionUpdateManyWithoutUserNestedInput
+    payments?: PaymentUpdateManyWithoutUserNestedInput
+    webhookEvents?: WebhookEventUpdateManyWithoutUserNestedInput
   }
 
   export type UserUncheckedUpdateWithoutFollowingInput = {
@@ -139820,6 +148983,9 @@ export namespace Prisma {
     goals?: UserGoalUncheckedUpdateManyWithoutUserNestedInput
     challenges?: UserChallengeUncheckedUpdateManyWithoutUserNestedInput
     levelRewards?: UserLevelRewardUncheckedUpdateManyWithoutUserNestedInput
+    subscriptions?: SubscriptionUncheckedUpdateManyWithoutUserNestedInput
+    payments?: PaymentUncheckedUpdateManyWithoutUserNestedInput
+    webhookEvents?: WebhookEventUncheckedUpdateManyWithoutUserNestedInput
   }
 
   export type UserUpsertWithoutFollowersInput = {
@@ -139899,6 +149065,9 @@ export namespace Prisma {
     goals?: UserGoalUpdateManyWithoutUserNestedInput
     challenges?: UserChallengeUpdateManyWithoutUserNestedInput
     levelRewards?: UserLevelRewardUpdateManyWithoutUserNestedInput
+    subscriptions?: SubscriptionUpdateManyWithoutUserNestedInput
+    payments?: PaymentUpdateManyWithoutUserNestedInput
+    webhookEvents?: WebhookEventUpdateManyWithoutUserNestedInput
   }
 
   export type UserUncheckedUpdateWithoutFollowersInput = {
@@ -139967,6 +149136,9 @@ export namespace Prisma {
     goals?: UserGoalUncheckedUpdateManyWithoutUserNestedInput
     challenges?: UserChallengeUncheckedUpdateManyWithoutUserNestedInput
     levelRewards?: UserLevelRewardUncheckedUpdateManyWithoutUserNestedInput
+    subscriptions?: SubscriptionUncheckedUpdateManyWithoutUserNestedInput
+    payments?: PaymentUncheckedUpdateManyWithoutUserNestedInput
+    webhookEvents?: WebhookEventUncheckedUpdateManyWithoutUserNestedInput
   }
 
   export type CategoryCreateWithoutCommunitiesInput = {
@@ -140129,6 +149301,9 @@ export namespace Prisma {
     goals?: UserGoalCreateNestedManyWithoutUserInput
     challenges?: UserChallengeCreateNestedManyWithoutUserInput
     levelRewards?: UserLevelRewardCreateNestedManyWithoutUserInput
+    subscriptions?: SubscriptionCreateNestedManyWithoutUserInput
+    payments?: PaymentCreateNestedManyWithoutUserInput
+    webhookEvents?: WebhookEventCreateNestedManyWithoutUserInput
   }
 
   export type UserUncheckedCreateWithoutCommunitiesCreatedInput = {
@@ -140197,6 +149372,9 @@ export namespace Prisma {
     goals?: UserGoalUncheckedCreateNestedManyWithoutUserInput
     challenges?: UserChallengeUncheckedCreateNestedManyWithoutUserInput
     levelRewards?: UserLevelRewardUncheckedCreateNestedManyWithoutUserInput
+    subscriptions?: SubscriptionUncheckedCreateNestedManyWithoutUserInput
+    payments?: PaymentUncheckedCreateNestedManyWithoutUserInput
+    webhookEvents?: WebhookEventUncheckedCreateNestedManyWithoutUserInput
   }
 
   export type UserCreateOrConnectWithoutCommunitiesCreatedInput = {
@@ -140627,6 +149805,9 @@ export namespace Prisma {
     goals?: UserGoalUpdateManyWithoutUserNestedInput
     challenges?: UserChallengeUpdateManyWithoutUserNestedInput
     levelRewards?: UserLevelRewardUpdateManyWithoutUserNestedInput
+    subscriptions?: SubscriptionUpdateManyWithoutUserNestedInput
+    payments?: PaymentUpdateManyWithoutUserNestedInput
+    webhookEvents?: WebhookEventUpdateManyWithoutUserNestedInput
   }
 
   export type UserUncheckedUpdateWithoutCommunitiesCreatedInput = {
@@ -140695,6 +149876,9 @@ export namespace Prisma {
     goals?: UserGoalUncheckedUpdateManyWithoutUserNestedInput
     challenges?: UserChallengeUncheckedUpdateManyWithoutUserNestedInput
     levelRewards?: UserLevelRewardUncheckedUpdateManyWithoutUserNestedInput
+    subscriptions?: SubscriptionUncheckedUpdateManyWithoutUserNestedInput
+    payments?: PaymentUncheckedUpdateManyWithoutUserNestedInput
+    webhookEvents?: WebhookEventUncheckedUpdateManyWithoutUserNestedInput
   }
 
   export type CommunityMemberUpsertWithWhereUniqueWithoutCommunityInput = {
@@ -140884,6 +150068,9 @@ export namespace Prisma {
     goals?: UserGoalCreateNestedManyWithoutUserInput
     challenges?: UserChallengeCreateNestedManyWithoutUserInput
     levelRewards?: UserLevelRewardCreateNestedManyWithoutUserInput
+    subscriptions?: SubscriptionCreateNestedManyWithoutUserInput
+    payments?: PaymentCreateNestedManyWithoutUserInput
+    webhookEvents?: WebhookEventCreateNestedManyWithoutUserInput
   }
 
   export type UserUncheckedCreateWithoutCommunityMembersInput = {
@@ -140952,6 +150139,9 @@ export namespace Prisma {
     goals?: UserGoalUncheckedCreateNestedManyWithoutUserInput
     challenges?: UserChallengeUncheckedCreateNestedManyWithoutUserInput
     levelRewards?: UserLevelRewardUncheckedCreateNestedManyWithoutUserInput
+    subscriptions?: SubscriptionUncheckedCreateNestedManyWithoutUserInput
+    payments?: PaymentUncheckedCreateNestedManyWithoutUserInput
+    webhookEvents?: WebhookEventUncheckedCreateNestedManyWithoutUserInput
   }
 
   export type UserCreateOrConnectWithoutCommunityMembersInput = {
@@ -141125,6 +150315,9 @@ export namespace Prisma {
     goals?: UserGoalUpdateManyWithoutUserNestedInput
     challenges?: UserChallengeUpdateManyWithoutUserNestedInput
     levelRewards?: UserLevelRewardUpdateManyWithoutUserNestedInput
+    subscriptions?: SubscriptionUpdateManyWithoutUserNestedInput
+    payments?: PaymentUpdateManyWithoutUserNestedInput
+    webhookEvents?: WebhookEventUpdateManyWithoutUserNestedInput
   }
 
   export type UserUncheckedUpdateWithoutCommunityMembersInput = {
@@ -141193,6 +150386,9 @@ export namespace Prisma {
     goals?: UserGoalUncheckedUpdateManyWithoutUserNestedInput
     challenges?: UserChallengeUncheckedUpdateManyWithoutUserNestedInput
     levelRewards?: UserLevelRewardUncheckedUpdateManyWithoutUserNestedInput
+    subscriptions?: SubscriptionUncheckedUpdateManyWithoutUserNestedInput
+    payments?: PaymentUncheckedUpdateManyWithoutUserNestedInput
+    webhookEvents?: WebhookEventUncheckedUpdateManyWithoutUserNestedInput
   }
 
   export type CommunityUpsertWithoutMembersInput = {
@@ -141356,6 +150552,9 @@ export namespace Prisma {
     goals?: UserGoalCreateNestedManyWithoutUserInput
     challenges?: UserChallengeCreateNestedManyWithoutUserInput
     levelRewards?: UserLevelRewardCreateNestedManyWithoutUserInput
+    subscriptions?: SubscriptionCreateNestedManyWithoutUserInput
+    payments?: PaymentCreateNestedManyWithoutUserInput
+    webhookEvents?: WebhookEventCreateNestedManyWithoutUserInput
   }
 
   export type UserUncheckedCreateWithoutCommunityPostsInput = {
@@ -141424,6 +150623,9 @@ export namespace Prisma {
     goals?: UserGoalUncheckedCreateNestedManyWithoutUserInput
     challenges?: UserChallengeUncheckedCreateNestedManyWithoutUserInput
     levelRewards?: UserLevelRewardUncheckedCreateNestedManyWithoutUserInput
+    subscriptions?: SubscriptionUncheckedCreateNestedManyWithoutUserInput
+    payments?: PaymentUncheckedCreateNestedManyWithoutUserInput
+    webhookEvents?: WebhookEventUncheckedCreateNestedManyWithoutUserInput
   }
 
   export type UserCreateOrConnectWithoutCommunityPostsInput = {
@@ -141659,6 +150861,9 @@ export namespace Prisma {
     goals?: UserGoalUpdateManyWithoutUserNestedInput
     challenges?: UserChallengeUpdateManyWithoutUserNestedInput
     levelRewards?: UserLevelRewardUpdateManyWithoutUserNestedInput
+    subscriptions?: SubscriptionUpdateManyWithoutUserNestedInput
+    payments?: PaymentUpdateManyWithoutUserNestedInput
+    webhookEvents?: WebhookEventUpdateManyWithoutUserNestedInput
   }
 
   export type UserUncheckedUpdateWithoutCommunityPostsInput = {
@@ -141727,6 +150932,9 @@ export namespace Prisma {
     goals?: UserGoalUncheckedUpdateManyWithoutUserNestedInput
     challenges?: UserChallengeUncheckedUpdateManyWithoutUserNestedInput
     levelRewards?: UserLevelRewardUncheckedUpdateManyWithoutUserNestedInput
+    subscriptions?: SubscriptionUncheckedUpdateManyWithoutUserNestedInput
+    payments?: PaymentUncheckedUpdateManyWithoutUserNestedInput
+    webhookEvents?: WebhookEventUncheckedUpdateManyWithoutUserNestedInput
   }
 
   export type CommunityUpsertWithoutPostsInput = {
@@ -141989,6 +151197,9 @@ export namespace Prisma {
     goals?: UserGoalCreateNestedManyWithoutUserInput
     challenges?: UserChallengeCreateNestedManyWithoutUserInput
     levelRewards?: UserLevelRewardCreateNestedManyWithoutUserInput
+    subscriptions?: SubscriptionCreateNestedManyWithoutUserInput
+    payments?: PaymentCreateNestedManyWithoutUserInput
+    webhookEvents?: WebhookEventCreateNestedManyWithoutUserInput
   }
 
   export type UserUncheckedCreateWithoutCommunityCommentsInput = {
@@ -142057,6 +151268,9 @@ export namespace Prisma {
     goals?: UserGoalUncheckedCreateNestedManyWithoutUserInput
     challenges?: UserChallengeUncheckedCreateNestedManyWithoutUserInput
     levelRewards?: UserLevelRewardUncheckedCreateNestedManyWithoutUserInput
+    subscriptions?: SubscriptionUncheckedCreateNestedManyWithoutUserInput
+    payments?: PaymentUncheckedCreateNestedManyWithoutUserInput
+    webhookEvents?: WebhookEventUncheckedCreateNestedManyWithoutUserInput
   }
 
   export type UserCreateOrConnectWithoutCommunityCommentsInput = {
@@ -142271,6 +151485,9 @@ export namespace Prisma {
     goals?: UserGoalUpdateManyWithoutUserNestedInput
     challenges?: UserChallengeUpdateManyWithoutUserNestedInput
     levelRewards?: UserLevelRewardUpdateManyWithoutUserNestedInput
+    subscriptions?: SubscriptionUpdateManyWithoutUserNestedInput
+    payments?: PaymentUpdateManyWithoutUserNestedInput
+    webhookEvents?: WebhookEventUpdateManyWithoutUserNestedInput
   }
 
   export type UserUncheckedUpdateWithoutCommunityCommentsInput = {
@@ -142339,6 +151556,9 @@ export namespace Prisma {
     goals?: UserGoalUncheckedUpdateManyWithoutUserNestedInput
     challenges?: UserChallengeUncheckedUpdateManyWithoutUserNestedInput
     levelRewards?: UserLevelRewardUncheckedUpdateManyWithoutUserNestedInput
+    subscriptions?: SubscriptionUncheckedUpdateManyWithoutUserNestedInput
+    payments?: PaymentUncheckedUpdateManyWithoutUserNestedInput
+    webhookEvents?: WebhookEventUncheckedUpdateManyWithoutUserNestedInput
   }
 
   export type CommunityPostUpsertWithoutCommentsInput = {
@@ -142480,6 +151700,9 @@ export namespace Prisma {
     goals?: UserGoalCreateNestedManyWithoutUserInput
     challenges?: UserChallengeCreateNestedManyWithoutUserInput
     levelRewards?: UserLevelRewardCreateNestedManyWithoutUserInput
+    subscriptions?: SubscriptionCreateNestedManyWithoutUserInput
+    payments?: PaymentCreateNestedManyWithoutUserInput
+    webhookEvents?: WebhookEventCreateNestedManyWithoutUserInput
   }
 
   export type UserUncheckedCreateWithoutCommunityReactionsInput = {
@@ -142548,6 +151771,9 @@ export namespace Prisma {
     goals?: UserGoalUncheckedCreateNestedManyWithoutUserInput
     challenges?: UserChallengeUncheckedCreateNestedManyWithoutUserInput
     levelRewards?: UserLevelRewardUncheckedCreateNestedManyWithoutUserInput
+    subscriptions?: SubscriptionUncheckedCreateNestedManyWithoutUserInput
+    payments?: PaymentUncheckedCreateNestedManyWithoutUserInput
+    webhookEvents?: WebhookEventUncheckedCreateNestedManyWithoutUserInput
   }
 
   export type UserCreateOrConnectWithoutCommunityReactionsInput = {
@@ -142714,6 +151940,9 @@ export namespace Prisma {
     goals?: UserGoalUpdateManyWithoutUserNestedInput
     challenges?: UserChallengeUpdateManyWithoutUserNestedInput
     levelRewards?: UserLevelRewardUpdateManyWithoutUserNestedInput
+    subscriptions?: SubscriptionUpdateManyWithoutUserNestedInput
+    payments?: PaymentUpdateManyWithoutUserNestedInput
+    webhookEvents?: WebhookEventUpdateManyWithoutUserNestedInput
   }
 
   export type UserUncheckedUpdateWithoutCommunityReactionsInput = {
@@ -142782,6 +152011,9 @@ export namespace Prisma {
     goals?: UserGoalUncheckedUpdateManyWithoutUserNestedInput
     challenges?: UserChallengeUncheckedUpdateManyWithoutUserNestedInput
     levelRewards?: UserLevelRewardUncheckedUpdateManyWithoutUserNestedInput
+    subscriptions?: SubscriptionUncheckedUpdateManyWithoutUserNestedInput
+    payments?: PaymentUncheckedUpdateManyWithoutUserNestedInput
+    webhookEvents?: WebhookEventUncheckedUpdateManyWithoutUserNestedInput
   }
 
   export type CommunityPostUpsertWithoutReactionsInput = {
@@ -142944,6 +152176,9 @@ export namespace Prisma {
     goals?: UserGoalCreateNestedManyWithoutUserInput
     challenges?: UserChallengeCreateNestedManyWithoutUserInput
     levelRewards?: UserLevelRewardCreateNestedManyWithoutUserInput
+    subscriptions?: SubscriptionCreateNestedManyWithoutUserInput
+    payments?: PaymentCreateNestedManyWithoutUserInput
+    webhookEvents?: WebhookEventCreateNestedManyWithoutUserInput
   }
 
   export type UserUncheckedCreateWithoutCommunityEventsInput = {
@@ -143012,6 +152247,9 @@ export namespace Prisma {
     goals?: UserGoalUncheckedCreateNestedManyWithoutUserInput
     challenges?: UserChallengeUncheckedCreateNestedManyWithoutUserInput
     levelRewards?: UserLevelRewardUncheckedCreateNestedManyWithoutUserInput
+    subscriptions?: SubscriptionUncheckedCreateNestedManyWithoutUserInput
+    payments?: PaymentUncheckedCreateNestedManyWithoutUserInput
+    webhookEvents?: WebhookEventUncheckedCreateNestedManyWithoutUserInput
   }
 
   export type UserCreateOrConnectWithoutCommunityEventsInput = {
@@ -143209,6 +152447,9 @@ export namespace Prisma {
     goals?: UserGoalUpdateManyWithoutUserNestedInput
     challenges?: UserChallengeUpdateManyWithoutUserNestedInput
     levelRewards?: UserLevelRewardUpdateManyWithoutUserNestedInput
+    subscriptions?: SubscriptionUpdateManyWithoutUserNestedInput
+    payments?: PaymentUpdateManyWithoutUserNestedInput
+    webhookEvents?: WebhookEventUpdateManyWithoutUserNestedInput
   }
 
   export type UserUncheckedUpdateWithoutCommunityEventsInput = {
@@ -143277,6 +152518,9 @@ export namespace Prisma {
     goals?: UserGoalUncheckedUpdateManyWithoutUserNestedInput
     challenges?: UserChallengeUncheckedUpdateManyWithoutUserNestedInput
     levelRewards?: UserLevelRewardUncheckedUpdateManyWithoutUserNestedInput
+    subscriptions?: SubscriptionUncheckedUpdateManyWithoutUserNestedInput
+    payments?: PaymentUncheckedUpdateManyWithoutUserNestedInput
+    webhookEvents?: WebhookEventUncheckedUpdateManyWithoutUserNestedInput
   }
 
   export type CommunityUpsertWithoutEventsInput = {
@@ -143456,6 +152700,9 @@ export namespace Prisma {
     goals?: UserGoalCreateNestedManyWithoutUserInput
     challenges?: UserChallengeCreateNestedManyWithoutUserInput
     levelRewards?: UserLevelRewardCreateNestedManyWithoutUserInput
+    subscriptions?: SubscriptionCreateNestedManyWithoutUserInput
+    payments?: PaymentCreateNestedManyWithoutUserInput
+    webhookEvents?: WebhookEventCreateNestedManyWithoutUserInput
   }
 
   export type UserUncheckedCreateWithoutEventAttendeesInput = {
@@ -143524,6 +152771,9 @@ export namespace Prisma {
     goals?: UserGoalUncheckedCreateNestedManyWithoutUserInput
     challenges?: UserChallengeUncheckedCreateNestedManyWithoutUserInput
     levelRewards?: UserLevelRewardUncheckedCreateNestedManyWithoutUserInput
+    subscriptions?: SubscriptionUncheckedCreateNestedManyWithoutUserInput
+    payments?: PaymentUncheckedCreateNestedManyWithoutUserInput
+    webhookEvents?: WebhookEventUncheckedCreateNestedManyWithoutUserInput
   }
 
   export type UserCreateOrConnectWithoutEventAttendeesInput = {
@@ -143655,6 +152905,9 @@ export namespace Prisma {
     goals?: UserGoalUpdateManyWithoutUserNestedInput
     challenges?: UserChallengeUpdateManyWithoutUserNestedInput
     levelRewards?: UserLevelRewardUpdateManyWithoutUserNestedInput
+    subscriptions?: SubscriptionUpdateManyWithoutUserNestedInput
+    payments?: PaymentUpdateManyWithoutUserNestedInput
+    webhookEvents?: WebhookEventUpdateManyWithoutUserNestedInput
   }
 
   export type UserUncheckedUpdateWithoutEventAttendeesInput = {
@@ -143723,6 +152976,9 @@ export namespace Prisma {
     goals?: UserGoalUncheckedUpdateManyWithoutUserNestedInput
     challenges?: UserChallengeUncheckedUpdateManyWithoutUserNestedInput
     levelRewards?: UserLevelRewardUncheckedUpdateManyWithoutUserNestedInput
+    subscriptions?: SubscriptionUncheckedUpdateManyWithoutUserNestedInput
+    payments?: PaymentUncheckedUpdateManyWithoutUserNestedInput
+    webhookEvents?: WebhookEventUncheckedUpdateManyWithoutUserNestedInput
   }
 
   export type CommunityEventUpsertWithoutAttendeesInput = {
@@ -143844,6 +153100,9 @@ export namespace Prisma {
     goals?: UserGoalCreateNestedManyWithoutUserInput
     challenges?: UserChallengeCreateNestedManyWithoutUserInput
     levelRewards?: UserLevelRewardCreateNestedManyWithoutUserInput
+    subscriptions?: SubscriptionCreateNestedManyWithoutUserInput
+    payments?: PaymentCreateNestedManyWithoutUserInput
+    webhookEvents?: WebhookEventCreateNestedManyWithoutUserInput
   }
 
   export type UserUncheckedCreateWithoutCommunityPollsInput = {
@@ -143912,6 +153171,9 @@ export namespace Prisma {
     goals?: UserGoalUncheckedCreateNestedManyWithoutUserInput
     challenges?: UserChallengeUncheckedCreateNestedManyWithoutUserInput
     levelRewards?: UserLevelRewardUncheckedCreateNestedManyWithoutUserInput
+    subscriptions?: SubscriptionUncheckedCreateNestedManyWithoutUserInput
+    payments?: PaymentUncheckedCreateNestedManyWithoutUserInput
+    webhookEvents?: WebhookEventUncheckedCreateNestedManyWithoutUserInput
   }
 
   export type UserCreateOrConnectWithoutCommunityPollsInput = {
@@ -144109,6 +153371,9 @@ export namespace Prisma {
     goals?: UserGoalUpdateManyWithoutUserNestedInput
     challenges?: UserChallengeUpdateManyWithoutUserNestedInput
     levelRewards?: UserLevelRewardUpdateManyWithoutUserNestedInput
+    subscriptions?: SubscriptionUpdateManyWithoutUserNestedInput
+    payments?: PaymentUpdateManyWithoutUserNestedInput
+    webhookEvents?: WebhookEventUpdateManyWithoutUserNestedInput
   }
 
   export type UserUncheckedUpdateWithoutCommunityPollsInput = {
@@ -144177,6 +153442,9 @@ export namespace Prisma {
     goals?: UserGoalUncheckedUpdateManyWithoutUserNestedInput
     challenges?: UserChallengeUncheckedUpdateManyWithoutUserNestedInput
     levelRewards?: UserLevelRewardUncheckedUpdateManyWithoutUserNestedInput
+    subscriptions?: SubscriptionUncheckedUpdateManyWithoutUserNestedInput
+    payments?: PaymentUncheckedUpdateManyWithoutUserNestedInput
+    webhookEvents?: WebhookEventUncheckedUpdateManyWithoutUserNestedInput
   }
 
   export type CommunityUpsertWithoutPollsInput = {
@@ -144356,6 +153624,9 @@ export namespace Prisma {
     goals?: UserGoalCreateNestedManyWithoutUserInput
     challenges?: UserChallengeCreateNestedManyWithoutUserInput
     levelRewards?: UserLevelRewardCreateNestedManyWithoutUserInput
+    subscriptions?: SubscriptionCreateNestedManyWithoutUserInput
+    payments?: PaymentCreateNestedManyWithoutUserInput
+    webhookEvents?: WebhookEventCreateNestedManyWithoutUserInput
   }
 
   export type UserUncheckedCreateWithoutPollVotesInput = {
@@ -144424,6 +153695,9 @@ export namespace Prisma {
     goals?: UserGoalUncheckedCreateNestedManyWithoutUserInput
     challenges?: UserChallengeUncheckedCreateNestedManyWithoutUserInput
     levelRewards?: UserLevelRewardUncheckedCreateNestedManyWithoutUserInput
+    subscriptions?: SubscriptionUncheckedCreateNestedManyWithoutUserInput
+    payments?: PaymentUncheckedCreateNestedManyWithoutUserInput
+    webhookEvents?: WebhookEventUncheckedCreateNestedManyWithoutUserInput
   }
 
   export type UserCreateOrConnectWithoutPollVotesInput = {
@@ -144543,6 +153817,9 @@ export namespace Prisma {
     goals?: UserGoalUpdateManyWithoutUserNestedInput
     challenges?: UserChallengeUpdateManyWithoutUserNestedInput
     levelRewards?: UserLevelRewardUpdateManyWithoutUserNestedInput
+    subscriptions?: SubscriptionUpdateManyWithoutUserNestedInput
+    payments?: PaymentUpdateManyWithoutUserNestedInput
+    webhookEvents?: WebhookEventUpdateManyWithoutUserNestedInput
   }
 
   export type UserUncheckedUpdateWithoutPollVotesInput = {
@@ -144611,6 +153888,9 @@ export namespace Prisma {
     goals?: UserGoalUncheckedUpdateManyWithoutUserNestedInput
     challenges?: UserChallengeUncheckedUpdateManyWithoutUserNestedInput
     levelRewards?: UserLevelRewardUncheckedUpdateManyWithoutUserNestedInput
+    subscriptions?: SubscriptionUncheckedUpdateManyWithoutUserNestedInput
+    payments?: PaymentUncheckedUpdateManyWithoutUserNestedInput
+    webhookEvents?: WebhookEventUncheckedUpdateManyWithoutUserNestedInput
   }
 
   export type CommunityPollUpsertWithoutVotesInput = {
@@ -145041,6 +154321,8 @@ export namespace Prisma {
     isPublic?: boolean
     isPremium?: boolean
     allowDownload?: boolean
+    stripeProductId?: string | null
+    stripePriceId?: string | null
     hasPrerequisites?: boolean
     unlockCriteria?: NullableJsonNullValueInput | InputJsonValue
     status?: $Enums.CourseStatus
@@ -145102,6 +154384,8 @@ export namespace Prisma {
     isPublic?: boolean
     isPremium?: boolean
     allowDownload?: boolean
+    stripeProductId?: string | null
+    stripePriceId?: string | null
     hasPrerequisites?: boolean
     seriesId?: string | null
     unlockCriteria?: NullableJsonNullValueInput | InputJsonValue
@@ -145211,6 +154495,9 @@ export namespace Prisma {
     goals?: UserGoalCreateNestedManyWithoutUserInput
     challenges?: UserChallengeCreateNestedManyWithoutUserInput
     levelRewards?: UserLevelRewardCreateNestedManyWithoutUserInput
+    subscriptions?: SubscriptionCreateNestedManyWithoutUserInput
+    payments?: PaymentCreateNestedManyWithoutUserInput
+    webhookEvents?: WebhookEventCreateNestedManyWithoutUserInput
   }
 
   export type UserUncheckedCreateWithoutGroupsCreatedInput = {
@@ -145279,6 +154566,9 @@ export namespace Prisma {
     goals?: UserGoalUncheckedCreateNestedManyWithoutUserInput
     challenges?: UserChallengeUncheckedCreateNestedManyWithoutUserInput
     levelRewards?: UserLevelRewardUncheckedCreateNestedManyWithoutUserInput
+    subscriptions?: SubscriptionUncheckedCreateNestedManyWithoutUserInput
+    payments?: PaymentUncheckedCreateNestedManyWithoutUserInput
+    webhookEvents?: WebhookEventUncheckedCreateNestedManyWithoutUserInput
   }
 
   export type UserCreateOrConnectWithoutGroupsCreatedInput = {
@@ -145340,6 +154630,8 @@ export namespace Prisma {
     isPublic?: BoolFieldUpdateOperationsInput | boolean
     isPremium?: BoolFieldUpdateOperationsInput | boolean
     allowDownload?: BoolFieldUpdateOperationsInput | boolean
+    stripeProductId?: NullableStringFieldUpdateOperationsInput | string | null
+    stripePriceId?: NullableStringFieldUpdateOperationsInput | string | null
     hasPrerequisites?: BoolFieldUpdateOperationsInput | boolean
     unlockCriteria?: NullableJsonNullValueInput | InputJsonValue
     status?: EnumCourseStatusFieldUpdateOperationsInput | $Enums.CourseStatus
@@ -145401,6 +154693,8 @@ export namespace Prisma {
     isPublic?: BoolFieldUpdateOperationsInput | boolean
     isPremium?: BoolFieldUpdateOperationsInput | boolean
     allowDownload?: BoolFieldUpdateOperationsInput | boolean
+    stripeProductId?: NullableStringFieldUpdateOperationsInput | string | null
+    stripePriceId?: NullableStringFieldUpdateOperationsInput | string | null
     hasPrerequisites?: BoolFieldUpdateOperationsInput | boolean
     seriesId?: NullableStringFieldUpdateOperationsInput | string | null
     unlockCriteria?: NullableJsonNullValueInput | InputJsonValue
@@ -145516,6 +154810,9 @@ export namespace Prisma {
     goals?: UserGoalUpdateManyWithoutUserNestedInput
     challenges?: UserChallengeUpdateManyWithoutUserNestedInput
     levelRewards?: UserLevelRewardUpdateManyWithoutUserNestedInput
+    subscriptions?: SubscriptionUpdateManyWithoutUserNestedInput
+    payments?: PaymentUpdateManyWithoutUserNestedInput
+    webhookEvents?: WebhookEventUpdateManyWithoutUserNestedInput
   }
 
   export type UserUncheckedUpdateWithoutGroupsCreatedInput = {
@@ -145584,6 +154881,9 @@ export namespace Prisma {
     goals?: UserGoalUncheckedUpdateManyWithoutUserNestedInput
     challenges?: UserChallengeUncheckedUpdateManyWithoutUserNestedInput
     levelRewards?: UserLevelRewardUncheckedUpdateManyWithoutUserNestedInput
+    subscriptions?: SubscriptionUncheckedUpdateManyWithoutUserNestedInput
+    payments?: PaymentUncheckedUpdateManyWithoutUserNestedInput
+    webhookEvents?: WebhookEventUncheckedUpdateManyWithoutUserNestedInput
   }
 
   export type GroupMemberUpsertWithWhereUniqueWithoutGroupInput = {
@@ -145668,6 +154968,9 @@ export namespace Prisma {
     goals?: UserGoalCreateNestedManyWithoutUserInput
     challenges?: UserChallengeCreateNestedManyWithoutUserInput
     levelRewards?: UserLevelRewardCreateNestedManyWithoutUserInput
+    subscriptions?: SubscriptionCreateNestedManyWithoutUserInput
+    payments?: PaymentCreateNestedManyWithoutUserInput
+    webhookEvents?: WebhookEventCreateNestedManyWithoutUserInput
   }
 
   export type UserUncheckedCreateWithoutGroupMembersInput = {
@@ -145736,6 +155039,9 @@ export namespace Prisma {
     goals?: UserGoalUncheckedCreateNestedManyWithoutUserInput
     challenges?: UserChallengeUncheckedCreateNestedManyWithoutUserInput
     levelRewards?: UserLevelRewardUncheckedCreateNestedManyWithoutUserInput
+    subscriptions?: SubscriptionUncheckedCreateNestedManyWithoutUserInput
+    payments?: PaymentUncheckedCreateNestedManyWithoutUserInput
+    webhookEvents?: WebhookEventUncheckedCreateNestedManyWithoutUserInput
   }
 
   export type UserCreateOrConnectWithoutGroupMembersInput = {
@@ -145861,6 +155167,9 @@ export namespace Prisma {
     goals?: UserGoalUpdateManyWithoutUserNestedInput
     challenges?: UserChallengeUpdateManyWithoutUserNestedInput
     levelRewards?: UserLevelRewardUpdateManyWithoutUserNestedInput
+    subscriptions?: SubscriptionUpdateManyWithoutUserNestedInput
+    payments?: PaymentUpdateManyWithoutUserNestedInput
+    webhookEvents?: WebhookEventUpdateManyWithoutUserNestedInput
   }
 
   export type UserUncheckedUpdateWithoutGroupMembersInput = {
@@ -145929,6 +155238,9 @@ export namespace Prisma {
     goals?: UserGoalUncheckedUpdateManyWithoutUserNestedInput
     challenges?: UserChallengeUncheckedUpdateManyWithoutUserNestedInput
     levelRewards?: UserLevelRewardUncheckedUpdateManyWithoutUserNestedInput
+    subscriptions?: SubscriptionUncheckedUpdateManyWithoutUserNestedInput
+    payments?: PaymentUncheckedUpdateManyWithoutUserNestedInput
+    webhookEvents?: WebhookEventUncheckedUpdateManyWithoutUserNestedInput
   }
 
   export type GroupUpsertWithoutMembersInput = {
@@ -146044,6 +155356,9 @@ export namespace Prisma {
     goals?: UserGoalCreateNestedManyWithoutUserInput
     challenges?: UserChallengeCreateNestedManyWithoutUserInput
     levelRewards?: UserLevelRewardCreateNestedManyWithoutUserInput
+    subscriptions?: SubscriptionCreateNestedManyWithoutUserInput
+    payments?: PaymentCreateNestedManyWithoutUserInput
+    webhookEvents?: WebhookEventCreateNestedManyWithoutUserInput
   }
 
   export type UserUncheckedCreateWithoutMessagesSentInput = {
@@ -146112,6 +155427,9 @@ export namespace Prisma {
     goals?: UserGoalUncheckedCreateNestedManyWithoutUserInput
     challenges?: UserChallengeUncheckedCreateNestedManyWithoutUserInput
     levelRewards?: UserLevelRewardUncheckedCreateNestedManyWithoutUserInput
+    subscriptions?: SubscriptionUncheckedCreateNestedManyWithoutUserInput
+    payments?: PaymentUncheckedCreateNestedManyWithoutUserInput
+    webhookEvents?: WebhookEventUncheckedCreateNestedManyWithoutUserInput
   }
 
   export type UserCreateOrConnectWithoutMessagesSentInput = {
@@ -146220,6 +155538,9 @@ export namespace Prisma {
     goals?: UserGoalUpdateManyWithoutUserNestedInput
     challenges?: UserChallengeUpdateManyWithoutUserNestedInput
     levelRewards?: UserLevelRewardUpdateManyWithoutUserNestedInput
+    subscriptions?: SubscriptionUpdateManyWithoutUserNestedInput
+    payments?: PaymentUpdateManyWithoutUserNestedInput
+    webhookEvents?: WebhookEventUpdateManyWithoutUserNestedInput
   }
 
   export type UserUncheckedUpdateWithoutMessagesSentInput = {
@@ -146288,6 +155609,9 @@ export namespace Prisma {
     goals?: UserGoalUncheckedUpdateManyWithoutUserNestedInput
     challenges?: UserChallengeUncheckedUpdateManyWithoutUserNestedInput
     levelRewards?: UserLevelRewardUncheckedUpdateManyWithoutUserNestedInput
+    subscriptions?: SubscriptionUncheckedUpdateManyWithoutUserNestedInput
+    payments?: PaymentUncheckedUpdateManyWithoutUserNestedInput
+    webhookEvents?: WebhookEventUncheckedUpdateManyWithoutUserNestedInput
   }
 
   export type MessageRecipientUpsertWithWhereUniqueWithoutMessageInput = {
@@ -146403,6 +155727,9 @@ export namespace Prisma {
     goals?: UserGoalCreateNestedManyWithoutUserInput
     challenges?: UserChallengeCreateNestedManyWithoutUserInput
     levelRewards?: UserLevelRewardCreateNestedManyWithoutUserInput
+    subscriptions?: SubscriptionCreateNestedManyWithoutUserInput
+    payments?: PaymentCreateNestedManyWithoutUserInput
+    webhookEvents?: WebhookEventCreateNestedManyWithoutUserInput
   }
 
   export type UserUncheckedCreateWithoutMessageRecipientsInput = {
@@ -146471,6 +155798,9 @@ export namespace Prisma {
     goals?: UserGoalUncheckedCreateNestedManyWithoutUserInput
     challenges?: UserChallengeUncheckedCreateNestedManyWithoutUserInput
     levelRewards?: UserLevelRewardUncheckedCreateNestedManyWithoutUserInput
+    subscriptions?: SubscriptionUncheckedCreateNestedManyWithoutUserInput
+    payments?: PaymentUncheckedCreateNestedManyWithoutUserInput
+    webhookEvents?: WebhookEventUncheckedCreateNestedManyWithoutUserInput
   }
 
   export type UserCreateOrConnectWithoutMessageRecipientsInput = {
@@ -146592,6 +155922,9 @@ export namespace Prisma {
     goals?: UserGoalUpdateManyWithoutUserNestedInput
     challenges?: UserChallengeUpdateManyWithoutUserNestedInput
     levelRewards?: UserLevelRewardUpdateManyWithoutUserNestedInput
+    subscriptions?: SubscriptionUpdateManyWithoutUserNestedInput
+    payments?: PaymentUpdateManyWithoutUserNestedInput
+    webhookEvents?: WebhookEventUpdateManyWithoutUserNestedInput
   }
 
   export type UserUncheckedUpdateWithoutMessageRecipientsInput = {
@@ -146660,6 +155993,9 @@ export namespace Prisma {
     goals?: UserGoalUncheckedUpdateManyWithoutUserNestedInput
     challenges?: UserChallengeUncheckedUpdateManyWithoutUserNestedInput
     levelRewards?: UserLevelRewardUncheckedUpdateManyWithoutUserNestedInput
+    subscriptions?: SubscriptionUncheckedUpdateManyWithoutUserNestedInput
+    payments?: PaymentUncheckedUpdateManyWithoutUserNestedInput
+    webhookEvents?: WebhookEventUncheckedUpdateManyWithoutUserNestedInput
   }
 
   export type UserCreateWithoutCertificatesInput = {
@@ -146728,6 +156064,9 @@ export namespace Prisma {
     goals?: UserGoalCreateNestedManyWithoutUserInput
     challenges?: UserChallengeCreateNestedManyWithoutUserInput
     levelRewards?: UserLevelRewardCreateNestedManyWithoutUserInput
+    subscriptions?: SubscriptionCreateNestedManyWithoutUserInput
+    payments?: PaymentCreateNestedManyWithoutUserInput
+    webhookEvents?: WebhookEventCreateNestedManyWithoutUserInput
   }
 
   export type UserUncheckedCreateWithoutCertificatesInput = {
@@ -146796,6 +156135,9 @@ export namespace Prisma {
     goals?: UserGoalUncheckedCreateNestedManyWithoutUserInput
     challenges?: UserChallengeUncheckedCreateNestedManyWithoutUserInput
     levelRewards?: UserLevelRewardUncheckedCreateNestedManyWithoutUserInput
+    subscriptions?: SubscriptionUncheckedCreateNestedManyWithoutUserInput
+    payments?: PaymentUncheckedCreateNestedManyWithoutUserInput
+    webhookEvents?: WebhookEventUncheckedCreateNestedManyWithoutUserInput
   }
 
   export type UserCreateOrConnectWithoutCertificatesInput = {
@@ -146822,6 +156164,8 @@ export namespace Prisma {
     isPublic?: boolean
     isPremium?: boolean
     allowDownload?: boolean
+    stripeProductId?: string | null
+    stripePriceId?: string | null
     hasPrerequisites?: boolean
     unlockCriteria?: NullableJsonNullValueInput | InputJsonValue
     status?: $Enums.CourseStatus
@@ -146883,6 +156227,8 @@ export namespace Prisma {
     isPublic?: boolean
     isPremium?: boolean
     allowDownload?: boolean
+    stripeProductId?: string | null
+    stripePriceId?: string | null
     hasPrerequisites?: boolean
     seriesId?: string | null
     unlockCriteria?: NullableJsonNullValueInput | InputJsonValue
@@ -147003,6 +156349,9 @@ export namespace Prisma {
     goals?: UserGoalUpdateManyWithoutUserNestedInput
     challenges?: UserChallengeUpdateManyWithoutUserNestedInput
     levelRewards?: UserLevelRewardUpdateManyWithoutUserNestedInput
+    subscriptions?: SubscriptionUpdateManyWithoutUserNestedInput
+    payments?: PaymentUpdateManyWithoutUserNestedInput
+    webhookEvents?: WebhookEventUpdateManyWithoutUserNestedInput
   }
 
   export type UserUncheckedUpdateWithoutCertificatesInput = {
@@ -147071,6 +156420,9 @@ export namespace Prisma {
     goals?: UserGoalUncheckedUpdateManyWithoutUserNestedInput
     challenges?: UserChallengeUncheckedUpdateManyWithoutUserNestedInput
     levelRewards?: UserLevelRewardUncheckedUpdateManyWithoutUserNestedInput
+    subscriptions?: SubscriptionUncheckedUpdateManyWithoutUserNestedInput
+    payments?: PaymentUncheckedUpdateManyWithoutUserNestedInput
+    webhookEvents?: WebhookEventUncheckedUpdateManyWithoutUserNestedInput
   }
 
   export type CourseUpsertWithoutCertificatesInput = {
@@ -147103,6 +156455,8 @@ export namespace Prisma {
     isPublic?: BoolFieldUpdateOperationsInput | boolean
     isPremium?: BoolFieldUpdateOperationsInput | boolean
     allowDownload?: BoolFieldUpdateOperationsInput | boolean
+    stripeProductId?: NullableStringFieldUpdateOperationsInput | string | null
+    stripePriceId?: NullableStringFieldUpdateOperationsInput | string | null
     hasPrerequisites?: BoolFieldUpdateOperationsInput | boolean
     unlockCriteria?: NullableJsonNullValueInput | InputJsonValue
     status?: EnumCourseStatusFieldUpdateOperationsInput | $Enums.CourseStatus
@@ -147164,6 +156518,8 @@ export namespace Prisma {
     isPublic?: BoolFieldUpdateOperationsInput | boolean
     isPremium?: BoolFieldUpdateOperationsInput | boolean
     allowDownload?: BoolFieldUpdateOperationsInput | boolean
+    stripeProductId?: NullableStringFieldUpdateOperationsInput | string | null
+    stripePriceId?: NullableStringFieldUpdateOperationsInput | string | null
     hasPrerequisites?: BoolFieldUpdateOperationsInput | boolean
     seriesId?: NullableStringFieldUpdateOperationsInput | string | null
     unlockCriteria?: NullableJsonNullValueInput | InputJsonValue
@@ -147651,6 +157007,9 @@ export namespace Prisma {
     goals?: UserGoalCreateNestedManyWithoutUserInput
     challenges?: UserChallengeCreateNestedManyWithoutUserInput
     levelRewards?: UserLevelRewardCreateNestedManyWithoutUserInput
+    subscriptions?: SubscriptionCreateNestedManyWithoutUserInput
+    payments?: PaymentCreateNestedManyWithoutUserInput
+    webhookEvents?: WebhookEventCreateNestedManyWithoutUserInput
   }
 
   export type UserUncheckedCreateWithoutReviewsInput = {
@@ -147719,6 +157078,9 @@ export namespace Prisma {
     goals?: UserGoalUncheckedCreateNestedManyWithoutUserInput
     challenges?: UserChallengeUncheckedCreateNestedManyWithoutUserInput
     levelRewards?: UserLevelRewardUncheckedCreateNestedManyWithoutUserInput
+    subscriptions?: SubscriptionUncheckedCreateNestedManyWithoutUserInput
+    payments?: PaymentUncheckedCreateNestedManyWithoutUserInput
+    webhookEvents?: WebhookEventUncheckedCreateNestedManyWithoutUserInput
   }
 
   export type UserCreateOrConnectWithoutReviewsInput = {
@@ -147745,6 +157107,8 @@ export namespace Prisma {
     isPublic?: boolean
     isPremium?: boolean
     allowDownload?: boolean
+    stripeProductId?: string | null
+    stripePriceId?: string | null
     hasPrerequisites?: boolean
     unlockCriteria?: NullableJsonNullValueInput | InputJsonValue
     status?: $Enums.CourseStatus
@@ -147806,6 +157170,8 @@ export namespace Prisma {
     isPublic?: boolean
     isPremium?: boolean
     allowDownload?: boolean
+    stripeProductId?: string | null
+    stripePriceId?: string | null
     hasPrerequisites?: boolean
     seriesId?: string | null
     unlockCriteria?: NullableJsonNullValueInput | InputJsonValue
@@ -147926,6 +157292,9 @@ export namespace Prisma {
     goals?: UserGoalUpdateManyWithoutUserNestedInput
     challenges?: UserChallengeUpdateManyWithoutUserNestedInput
     levelRewards?: UserLevelRewardUpdateManyWithoutUserNestedInput
+    subscriptions?: SubscriptionUpdateManyWithoutUserNestedInput
+    payments?: PaymentUpdateManyWithoutUserNestedInput
+    webhookEvents?: WebhookEventUpdateManyWithoutUserNestedInput
   }
 
   export type UserUncheckedUpdateWithoutReviewsInput = {
@@ -147994,6 +157363,9 @@ export namespace Prisma {
     goals?: UserGoalUncheckedUpdateManyWithoutUserNestedInput
     challenges?: UserChallengeUncheckedUpdateManyWithoutUserNestedInput
     levelRewards?: UserLevelRewardUncheckedUpdateManyWithoutUserNestedInput
+    subscriptions?: SubscriptionUncheckedUpdateManyWithoutUserNestedInput
+    payments?: PaymentUncheckedUpdateManyWithoutUserNestedInput
+    webhookEvents?: WebhookEventUncheckedUpdateManyWithoutUserNestedInput
   }
 
   export type CourseUpsertWithoutReviewsInput = {
@@ -148026,6 +157398,8 @@ export namespace Prisma {
     isPublic?: BoolFieldUpdateOperationsInput | boolean
     isPremium?: BoolFieldUpdateOperationsInput | boolean
     allowDownload?: BoolFieldUpdateOperationsInput | boolean
+    stripeProductId?: NullableStringFieldUpdateOperationsInput | string | null
+    stripePriceId?: NullableStringFieldUpdateOperationsInput | string | null
     hasPrerequisites?: BoolFieldUpdateOperationsInput | boolean
     unlockCriteria?: NullableJsonNullValueInput | InputJsonValue
     status?: EnumCourseStatusFieldUpdateOperationsInput | $Enums.CourseStatus
@@ -148087,6 +157461,8 @@ export namespace Prisma {
     isPublic?: BoolFieldUpdateOperationsInput | boolean
     isPremium?: BoolFieldUpdateOperationsInput | boolean
     allowDownload?: BoolFieldUpdateOperationsInput | boolean
+    stripeProductId?: NullableStringFieldUpdateOperationsInput | string | null
+    stripePriceId?: NullableStringFieldUpdateOperationsInput | string | null
     hasPrerequisites?: BoolFieldUpdateOperationsInput | boolean
     seriesId?: NullableStringFieldUpdateOperationsInput | string | null
     unlockCriteria?: NullableJsonNullValueInput | InputJsonValue
@@ -148191,6 +157567,9 @@ export namespace Prisma {
     goals?: UserGoalCreateNestedManyWithoutUserInput
     challenges?: UserChallengeCreateNestedManyWithoutUserInput
     levelRewards?: UserLevelRewardCreateNestedManyWithoutUserInput
+    subscriptions?: SubscriptionCreateNestedManyWithoutUserInput
+    payments?: PaymentCreateNestedManyWithoutUserInput
+    webhookEvents?: WebhookEventCreateNestedManyWithoutUserInput
   }
 
   export type UserUncheckedCreateWithoutNotificationsInput = {
@@ -148259,6 +157638,9 @@ export namespace Prisma {
     goals?: UserGoalUncheckedCreateNestedManyWithoutUserInput
     challenges?: UserChallengeUncheckedCreateNestedManyWithoutUserInput
     levelRewards?: UserLevelRewardUncheckedCreateNestedManyWithoutUserInput
+    subscriptions?: SubscriptionUncheckedCreateNestedManyWithoutUserInput
+    payments?: PaymentUncheckedCreateNestedManyWithoutUserInput
+    webhookEvents?: WebhookEventUncheckedCreateNestedManyWithoutUserInput
   }
 
   export type UserCreateOrConnectWithoutNotificationsInput = {
@@ -148343,6 +157725,9 @@ export namespace Prisma {
     goals?: UserGoalUpdateManyWithoutUserNestedInput
     challenges?: UserChallengeUpdateManyWithoutUserNestedInput
     levelRewards?: UserLevelRewardUpdateManyWithoutUserNestedInput
+    subscriptions?: SubscriptionUpdateManyWithoutUserNestedInput
+    payments?: PaymentUpdateManyWithoutUserNestedInput
+    webhookEvents?: WebhookEventUpdateManyWithoutUserNestedInput
   }
 
   export type UserUncheckedUpdateWithoutNotificationsInput = {
@@ -148411,6 +157796,9 @@ export namespace Prisma {
     goals?: UserGoalUncheckedUpdateManyWithoutUserNestedInput
     challenges?: UserChallengeUncheckedUpdateManyWithoutUserNestedInput
     levelRewards?: UserLevelRewardUncheckedUpdateManyWithoutUserNestedInput
+    subscriptions?: SubscriptionUncheckedUpdateManyWithoutUserNestedInput
+    payments?: PaymentUncheckedUpdateManyWithoutUserNestedInput
+    webhookEvents?: WebhookEventUncheckedUpdateManyWithoutUserNestedInput
   }
 
   export type UserCreateWithoutPlaylistsInput = {
@@ -148479,6 +157867,9 @@ export namespace Prisma {
     goals?: UserGoalCreateNestedManyWithoutUserInput
     challenges?: UserChallengeCreateNestedManyWithoutUserInput
     levelRewards?: UserLevelRewardCreateNestedManyWithoutUserInput
+    subscriptions?: SubscriptionCreateNestedManyWithoutUserInput
+    payments?: PaymentCreateNestedManyWithoutUserInput
+    webhookEvents?: WebhookEventCreateNestedManyWithoutUserInput
   }
 
   export type UserUncheckedCreateWithoutPlaylistsInput = {
@@ -148547,6 +157938,9 @@ export namespace Prisma {
     goals?: UserGoalUncheckedCreateNestedManyWithoutUserInput
     challenges?: UserChallengeUncheckedCreateNestedManyWithoutUserInput
     levelRewards?: UserLevelRewardUncheckedCreateNestedManyWithoutUserInput
+    subscriptions?: SubscriptionUncheckedCreateNestedManyWithoutUserInput
+    payments?: PaymentUncheckedCreateNestedManyWithoutUserInput
+    webhookEvents?: WebhookEventUncheckedCreateNestedManyWithoutUserInput
   }
 
   export type UserCreateOrConnectWithoutPlaylistsInput = {
@@ -148657,6 +158051,9 @@ export namespace Prisma {
     goals?: UserGoalUpdateManyWithoutUserNestedInput
     challenges?: UserChallengeUpdateManyWithoutUserNestedInput
     levelRewards?: UserLevelRewardUpdateManyWithoutUserNestedInput
+    subscriptions?: SubscriptionUpdateManyWithoutUserNestedInput
+    payments?: PaymentUpdateManyWithoutUserNestedInput
+    webhookEvents?: WebhookEventUpdateManyWithoutUserNestedInput
   }
 
   export type UserUncheckedUpdateWithoutPlaylistsInput = {
@@ -148725,6 +158122,9 @@ export namespace Prisma {
     goals?: UserGoalUncheckedUpdateManyWithoutUserNestedInput
     challenges?: UserChallengeUncheckedUpdateManyWithoutUserNestedInput
     levelRewards?: UserLevelRewardUncheckedUpdateManyWithoutUserNestedInput
+    subscriptions?: SubscriptionUncheckedUpdateManyWithoutUserNestedInput
+    payments?: PaymentUncheckedUpdateManyWithoutUserNestedInput
+    webhookEvents?: WebhookEventUncheckedUpdateManyWithoutUserNestedInput
   }
 
   export type PlaylistItemUpsertWithWhereUniqueWithoutPlaylistInput = {
@@ -148789,6 +158189,8 @@ export namespace Prisma {
     isPublic?: boolean
     isPremium?: boolean
     allowDownload?: boolean
+    stripeProductId?: string | null
+    stripePriceId?: string | null
     hasPrerequisites?: boolean
     unlockCriteria?: NullableJsonNullValueInput | InputJsonValue
     status?: $Enums.CourseStatus
@@ -148850,6 +158252,8 @@ export namespace Prisma {
     isPublic?: boolean
     isPremium?: boolean
     allowDownload?: boolean
+    stripeProductId?: string | null
+    stripePriceId?: string | null
     hasPrerequisites?: boolean
     seriesId?: string | null
     unlockCriteria?: NullableJsonNullValueInput | InputJsonValue
@@ -148956,6 +158360,8 @@ export namespace Prisma {
     isPublic?: BoolFieldUpdateOperationsInput | boolean
     isPremium?: BoolFieldUpdateOperationsInput | boolean
     allowDownload?: BoolFieldUpdateOperationsInput | boolean
+    stripeProductId?: NullableStringFieldUpdateOperationsInput | string | null
+    stripePriceId?: NullableStringFieldUpdateOperationsInput | string | null
     hasPrerequisites?: BoolFieldUpdateOperationsInput | boolean
     unlockCriteria?: NullableJsonNullValueInput | InputJsonValue
     status?: EnumCourseStatusFieldUpdateOperationsInput | $Enums.CourseStatus
@@ -149017,6 +158423,8 @@ export namespace Prisma {
     isPublic?: BoolFieldUpdateOperationsInput | boolean
     isPremium?: BoolFieldUpdateOperationsInput | boolean
     allowDownload?: BoolFieldUpdateOperationsInput | boolean
+    stripeProductId?: NullableStringFieldUpdateOperationsInput | string | null
+    stripePriceId?: NullableStringFieldUpdateOperationsInput | string | null
     hasPrerequisites?: BoolFieldUpdateOperationsInput | boolean
     seriesId?: NullableStringFieldUpdateOperationsInput | string | null
     unlockCriteria?: NullableJsonNullValueInput | InputJsonValue
@@ -149121,6 +158529,9 @@ export namespace Prisma {
     goals?: UserGoalCreateNestedManyWithoutUserInput
     challenges?: UserChallengeCreateNestedManyWithoutUserInput
     levelRewards?: UserLevelRewardCreateNestedManyWithoutUserInput
+    subscriptions?: SubscriptionCreateNestedManyWithoutUserInput
+    payments?: PaymentCreateNestedManyWithoutUserInput
+    webhookEvents?: WebhookEventCreateNestedManyWithoutUserInput
   }
 
   export type UserUncheckedCreateWithoutUserAnalyticsInput = {
@@ -149189,6 +158600,9 @@ export namespace Prisma {
     goals?: UserGoalUncheckedCreateNestedManyWithoutUserInput
     challenges?: UserChallengeUncheckedCreateNestedManyWithoutUserInput
     levelRewards?: UserLevelRewardUncheckedCreateNestedManyWithoutUserInput
+    subscriptions?: SubscriptionUncheckedCreateNestedManyWithoutUserInput
+    payments?: PaymentUncheckedCreateNestedManyWithoutUserInput
+    webhookEvents?: WebhookEventUncheckedCreateNestedManyWithoutUserInput
   }
 
   export type UserCreateOrConnectWithoutUserAnalyticsInput = {
@@ -149273,6 +158687,9 @@ export namespace Prisma {
     goals?: UserGoalUpdateManyWithoutUserNestedInput
     challenges?: UserChallengeUpdateManyWithoutUserNestedInput
     levelRewards?: UserLevelRewardUpdateManyWithoutUserNestedInput
+    subscriptions?: SubscriptionUpdateManyWithoutUserNestedInput
+    payments?: PaymentUpdateManyWithoutUserNestedInput
+    webhookEvents?: WebhookEventUpdateManyWithoutUserNestedInput
   }
 
   export type UserUncheckedUpdateWithoutUserAnalyticsInput = {
@@ -149341,6 +158758,9 @@ export namespace Prisma {
     goals?: UserGoalUncheckedUpdateManyWithoutUserNestedInput
     challenges?: UserChallengeUncheckedUpdateManyWithoutUserNestedInput
     levelRewards?: UserLevelRewardUncheckedUpdateManyWithoutUserNestedInput
+    subscriptions?: SubscriptionUncheckedUpdateManyWithoutUserNestedInput
+    payments?: PaymentUncheckedUpdateManyWithoutUserNestedInput
+    webhookEvents?: WebhookEventUncheckedUpdateManyWithoutUserNestedInput
   }
 
   export type CourseCreateWithoutAnalyticsInput = {
@@ -149362,6 +158782,8 @@ export namespace Prisma {
     isPublic?: boolean
     isPremium?: boolean
     allowDownload?: boolean
+    stripeProductId?: string | null
+    stripePriceId?: string | null
     hasPrerequisites?: boolean
     unlockCriteria?: NullableJsonNullValueInput | InputJsonValue
     status?: $Enums.CourseStatus
@@ -149423,6 +158845,8 @@ export namespace Prisma {
     isPublic?: boolean
     isPremium?: boolean
     allowDownload?: boolean
+    stripeProductId?: string | null
+    stripePriceId?: string | null
     hasPrerequisites?: boolean
     seriesId?: string | null
     unlockCriteria?: NullableJsonNullValueInput | InputJsonValue
@@ -149496,6 +158920,8 @@ export namespace Prisma {
     isPublic?: BoolFieldUpdateOperationsInput | boolean
     isPremium?: BoolFieldUpdateOperationsInput | boolean
     allowDownload?: BoolFieldUpdateOperationsInput | boolean
+    stripeProductId?: NullableStringFieldUpdateOperationsInput | string | null
+    stripePriceId?: NullableStringFieldUpdateOperationsInput | string | null
     hasPrerequisites?: BoolFieldUpdateOperationsInput | boolean
     unlockCriteria?: NullableJsonNullValueInput | InputJsonValue
     status?: EnumCourseStatusFieldUpdateOperationsInput | $Enums.CourseStatus
@@ -149557,6 +158983,8 @@ export namespace Prisma {
     isPublic?: BoolFieldUpdateOperationsInput | boolean
     isPremium?: BoolFieldUpdateOperationsInput | boolean
     allowDownload?: BoolFieldUpdateOperationsInput | boolean
+    stripeProductId?: NullableStringFieldUpdateOperationsInput | string | null
+    stripePriceId?: NullableStringFieldUpdateOperationsInput | string | null
     hasPrerequisites?: BoolFieldUpdateOperationsInput | boolean
     seriesId?: NullableStringFieldUpdateOperationsInput | string | null
     unlockCriteria?: NullableJsonNullValueInput | InputJsonValue
@@ -149905,6 +159333,9 @@ export namespace Prisma {
     goals?: UserGoalCreateNestedManyWithoutUserInput
     challenges?: UserChallengeCreateNestedManyWithoutUserInput
     levelRewards?: UserLevelRewardCreateNestedManyWithoutUserInput
+    subscriptions?: SubscriptionCreateNestedManyWithoutUserInput
+    payments?: PaymentCreateNestedManyWithoutUserInput
+    webhookEvents?: WebhookEventCreateNestedManyWithoutUserInput
   }
 
   export type UserUncheckedCreateWithoutSubmissionsInput = {
@@ -149973,6 +159404,9 @@ export namespace Prisma {
     goals?: UserGoalUncheckedCreateNestedManyWithoutUserInput
     challenges?: UserChallengeUncheckedCreateNestedManyWithoutUserInput
     levelRewards?: UserLevelRewardUncheckedCreateNestedManyWithoutUserInput
+    subscriptions?: SubscriptionUncheckedCreateNestedManyWithoutUserInput
+    payments?: PaymentUncheckedCreateNestedManyWithoutUserInput
+    webhookEvents?: WebhookEventUncheckedCreateNestedManyWithoutUserInput
   }
 
   export type UserCreateOrConnectWithoutSubmissionsInput = {
@@ -150090,6 +159524,9 @@ export namespace Prisma {
     goals?: UserGoalUpdateManyWithoutUserNestedInput
     challenges?: UserChallengeUpdateManyWithoutUserNestedInput
     levelRewards?: UserLevelRewardUpdateManyWithoutUserNestedInput
+    subscriptions?: SubscriptionUpdateManyWithoutUserNestedInput
+    payments?: PaymentUpdateManyWithoutUserNestedInput
+    webhookEvents?: WebhookEventUpdateManyWithoutUserNestedInput
   }
 
   export type UserUncheckedUpdateWithoutSubmissionsInput = {
@@ -150158,6 +159595,9 @@ export namespace Prisma {
     goals?: UserGoalUncheckedUpdateManyWithoutUserNestedInput
     challenges?: UserChallengeUncheckedUpdateManyWithoutUserNestedInput
     levelRewards?: UserLevelRewardUncheckedUpdateManyWithoutUserNestedInput
+    subscriptions?: SubscriptionUncheckedUpdateManyWithoutUserNestedInput
+    payments?: PaymentUncheckedUpdateManyWithoutUserNestedInput
+    webhookEvents?: WebhookEventUncheckedUpdateManyWithoutUserNestedInput
   }
 
   export type AssignmentUpsertWithoutSubmissionsInput = {
@@ -150265,6 +159705,9 @@ export namespace Prisma {
     goals?: UserGoalCreateNestedManyWithoutUserInput
     challenges?: UserChallengeCreateNestedManyWithoutUserInput
     levelRewards?: UserLevelRewardCreateNestedManyWithoutUserInput
+    subscriptions?: SubscriptionCreateNestedManyWithoutUserInput
+    payments?: PaymentCreateNestedManyWithoutUserInput
+    webhookEvents?: WebhookEventCreateNestedManyWithoutUserInput
   }
 
   export type UserUncheckedCreateWithoutMentorSessionsInput = {
@@ -150333,6 +159776,9 @@ export namespace Prisma {
     goals?: UserGoalUncheckedCreateNestedManyWithoutUserInput
     challenges?: UserChallengeUncheckedCreateNestedManyWithoutUserInput
     levelRewards?: UserLevelRewardUncheckedCreateNestedManyWithoutUserInput
+    subscriptions?: SubscriptionUncheckedCreateNestedManyWithoutUserInput
+    payments?: PaymentUncheckedCreateNestedManyWithoutUserInput
+    webhookEvents?: WebhookEventUncheckedCreateNestedManyWithoutUserInput
   }
 
   export type UserCreateOrConnectWithoutMentorSessionsInput = {
@@ -150406,6 +159852,9 @@ export namespace Prisma {
     goals?: UserGoalCreateNestedManyWithoutUserInput
     challenges?: UserChallengeCreateNestedManyWithoutUserInput
     levelRewards?: UserLevelRewardCreateNestedManyWithoutUserInput
+    subscriptions?: SubscriptionCreateNestedManyWithoutUserInput
+    payments?: PaymentCreateNestedManyWithoutUserInput
+    webhookEvents?: WebhookEventCreateNestedManyWithoutUserInput
   }
 
   export type UserUncheckedCreateWithoutMenteeSessionsInput = {
@@ -150474,6 +159923,9 @@ export namespace Prisma {
     goals?: UserGoalUncheckedCreateNestedManyWithoutUserInput
     challenges?: UserChallengeUncheckedCreateNestedManyWithoutUserInput
     levelRewards?: UserLevelRewardUncheckedCreateNestedManyWithoutUserInput
+    subscriptions?: SubscriptionUncheckedCreateNestedManyWithoutUserInput
+    payments?: PaymentUncheckedCreateNestedManyWithoutUserInput
+    webhookEvents?: WebhookEventUncheckedCreateNestedManyWithoutUserInput
   }
 
   export type UserCreateOrConnectWithoutMenteeSessionsInput = {
@@ -150558,6 +160010,9 @@ export namespace Prisma {
     goals?: UserGoalUpdateManyWithoutUserNestedInput
     challenges?: UserChallengeUpdateManyWithoutUserNestedInput
     levelRewards?: UserLevelRewardUpdateManyWithoutUserNestedInput
+    subscriptions?: SubscriptionUpdateManyWithoutUserNestedInput
+    payments?: PaymentUpdateManyWithoutUserNestedInput
+    webhookEvents?: WebhookEventUpdateManyWithoutUserNestedInput
   }
 
   export type UserUncheckedUpdateWithoutMentorSessionsInput = {
@@ -150626,6 +160081,9 @@ export namespace Prisma {
     goals?: UserGoalUncheckedUpdateManyWithoutUserNestedInput
     challenges?: UserChallengeUncheckedUpdateManyWithoutUserNestedInput
     levelRewards?: UserLevelRewardUncheckedUpdateManyWithoutUserNestedInput
+    subscriptions?: SubscriptionUncheckedUpdateManyWithoutUserNestedInput
+    payments?: PaymentUncheckedUpdateManyWithoutUserNestedInput
+    webhookEvents?: WebhookEventUncheckedUpdateManyWithoutUserNestedInput
   }
 
   export type UserUpsertWithoutMenteeSessionsInput = {
@@ -150705,6 +160163,9 @@ export namespace Prisma {
     goals?: UserGoalUpdateManyWithoutUserNestedInput
     challenges?: UserChallengeUpdateManyWithoutUserNestedInput
     levelRewards?: UserLevelRewardUpdateManyWithoutUserNestedInput
+    subscriptions?: SubscriptionUpdateManyWithoutUserNestedInput
+    payments?: PaymentUpdateManyWithoutUserNestedInput
+    webhookEvents?: WebhookEventUpdateManyWithoutUserNestedInput
   }
 
   export type UserUncheckedUpdateWithoutMenteeSessionsInput = {
@@ -150773,6 +160234,9 @@ export namespace Prisma {
     goals?: UserGoalUncheckedUpdateManyWithoutUserNestedInput
     challenges?: UserChallengeUncheckedUpdateManyWithoutUserNestedInput
     levelRewards?: UserLevelRewardUncheckedUpdateManyWithoutUserNestedInput
+    subscriptions?: SubscriptionUncheckedUpdateManyWithoutUserNestedInput
+    payments?: PaymentUncheckedUpdateManyWithoutUserNestedInput
+    webhookEvents?: WebhookEventUncheckedUpdateManyWithoutUserNestedInput
   }
 
   export type CompetitionParticipantCreateWithoutCompetitionInput = {
@@ -150885,6 +160349,9 @@ export namespace Prisma {
     goals?: UserGoalCreateNestedManyWithoutUserInput
     challenges?: UserChallengeCreateNestedManyWithoutUserInput
     levelRewards?: UserLevelRewardCreateNestedManyWithoutUserInput
+    subscriptions?: SubscriptionCreateNestedManyWithoutUserInput
+    payments?: PaymentCreateNestedManyWithoutUserInput
+    webhookEvents?: WebhookEventCreateNestedManyWithoutUserInput
   }
 
   export type UserUncheckedCreateWithoutCompetitionParticipantsInput = {
@@ -150953,6 +160420,9 @@ export namespace Prisma {
     goals?: UserGoalUncheckedCreateNestedManyWithoutUserInput
     challenges?: UserChallengeUncheckedCreateNestedManyWithoutUserInput
     levelRewards?: UserLevelRewardUncheckedCreateNestedManyWithoutUserInput
+    subscriptions?: SubscriptionUncheckedCreateNestedManyWithoutUserInput
+    payments?: PaymentUncheckedCreateNestedManyWithoutUserInput
+    webhookEvents?: WebhookEventUncheckedCreateNestedManyWithoutUserInput
   }
 
   export type UserCreateOrConnectWithoutCompetitionParticipantsInput = {
@@ -151070,6 +160540,9 @@ export namespace Prisma {
     goals?: UserGoalUpdateManyWithoutUserNestedInput
     challenges?: UserChallengeUpdateManyWithoutUserNestedInput
     levelRewards?: UserLevelRewardUpdateManyWithoutUserNestedInput
+    subscriptions?: SubscriptionUpdateManyWithoutUserNestedInput
+    payments?: PaymentUpdateManyWithoutUserNestedInput
+    webhookEvents?: WebhookEventUpdateManyWithoutUserNestedInput
   }
 
   export type UserUncheckedUpdateWithoutCompetitionParticipantsInput = {
@@ -151138,6 +160611,9 @@ export namespace Prisma {
     goals?: UserGoalUncheckedUpdateManyWithoutUserNestedInput
     challenges?: UserChallengeUncheckedUpdateManyWithoutUserNestedInput
     levelRewards?: UserLevelRewardUncheckedUpdateManyWithoutUserNestedInput
+    subscriptions?: SubscriptionUncheckedUpdateManyWithoutUserNestedInput
+    payments?: PaymentUncheckedUpdateManyWithoutUserNestedInput
+    webhookEvents?: WebhookEventUncheckedUpdateManyWithoutUserNestedInput
   }
 
   export type CompetitionUpsertWithoutParticipantsInput = {
@@ -151245,6 +160721,9 @@ export namespace Prisma {
     activities?: UserActivityCreateNestedManyWithoutUserInput
     challenges?: UserChallengeCreateNestedManyWithoutUserInput
     levelRewards?: UserLevelRewardCreateNestedManyWithoutUserInput
+    subscriptions?: SubscriptionCreateNestedManyWithoutUserInput
+    payments?: PaymentCreateNestedManyWithoutUserInput
+    webhookEvents?: WebhookEventCreateNestedManyWithoutUserInput
   }
 
   export type UserUncheckedCreateWithoutGoalsInput = {
@@ -151313,6 +160792,9 @@ export namespace Prisma {
     activities?: UserActivityUncheckedCreateNestedManyWithoutUserInput
     challenges?: UserChallengeUncheckedCreateNestedManyWithoutUserInput
     levelRewards?: UserLevelRewardUncheckedCreateNestedManyWithoutUserInput
+    subscriptions?: SubscriptionUncheckedCreateNestedManyWithoutUserInput
+    payments?: PaymentUncheckedCreateNestedManyWithoutUserInput
+    webhookEvents?: WebhookEventUncheckedCreateNestedManyWithoutUserInput
   }
 
   export type UserCreateOrConnectWithoutGoalsInput = {
@@ -151397,6 +160879,9 @@ export namespace Prisma {
     activities?: UserActivityUpdateManyWithoutUserNestedInput
     challenges?: UserChallengeUpdateManyWithoutUserNestedInput
     levelRewards?: UserLevelRewardUpdateManyWithoutUserNestedInput
+    subscriptions?: SubscriptionUpdateManyWithoutUserNestedInput
+    payments?: PaymentUpdateManyWithoutUserNestedInput
+    webhookEvents?: WebhookEventUpdateManyWithoutUserNestedInput
   }
 
   export type UserUncheckedUpdateWithoutGoalsInput = {
@@ -151465,6 +160950,9 @@ export namespace Prisma {
     activities?: UserActivityUncheckedUpdateManyWithoutUserNestedInput
     challenges?: UserChallengeUncheckedUpdateManyWithoutUserNestedInput
     levelRewards?: UserLevelRewardUncheckedUpdateManyWithoutUserNestedInput
+    subscriptions?: SubscriptionUncheckedUpdateManyWithoutUserNestedInput
+    payments?: PaymentUncheckedUpdateManyWithoutUserNestedInput
+    webhookEvents?: WebhookEventUncheckedUpdateManyWithoutUserNestedInput
   }
 
   export type UserChallengeCreateWithoutChallengeInput = {
@@ -151579,6 +161067,9 @@ export namespace Prisma {
     activities?: UserActivityCreateNestedManyWithoutUserInput
     goals?: UserGoalCreateNestedManyWithoutUserInput
     levelRewards?: UserLevelRewardCreateNestedManyWithoutUserInput
+    subscriptions?: SubscriptionCreateNestedManyWithoutUserInput
+    payments?: PaymentCreateNestedManyWithoutUserInput
+    webhookEvents?: WebhookEventCreateNestedManyWithoutUserInput
   }
 
   export type UserUncheckedCreateWithoutChallengesInput = {
@@ -151647,6 +161138,9 @@ export namespace Prisma {
     activities?: UserActivityUncheckedCreateNestedManyWithoutUserInput
     goals?: UserGoalUncheckedCreateNestedManyWithoutUserInput
     levelRewards?: UserLevelRewardUncheckedCreateNestedManyWithoutUserInput
+    subscriptions?: SubscriptionUncheckedCreateNestedManyWithoutUserInput
+    payments?: PaymentUncheckedCreateNestedManyWithoutUserInput
+    webhookEvents?: WebhookEventUncheckedCreateNestedManyWithoutUserInput
   }
 
   export type UserCreateOrConnectWithoutChallengesInput = {
@@ -151762,6 +161256,9 @@ export namespace Prisma {
     activities?: UserActivityUpdateManyWithoutUserNestedInput
     goals?: UserGoalUpdateManyWithoutUserNestedInput
     levelRewards?: UserLevelRewardUpdateManyWithoutUserNestedInput
+    subscriptions?: SubscriptionUpdateManyWithoutUserNestedInput
+    payments?: PaymentUpdateManyWithoutUserNestedInput
+    webhookEvents?: WebhookEventUpdateManyWithoutUserNestedInput
   }
 
   export type UserUncheckedUpdateWithoutChallengesInput = {
@@ -151830,6 +161327,9 @@ export namespace Prisma {
     activities?: UserActivityUncheckedUpdateManyWithoutUserNestedInput
     goals?: UserGoalUncheckedUpdateManyWithoutUserNestedInput
     levelRewards?: UserLevelRewardUncheckedUpdateManyWithoutUserNestedInput
+    subscriptions?: SubscriptionUncheckedUpdateManyWithoutUserNestedInput
+    payments?: PaymentUncheckedUpdateManyWithoutUserNestedInput
+    webhookEvents?: WebhookEventUncheckedUpdateManyWithoutUserNestedInput
   }
 
   export type DailyChallengeUpsertWithoutUserChallengeInput = {
@@ -151973,6 +161473,9 @@ export namespace Prisma {
     activities?: UserActivityCreateNestedManyWithoutUserInput
     goals?: UserGoalCreateNestedManyWithoutUserInput
     challenges?: UserChallengeCreateNestedManyWithoutUserInput
+    subscriptions?: SubscriptionCreateNestedManyWithoutUserInput
+    payments?: PaymentCreateNestedManyWithoutUserInput
+    webhookEvents?: WebhookEventCreateNestedManyWithoutUserInput
   }
 
   export type UserUncheckedCreateWithoutLevelRewardsInput = {
@@ -152041,6 +161544,9 @@ export namespace Prisma {
     activities?: UserActivityUncheckedCreateNestedManyWithoutUserInput
     goals?: UserGoalUncheckedCreateNestedManyWithoutUserInput
     challenges?: UserChallengeUncheckedCreateNestedManyWithoutUserInput
+    subscriptions?: SubscriptionUncheckedCreateNestedManyWithoutUserInput
+    payments?: PaymentUncheckedCreateNestedManyWithoutUserInput
+    webhookEvents?: WebhookEventUncheckedCreateNestedManyWithoutUserInput
   }
 
   export type UserCreateOrConnectWithoutLevelRewardsInput = {
@@ -152152,6 +161658,9 @@ export namespace Prisma {
     activities?: UserActivityUpdateManyWithoutUserNestedInput
     goals?: UserGoalUpdateManyWithoutUserNestedInput
     challenges?: UserChallengeUpdateManyWithoutUserNestedInput
+    subscriptions?: SubscriptionUpdateManyWithoutUserNestedInput
+    payments?: PaymentUpdateManyWithoutUserNestedInput
+    webhookEvents?: WebhookEventUpdateManyWithoutUserNestedInput
   }
 
   export type UserUncheckedUpdateWithoutLevelRewardsInput = {
@@ -152220,6 +161729,9 @@ export namespace Prisma {
     activities?: UserActivityUncheckedUpdateManyWithoutUserNestedInput
     goals?: UserGoalUncheckedUpdateManyWithoutUserNestedInput
     challenges?: UserChallengeUncheckedUpdateManyWithoutUserNestedInput
+    subscriptions?: SubscriptionUncheckedUpdateManyWithoutUserNestedInput
+    payments?: PaymentUncheckedUpdateManyWithoutUserNestedInput
+    webhookEvents?: WebhookEventUncheckedUpdateManyWithoutUserNestedInput
   }
 
   export type LevelRewardUpsertWithoutUserRewardsInput = {
@@ -152253,6 +161765,1064 @@ export namespace Prisma {
     value?: StringFieldUpdateOperationsInput | string
     xpReward?: IntFieldUpdateOperationsInput | number
     isActive?: BoolFieldUpdateOperationsInput | boolean
+  }
+
+  export type UserCreateWithoutSubscriptionsInput = {
+    id?: string
+    name: string
+    email: string
+    emailVerified: boolean
+    image?: string | null
+    createdAt: Date | string
+    updatedAt: Date | string
+    role?: $Enums.UserRole
+    status?: $Enums.UserStatus
+    bio?: string | null
+    location?: string | null
+    website?: string | null
+    phone?: string | null
+    socialLinks?: NullableJsonNullValueInput | InputJsonValue
+    preferences?: NullableJsonNullValueInput | InputJsonValue
+    lastLoginAt?: Date | string | null
+    loginCount?: number
+    isOnline?: boolean
+    timezone?: string | null
+    language?: string
+    theme?: string
+    sessions?: SessionCreateNestedManyWithoutUserInput
+    accounts?: AccountCreateNestedManyWithoutUserInput
+    playlists?: PlaylistCreateNestedManyWithoutUserInput
+    gamification?: GamificationCreateNestedOneWithoutUserInput
+    coursesCreated?: CourseCreateNestedManyWithoutInstructorInput
+    enrollments?: EnrollmentCreateNestedManyWithoutUserInput
+    progress?: ProgressCreateNestedManyWithoutUserInput
+    reviews?: ReviewCreateNestedManyWithoutUserInput
+    certificates?: CertificateCreateNestedManyWithoutUserInput
+    roadmapsCreated?: RoadmapCreateNestedManyWithoutCreatorInput
+    roadmapEnrollments?: RoadmapEnrollmentCreateNestedManyWithoutUserInput
+    courseSeriesCreated?: CourseSeriesCreateNestedManyWithoutCreatorInput
+    learningPathsCreated?: LearningPathCreateNestedManyWithoutCreatorInput
+    learningPathsFollowed?: LearningPathFollowerCreateNestedManyWithoutUserInput
+    courseRecommendations?: CourseRecommendationCreateNestedManyWithoutUserInput
+    posts?: PostCreateNestedManyWithoutAuthorInput
+    comments?: CommentCreateNestedManyWithoutAuthorInput
+    reactions?: ReactionCreateNestedManyWithoutUserInput
+    following?: FollowCreateNestedManyWithoutFollowerInput
+    followers?: FollowCreateNestedManyWithoutFollowingInput
+    groupsCreated?: GroupCreateNestedManyWithoutCreatorInput
+    groupMembers?: GroupMemberCreateNestedManyWithoutUserInput
+    communitiesCreated?: CommunityCreateNestedManyWithoutCreatorInput
+    communityMembers?: CommunityMemberCreateNestedManyWithoutUserInput
+    communityPosts?: CommunityPostCreateNestedManyWithoutAuthorInput
+    communityComments?: CommunityCommentCreateNestedManyWithoutAuthorInput
+    communityReactions?: CommunityReactionCreateNestedManyWithoutUserInput
+    communityEvents?: CommunityEventCreateNestedManyWithoutCreatorInput
+    eventAttendees?: EventAttendeeCreateNestedManyWithoutUserInput
+    communityPolls?: CommunityPollCreateNestedManyWithoutCreatorInput
+    pollVotes?: PollVoteCreateNestedManyWithoutUserInput
+    messagesSent?: MessageCreateNestedManyWithoutSenderInput
+    messageRecipients?: MessageRecipientCreateNestedManyWithoutRecipientInput
+    notifications?: NotificationCreateNestedManyWithoutUserInput
+    mentorSessions?: MentorSessionCreateNestedManyWithoutMentorInput
+    menteeSessions?: MentorSessionCreateNestedManyWithoutMenteeInput
+    competitionParticipants?: CompetitionParticipantCreateNestedManyWithoutUserInput
+    userAnalytics?: UserAnalyticsCreateNestedManyWithoutUserInput
+    submissions?: SubmissionCreateNestedManyWithoutUserInput
+    userBadges?: UserBadgeCreateNestedManyWithoutUserInput
+    fileUploads?: FileUploadCreateNestedManyWithoutUserInput
+    activities?: UserActivityCreateNestedManyWithoutUserInput
+    goals?: UserGoalCreateNestedManyWithoutUserInput
+    challenges?: UserChallengeCreateNestedManyWithoutUserInput
+    levelRewards?: UserLevelRewardCreateNestedManyWithoutUserInput
+    payments?: PaymentCreateNestedManyWithoutUserInput
+    webhookEvents?: WebhookEventCreateNestedManyWithoutUserInput
+  }
+
+  export type UserUncheckedCreateWithoutSubscriptionsInput = {
+    id?: string
+    name: string
+    email: string
+    emailVerified: boolean
+    image?: string | null
+    createdAt: Date | string
+    updatedAt: Date | string
+    role?: $Enums.UserRole
+    status?: $Enums.UserStatus
+    bio?: string | null
+    location?: string | null
+    website?: string | null
+    phone?: string | null
+    socialLinks?: NullableJsonNullValueInput | InputJsonValue
+    preferences?: NullableJsonNullValueInput | InputJsonValue
+    lastLoginAt?: Date | string | null
+    loginCount?: number
+    isOnline?: boolean
+    timezone?: string | null
+    language?: string
+    theme?: string
+    sessions?: SessionUncheckedCreateNestedManyWithoutUserInput
+    accounts?: AccountUncheckedCreateNestedManyWithoutUserInput
+    playlists?: PlaylistUncheckedCreateNestedManyWithoutUserInput
+    gamification?: GamificationUncheckedCreateNestedOneWithoutUserInput
+    coursesCreated?: CourseUncheckedCreateNestedManyWithoutInstructorInput
+    enrollments?: EnrollmentUncheckedCreateNestedManyWithoutUserInput
+    progress?: ProgressUncheckedCreateNestedManyWithoutUserInput
+    reviews?: ReviewUncheckedCreateNestedManyWithoutUserInput
+    certificates?: CertificateUncheckedCreateNestedManyWithoutUserInput
+    roadmapsCreated?: RoadmapUncheckedCreateNestedManyWithoutCreatorInput
+    roadmapEnrollments?: RoadmapEnrollmentUncheckedCreateNestedManyWithoutUserInput
+    courseSeriesCreated?: CourseSeriesUncheckedCreateNestedManyWithoutCreatorInput
+    learningPathsCreated?: LearningPathUncheckedCreateNestedManyWithoutCreatorInput
+    learningPathsFollowed?: LearningPathFollowerUncheckedCreateNestedManyWithoutUserInput
+    courseRecommendations?: CourseRecommendationUncheckedCreateNestedManyWithoutUserInput
+    posts?: PostUncheckedCreateNestedManyWithoutAuthorInput
+    comments?: CommentUncheckedCreateNestedManyWithoutAuthorInput
+    reactions?: ReactionUncheckedCreateNestedManyWithoutUserInput
+    following?: FollowUncheckedCreateNestedManyWithoutFollowerInput
+    followers?: FollowUncheckedCreateNestedManyWithoutFollowingInput
+    groupsCreated?: GroupUncheckedCreateNestedManyWithoutCreatorInput
+    groupMembers?: GroupMemberUncheckedCreateNestedManyWithoutUserInput
+    communitiesCreated?: CommunityUncheckedCreateNestedManyWithoutCreatorInput
+    communityMembers?: CommunityMemberUncheckedCreateNestedManyWithoutUserInput
+    communityPosts?: CommunityPostUncheckedCreateNestedManyWithoutAuthorInput
+    communityComments?: CommunityCommentUncheckedCreateNestedManyWithoutAuthorInput
+    communityReactions?: CommunityReactionUncheckedCreateNestedManyWithoutUserInput
+    communityEvents?: CommunityEventUncheckedCreateNestedManyWithoutCreatorInput
+    eventAttendees?: EventAttendeeUncheckedCreateNestedManyWithoutUserInput
+    communityPolls?: CommunityPollUncheckedCreateNestedManyWithoutCreatorInput
+    pollVotes?: PollVoteUncheckedCreateNestedManyWithoutUserInput
+    messagesSent?: MessageUncheckedCreateNestedManyWithoutSenderInput
+    messageRecipients?: MessageRecipientUncheckedCreateNestedManyWithoutRecipientInput
+    notifications?: NotificationUncheckedCreateNestedManyWithoutUserInput
+    mentorSessions?: MentorSessionUncheckedCreateNestedManyWithoutMentorInput
+    menteeSessions?: MentorSessionUncheckedCreateNestedManyWithoutMenteeInput
+    competitionParticipants?: CompetitionParticipantUncheckedCreateNestedManyWithoutUserInput
+    userAnalytics?: UserAnalyticsUncheckedCreateNestedManyWithoutUserInput
+    submissions?: SubmissionUncheckedCreateNestedManyWithoutUserInput
+    userBadges?: UserBadgeUncheckedCreateNestedManyWithoutUserInput
+    fileUploads?: FileUploadUncheckedCreateNestedManyWithoutUserInput
+    activities?: UserActivityUncheckedCreateNestedManyWithoutUserInput
+    goals?: UserGoalUncheckedCreateNestedManyWithoutUserInput
+    challenges?: UserChallengeUncheckedCreateNestedManyWithoutUserInput
+    levelRewards?: UserLevelRewardUncheckedCreateNestedManyWithoutUserInput
+    payments?: PaymentUncheckedCreateNestedManyWithoutUserInput
+    webhookEvents?: WebhookEventUncheckedCreateNestedManyWithoutUserInput
+  }
+
+  export type UserCreateOrConnectWithoutSubscriptionsInput = {
+    where: UserWhereUniqueInput
+    create: XOR<UserCreateWithoutSubscriptionsInput, UserUncheckedCreateWithoutSubscriptionsInput>
+  }
+
+  export type PaymentCreateWithoutSubscriptionInput = {
+    id?: string
+    stripePaymentId?: string | null
+    stripeInvoiceId?: string | null
+    amount: Decimal | DecimalJsLike | number | string
+    currency?: string
+    status?: $Enums.PaymentStatus
+    description?: string | null
+    metadata?: NullableJsonNullValueInput | InputJsonValue
+    paidAt?: Date | string | null
+    failedAt?: Date | string | null
+    createdAt?: Date | string
+    updatedAt?: Date | string
+    user: UserCreateNestedOneWithoutPaymentsInput
+  }
+
+  export type PaymentUncheckedCreateWithoutSubscriptionInput = {
+    id?: string
+    stripePaymentId?: string | null
+    stripeInvoiceId?: string | null
+    amount: Decimal | DecimalJsLike | number | string
+    currency?: string
+    status?: $Enums.PaymentStatus
+    description?: string | null
+    metadata?: NullableJsonNullValueInput | InputJsonValue
+    paidAt?: Date | string | null
+    failedAt?: Date | string | null
+    createdAt?: Date | string
+    updatedAt?: Date | string
+    userId: string
+  }
+
+  export type PaymentCreateOrConnectWithoutSubscriptionInput = {
+    where: PaymentWhereUniqueInput
+    create: XOR<PaymentCreateWithoutSubscriptionInput, PaymentUncheckedCreateWithoutSubscriptionInput>
+  }
+
+  export type PaymentCreateManySubscriptionInputEnvelope = {
+    data: PaymentCreateManySubscriptionInput | PaymentCreateManySubscriptionInput[]
+    skipDuplicates?: boolean
+  }
+
+  export type UserUpsertWithoutSubscriptionsInput = {
+    update: XOR<UserUpdateWithoutSubscriptionsInput, UserUncheckedUpdateWithoutSubscriptionsInput>
+    create: XOR<UserCreateWithoutSubscriptionsInput, UserUncheckedCreateWithoutSubscriptionsInput>
+    where?: UserWhereInput
+  }
+
+  export type UserUpdateToOneWithWhereWithoutSubscriptionsInput = {
+    where?: UserWhereInput
+    data: XOR<UserUpdateWithoutSubscriptionsInput, UserUncheckedUpdateWithoutSubscriptionsInput>
+  }
+
+  export type UserUpdateWithoutSubscriptionsInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    name?: StringFieldUpdateOperationsInput | string
+    email?: StringFieldUpdateOperationsInput | string
+    emailVerified?: BoolFieldUpdateOperationsInput | boolean
+    image?: NullableStringFieldUpdateOperationsInput | string | null
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    role?: EnumUserRoleFieldUpdateOperationsInput | $Enums.UserRole
+    status?: EnumUserStatusFieldUpdateOperationsInput | $Enums.UserStatus
+    bio?: NullableStringFieldUpdateOperationsInput | string | null
+    location?: NullableStringFieldUpdateOperationsInput | string | null
+    website?: NullableStringFieldUpdateOperationsInput | string | null
+    phone?: NullableStringFieldUpdateOperationsInput | string | null
+    socialLinks?: NullableJsonNullValueInput | InputJsonValue
+    preferences?: NullableJsonNullValueInput | InputJsonValue
+    lastLoginAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    loginCount?: IntFieldUpdateOperationsInput | number
+    isOnline?: BoolFieldUpdateOperationsInput | boolean
+    timezone?: NullableStringFieldUpdateOperationsInput | string | null
+    language?: StringFieldUpdateOperationsInput | string
+    theme?: StringFieldUpdateOperationsInput | string
+    sessions?: SessionUpdateManyWithoutUserNestedInput
+    accounts?: AccountUpdateManyWithoutUserNestedInput
+    playlists?: PlaylistUpdateManyWithoutUserNestedInput
+    gamification?: GamificationUpdateOneWithoutUserNestedInput
+    coursesCreated?: CourseUpdateManyWithoutInstructorNestedInput
+    enrollments?: EnrollmentUpdateManyWithoutUserNestedInput
+    progress?: ProgressUpdateManyWithoutUserNestedInput
+    reviews?: ReviewUpdateManyWithoutUserNestedInput
+    certificates?: CertificateUpdateManyWithoutUserNestedInput
+    roadmapsCreated?: RoadmapUpdateManyWithoutCreatorNestedInput
+    roadmapEnrollments?: RoadmapEnrollmentUpdateManyWithoutUserNestedInput
+    courseSeriesCreated?: CourseSeriesUpdateManyWithoutCreatorNestedInput
+    learningPathsCreated?: LearningPathUpdateManyWithoutCreatorNestedInput
+    learningPathsFollowed?: LearningPathFollowerUpdateManyWithoutUserNestedInput
+    courseRecommendations?: CourseRecommendationUpdateManyWithoutUserNestedInput
+    posts?: PostUpdateManyWithoutAuthorNestedInput
+    comments?: CommentUpdateManyWithoutAuthorNestedInput
+    reactions?: ReactionUpdateManyWithoutUserNestedInput
+    following?: FollowUpdateManyWithoutFollowerNestedInput
+    followers?: FollowUpdateManyWithoutFollowingNestedInput
+    groupsCreated?: GroupUpdateManyWithoutCreatorNestedInput
+    groupMembers?: GroupMemberUpdateManyWithoutUserNestedInput
+    communitiesCreated?: CommunityUpdateManyWithoutCreatorNestedInput
+    communityMembers?: CommunityMemberUpdateManyWithoutUserNestedInput
+    communityPosts?: CommunityPostUpdateManyWithoutAuthorNestedInput
+    communityComments?: CommunityCommentUpdateManyWithoutAuthorNestedInput
+    communityReactions?: CommunityReactionUpdateManyWithoutUserNestedInput
+    communityEvents?: CommunityEventUpdateManyWithoutCreatorNestedInput
+    eventAttendees?: EventAttendeeUpdateManyWithoutUserNestedInput
+    communityPolls?: CommunityPollUpdateManyWithoutCreatorNestedInput
+    pollVotes?: PollVoteUpdateManyWithoutUserNestedInput
+    messagesSent?: MessageUpdateManyWithoutSenderNestedInput
+    messageRecipients?: MessageRecipientUpdateManyWithoutRecipientNestedInput
+    notifications?: NotificationUpdateManyWithoutUserNestedInput
+    mentorSessions?: MentorSessionUpdateManyWithoutMentorNestedInput
+    menteeSessions?: MentorSessionUpdateManyWithoutMenteeNestedInput
+    competitionParticipants?: CompetitionParticipantUpdateManyWithoutUserNestedInput
+    userAnalytics?: UserAnalyticsUpdateManyWithoutUserNestedInput
+    submissions?: SubmissionUpdateManyWithoutUserNestedInput
+    userBadges?: UserBadgeUpdateManyWithoutUserNestedInput
+    fileUploads?: FileUploadUpdateManyWithoutUserNestedInput
+    activities?: UserActivityUpdateManyWithoutUserNestedInput
+    goals?: UserGoalUpdateManyWithoutUserNestedInput
+    challenges?: UserChallengeUpdateManyWithoutUserNestedInput
+    levelRewards?: UserLevelRewardUpdateManyWithoutUserNestedInput
+    payments?: PaymentUpdateManyWithoutUserNestedInput
+    webhookEvents?: WebhookEventUpdateManyWithoutUserNestedInput
+  }
+
+  export type UserUncheckedUpdateWithoutSubscriptionsInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    name?: StringFieldUpdateOperationsInput | string
+    email?: StringFieldUpdateOperationsInput | string
+    emailVerified?: BoolFieldUpdateOperationsInput | boolean
+    image?: NullableStringFieldUpdateOperationsInput | string | null
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    role?: EnumUserRoleFieldUpdateOperationsInput | $Enums.UserRole
+    status?: EnumUserStatusFieldUpdateOperationsInput | $Enums.UserStatus
+    bio?: NullableStringFieldUpdateOperationsInput | string | null
+    location?: NullableStringFieldUpdateOperationsInput | string | null
+    website?: NullableStringFieldUpdateOperationsInput | string | null
+    phone?: NullableStringFieldUpdateOperationsInput | string | null
+    socialLinks?: NullableJsonNullValueInput | InputJsonValue
+    preferences?: NullableJsonNullValueInput | InputJsonValue
+    lastLoginAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    loginCount?: IntFieldUpdateOperationsInput | number
+    isOnline?: BoolFieldUpdateOperationsInput | boolean
+    timezone?: NullableStringFieldUpdateOperationsInput | string | null
+    language?: StringFieldUpdateOperationsInput | string
+    theme?: StringFieldUpdateOperationsInput | string
+    sessions?: SessionUncheckedUpdateManyWithoutUserNestedInput
+    accounts?: AccountUncheckedUpdateManyWithoutUserNestedInput
+    playlists?: PlaylistUncheckedUpdateManyWithoutUserNestedInput
+    gamification?: GamificationUncheckedUpdateOneWithoutUserNestedInput
+    coursesCreated?: CourseUncheckedUpdateManyWithoutInstructorNestedInput
+    enrollments?: EnrollmentUncheckedUpdateManyWithoutUserNestedInput
+    progress?: ProgressUncheckedUpdateManyWithoutUserNestedInput
+    reviews?: ReviewUncheckedUpdateManyWithoutUserNestedInput
+    certificates?: CertificateUncheckedUpdateManyWithoutUserNestedInput
+    roadmapsCreated?: RoadmapUncheckedUpdateManyWithoutCreatorNestedInput
+    roadmapEnrollments?: RoadmapEnrollmentUncheckedUpdateManyWithoutUserNestedInput
+    courseSeriesCreated?: CourseSeriesUncheckedUpdateManyWithoutCreatorNestedInput
+    learningPathsCreated?: LearningPathUncheckedUpdateManyWithoutCreatorNestedInput
+    learningPathsFollowed?: LearningPathFollowerUncheckedUpdateManyWithoutUserNestedInput
+    courseRecommendations?: CourseRecommendationUncheckedUpdateManyWithoutUserNestedInput
+    posts?: PostUncheckedUpdateManyWithoutAuthorNestedInput
+    comments?: CommentUncheckedUpdateManyWithoutAuthorNestedInput
+    reactions?: ReactionUncheckedUpdateManyWithoutUserNestedInput
+    following?: FollowUncheckedUpdateManyWithoutFollowerNestedInput
+    followers?: FollowUncheckedUpdateManyWithoutFollowingNestedInput
+    groupsCreated?: GroupUncheckedUpdateManyWithoutCreatorNestedInput
+    groupMembers?: GroupMemberUncheckedUpdateManyWithoutUserNestedInput
+    communitiesCreated?: CommunityUncheckedUpdateManyWithoutCreatorNestedInput
+    communityMembers?: CommunityMemberUncheckedUpdateManyWithoutUserNestedInput
+    communityPosts?: CommunityPostUncheckedUpdateManyWithoutAuthorNestedInput
+    communityComments?: CommunityCommentUncheckedUpdateManyWithoutAuthorNestedInput
+    communityReactions?: CommunityReactionUncheckedUpdateManyWithoutUserNestedInput
+    communityEvents?: CommunityEventUncheckedUpdateManyWithoutCreatorNestedInput
+    eventAttendees?: EventAttendeeUncheckedUpdateManyWithoutUserNestedInput
+    communityPolls?: CommunityPollUncheckedUpdateManyWithoutCreatorNestedInput
+    pollVotes?: PollVoteUncheckedUpdateManyWithoutUserNestedInput
+    messagesSent?: MessageUncheckedUpdateManyWithoutSenderNestedInput
+    messageRecipients?: MessageRecipientUncheckedUpdateManyWithoutRecipientNestedInput
+    notifications?: NotificationUncheckedUpdateManyWithoutUserNestedInput
+    mentorSessions?: MentorSessionUncheckedUpdateManyWithoutMentorNestedInput
+    menteeSessions?: MentorSessionUncheckedUpdateManyWithoutMenteeNestedInput
+    competitionParticipants?: CompetitionParticipantUncheckedUpdateManyWithoutUserNestedInput
+    userAnalytics?: UserAnalyticsUncheckedUpdateManyWithoutUserNestedInput
+    submissions?: SubmissionUncheckedUpdateManyWithoutUserNestedInput
+    userBadges?: UserBadgeUncheckedUpdateManyWithoutUserNestedInput
+    fileUploads?: FileUploadUncheckedUpdateManyWithoutUserNestedInput
+    activities?: UserActivityUncheckedUpdateManyWithoutUserNestedInput
+    goals?: UserGoalUncheckedUpdateManyWithoutUserNestedInput
+    challenges?: UserChallengeUncheckedUpdateManyWithoutUserNestedInput
+    levelRewards?: UserLevelRewardUncheckedUpdateManyWithoutUserNestedInput
+    payments?: PaymentUncheckedUpdateManyWithoutUserNestedInput
+    webhookEvents?: WebhookEventUncheckedUpdateManyWithoutUserNestedInput
+  }
+
+  export type PaymentUpsertWithWhereUniqueWithoutSubscriptionInput = {
+    where: PaymentWhereUniqueInput
+    update: XOR<PaymentUpdateWithoutSubscriptionInput, PaymentUncheckedUpdateWithoutSubscriptionInput>
+    create: XOR<PaymentCreateWithoutSubscriptionInput, PaymentUncheckedCreateWithoutSubscriptionInput>
+  }
+
+  export type PaymentUpdateWithWhereUniqueWithoutSubscriptionInput = {
+    where: PaymentWhereUniqueInput
+    data: XOR<PaymentUpdateWithoutSubscriptionInput, PaymentUncheckedUpdateWithoutSubscriptionInput>
+  }
+
+  export type PaymentUpdateManyWithWhereWithoutSubscriptionInput = {
+    where: PaymentScalarWhereInput
+    data: XOR<PaymentUpdateManyMutationInput, PaymentUncheckedUpdateManyWithoutSubscriptionInput>
+  }
+
+  export type UserCreateWithoutPaymentsInput = {
+    id?: string
+    name: string
+    email: string
+    emailVerified: boolean
+    image?: string | null
+    createdAt: Date | string
+    updatedAt: Date | string
+    role?: $Enums.UserRole
+    status?: $Enums.UserStatus
+    bio?: string | null
+    location?: string | null
+    website?: string | null
+    phone?: string | null
+    socialLinks?: NullableJsonNullValueInput | InputJsonValue
+    preferences?: NullableJsonNullValueInput | InputJsonValue
+    lastLoginAt?: Date | string | null
+    loginCount?: number
+    isOnline?: boolean
+    timezone?: string | null
+    language?: string
+    theme?: string
+    sessions?: SessionCreateNestedManyWithoutUserInput
+    accounts?: AccountCreateNestedManyWithoutUserInput
+    playlists?: PlaylistCreateNestedManyWithoutUserInput
+    gamification?: GamificationCreateNestedOneWithoutUserInput
+    coursesCreated?: CourseCreateNestedManyWithoutInstructorInput
+    enrollments?: EnrollmentCreateNestedManyWithoutUserInput
+    progress?: ProgressCreateNestedManyWithoutUserInput
+    reviews?: ReviewCreateNestedManyWithoutUserInput
+    certificates?: CertificateCreateNestedManyWithoutUserInput
+    roadmapsCreated?: RoadmapCreateNestedManyWithoutCreatorInput
+    roadmapEnrollments?: RoadmapEnrollmentCreateNestedManyWithoutUserInput
+    courseSeriesCreated?: CourseSeriesCreateNestedManyWithoutCreatorInput
+    learningPathsCreated?: LearningPathCreateNestedManyWithoutCreatorInput
+    learningPathsFollowed?: LearningPathFollowerCreateNestedManyWithoutUserInput
+    courseRecommendations?: CourseRecommendationCreateNestedManyWithoutUserInput
+    posts?: PostCreateNestedManyWithoutAuthorInput
+    comments?: CommentCreateNestedManyWithoutAuthorInput
+    reactions?: ReactionCreateNestedManyWithoutUserInput
+    following?: FollowCreateNestedManyWithoutFollowerInput
+    followers?: FollowCreateNestedManyWithoutFollowingInput
+    groupsCreated?: GroupCreateNestedManyWithoutCreatorInput
+    groupMembers?: GroupMemberCreateNestedManyWithoutUserInput
+    communitiesCreated?: CommunityCreateNestedManyWithoutCreatorInput
+    communityMembers?: CommunityMemberCreateNestedManyWithoutUserInput
+    communityPosts?: CommunityPostCreateNestedManyWithoutAuthorInput
+    communityComments?: CommunityCommentCreateNestedManyWithoutAuthorInput
+    communityReactions?: CommunityReactionCreateNestedManyWithoutUserInput
+    communityEvents?: CommunityEventCreateNestedManyWithoutCreatorInput
+    eventAttendees?: EventAttendeeCreateNestedManyWithoutUserInput
+    communityPolls?: CommunityPollCreateNestedManyWithoutCreatorInput
+    pollVotes?: PollVoteCreateNestedManyWithoutUserInput
+    messagesSent?: MessageCreateNestedManyWithoutSenderInput
+    messageRecipients?: MessageRecipientCreateNestedManyWithoutRecipientInput
+    notifications?: NotificationCreateNestedManyWithoutUserInput
+    mentorSessions?: MentorSessionCreateNestedManyWithoutMentorInput
+    menteeSessions?: MentorSessionCreateNestedManyWithoutMenteeInput
+    competitionParticipants?: CompetitionParticipantCreateNestedManyWithoutUserInput
+    userAnalytics?: UserAnalyticsCreateNestedManyWithoutUserInput
+    submissions?: SubmissionCreateNestedManyWithoutUserInput
+    userBadges?: UserBadgeCreateNestedManyWithoutUserInput
+    fileUploads?: FileUploadCreateNestedManyWithoutUserInput
+    activities?: UserActivityCreateNestedManyWithoutUserInput
+    goals?: UserGoalCreateNestedManyWithoutUserInput
+    challenges?: UserChallengeCreateNestedManyWithoutUserInput
+    levelRewards?: UserLevelRewardCreateNestedManyWithoutUserInput
+    subscriptions?: SubscriptionCreateNestedManyWithoutUserInput
+    webhookEvents?: WebhookEventCreateNestedManyWithoutUserInput
+  }
+
+  export type UserUncheckedCreateWithoutPaymentsInput = {
+    id?: string
+    name: string
+    email: string
+    emailVerified: boolean
+    image?: string | null
+    createdAt: Date | string
+    updatedAt: Date | string
+    role?: $Enums.UserRole
+    status?: $Enums.UserStatus
+    bio?: string | null
+    location?: string | null
+    website?: string | null
+    phone?: string | null
+    socialLinks?: NullableJsonNullValueInput | InputJsonValue
+    preferences?: NullableJsonNullValueInput | InputJsonValue
+    lastLoginAt?: Date | string | null
+    loginCount?: number
+    isOnline?: boolean
+    timezone?: string | null
+    language?: string
+    theme?: string
+    sessions?: SessionUncheckedCreateNestedManyWithoutUserInput
+    accounts?: AccountUncheckedCreateNestedManyWithoutUserInput
+    playlists?: PlaylistUncheckedCreateNestedManyWithoutUserInput
+    gamification?: GamificationUncheckedCreateNestedOneWithoutUserInput
+    coursesCreated?: CourseUncheckedCreateNestedManyWithoutInstructorInput
+    enrollments?: EnrollmentUncheckedCreateNestedManyWithoutUserInput
+    progress?: ProgressUncheckedCreateNestedManyWithoutUserInput
+    reviews?: ReviewUncheckedCreateNestedManyWithoutUserInput
+    certificates?: CertificateUncheckedCreateNestedManyWithoutUserInput
+    roadmapsCreated?: RoadmapUncheckedCreateNestedManyWithoutCreatorInput
+    roadmapEnrollments?: RoadmapEnrollmentUncheckedCreateNestedManyWithoutUserInput
+    courseSeriesCreated?: CourseSeriesUncheckedCreateNestedManyWithoutCreatorInput
+    learningPathsCreated?: LearningPathUncheckedCreateNestedManyWithoutCreatorInput
+    learningPathsFollowed?: LearningPathFollowerUncheckedCreateNestedManyWithoutUserInput
+    courseRecommendations?: CourseRecommendationUncheckedCreateNestedManyWithoutUserInput
+    posts?: PostUncheckedCreateNestedManyWithoutAuthorInput
+    comments?: CommentUncheckedCreateNestedManyWithoutAuthorInput
+    reactions?: ReactionUncheckedCreateNestedManyWithoutUserInput
+    following?: FollowUncheckedCreateNestedManyWithoutFollowerInput
+    followers?: FollowUncheckedCreateNestedManyWithoutFollowingInput
+    groupsCreated?: GroupUncheckedCreateNestedManyWithoutCreatorInput
+    groupMembers?: GroupMemberUncheckedCreateNestedManyWithoutUserInput
+    communitiesCreated?: CommunityUncheckedCreateNestedManyWithoutCreatorInput
+    communityMembers?: CommunityMemberUncheckedCreateNestedManyWithoutUserInput
+    communityPosts?: CommunityPostUncheckedCreateNestedManyWithoutAuthorInput
+    communityComments?: CommunityCommentUncheckedCreateNestedManyWithoutAuthorInput
+    communityReactions?: CommunityReactionUncheckedCreateNestedManyWithoutUserInput
+    communityEvents?: CommunityEventUncheckedCreateNestedManyWithoutCreatorInput
+    eventAttendees?: EventAttendeeUncheckedCreateNestedManyWithoutUserInput
+    communityPolls?: CommunityPollUncheckedCreateNestedManyWithoutCreatorInput
+    pollVotes?: PollVoteUncheckedCreateNestedManyWithoutUserInput
+    messagesSent?: MessageUncheckedCreateNestedManyWithoutSenderInput
+    messageRecipients?: MessageRecipientUncheckedCreateNestedManyWithoutRecipientInput
+    notifications?: NotificationUncheckedCreateNestedManyWithoutUserInput
+    mentorSessions?: MentorSessionUncheckedCreateNestedManyWithoutMentorInput
+    menteeSessions?: MentorSessionUncheckedCreateNestedManyWithoutMenteeInput
+    competitionParticipants?: CompetitionParticipantUncheckedCreateNestedManyWithoutUserInput
+    userAnalytics?: UserAnalyticsUncheckedCreateNestedManyWithoutUserInput
+    submissions?: SubmissionUncheckedCreateNestedManyWithoutUserInput
+    userBadges?: UserBadgeUncheckedCreateNestedManyWithoutUserInput
+    fileUploads?: FileUploadUncheckedCreateNestedManyWithoutUserInput
+    activities?: UserActivityUncheckedCreateNestedManyWithoutUserInput
+    goals?: UserGoalUncheckedCreateNestedManyWithoutUserInput
+    challenges?: UserChallengeUncheckedCreateNestedManyWithoutUserInput
+    levelRewards?: UserLevelRewardUncheckedCreateNestedManyWithoutUserInput
+    subscriptions?: SubscriptionUncheckedCreateNestedManyWithoutUserInput
+    webhookEvents?: WebhookEventUncheckedCreateNestedManyWithoutUserInput
+  }
+
+  export type UserCreateOrConnectWithoutPaymentsInput = {
+    where: UserWhereUniqueInput
+    create: XOR<UserCreateWithoutPaymentsInput, UserUncheckedCreateWithoutPaymentsInput>
+  }
+
+  export type SubscriptionCreateWithoutPaymentsInput = {
+    id?: string
+    stripeCustomerId?: string | null
+    stripeSubscriptionId?: string | null
+    stripePriceId?: string | null
+    stripeProductId?: string | null
+    status?: $Enums.SubscriptionStatus
+    currentPeriodStart?: Date | string | null
+    currentPeriodEnd?: Date | string | null
+    cancelAtPeriodEnd?: boolean
+    canceledAt?: Date | string | null
+    endedAt?: Date | string | null
+    trialStart?: Date | string | null
+    trialEnd?: Date | string | null
+    quantity?: number
+    metadata?: NullableJsonNullValueInput | InputJsonValue
+    createdAt?: Date | string
+    updatedAt?: Date | string
+    user: UserCreateNestedOneWithoutSubscriptionsInput
+  }
+
+  export type SubscriptionUncheckedCreateWithoutPaymentsInput = {
+    id?: string
+    stripeCustomerId?: string | null
+    stripeSubscriptionId?: string | null
+    stripePriceId?: string | null
+    stripeProductId?: string | null
+    status?: $Enums.SubscriptionStatus
+    currentPeriodStart?: Date | string | null
+    currentPeriodEnd?: Date | string | null
+    cancelAtPeriodEnd?: boolean
+    canceledAt?: Date | string | null
+    endedAt?: Date | string | null
+    trialStart?: Date | string | null
+    trialEnd?: Date | string | null
+    quantity?: number
+    metadata?: NullableJsonNullValueInput | InputJsonValue
+    createdAt?: Date | string
+    updatedAt?: Date | string
+    userId: string
+  }
+
+  export type SubscriptionCreateOrConnectWithoutPaymentsInput = {
+    where: SubscriptionWhereUniqueInput
+    create: XOR<SubscriptionCreateWithoutPaymentsInput, SubscriptionUncheckedCreateWithoutPaymentsInput>
+  }
+
+  export type UserUpsertWithoutPaymentsInput = {
+    update: XOR<UserUpdateWithoutPaymentsInput, UserUncheckedUpdateWithoutPaymentsInput>
+    create: XOR<UserCreateWithoutPaymentsInput, UserUncheckedCreateWithoutPaymentsInput>
+    where?: UserWhereInput
+  }
+
+  export type UserUpdateToOneWithWhereWithoutPaymentsInput = {
+    where?: UserWhereInput
+    data: XOR<UserUpdateWithoutPaymentsInput, UserUncheckedUpdateWithoutPaymentsInput>
+  }
+
+  export type UserUpdateWithoutPaymentsInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    name?: StringFieldUpdateOperationsInput | string
+    email?: StringFieldUpdateOperationsInput | string
+    emailVerified?: BoolFieldUpdateOperationsInput | boolean
+    image?: NullableStringFieldUpdateOperationsInput | string | null
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    role?: EnumUserRoleFieldUpdateOperationsInput | $Enums.UserRole
+    status?: EnumUserStatusFieldUpdateOperationsInput | $Enums.UserStatus
+    bio?: NullableStringFieldUpdateOperationsInput | string | null
+    location?: NullableStringFieldUpdateOperationsInput | string | null
+    website?: NullableStringFieldUpdateOperationsInput | string | null
+    phone?: NullableStringFieldUpdateOperationsInput | string | null
+    socialLinks?: NullableJsonNullValueInput | InputJsonValue
+    preferences?: NullableJsonNullValueInput | InputJsonValue
+    lastLoginAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    loginCount?: IntFieldUpdateOperationsInput | number
+    isOnline?: BoolFieldUpdateOperationsInput | boolean
+    timezone?: NullableStringFieldUpdateOperationsInput | string | null
+    language?: StringFieldUpdateOperationsInput | string
+    theme?: StringFieldUpdateOperationsInput | string
+    sessions?: SessionUpdateManyWithoutUserNestedInput
+    accounts?: AccountUpdateManyWithoutUserNestedInput
+    playlists?: PlaylistUpdateManyWithoutUserNestedInput
+    gamification?: GamificationUpdateOneWithoutUserNestedInput
+    coursesCreated?: CourseUpdateManyWithoutInstructorNestedInput
+    enrollments?: EnrollmentUpdateManyWithoutUserNestedInput
+    progress?: ProgressUpdateManyWithoutUserNestedInput
+    reviews?: ReviewUpdateManyWithoutUserNestedInput
+    certificates?: CertificateUpdateManyWithoutUserNestedInput
+    roadmapsCreated?: RoadmapUpdateManyWithoutCreatorNestedInput
+    roadmapEnrollments?: RoadmapEnrollmentUpdateManyWithoutUserNestedInput
+    courseSeriesCreated?: CourseSeriesUpdateManyWithoutCreatorNestedInput
+    learningPathsCreated?: LearningPathUpdateManyWithoutCreatorNestedInput
+    learningPathsFollowed?: LearningPathFollowerUpdateManyWithoutUserNestedInput
+    courseRecommendations?: CourseRecommendationUpdateManyWithoutUserNestedInput
+    posts?: PostUpdateManyWithoutAuthorNestedInput
+    comments?: CommentUpdateManyWithoutAuthorNestedInput
+    reactions?: ReactionUpdateManyWithoutUserNestedInput
+    following?: FollowUpdateManyWithoutFollowerNestedInput
+    followers?: FollowUpdateManyWithoutFollowingNestedInput
+    groupsCreated?: GroupUpdateManyWithoutCreatorNestedInput
+    groupMembers?: GroupMemberUpdateManyWithoutUserNestedInput
+    communitiesCreated?: CommunityUpdateManyWithoutCreatorNestedInput
+    communityMembers?: CommunityMemberUpdateManyWithoutUserNestedInput
+    communityPosts?: CommunityPostUpdateManyWithoutAuthorNestedInput
+    communityComments?: CommunityCommentUpdateManyWithoutAuthorNestedInput
+    communityReactions?: CommunityReactionUpdateManyWithoutUserNestedInput
+    communityEvents?: CommunityEventUpdateManyWithoutCreatorNestedInput
+    eventAttendees?: EventAttendeeUpdateManyWithoutUserNestedInput
+    communityPolls?: CommunityPollUpdateManyWithoutCreatorNestedInput
+    pollVotes?: PollVoteUpdateManyWithoutUserNestedInput
+    messagesSent?: MessageUpdateManyWithoutSenderNestedInput
+    messageRecipients?: MessageRecipientUpdateManyWithoutRecipientNestedInput
+    notifications?: NotificationUpdateManyWithoutUserNestedInput
+    mentorSessions?: MentorSessionUpdateManyWithoutMentorNestedInput
+    menteeSessions?: MentorSessionUpdateManyWithoutMenteeNestedInput
+    competitionParticipants?: CompetitionParticipantUpdateManyWithoutUserNestedInput
+    userAnalytics?: UserAnalyticsUpdateManyWithoutUserNestedInput
+    submissions?: SubmissionUpdateManyWithoutUserNestedInput
+    userBadges?: UserBadgeUpdateManyWithoutUserNestedInput
+    fileUploads?: FileUploadUpdateManyWithoutUserNestedInput
+    activities?: UserActivityUpdateManyWithoutUserNestedInput
+    goals?: UserGoalUpdateManyWithoutUserNestedInput
+    challenges?: UserChallengeUpdateManyWithoutUserNestedInput
+    levelRewards?: UserLevelRewardUpdateManyWithoutUserNestedInput
+    subscriptions?: SubscriptionUpdateManyWithoutUserNestedInput
+    webhookEvents?: WebhookEventUpdateManyWithoutUserNestedInput
+  }
+
+  export type UserUncheckedUpdateWithoutPaymentsInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    name?: StringFieldUpdateOperationsInput | string
+    email?: StringFieldUpdateOperationsInput | string
+    emailVerified?: BoolFieldUpdateOperationsInput | boolean
+    image?: NullableStringFieldUpdateOperationsInput | string | null
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    role?: EnumUserRoleFieldUpdateOperationsInput | $Enums.UserRole
+    status?: EnumUserStatusFieldUpdateOperationsInput | $Enums.UserStatus
+    bio?: NullableStringFieldUpdateOperationsInput | string | null
+    location?: NullableStringFieldUpdateOperationsInput | string | null
+    website?: NullableStringFieldUpdateOperationsInput | string | null
+    phone?: NullableStringFieldUpdateOperationsInput | string | null
+    socialLinks?: NullableJsonNullValueInput | InputJsonValue
+    preferences?: NullableJsonNullValueInput | InputJsonValue
+    lastLoginAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    loginCount?: IntFieldUpdateOperationsInput | number
+    isOnline?: BoolFieldUpdateOperationsInput | boolean
+    timezone?: NullableStringFieldUpdateOperationsInput | string | null
+    language?: StringFieldUpdateOperationsInput | string
+    theme?: StringFieldUpdateOperationsInput | string
+    sessions?: SessionUncheckedUpdateManyWithoutUserNestedInput
+    accounts?: AccountUncheckedUpdateManyWithoutUserNestedInput
+    playlists?: PlaylistUncheckedUpdateManyWithoutUserNestedInput
+    gamification?: GamificationUncheckedUpdateOneWithoutUserNestedInput
+    coursesCreated?: CourseUncheckedUpdateManyWithoutInstructorNestedInput
+    enrollments?: EnrollmentUncheckedUpdateManyWithoutUserNestedInput
+    progress?: ProgressUncheckedUpdateManyWithoutUserNestedInput
+    reviews?: ReviewUncheckedUpdateManyWithoutUserNestedInput
+    certificates?: CertificateUncheckedUpdateManyWithoutUserNestedInput
+    roadmapsCreated?: RoadmapUncheckedUpdateManyWithoutCreatorNestedInput
+    roadmapEnrollments?: RoadmapEnrollmentUncheckedUpdateManyWithoutUserNestedInput
+    courseSeriesCreated?: CourseSeriesUncheckedUpdateManyWithoutCreatorNestedInput
+    learningPathsCreated?: LearningPathUncheckedUpdateManyWithoutCreatorNestedInput
+    learningPathsFollowed?: LearningPathFollowerUncheckedUpdateManyWithoutUserNestedInput
+    courseRecommendations?: CourseRecommendationUncheckedUpdateManyWithoutUserNestedInput
+    posts?: PostUncheckedUpdateManyWithoutAuthorNestedInput
+    comments?: CommentUncheckedUpdateManyWithoutAuthorNestedInput
+    reactions?: ReactionUncheckedUpdateManyWithoutUserNestedInput
+    following?: FollowUncheckedUpdateManyWithoutFollowerNestedInput
+    followers?: FollowUncheckedUpdateManyWithoutFollowingNestedInput
+    groupsCreated?: GroupUncheckedUpdateManyWithoutCreatorNestedInput
+    groupMembers?: GroupMemberUncheckedUpdateManyWithoutUserNestedInput
+    communitiesCreated?: CommunityUncheckedUpdateManyWithoutCreatorNestedInput
+    communityMembers?: CommunityMemberUncheckedUpdateManyWithoutUserNestedInput
+    communityPosts?: CommunityPostUncheckedUpdateManyWithoutAuthorNestedInput
+    communityComments?: CommunityCommentUncheckedUpdateManyWithoutAuthorNestedInput
+    communityReactions?: CommunityReactionUncheckedUpdateManyWithoutUserNestedInput
+    communityEvents?: CommunityEventUncheckedUpdateManyWithoutCreatorNestedInput
+    eventAttendees?: EventAttendeeUncheckedUpdateManyWithoutUserNestedInput
+    communityPolls?: CommunityPollUncheckedUpdateManyWithoutCreatorNestedInput
+    pollVotes?: PollVoteUncheckedUpdateManyWithoutUserNestedInput
+    messagesSent?: MessageUncheckedUpdateManyWithoutSenderNestedInput
+    messageRecipients?: MessageRecipientUncheckedUpdateManyWithoutRecipientNestedInput
+    notifications?: NotificationUncheckedUpdateManyWithoutUserNestedInput
+    mentorSessions?: MentorSessionUncheckedUpdateManyWithoutMentorNestedInput
+    menteeSessions?: MentorSessionUncheckedUpdateManyWithoutMenteeNestedInput
+    competitionParticipants?: CompetitionParticipantUncheckedUpdateManyWithoutUserNestedInput
+    userAnalytics?: UserAnalyticsUncheckedUpdateManyWithoutUserNestedInput
+    submissions?: SubmissionUncheckedUpdateManyWithoutUserNestedInput
+    userBadges?: UserBadgeUncheckedUpdateManyWithoutUserNestedInput
+    fileUploads?: FileUploadUncheckedUpdateManyWithoutUserNestedInput
+    activities?: UserActivityUncheckedUpdateManyWithoutUserNestedInput
+    goals?: UserGoalUncheckedUpdateManyWithoutUserNestedInput
+    challenges?: UserChallengeUncheckedUpdateManyWithoutUserNestedInput
+    levelRewards?: UserLevelRewardUncheckedUpdateManyWithoutUserNestedInput
+    subscriptions?: SubscriptionUncheckedUpdateManyWithoutUserNestedInput
+    webhookEvents?: WebhookEventUncheckedUpdateManyWithoutUserNestedInput
+  }
+
+  export type SubscriptionUpsertWithoutPaymentsInput = {
+    update: XOR<SubscriptionUpdateWithoutPaymentsInput, SubscriptionUncheckedUpdateWithoutPaymentsInput>
+    create: XOR<SubscriptionCreateWithoutPaymentsInput, SubscriptionUncheckedCreateWithoutPaymentsInput>
+    where?: SubscriptionWhereInput
+  }
+
+  export type SubscriptionUpdateToOneWithWhereWithoutPaymentsInput = {
+    where?: SubscriptionWhereInput
+    data: XOR<SubscriptionUpdateWithoutPaymentsInput, SubscriptionUncheckedUpdateWithoutPaymentsInput>
+  }
+
+  export type SubscriptionUpdateWithoutPaymentsInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    stripeCustomerId?: NullableStringFieldUpdateOperationsInput | string | null
+    stripeSubscriptionId?: NullableStringFieldUpdateOperationsInput | string | null
+    stripePriceId?: NullableStringFieldUpdateOperationsInput | string | null
+    stripeProductId?: NullableStringFieldUpdateOperationsInput | string | null
+    status?: EnumSubscriptionStatusFieldUpdateOperationsInput | $Enums.SubscriptionStatus
+    currentPeriodStart?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    currentPeriodEnd?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    cancelAtPeriodEnd?: BoolFieldUpdateOperationsInput | boolean
+    canceledAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    endedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    trialStart?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    trialEnd?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    quantity?: IntFieldUpdateOperationsInput | number
+    metadata?: NullableJsonNullValueInput | InputJsonValue
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    user?: UserUpdateOneRequiredWithoutSubscriptionsNestedInput
+  }
+
+  export type SubscriptionUncheckedUpdateWithoutPaymentsInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    stripeCustomerId?: NullableStringFieldUpdateOperationsInput | string | null
+    stripeSubscriptionId?: NullableStringFieldUpdateOperationsInput | string | null
+    stripePriceId?: NullableStringFieldUpdateOperationsInput | string | null
+    stripeProductId?: NullableStringFieldUpdateOperationsInput | string | null
+    status?: EnumSubscriptionStatusFieldUpdateOperationsInput | $Enums.SubscriptionStatus
+    currentPeriodStart?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    currentPeriodEnd?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    cancelAtPeriodEnd?: BoolFieldUpdateOperationsInput | boolean
+    canceledAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    endedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    trialStart?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    trialEnd?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    quantity?: IntFieldUpdateOperationsInput | number
+    metadata?: NullableJsonNullValueInput | InputJsonValue
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    userId?: StringFieldUpdateOperationsInput | string
+  }
+
+  export type UserCreateWithoutWebhookEventsInput = {
+    id?: string
+    name: string
+    email: string
+    emailVerified: boolean
+    image?: string | null
+    createdAt: Date | string
+    updatedAt: Date | string
+    role?: $Enums.UserRole
+    status?: $Enums.UserStatus
+    bio?: string | null
+    location?: string | null
+    website?: string | null
+    phone?: string | null
+    socialLinks?: NullableJsonNullValueInput | InputJsonValue
+    preferences?: NullableJsonNullValueInput | InputJsonValue
+    lastLoginAt?: Date | string | null
+    loginCount?: number
+    isOnline?: boolean
+    timezone?: string | null
+    language?: string
+    theme?: string
+    sessions?: SessionCreateNestedManyWithoutUserInput
+    accounts?: AccountCreateNestedManyWithoutUserInput
+    playlists?: PlaylistCreateNestedManyWithoutUserInput
+    gamification?: GamificationCreateNestedOneWithoutUserInput
+    coursesCreated?: CourseCreateNestedManyWithoutInstructorInput
+    enrollments?: EnrollmentCreateNestedManyWithoutUserInput
+    progress?: ProgressCreateNestedManyWithoutUserInput
+    reviews?: ReviewCreateNestedManyWithoutUserInput
+    certificates?: CertificateCreateNestedManyWithoutUserInput
+    roadmapsCreated?: RoadmapCreateNestedManyWithoutCreatorInput
+    roadmapEnrollments?: RoadmapEnrollmentCreateNestedManyWithoutUserInput
+    courseSeriesCreated?: CourseSeriesCreateNestedManyWithoutCreatorInput
+    learningPathsCreated?: LearningPathCreateNestedManyWithoutCreatorInput
+    learningPathsFollowed?: LearningPathFollowerCreateNestedManyWithoutUserInput
+    courseRecommendations?: CourseRecommendationCreateNestedManyWithoutUserInput
+    posts?: PostCreateNestedManyWithoutAuthorInput
+    comments?: CommentCreateNestedManyWithoutAuthorInput
+    reactions?: ReactionCreateNestedManyWithoutUserInput
+    following?: FollowCreateNestedManyWithoutFollowerInput
+    followers?: FollowCreateNestedManyWithoutFollowingInput
+    groupsCreated?: GroupCreateNestedManyWithoutCreatorInput
+    groupMembers?: GroupMemberCreateNestedManyWithoutUserInput
+    communitiesCreated?: CommunityCreateNestedManyWithoutCreatorInput
+    communityMembers?: CommunityMemberCreateNestedManyWithoutUserInput
+    communityPosts?: CommunityPostCreateNestedManyWithoutAuthorInput
+    communityComments?: CommunityCommentCreateNestedManyWithoutAuthorInput
+    communityReactions?: CommunityReactionCreateNestedManyWithoutUserInput
+    communityEvents?: CommunityEventCreateNestedManyWithoutCreatorInput
+    eventAttendees?: EventAttendeeCreateNestedManyWithoutUserInput
+    communityPolls?: CommunityPollCreateNestedManyWithoutCreatorInput
+    pollVotes?: PollVoteCreateNestedManyWithoutUserInput
+    messagesSent?: MessageCreateNestedManyWithoutSenderInput
+    messageRecipients?: MessageRecipientCreateNestedManyWithoutRecipientInput
+    notifications?: NotificationCreateNestedManyWithoutUserInput
+    mentorSessions?: MentorSessionCreateNestedManyWithoutMentorInput
+    menteeSessions?: MentorSessionCreateNestedManyWithoutMenteeInput
+    competitionParticipants?: CompetitionParticipantCreateNestedManyWithoutUserInput
+    userAnalytics?: UserAnalyticsCreateNestedManyWithoutUserInput
+    submissions?: SubmissionCreateNestedManyWithoutUserInput
+    userBadges?: UserBadgeCreateNestedManyWithoutUserInput
+    fileUploads?: FileUploadCreateNestedManyWithoutUserInput
+    activities?: UserActivityCreateNestedManyWithoutUserInput
+    goals?: UserGoalCreateNestedManyWithoutUserInput
+    challenges?: UserChallengeCreateNestedManyWithoutUserInput
+    levelRewards?: UserLevelRewardCreateNestedManyWithoutUserInput
+    subscriptions?: SubscriptionCreateNestedManyWithoutUserInput
+    payments?: PaymentCreateNestedManyWithoutUserInput
+  }
+
+  export type UserUncheckedCreateWithoutWebhookEventsInput = {
+    id?: string
+    name: string
+    email: string
+    emailVerified: boolean
+    image?: string | null
+    createdAt: Date | string
+    updatedAt: Date | string
+    role?: $Enums.UserRole
+    status?: $Enums.UserStatus
+    bio?: string | null
+    location?: string | null
+    website?: string | null
+    phone?: string | null
+    socialLinks?: NullableJsonNullValueInput | InputJsonValue
+    preferences?: NullableJsonNullValueInput | InputJsonValue
+    lastLoginAt?: Date | string | null
+    loginCount?: number
+    isOnline?: boolean
+    timezone?: string | null
+    language?: string
+    theme?: string
+    sessions?: SessionUncheckedCreateNestedManyWithoutUserInput
+    accounts?: AccountUncheckedCreateNestedManyWithoutUserInput
+    playlists?: PlaylistUncheckedCreateNestedManyWithoutUserInput
+    gamification?: GamificationUncheckedCreateNestedOneWithoutUserInput
+    coursesCreated?: CourseUncheckedCreateNestedManyWithoutInstructorInput
+    enrollments?: EnrollmentUncheckedCreateNestedManyWithoutUserInput
+    progress?: ProgressUncheckedCreateNestedManyWithoutUserInput
+    reviews?: ReviewUncheckedCreateNestedManyWithoutUserInput
+    certificates?: CertificateUncheckedCreateNestedManyWithoutUserInput
+    roadmapsCreated?: RoadmapUncheckedCreateNestedManyWithoutCreatorInput
+    roadmapEnrollments?: RoadmapEnrollmentUncheckedCreateNestedManyWithoutUserInput
+    courseSeriesCreated?: CourseSeriesUncheckedCreateNestedManyWithoutCreatorInput
+    learningPathsCreated?: LearningPathUncheckedCreateNestedManyWithoutCreatorInput
+    learningPathsFollowed?: LearningPathFollowerUncheckedCreateNestedManyWithoutUserInput
+    courseRecommendations?: CourseRecommendationUncheckedCreateNestedManyWithoutUserInput
+    posts?: PostUncheckedCreateNestedManyWithoutAuthorInput
+    comments?: CommentUncheckedCreateNestedManyWithoutAuthorInput
+    reactions?: ReactionUncheckedCreateNestedManyWithoutUserInput
+    following?: FollowUncheckedCreateNestedManyWithoutFollowerInput
+    followers?: FollowUncheckedCreateNestedManyWithoutFollowingInput
+    groupsCreated?: GroupUncheckedCreateNestedManyWithoutCreatorInput
+    groupMembers?: GroupMemberUncheckedCreateNestedManyWithoutUserInput
+    communitiesCreated?: CommunityUncheckedCreateNestedManyWithoutCreatorInput
+    communityMembers?: CommunityMemberUncheckedCreateNestedManyWithoutUserInput
+    communityPosts?: CommunityPostUncheckedCreateNestedManyWithoutAuthorInput
+    communityComments?: CommunityCommentUncheckedCreateNestedManyWithoutAuthorInput
+    communityReactions?: CommunityReactionUncheckedCreateNestedManyWithoutUserInput
+    communityEvents?: CommunityEventUncheckedCreateNestedManyWithoutCreatorInput
+    eventAttendees?: EventAttendeeUncheckedCreateNestedManyWithoutUserInput
+    communityPolls?: CommunityPollUncheckedCreateNestedManyWithoutCreatorInput
+    pollVotes?: PollVoteUncheckedCreateNestedManyWithoutUserInput
+    messagesSent?: MessageUncheckedCreateNestedManyWithoutSenderInput
+    messageRecipients?: MessageRecipientUncheckedCreateNestedManyWithoutRecipientInput
+    notifications?: NotificationUncheckedCreateNestedManyWithoutUserInput
+    mentorSessions?: MentorSessionUncheckedCreateNestedManyWithoutMentorInput
+    menteeSessions?: MentorSessionUncheckedCreateNestedManyWithoutMenteeInput
+    competitionParticipants?: CompetitionParticipantUncheckedCreateNestedManyWithoutUserInput
+    userAnalytics?: UserAnalyticsUncheckedCreateNestedManyWithoutUserInput
+    submissions?: SubmissionUncheckedCreateNestedManyWithoutUserInput
+    userBadges?: UserBadgeUncheckedCreateNestedManyWithoutUserInput
+    fileUploads?: FileUploadUncheckedCreateNestedManyWithoutUserInput
+    activities?: UserActivityUncheckedCreateNestedManyWithoutUserInput
+    goals?: UserGoalUncheckedCreateNestedManyWithoutUserInput
+    challenges?: UserChallengeUncheckedCreateNestedManyWithoutUserInput
+    levelRewards?: UserLevelRewardUncheckedCreateNestedManyWithoutUserInput
+    subscriptions?: SubscriptionUncheckedCreateNestedManyWithoutUserInput
+    payments?: PaymentUncheckedCreateNestedManyWithoutUserInput
+  }
+
+  export type UserCreateOrConnectWithoutWebhookEventsInput = {
+    where: UserWhereUniqueInput
+    create: XOR<UserCreateWithoutWebhookEventsInput, UserUncheckedCreateWithoutWebhookEventsInput>
+  }
+
+  export type UserUpsertWithoutWebhookEventsInput = {
+    update: XOR<UserUpdateWithoutWebhookEventsInput, UserUncheckedUpdateWithoutWebhookEventsInput>
+    create: XOR<UserCreateWithoutWebhookEventsInput, UserUncheckedCreateWithoutWebhookEventsInput>
+    where?: UserWhereInput
+  }
+
+  export type UserUpdateToOneWithWhereWithoutWebhookEventsInput = {
+    where?: UserWhereInput
+    data: XOR<UserUpdateWithoutWebhookEventsInput, UserUncheckedUpdateWithoutWebhookEventsInput>
+  }
+
+  export type UserUpdateWithoutWebhookEventsInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    name?: StringFieldUpdateOperationsInput | string
+    email?: StringFieldUpdateOperationsInput | string
+    emailVerified?: BoolFieldUpdateOperationsInput | boolean
+    image?: NullableStringFieldUpdateOperationsInput | string | null
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    role?: EnumUserRoleFieldUpdateOperationsInput | $Enums.UserRole
+    status?: EnumUserStatusFieldUpdateOperationsInput | $Enums.UserStatus
+    bio?: NullableStringFieldUpdateOperationsInput | string | null
+    location?: NullableStringFieldUpdateOperationsInput | string | null
+    website?: NullableStringFieldUpdateOperationsInput | string | null
+    phone?: NullableStringFieldUpdateOperationsInput | string | null
+    socialLinks?: NullableJsonNullValueInput | InputJsonValue
+    preferences?: NullableJsonNullValueInput | InputJsonValue
+    lastLoginAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    loginCount?: IntFieldUpdateOperationsInput | number
+    isOnline?: BoolFieldUpdateOperationsInput | boolean
+    timezone?: NullableStringFieldUpdateOperationsInput | string | null
+    language?: StringFieldUpdateOperationsInput | string
+    theme?: StringFieldUpdateOperationsInput | string
+    sessions?: SessionUpdateManyWithoutUserNestedInput
+    accounts?: AccountUpdateManyWithoutUserNestedInput
+    playlists?: PlaylistUpdateManyWithoutUserNestedInput
+    gamification?: GamificationUpdateOneWithoutUserNestedInput
+    coursesCreated?: CourseUpdateManyWithoutInstructorNestedInput
+    enrollments?: EnrollmentUpdateManyWithoutUserNestedInput
+    progress?: ProgressUpdateManyWithoutUserNestedInput
+    reviews?: ReviewUpdateManyWithoutUserNestedInput
+    certificates?: CertificateUpdateManyWithoutUserNestedInput
+    roadmapsCreated?: RoadmapUpdateManyWithoutCreatorNestedInput
+    roadmapEnrollments?: RoadmapEnrollmentUpdateManyWithoutUserNestedInput
+    courseSeriesCreated?: CourseSeriesUpdateManyWithoutCreatorNestedInput
+    learningPathsCreated?: LearningPathUpdateManyWithoutCreatorNestedInput
+    learningPathsFollowed?: LearningPathFollowerUpdateManyWithoutUserNestedInput
+    courseRecommendations?: CourseRecommendationUpdateManyWithoutUserNestedInput
+    posts?: PostUpdateManyWithoutAuthorNestedInput
+    comments?: CommentUpdateManyWithoutAuthorNestedInput
+    reactions?: ReactionUpdateManyWithoutUserNestedInput
+    following?: FollowUpdateManyWithoutFollowerNestedInput
+    followers?: FollowUpdateManyWithoutFollowingNestedInput
+    groupsCreated?: GroupUpdateManyWithoutCreatorNestedInput
+    groupMembers?: GroupMemberUpdateManyWithoutUserNestedInput
+    communitiesCreated?: CommunityUpdateManyWithoutCreatorNestedInput
+    communityMembers?: CommunityMemberUpdateManyWithoutUserNestedInput
+    communityPosts?: CommunityPostUpdateManyWithoutAuthorNestedInput
+    communityComments?: CommunityCommentUpdateManyWithoutAuthorNestedInput
+    communityReactions?: CommunityReactionUpdateManyWithoutUserNestedInput
+    communityEvents?: CommunityEventUpdateManyWithoutCreatorNestedInput
+    eventAttendees?: EventAttendeeUpdateManyWithoutUserNestedInput
+    communityPolls?: CommunityPollUpdateManyWithoutCreatorNestedInput
+    pollVotes?: PollVoteUpdateManyWithoutUserNestedInput
+    messagesSent?: MessageUpdateManyWithoutSenderNestedInput
+    messageRecipients?: MessageRecipientUpdateManyWithoutRecipientNestedInput
+    notifications?: NotificationUpdateManyWithoutUserNestedInput
+    mentorSessions?: MentorSessionUpdateManyWithoutMentorNestedInput
+    menteeSessions?: MentorSessionUpdateManyWithoutMenteeNestedInput
+    competitionParticipants?: CompetitionParticipantUpdateManyWithoutUserNestedInput
+    userAnalytics?: UserAnalyticsUpdateManyWithoutUserNestedInput
+    submissions?: SubmissionUpdateManyWithoutUserNestedInput
+    userBadges?: UserBadgeUpdateManyWithoutUserNestedInput
+    fileUploads?: FileUploadUpdateManyWithoutUserNestedInput
+    activities?: UserActivityUpdateManyWithoutUserNestedInput
+    goals?: UserGoalUpdateManyWithoutUserNestedInput
+    challenges?: UserChallengeUpdateManyWithoutUserNestedInput
+    levelRewards?: UserLevelRewardUpdateManyWithoutUserNestedInput
+    subscriptions?: SubscriptionUpdateManyWithoutUserNestedInput
+    payments?: PaymentUpdateManyWithoutUserNestedInput
+  }
+
+  export type UserUncheckedUpdateWithoutWebhookEventsInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    name?: StringFieldUpdateOperationsInput | string
+    email?: StringFieldUpdateOperationsInput | string
+    emailVerified?: BoolFieldUpdateOperationsInput | boolean
+    image?: NullableStringFieldUpdateOperationsInput | string | null
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    role?: EnumUserRoleFieldUpdateOperationsInput | $Enums.UserRole
+    status?: EnumUserStatusFieldUpdateOperationsInput | $Enums.UserStatus
+    bio?: NullableStringFieldUpdateOperationsInput | string | null
+    location?: NullableStringFieldUpdateOperationsInput | string | null
+    website?: NullableStringFieldUpdateOperationsInput | string | null
+    phone?: NullableStringFieldUpdateOperationsInput | string | null
+    socialLinks?: NullableJsonNullValueInput | InputJsonValue
+    preferences?: NullableJsonNullValueInput | InputJsonValue
+    lastLoginAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    loginCount?: IntFieldUpdateOperationsInput | number
+    isOnline?: BoolFieldUpdateOperationsInput | boolean
+    timezone?: NullableStringFieldUpdateOperationsInput | string | null
+    language?: StringFieldUpdateOperationsInput | string
+    theme?: StringFieldUpdateOperationsInput | string
+    sessions?: SessionUncheckedUpdateManyWithoutUserNestedInput
+    accounts?: AccountUncheckedUpdateManyWithoutUserNestedInput
+    playlists?: PlaylistUncheckedUpdateManyWithoutUserNestedInput
+    gamification?: GamificationUncheckedUpdateOneWithoutUserNestedInput
+    coursesCreated?: CourseUncheckedUpdateManyWithoutInstructorNestedInput
+    enrollments?: EnrollmentUncheckedUpdateManyWithoutUserNestedInput
+    progress?: ProgressUncheckedUpdateManyWithoutUserNestedInput
+    reviews?: ReviewUncheckedUpdateManyWithoutUserNestedInput
+    certificates?: CertificateUncheckedUpdateManyWithoutUserNestedInput
+    roadmapsCreated?: RoadmapUncheckedUpdateManyWithoutCreatorNestedInput
+    roadmapEnrollments?: RoadmapEnrollmentUncheckedUpdateManyWithoutUserNestedInput
+    courseSeriesCreated?: CourseSeriesUncheckedUpdateManyWithoutCreatorNestedInput
+    learningPathsCreated?: LearningPathUncheckedUpdateManyWithoutCreatorNestedInput
+    learningPathsFollowed?: LearningPathFollowerUncheckedUpdateManyWithoutUserNestedInput
+    courseRecommendations?: CourseRecommendationUncheckedUpdateManyWithoutUserNestedInput
+    posts?: PostUncheckedUpdateManyWithoutAuthorNestedInput
+    comments?: CommentUncheckedUpdateManyWithoutAuthorNestedInput
+    reactions?: ReactionUncheckedUpdateManyWithoutUserNestedInput
+    following?: FollowUncheckedUpdateManyWithoutFollowerNestedInput
+    followers?: FollowUncheckedUpdateManyWithoutFollowingNestedInput
+    groupsCreated?: GroupUncheckedUpdateManyWithoutCreatorNestedInput
+    groupMembers?: GroupMemberUncheckedUpdateManyWithoutUserNestedInput
+    communitiesCreated?: CommunityUncheckedUpdateManyWithoutCreatorNestedInput
+    communityMembers?: CommunityMemberUncheckedUpdateManyWithoutUserNestedInput
+    communityPosts?: CommunityPostUncheckedUpdateManyWithoutAuthorNestedInput
+    communityComments?: CommunityCommentUncheckedUpdateManyWithoutAuthorNestedInput
+    communityReactions?: CommunityReactionUncheckedUpdateManyWithoutUserNestedInput
+    communityEvents?: CommunityEventUncheckedUpdateManyWithoutCreatorNestedInput
+    eventAttendees?: EventAttendeeUncheckedUpdateManyWithoutUserNestedInput
+    communityPolls?: CommunityPollUncheckedUpdateManyWithoutCreatorNestedInput
+    pollVotes?: PollVoteUncheckedUpdateManyWithoutUserNestedInput
+    messagesSent?: MessageUncheckedUpdateManyWithoutSenderNestedInput
+    messageRecipients?: MessageRecipientUncheckedUpdateManyWithoutRecipientNestedInput
+    notifications?: NotificationUncheckedUpdateManyWithoutUserNestedInput
+    mentorSessions?: MentorSessionUncheckedUpdateManyWithoutMentorNestedInput
+    menteeSessions?: MentorSessionUncheckedUpdateManyWithoutMenteeNestedInput
+    competitionParticipants?: CompetitionParticipantUncheckedUpdateManyWithoutUserNestedInput
+    userAnalytics?: UserAnalyticsUncheckedUpdateManyWithoutUserNestedInput
+    submissions?: SubmissionUncheckedUpdateManyWithoutUserNestedInput
+    userBadges?: UserBadgeUncheckedUpdateManyWithoutUserNestedInput
+    fileUploads?: FileUploadUncheckedUpdateManyWithoutUserNestedInput
+    activities?: UserActivityUncheckedUpdateManyWithoutUserNestedInput
+    goals?: UserGoalUncheckedUpdateManyWithoutUserNestedInput
+    challenges?: UserChallengeUncheckedUpdateManyWithoutUserNestedInput
+    levelRewards?: UserLevelRewardUncheckedUpdateManyWithoutUserNestedInput
+    subscriptions?: SubscriptionUncheckedUpdateManyWithoutUserNestedInput
+    payments?: PaymentUncheckedUpdateManyWithoutUserNestedInput
   }
 
   export type UserCreateWithoutActivitiesInput = {
@@ -152321,6 +162891,9 @@ export namespace Prisma {
     goals?: UserGoalCreateNestedManyWithoutUserInput
     challenges?: UserChallengeCreateNestedManyWithoutUserInput
     levelRewards?: UserLevelRewardCreateNestedManyWithoutUserInput
+    subscriptions?: SubscriptionCreateNestedManyWithoutUserInput
+    payments?: PaymentCreateNestedManyWithoutUserInput
+    webhookEvents?: WebhookEventCreateNestedManyWithoutUserInput
   }
 
   export type UserUncheckedCreateWithoutActivitiesInput = {
@@ -152389,6 +162962,9 @@ export namespace Prisma {
     goals?: UserGoalUncheckedCreateNestedManyWithoutUserInput
     challenges?: UserChallengeUncheckedCreateNestedManyWithoutUserInput
     levelRewards?: UserLevelRewardUncheckedCreateNestedManyWithoutUserInput
+    subscriptions?: SubscriptionUncheckedCreateNestedManyWithoutUserInput
+    payments?: PaymentUncheckedCreateNestedManyWithoutUserInput
+    webhookEvents?: WebhookEventUncheckedCreateNestedManyWithoutUserInput
   }
 
   export type UserCreateOrConnectWithoutActivitiesInput = {
@@ -152415,6 +162991,8 @@ export namespace Prisma {
     isPublic?: boolean
     isPremium?: boolean
     allowDownload?: boolean
+    stripeProductId?: string | null
+    stripePriceId?: string | null
     hasPrerequisites?: boolean
     unlockCriteria?: NullableJsonNullValueInput | InputJsonValue
     status?: $Enums.CourseStatus
@@ -152476,6 +163054,8 @@ export namespace Prisma {
     isPublic?: boolean
     isPremium?: boolean
     allowDownload?: boolean
+    stripeProductId?: string | null
+    stripePriceId?: string | null
     hasPrerequisites?: boolean
     seriesId?: string | null
     unlockCriteria?: NullableJsonNullValueInput | InputJsonValue
@@ -152647,6 +163227,9 @@ export namespace Prisma {
     goals?: UserGoalUpdateManyWithoutUserNestedInput
     challenges?: UserChallengeUpdateManyWithoutUserNestedInput
     levelRewards?: UserLevelRewardUpdateManyWithoutUserNestedInput
+    subscriptions?: SubscriptionUpdateManyWithoutUserNestedInput
+    payments?: PaymentUpdateManyWithoutUserNestedInput
+    webhookEvents?: WebhookEventUpdateManyWithoutUserNestedInput
   }
 
   export type UserUncheckedUpdateWithoutActivitiesInput = {
@@ -152715,6 +163298,9 @@ export namespace Prisma {
     goals?: UserGoalUncheckedUpdateManyWithoutUserNestedInput
     challenges?: UserChallengeUncheckedUpdateManyWithoutUserNestedInput
     levelRewards?: UserLevelRewardUncheckedUpdateManyWithoutUserNestedInput
+    subscriptions?: SubscriptionUncheckedUpdateManyWithoutUserNestedInput
+    payments?: PaymentUncheckedUpdateManyWithoutUserNestedInput
+    webhookEvents?: WebhookEventUncheckedUpdateManyWithoutUserNestedInput
   }
 
   export type CourseUpsertWithoutActivitiesInput = {
@@ -152747,6 +163333,8 @@ export namespace Prisma {
     isPublic?: BoolFieldUpdateOperationsInput | boolean
     isPremium?: BoolFieldUpdateOperationsInput | boolean
     allowDownload?: BoolFieldUpdateOperationsInput | boolean
+    stripeProductId?: NullableStringFieldUpdateOperationsInput | string | null
+    stripePriceId?: NullableStringFieldUpdateOperationsInput | string | null
     hasPrerequisites?: BoolFieldUpdateOperationsInput | boolean
     unlockCriteria?: NullableJsonNullValueInput | InputJsonValue
     status?: EnumCourseStatusFieldUpdateOperationsInput | $Enums.CourseStatus
@@ -152808,6 +163396,8 @@ export namespace Prisma {
     isPublic?: BoolFieldUpdateOperationsInput | boolean
     isPremium?: BoolFieldUpdateOperationsInput | boolean
     allowDownload?: BoolFieldUpdateOperationsInput | boolean
+    stripeProductId?: NullableStringFieldUpdateOperationsInput | string | null
+    stripePriceId?: NullableStringFieldUpdateOperationsInput | string | null
     hasPrerequisites?: BoolFieldUpdateOperationsInput | boolean
     seriesId?: NullableStringFieldUpdateOperationsInput | string | null
     unlockCriteria?: NullableJsonNullValueInput | InputJsonValue
@@ -152969,6 +163559,9 @@ export namespace Prisma {
     goals?: UserGoalCreateNestedManyWithoutUserInput
     challenges?: UserChallengeCreateNestedManyWithoutUserInput
     levelRewards?: UserLevelRewardCreateNestedManyWithoutUserInput
+    subscriptions?: SubscriptionCreateNestedManyWithoutUserInput
+    payments?: PaymentCreateNestedManyWithoutUserInput
+    webhookEvents?: WebhookEventCreateNestedManyWithoutUserInput
   }
 
   export type UserUncheckedCreateWithoutFileUploadsInput = {
@@ -153037,6 +163630,9 @@ export namespace Prisma {
     goals?: UserGoalUncheckedCreateNestedManyWithoutUserInput
     challenges?: UserChallengeUncheckedCreateNestedManyWithoutUserInput
     levelRewards?: UserLevelRewardUncheckedCreateNestedManyWithoutUserInput
+    subscriptions?: SubscriptionUncheckedCreateNestedManyWithoutUserInput
+    payments?: PaymentUncheckedCreateNestedManyWithoutUserInput
+    webhookEvents?: WebhookEventUncheckedCreateNestedManyWithoutUserInput
   }
 
   export type UserCreateOrConnectWithoutFileUploadsInput = {
@@ -153063,6 +163659,8 @@ export namespace Prisma {
     isPublic?: boolean
     isPremium?: boolean
     allowDownload?: boolean
+    stripeProductId?: string | null
+    stripePriceId?: string | null
     hasPrerequisites?: boolean
     unlockCriteria?: NullableJsonNullValueInput | InputJsonValue
     status?: $Enums.CourseStatus
@@ -153124,6 +163722,8 @@ export namespace Prisma {
     isPublic?: boolean
     isPremium?: boolean
     allowDownload?: boolean
+    stripeProductId?: string | null
+    stripePriceId?: string | null
     hasPrerequisites?: boolean
     seriesId?: string | null
     unlockCriteria?: NullableJsonNullValueInput | InputJsonValue
@@ -153244,6 +163844,9 @@ export namespace Prisma {
     goals?: UserGoalUpdateManyWithoutUserNestedInput
     challenges?: UserChallengeUpdateManyWithoutUserNestedInput
     levelRewards?: UserLevelRewardUpdateManyWithoutUserNestedInput
+    subscriptions?: SubscriptionUpdateManyWithoutUserNestedInput
+    payments?: PaymentUpdateManyWithoutUserNestedInput
+    webhookEvents?: WebhookEventUpdateManyWithoutUserNestedInput
   }
 
   export type UserUncheckedUpdateWithoutFileUploadsInput = {
@@ -153312,6 +163915,9 @@ export namespace Prisma {
     goals?: UserGoalUncheckedUpdateManyWithoutUserNestedInput
     challenges?: UserChallengeUncheckedUpdateManyWithoutUserNestedInput
     levelRewards?: UserLevelRewardUncheckedUpdateManyWithoutUserNestedInput
+    subscriptions?: SubscriptionUncheckedUpdateManyWithoutUserNestedInput
+    payments?: PaymentUncheckedUpdateManyWithoutUserNestedInput
+    webhookEvents?: WebhookEventUncheckedUpdateManyWithoutUserNestedInput
   }
 
   export type CourseUpsertWithoutFileUploadsInput = {
@@ -153344,6 +163950,8 @@ export namespace Prisma {
     isPublic?: BoolFieldUpdateOperationsInput | boolean
     isPremium?: BoolFieldUpdateOperationsInput | boolean
     allowDownload?: BoolFieldUpdateOperationsInput | boolean
+    stripeProductId?: NullableStringFieldUpdateOperationsInput | string | null
+    stripePriceId?: NullableStringFieldUpdateOperationsInput | string | null
     hasPrerequisites?: BoolFieldUpdateOperationsInput | boolean
     unlockCriteria?: NullableJsonNullValueInput | InputJsonValue
     status?: EnumCourseStatusFieldUpdateOperationsInput | $Enums.CourseStatus
@@ -153405,6 +164013,8 @@ export namespace Prisma {
     isPublic?: BoolFieldUpdateOperationsInput | boolean
     isPremium?: BoolFieldUpdateOperationsInput | boolean
     allowDownload?: BoolFieldUpdateOperationsInput | boolean
+    stripeProductId?: NullableStringFieldUpdateOperationsInput | string | null
+    stripePriceId?: NullableStringFieldUpdateOperationsInput | string | null
     hasPrerequisites?: BoolFieldUpdateOperationsInput | boolean
     seriesId?: NullableStringFieldUpdateOperationsInput | string | null
     unlockCriteria?: NullableJsonNullValueInput | InputJsonValue
@@ -153499,6 +164109,8 @@ export namespace Prisma {
     isPublic?: boolean
     isPremium?: boolean
     allowDownload?: boolean
+    stripeProductId?: string | null
+    stripePriceId?: string | null
     hasPrerequisites?: boolean
     seriesId?: string | null
     unlockCriteria?: NullableJsonNullValueInput | InputJsonValue
@@ -154027,6 +164639,53 @@ export namespace Prisma {
     levelRewardId: string
   }
 
+  export type SubscriptionCreateManyUserInput = {
+    id?: string
+    stripeCustomerId?: string | null
+    stripeSubscriptionId?: string | null
+    stripePriceId?: string | null
+    stripeProductId?: string | null
+    status?: $Enums.SubscriptionStatus
+    currentPeriodStart?: Date | string | null
+    currentPeriodEnd?: Date | string | null
+    cancelAtPeriodEnd?: boolean
+    canceledAt?: Date | string | null
+    endedAt?: Date | string | null
+    trialStart?: Date | string | null
+    trialEnd?: Date | string | null
+    quantity?: number
+    metadata?: NullableJsonNullValueInput | InputJsonValue
+    createdAt?: Date | string
+    updatedAt?: Date | string
+  }
+
+  export type PaymentCreateManyUserInput = {
+    id?: string
+    stripePaymentId?: string | null
+    stripeInvoiceId?: string | null
+    amount: Decimal | DecimalJsLike | number | string
+    currency?: string
+    status?: $Enums.PaymentStatus
+    description?: string | null
+    metadata?: NullableJsonNullValueInput | InputJsonValue
+    paidAt?: Date | string | null
+    failedAt?: Date | string | null
+    createdAt?: Date | string
+    updatedAt?: Date | string
+    subscriptionId?: string | null
+  }
+
+  export type WebhookEventCreateManyUserInput = {
+    id?: string
+    stripeEventId: string
+    type: string
+    processed?: boolean
+    processedAt?: Date | string | null
+    data: JsonNullValueInput | InputJsonValue
+    apiVersion?: string | null
+    createdAt?: Date | string
+  }
+
   export type SessionUpdateWithoutUserInput = {
     id?: StringFieldUpdateOperationsInput | string
     expiresAt?: DateTimeFieldUpdateOperationsInput | Date | string
@@ -154153,6 +164812,8 @@ export namespace Prisma {
     isPublic?: BoolFieldUpdateOperationsInput | boolean
     isPremium?: BoolFieldUpdateOperationsInput | boolean
     allowDownload?: BoolFieldUpdateOperationsInput | boolean
+    stripeProductId?: NullableStringFieldUpdateOperationsInput | string | null
+    stripePriceId?: NullableStringFieldUpdateOperationsInput | string | null
     hasPrerequisites?: BoolFieldUpdateOperationsInput | boolean
     unlockCriteria?: NullableJsonNullValueInput | InputJsonValue
     status?: EnumCourseStatusFieldUpdateOperationsInput | $Enums.CourseStatus
@@ -154214,6 +164875,8 @@ export namespace Prisma {
     isPublic?: BoolFieldUpdateOperationsInput | boolean
     isPremium?: BoolFieldUpdateOperationsInput | boolean
     allowDownload?: BoolFieldUpdateOperationsInput | boolean
+    stripeProductId?: NullableStringFieldUpdateOperationsInput | string | null
+    stripePriceId?: NullableStringFieldUpdateOperationsInput | string | null
     hasPrerequisites?: BoolFieldUpdateOperationsInput | boolean
     seriesId?: NullableStringFieldUpdateOperationsInput | string | null
     unlockCriteria?: NullableJsonNullValueInput | InputJsonValue
@@ -154273,6 +164936,8 @@ export namespace Prisma {
     isPublic?: BoolFieldUpdateOperationsInput | boolean
     isPremium?: BoolFieldUpdateOperationsInput | boolean
     allowDownload?: BoolFieldUpdateOperationsInput | boolean
+    stripeProductId?: NullableStringFieldUpdateOperationsInput | string | null
+    stripePriceId?: NullableStringFieldUpdateOperationsInput | string | null
     hasPrerequisites?: BoolFieldUpdateOperationsInput | boolean
     seriesId?: NullableStringFieldUpdateOperationsInput | string | null
     unlockCriteria?: NullableJsonNullValueInput | InputJsonValue
@@ -155863,6 +166528,149 @@ export namespace Prisma {
     levelRewardId?: StringFieldUpdateOperationsInput | string
   }
 
+  export type SubscriptionUpdateWithoutUserInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    stripeCustomerId?: NullableStringFieldUpdateOperationsInput | string | null
+    stripeSubscriptionId?: NullableStringFieldUpdateOperationsInput | string | null
+    stripePriceId?: NullableStringFieldUpdateOperationsInput | string | null
+    stripeProductId?: NullableStringFieldUpdateOperationsInput | string | null
+    status?: EnumSubscriptionStatusFieldUpdateOperationsInput | $Enums.SubscriptionStatus
+    currentPeriodStart?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    currentPeriodEnd?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    cancelAtPeriodEnd?: BoolFieldUpdateOperationsInput | boolean
+    canceledAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    endedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    trialStart?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    trialEnd?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    quantity?: IntFieldUpdateOperationsInput | number
+    metadata?: NullableJsonNullValueInput | InputJsonValue
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    payments?: PaymentUpdateManyWithoutSubscriptionNestedInput
+  }
+
+  export type SubscriptionUncheckedUpdateWithoutUserInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    stripeCustomerId?: NullableStringFieldUpdateOperationsInput | string | null
+    stripeSubscriptionId?: NullableStringFieldUpdateOperationsInput | string | null
+    stripePriceId?: NullableStringFieldUpdateOperationsInput | string | null
+    stripeProductId?: NullableStringFieldUpdateOperationsInput | string | null
+    status?: EnumSubscriptionStatusFieldUpdateOperationsInput | $Enums.SubscriptionStatus
+    currentPeriodStart?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    currentPeriodEnd?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    cancelAtPeriodEnd?: BoolFieldUpdateOperationsInput | boolean
+    canceledAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    endedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    trialStart?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    trialEnd?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    quantity?: IntFieldUpdateOperationsInput | number
+    metadata?: NullableJsonNullValueInput | InputJsonValue
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    payments?: PaymentUncheckedUpdateManyWithoutSubscriptionNestedInput
+  }
+
+  export type SubscriptionUncheckedUpdateManyWithoutUserInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    stripeCustomerId?: NullableStringFieldUpdateOperationsInput | string | null
+    stripeSubscriptionId?: NullableStringFieldUpdateOperationsInput | string | null
+    stripePriceId?: NullableStringFieldUpdateOperationsInput | string | null
+    stripeProductId?: NullableStringFieldUpdateOperationsInput | string | null
+    status?: EnumSubscriptionStatusFieldUpdateOperationsInput | $Enums.SubscriptionStatus
+    currentPeriodStart?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    currentPeriodEnd?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    cancelAtPeriodEnd?: BoolFieldUpdateOperationsInput | boolean
+    canceledAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    endedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    trialStart?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    trialEnd?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    quantity?: IntFieldUpdateOperationsInput | number
+    metadata?: NullableJsonNullValueInput | InputJsonValue
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
+  export type PaymentUpdateWithoutUserInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    stripePaymentId?: NullableStringFieldUpdateOperationsInput | string | null
+    stripeInvoiceId?: NullableStringFieldUpdateOperationsInput | string | null
+    amount?: DecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string
+    currency?: StringFieldUpdateOperationsInput | string
+    status?: EnumPaymentStatusFieldUpdateOperationsInput | $Enums.PaymentStatus
+    description?: NullableStringFieldUpdateOperationsInput | string | null
+    metadata?: NullableJsonNullValueInput | InputJsonValue
+    paidAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    failedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    subscription?: SubscriptionUpdateOneWithoutPaymentsNestedInput
+  }
+
+  export type PaymentUncheckedUpdateWithoutUserInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    stripePaymentId?: NullableStringFieldUpdateOperationsInput | string | null
+    stripeInvoiceId?: NullableStringFieldUpdateOperationsInput | string | null
+    amount?: DecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string
+    currency?: StringFieldUpdateOperationsInput | string
+    status?: EnumPaymentStatusFieldUpdateOperationsInput | $Enums.PaymentStatus
+    description?: NullableStringFieldUpdateOperationsInput | string | null
+    metadata?: NullableJsonNullValueInput | InputJsonValue
+    paidAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    failedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    subscriptionId?: NullableStringFieldUpdateOperationsInput | string | null
+  }
+
+  export type PaymentUncheckedUpdateManyWithoutUserInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    stripePaymentId?: NullableStringFieldUpdateOperationsInput | string | null
+    stripeInvoiceId?: NullableStringFieldUpdateOperationsInput | string | null
+    amount?: DecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string
+    currency?: StringFieldUpdateOperationsInput | string
+    status?: EnumPaymentStatusFieldUpdateOperationsInput | $Enums.PaymentStatus
+    description?: NullableStringFieldUpdateOperationsInput | string | null
+    metadata?: NullableJsonNullValueInput | InputJsonValue
+    paidAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    failedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    subscriptionId?: NullableStringFieldUpdateOperationsInput | string | null
+  }
+
+  export type WebhookEventUpdateWithoutUserInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    stripeEventId?: StringFieldUpdateOperationsInput | string
+    type?: StringFieldUpdateOperationsInput | string
+    processed?: BoolFieldUpdateOperationsInput | boolean
+    processedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    data?: JsonNullValueInput | InputJsonValue
+    apiVersion?: NullableStringFieldUpdateOperationsInput | string | null
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
+  export type WebhookEventUncheckedUpdateWithoutUserInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    stripeEventId?: StringFieldUpdateOperationsInput | string
+    type?: StringFieldUpdateOperationsInput | string
+    processed?: BoolFieldUpdateOperationsInput | boolean
+    processedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    data?: JsonNullValueInput | InputJsonValue
+    apiVersion?: NullableStringFieldUpdateOperationsInput | string | null
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
+  export type WebhookEventUncheckedUpdateManyWithoutUserInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    stripeEventId?: StringFieldUpdateOperationsInput | string
+    type?: StringFieldUpdateOperationsInput | string
+    processed?: BoolFieldUpdateOperationsInput | boolean
+    processedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    data?: JsonNullValueInput | InputJsonValue
+    apiVersion?: NullableStringFieldUpdateOperationsInput | string | null
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
   export type CategoryCreateManyParentInput = {
     id?: string
     name: string
@@ -155902,6 +166710,8 @@ export namespace Prisma {
     isPublic?: boolean
     isPremium?: boolean
     allowDownload?: boolean
+    stripeProductId?: string | null
+    stripePriceId?: string | null
     hasPrerequisites?: boolean
     seriesId?: string | null
     unlockCriteria?: NullableJsonNullValueInput | InputJsonValue
@@ -156100,6 +166910,8 @@ export namespace Prisma {
     isPublic?: BoolFieldUpdateOperationsInput | boolean
     isPremium?: BoolFieldUpdateOperationsInput | boolean
     allowDownload?: BoolFieldUpdateOperationsInput | boolean
+    stripeProductId?: NullableStringFieldUpdateOperationsInput | string | null
+    stripePriceId?: NullableStringFieldUpdateOperationsInput | string | null
     hasPrerequisites?: BoolFieldUpdateOperationsInput | boolean
     unlockCriteria?: NullableJsonNullValueInput | InputJsonValue
     status?: EnumCourseStatusFieldUpdateOperationsInput | $Enums.CourseStatus
@@ -156160,6 +166972,8 @@ export namespace Prisma {
     isPublic?: BoolFieldUpdateOperationsInput | boolean
     isPremium?: BoolFieldUpdateOperationsInput | boolean
     allowDownload?: BoolFieldUpdateOperationsInput | boolean
+    stripeProductId?: NullableStringFieldUpdateOperationsInput | string | null
+    stripePriceId?: NullableStringFieldUpdateOperationsInput | string | null
     hasPrerequisites?: BoolFieldUpdateOperationsInput | boolean
     seriesId?: NullableStringFieldUpdateOperationsInput | string | null
     unlockCriteria?: NullableJsonNullValueInput | InputJsonValue
@@ -156219,6 +167033,8 @@ export namespace Prisma {
     isPublic?: BoolFieldUpdateOperationsInput | boolean
     isPremium?: BoolFieldUpdateOperationsInput | boolean
     allowDownload?: BoolFieldUpdateOperationsInput | boolean
+    stripeProductId?: NullableStringFieldUpdateOperationsInput | string | null
+    stripePriceId?: NullableStringFieldUpdateOperationsInput | string | null
     hasPrerequisites?: BoolFieldUpdateOperationsInput | boolean
     seriesId?: NullableStringFieldUpdateOperationsInput | string | null
     unlockCriteria?: NullableJsonNullValueInput | InputJsonValue
@@ -156551,6 +167367,8 @@ export namespace Prisma {
     isPublic?: boolean
     isPremium?: boolean
     allowDownload?: boolean
+    stripeProductId?: string | null
+    stripePriceId?: string | null
     hasPrerequisites?: boolean
     seriesId?: string | null
     unlockCriteria?: NullableJsonNullValueInput | InputJsonValue
@@ -156654,6 +167472,8 @@ export namespace Prisma {
     isPublic?: BoolFieldUpdateOperationsInput | boolean
     isPremium?: BoolFieldUpdateOperationsInput | boolean
     allowDownload?: BoolFieldUpdateOperationsInput | boolean
+    stripeProductId?: NullableStringFieldUpdateOperationsInput | string | null
+    stripePriceId?: NullableStringFieldUpdateOperationsInput | string | null
     hasPrerequisites?: BoolFieldUpdateOperationsInput | boolean
     unlockCriteria?: NullableJsonNullValueInput | InputJsonValue
     status?: EnumCourseStatusFieldUpdateOperationsInput | $Enums.CourseStatus
@@ -156714,6 +167534,8 @@ export namespace Prisma {
     isPublic?: BoolFieldUpdateOperationsInput | boolean
     isPremium?: BoolFieldUpdateOperationsInput | boolean
     allowDownload?: BoolFieldUpdateOperationsInput | boolean
+    stripeProductId?: NullableStringFieldUpdateOperationsInput | string | null
+    stripePriceId?: NullableStringFieldUpdateOperationsInput | string | null
     hasPrerequisites?: BoolFieldUpdateOperationsInput | boolean
     seriesId?: NullableStringFieldUpdateOperationsInput | string | null
     unlockCriteria?: NullableJsonNullValueInput | InputJsonValue
@@ -156773,6 +167595,8 @@ export namespace Prisma {
     isPublic?: BoolFieldUpdateOperationsInput | boolean
     isPremium?: BoolFieldUpdateOperationsInput | boolean
     allowDownload?: BoolFieldUpdateOperationsInput | boolean
+    stripeProductId?: NullableStringFieldUpdateOperationsInput | string | null
+    stripePriceId?: NullableStringFieldUpdateOperationsInput | string | null
     hasPrerequisites?: BoolFieldUpdateOperationsInput | boolean
     seriesId?: NullableStringFieldUpdateOperationsInput | string | null
     unlockCriteria?: NullableJsonNullValueInput | InputJsonValue
@@ -157804,6 +168628,8 @@ export namespace Prisma {
     isPublic?: boolean
     isPremium?: boolean
     allowDownload?: boolean
+    stripeProductId?: string | null
+    stripePriceId?: string | null
     hasPrerequisites?: boolean
     unlockCriteria?: NullableJsonNullValueInput | InputJsonValue
     status?: $Enums.CourseStatus
@@ -157844,6 +168670,8 @@ export namespace Prisma {
     isPublic?: BoolFieldUpdateOperationsInput | boolean
     isPremium?: BoolFieldUpdateOperationsInput | boolean
     allowDownload?: BoolFieldUpdateOperationsInput | boolean
+    stripeProductId?: NullableStringFieldUpdateOperationsInput | string | null
+    stripePriceId?: NullableStringFieldUpdateOperationsInput | string | null
     hasPrerequisites?: BoolFieldUpdateOperationsInput | boolean
     unlockCriteria?: NullableJsonNullValueInput | InputJsonValue
     status?: EnumCourseStatusFieldUpdateOperationsInput | $Enums.CourseStatus
@@ -157905,6 +168733,8 @@ export namespace Prisma {
     isPublic?: BoolFieldUpdateOperationsInput | boolean
     isPremium?: BoolFieldUpdateOperationsInput | boolean
     allowDownload?: BoolFieldUpdateOperationsInput | boolean
+    stripeProductId?: NullableStringFieldUpdateOperationsInput | string | null
+    stripePriceId?: NullableStringFieldUpdateOperationsInput | string | null
     hasPrerequisites?: BoolFieldUpdateOperationsInput | boolean
     unlockCriteria?: NullableJsonNullValueInput | InputJsonValue
     status?: EnumCourseStatusFieldUpdateOperationsInput | $Enums.CourseStatus
@@ -157964,6 +168794,8 @@ export namespace Prisma {
     isPublic?: BoolFieldUpdateOperationsInput | boolean
     isPremium?: BoolFieldUpdateOperationsInput | boolean
     allowDownload?: BoolFieldUpdateOperationsInput | boolean
+    stripeProductId?: NullableStringFieldUpdateOperationsInput | string | null
+    stripePriceId?: NullableStringFieldUpdateOperationsInput | string | null
     hasPrerequisites?: BoolFieldUpdateOperationsInput | boolean
     unlockCriteria?: NullableJsonNullValueInput | InputJsonValue
     status?: EnumCourseStatusFieldUpdateOperationsInput | $Enums.CourseStatus
@@ -159722,6 +170554,70 @@ export namespace Prisma {
   export type UserLevelRewardUncheckedUpdateManyWithoutLevelRewardInput = {
     id?: StringFieldUpdateOperationsInput | string
     earnedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    userId?: StringFieldUpdateOperationsInput | string
+  }
+
+  export type PaymentCreateManySubscriptionInput = {
+    id?: string
+    stripePaymentId?: string | null
+    stripeInvoiceId?: string | null
+    amount: Decimal | DecimalJsLike | number | string
+    currency?: string
+    status?: $Enums.PaymentStatus
+    description?: string | null
+    metadata?: NullableJsonNullValueInput | InputJsonValue
+    paidAt?: Date | string | null
+    failedAt?: Date | string | null
+    createdAt?: Date | string
+    updatedAt?: Date | string
+    userId: string
+  }
+
+  export type PaymentUpdateWithoutSubscriptionInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    stripePaymentId?: NullableStringFieldUpdateOperationsInput | string | null
+    stripeInvoiceId?: NullableStringFieldUpdateOperationsInput | string | null
+    amount?: DecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string
+    currency?: StringFieldUpdateOperationsInput | string
+    status?: EnumPaymentStatusFieldUpdateOperationsInput | $Enums.PaymentStatus
+    description?: NullableStringFieldUpdateOperationsInput | string | null
+    metadata?: NullableJsonNullValueInput | InputJsonValue
+    paidAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    failedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    user?: UserUpdateOneRequiredWithoutPaymentsNestedInput
+  }
+
+  export type PaymentUncheckedUpdateWithoutSubscriptionInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    stripePaymentId?: NullableStringFieldUpdateOperationsInput | string | null
+    stripeInvoiceId?: NullableStringFieldUpdateOperationsInput | string | null
+    amount?: DecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string
+    currency?: StringFieldUpdateOperationsInput | string
+    status?: EnumPaymentStatusFieldUpdateOperationsInput | $Enums.PaymentStatus
+    description?: NullableStringFieldUpdateOperationsInput | string | null
+    metadata?: NullableJsonNullValueInput | InputJsonValue
+    paidAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    failedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    userId?: StringFieldUpdateOperationsInput | string
+  }
+
+  export type PaymentUncheckedUpdateManyWithoutSubscriptionInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    stripePaymentId?: NullableStringFieldUpdateOperationsInput | string | null
+    stripeInvoiceId?: NullableStringFieldUpdateOperationsInput | string | null
+    amount?: DecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string
+    currency?: StringFieldUpdateOperationsInput | string
+    status?: EnumPaymentStatusFieldUpdateOperationsInput | $Enums.PaymentStatus
+    description?: NullableStringFieldUpdateOperationsInput | string | null
+    metadata?: NullableJsonNullValueInput | InputJsonValue
+    paidAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    failedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     userId?: StringFieldUpdateOperationsInput | string
   }
 

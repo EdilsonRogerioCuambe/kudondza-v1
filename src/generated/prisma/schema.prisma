@@ -106,6 +106,11 @@ model User {
   challenges   UserChallenge[]
   levelRewards UserLevelReward[]
 
+  // Relações de assinaturas e pagamentos
+  subscriptions Subscription[]
+  payments      Payment[]
+  webhookEvents WebhookEvent[]
+
   // Campos adicionais para dashboard
   lastLoginAt DateTime?
   loginCount  Int       @default(0)
@@ -264,6 +269,10 @@ model Course {
   isPublic      Boolean  @default(false)
   isPremium     Boolean  @default(false)
   allowDownload Boolean  @default(false)
+
+  // Stripe Integration
+  stripeProductId String? @unique
+  stripePriceId   String? @unique
 
   // Configurações de acesso
   hasPrerequisites Boolean              @default(false)
@@ -1904,6 +1913,145 @@ model AuditLog {
 }
 
 // ================================
+// MÓDULO: ASSINATURAS E PAGAMENTOS (STRIPE)
+// ================================
+
+model Subscription {
+  id                   String  @id @default(cuid())
+  stripeCustomerId     String? @unique
+  stripeSubscriptionId String? @unique
+  stripePriceId        String?
+  stripeProductId      String?
+
+  // Status da assinatura
+  status             SubscriptionStatus @default(INACTIVE)
+  currentPeriodStart DateTime?
+  currentPeriodEnd   DateTime?
+  cancelAtPeriodEnd  Boolean            @default(false)
+  canceledAt         DateTime?
+  endedAt            DateTime?
+
+  // Configurações
+  trialStart DateTime?
+  trialEnd   DateTime?
+  quantity   Int       @default(1)
+
+  // Metadados
+  metadata Json?
+
+  // Datas
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  // Relacionamentos
+  userId   String
+  user     User      @relation(fields: [userId], references: [id], onDelete: Cascade)
+  payments Payment[]
+
+  @@map("subscriptions")
+}
+
+model Payment {
+  id              String  @id @default(cuid())
+  stripePaymentId String? @unique
+  stripeInvoiceId String?
+
+  // Valores
+  amount   Decimal       @db.Decimal(10, 2)
+  currency String        @default("MZN")
+  status   PaymentStatus @default(PENDING)
+
+  // Configurações
+  description String?
+  metadata    Json?
+
+  // Datas
+  paidAt    DateTime?
+  failedAt  DateTime?
+  createdAt DateTime  @default(now())
+  updatedAt DateTime  @updatedAt
+
+  // Relacionamentos
+  userId         String
+  user           User          @relation(fields: [userId], references: [id], onDelete: Cascade)
+  subscriptionId String?
+  subscription   Subscription? @relation(fields: [subscriptionId], references: [id], onDelete: SetNull)
+
+  @@map("payments")
+}
+
+model WebhookEvent {
+  id            String    @id @default(cuid())
+  stripeEventId String    @unique
+  type          String
+  processed     Boolean   @default(false)
+  processedAt   DateTime?
+
+  // Dados do evento
+  data       Json
+  apiVersion String?
+
+  // Datas
+  createdAt DateTime @default(now())
+
+  // Relacionamentos
+  userId String?
+  user   User?   @relation(fields: [userId], references: [id], onDelete: SetNull)
+
+  @@map("webhook_events")
+}
+
+model SubscriptionPlan {
+  id            String  @id @default(cuid())
+  name          String
+  description   String? @db.Text
+  price         Decimal @db.Decimal(10, 2)
+  currency      String  @default("MZN")
+  interval      String // month, year
+  intervalCount Int     @default(1)
+
+  // Stripe
+  stripePriceId   String @unique
+  stripeProductId String
+
+  // Configurações
+  isActive Boolean @default(true)
+  features Json // Array de features incluídas
+  maxUsers Int? // Limite de usuários (null = ilimitado)
+
+  // Datas
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  @@map("subscription_plans")
+}
+
+model EmailNotification {
+  id        String                @id @default(cuid())
+  type      EmailNotificationType
+  recipient String // Email do destinatário
+  subject   String
+  content   String                @db.Text
+
+  // Status
+  status     EmailStatus @default(PENDING)
+  sentAt     DateTime?
+  failedAt   DateTime?
+  retryCount Int         @default(0)
+
+  // Configurações
+  template  String? // Template usado
+  variables Json? // Variáveis do template
+
+  // Datas
+  scheduledFor DateTime? // Para envios agendados
+  createdAt    DateTime  @default(now())
+  updatedAt    DateTime  @updatedAt
+
+  @@map("email_notifications")
+}
+
+// ================================
 // ENUMS
 // ================================
 
@@ -2257,4 +2405,45 @@ enum UploadStatus {
   COMPLETED
   FAILED
   EXPIRED
+}
+
+enum SubscriptionStatus {
+  INACTIVE
+  ACTIVE
+  TRIALING
+  PAST_DUE
+  CANCELED
+  UNPAID
+  INCOMPLETE
+  INCOMPLETE_EXPIRED
+  PAUSED
+}
+
+enum PaymentStatus {
+  PENDING
+  PROCESSING
+  SUCCEEDED
+  FAILED
+  CANCELED
+  REFUNDED
+  PARTIALLY_REFUNDED
+}
+
+enum EmailNotificationType {
+  SUBSCRIPTION_RENEWAL_REMINDER
+  SUBSCRIPTION_EXPIRING
+  SUBSCRIPTION_CANCELED
+  SUBSCRIPTION_RENEWED
+  PAYMENT_FAILED
+  PAYMENT_SUCCEEDED
+  TRIAL_ENDING
+  WELCOME
+}
+
+enum EmailStatus {
+  PENDING
+  SENT
+  FAILED
+  BOUNCED
+  DELIVERED
 }

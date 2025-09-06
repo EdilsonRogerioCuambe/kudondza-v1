@@ -236,6 +236,8 @@ exports.Prisma.CourseScalarFieldEnum = {
   isPublic: 'isPublic',
   isPremium: 'isPremium',
   allowDownload: 'allowDownload',
+  stripeProductId: 'stripeProductId',
+  stripePriceId: 'stripePriceId',
   hasPrerequisites: 'hasPrerequisites',
   seriesId: 'seriesId',
   unlockCriteria: 'unlockCriteria',
@@ -1056,6 +1058,90 @@ exports.Prisma.AuditLogScalarFieldEnum = {
   timestamp: 'timestamp'
 };
 
+exports.Prisma.SubscriptionScalarFieldEnum = {
+  id: 'id',
+  stripeCustomerId: 'stripeCustomerId',
+  stripeSubscriptionId: 'stripeSubscriptionId',
+  stripePriceId: 'stripePriceId',
+  stripeProductId: 'stripeProductId',
+  status: 'status',
+  currentPeriodStart: 'currentPeriodStart',
+  currentPeriodEnd: 'currentPeriodEnd',
+  cancelAtPeriodEnd: 'cancelAtPeriodEnd',
+  canceledAt: 'canceledAt',
+  endedAt: 'endedAt',
+  trialStart: 'trialStart',
+  trialEnd: 'trialEnd',
+  quantity: 'quantity',
+  metadata: 'metadata',
+  createdAt: 'createdAt',
+  updatedAt: 'updatedAt',
+  userId: 'userId'
+};
+
+exports.Prisma.PaymentScalarFieldEnum = {
+  id: 'id',
+  stripePaymentId: 'stripePaymentId',
+  stripeInvoiceId: 'stripeInvoiceId',
+  amount: 'amount',
+  currency: 'currency',
+  status: 'status',
+  description: 'description',
+  metadata: 'metadata',
+  paidAt: 'paidAt',
+  failedAt: 'failedAt',
+  createdAt: 'createdAt',
+  updatedAt: 'updatedAt',
+  userId: 'userId',
+  subscriptionId: 'subscriptionId'
+};
+
+exports.Prisma.WebhookEventScalarFieldEnum = {
+  id: 'id',
+  stripeEventId: 'stripeEventId',
+  type: 'type',
+  processed: 'processed',
+  processedAt: 'processedAt',
+  data: 'data',
+  apiVersion: 'apiVersion',
+  createdAt: 'createdAt',
+  userId: 'userId'
+};
+
+exports.Prisma.SubscriptionPlanScalarFieldEnum = {
+  id: 'id',
+  name: 'name',
+  description: 'description',
+  price: 'price',
+  currency: 'currency',
+  interval: 'interval',
+  intervalCount: 'intervalCount',
+  stripePriceId: 'stripePriceId',
+  stripeProductId: 'stripeProductId',
+  isActive: 'isActive',
+  features: 'features',
+  maxUsers: 'maxUsers',
+  createdAt: 'createdAt',
+  updatedAt: 'updatedAt'
+};
+
+exports.Prisma.EmailNotificationScalarFieldEnum = {
+  id: 'id',
+  type: 'type',
+  recipient: 'recipient',
+  subject: 'subject',
+  content: 'content',
+  status: 'status',
+  sentAt: 'sentAt',
+  failedAt: 'failedAt',
+  retryCount: 'retryCount',
+  template: 'template',
+  variables: 'variables',
+  scheduledFor: 'scheduledFor',
+  createdAt: 'createdAt',
+  updatedAt: 'updatedAt'
+};
+
 exports.Prisma.UserActivityScalarFieldEnum = {
   id: 'id',
   userId: 'userId',
@@ -1401,6 +1487,47 @@ exports.RewardType = exports.$Enums.RewardType = {
   CERTIFICATE: 'CERTIFICATE'
 };
 
+exports.SubscriptionStatus = exports.$Enums.SubscriptionStatus = {
+  INACTIVE: 'INACTIVE',
+  ACTIVE: 'ACTIVE',
+  TRIALING: 'TRIALING',
+  PAST_DUE: 'PAST_DUE',
+  CANCELED: 'CANCELED',
+  UNPAID: 'UNPAID',
+  INCOMPLETE: 'INCOMPLETE',
+  INCOMPLETE_EXPIRED: 'INCOMPLETE_EXPIRED',
+  PAUSED: 'PAUSED'
+};
+
+exports.PaymentStatus = exports.$Enums.PaymentStatus = {
+  PENDING: 'PENDING',
+  PROCESSING: 'PROCESSING',
+  SUCCEEDED: 'SUCCEEDED',
+  FAILED: 'FAILED',
+  CANCELED: 'CANCELED',
+  REFUNDED: 'REFUNDED',
+  PARTIALLY_REFUNDED: 'PARTIALLY_REFUNDED'
+};
+
+exports.EmailNotificationType = exports.$Enums.EmailNotificationType = {
+  SUBSCRIPTION_RENEWAL_REMINDER: 'SUBSCRIPTION_RENEWAL_REMINDER',
+  SUBSCRIPTION_EXPIRING: 'SUBSCRIPTION_EXPIRING',
+  SUBSCRIPTION_CANCELED: 'SUBSCRIPTION_CANCELED',
+  SUBSCRIPTION_RENEWED: 'SUBSCRIPTION_RENEWED',
+  PAYMENT_FAILED: 'PAYMENT_FAILED',
+  PAYMENT_SUCCEEDED: 'PAYMENT_SUCCEEDED',
+  TRIAL_ENDING: 'TRIAL_ENDING',
+  WELCOME: 'WELCOME'
+};
+
+exports.EmailStatus = exports.$Enums.EmailStatus = {
+  PENDING: 'PENDING',
+  SENT: 'SENT',
+  FAILED: 'FAILED',
+  BOUNCED: 'BOUNCED',
+  DELIVERED: 'DELIVERED'
+};
+
 exports.ActivityType = exports.$Enums.ActivityType = {
   COURSE_VIEW: 'COURSE_VIEW',
   COURSE_ENROLLMENT: 'COURSE_ENROLLMENT',
@@ -1502,6 +1629,11 @@ exports.Prisma.ModelName = {
   LevelReward: 'LevelReward',
   UserLevelReward: 'UserLevelReward',
   AuditLog: 'AuditLog',
+  Subscription: 'Subscription',
+  Payment: 'Payment',
+  WebhookEvent: 'WebhookEvent',
+  SubscriptionPlan: 'SubscriptionPlan',
+  EmailNotification: 'EmailNotification',
   UserActivity: 'UserActivity',
   FileUpload: 'FileUpload'
 };
