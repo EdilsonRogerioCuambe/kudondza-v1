@@ -9,10 +9,10 @@ import Lottie from "lottie-react";
 import { ArrowRight, BookOpen, Home, Play, Star } from "lucide-react";
 import Link from "next/link";
 import { useSearchParams } from "next/navigation";
-import { useEffect, useState } from "react";
+import { useEffect, useState, Suspense } from "react";
 import Confetti from "react-confetti";
 
-export default function SuccessPage() {
+function SuccessPageContent() {
   const searchParams = useSearchParams();
   const sessionId = searchParams.get("session_id");
   const courseSlug = searchParams.get("course_slug");
@@ -321,5 +321,21 @@ export default function SuccessPage() {
         </motion.div>
       </div>
     </ViewPageLayout>
+  );
+}
+
+export default function SuccessPage() {
+  return (
+    <Suspense
+      fallback={
+        <ViewPageLayout>
+          <div className="flex items-center justify-center min-h-[400px]">
+            <div className="animate-spin rounded-full h-32 w-32 border-b-2 border-primary"></div>
+          </div>
+        </ViewPageLayout>
+      }
+    >
+      <SuccessPageContent />
+    </Suspense>
   );
 }
