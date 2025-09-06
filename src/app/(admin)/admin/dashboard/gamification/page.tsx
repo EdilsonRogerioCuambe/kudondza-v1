@@ -31,6 +31,9 @@ import {
   IconUsers,
 } from "@tabler/icons-react";
 
+// Force dynamic rendering
+export const dynamic = "force-dynamic";
+
 interface Achievement {
   id: string;
   name: string;
