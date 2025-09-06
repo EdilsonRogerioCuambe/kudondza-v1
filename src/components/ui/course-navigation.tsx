@@ -160,7 +160,7 @@ export function CourseNavigation({
                     ? `/courses/${course.slug}/certificate`
                     : isEnrolled
                     ? `/courses/${course.slug}/learn`
-                    : `/courses/${course.slug}/subscribe`
+                    : `/courses/${course.slug}/payment`
                 }
               >
                 {isCompleted ? (

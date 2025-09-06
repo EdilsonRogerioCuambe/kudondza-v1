@@ -384,7 +384,7 @@ export function ModernCourseHero({
                       href={
                         isEnrolled
                           ? `/courses/${course.slug}/learn`
-                          : `/courses/${course.slug}/subscribe`
+                          : `/courses/${course.slug}/payment`
                       }
                     >
                       {isCompleted ? (

@@ -243,7 +243,7 @@ export function PreviewModal({
                     className="w-full text-sm sm:text-base"
                     asChild
                   >
-                    <Link href={`/courses/${course.slug}/subscribe`}>
+                    <Link href={`/courses/${course.slug}/payment`}>
                       {course.price === 0 ? "Começar agora" : "Assinar curso"}
                     </Link>
                   </Button>
