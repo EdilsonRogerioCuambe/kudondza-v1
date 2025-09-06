@@ -9,6 +9,12 @@ const envSchema = z.object({
   GITHUB_CLIENT_SECRET: z.string().min(1),
   ARCJET_KEY: z.string().min(1),
 
+  // Stripe Configuration
+  STRIPE_SECRET_KEY: z.string().min(1),
+  STRIPE_PUBLISHABLE_KEY: z.string().min(1),
+  STRIPE_WEBHOOK_SECRET: z.string().min(1),
+  NEXT_PUBLIC_STRIPE_PUBLISHABLE_KEY: z.string().min(1),
+
   // SMTP Configuration for production emails
   SMTP_HOST: z.string().min(1),
   SMTP_PORT: z.coerce.number().min(1).max(65535),
@@ -38,6 +44,7 @@ const envSchema = z.object({
   NEXT_PUBLIC_R2_DEV_URL: z.string().url().optional(),
   NEXT_PUBLIC_AWS_S3_BUCKET_NAME: z.string().min(1).optional(),
   USE_PRIVATE_BUCKET: z.string().optional(),
+  NEXT_PUBLIC_APP_URL: z.string().url(),
 });
 
 export const env = envSchema.parse({
@@ -48,6 +55,13 @@ export const env = envSchema.parse({
   GITHUB_CLIENT_ID: process.env.GITHUB_CLIENT_ID,
   GITHUB_CLIENT_SECRET: process.env.GITHUB_CLIENT_SECRET,
   ARCJET_KEY: process.env.ARCJET_KEY,
+
+  // Stripe Configuration
+  STRIPE_SECRET_KEY: process.env.STRIPE_SECRET_KEY,
+  STRIPE_PUBLISHABLE_KEY: process.env.STRIPE_PUBLISHABLE_KEY,
+  STRIPE_WEBHOOK_SECRET: process.env.STRIPE_WEBHOOK_SECRET,
+  NEXT_PUBLIC_STRIPE_PUBLISHABLE_KEY:
+    process.env.NEXT_PUBLIC_STRIPE_PUBLISHABLE_KEY,
 
   // SMTP Configuration
   SMTP_HOST: process.env.SMTP_HOST,
@@ -81,4 +95,5 @@ export const env = envSchema.parse({
     "https://pub-8c05bd36a6e2402b86f528ea4bca59fe.r2.dev",
   NEXT_PUBLIC_AWS_S3_BUCKET_NAME: process.env.NEXT_PUBLIC_AWS_S3_BUCKET_NAME,
   USE_PRIVATE_BUCKET: process.env.USE_PRIVATE_BUCKET,
+  NEXT_PUBLIC_APP_URL: process.env.NEXT_PUBLIC_APP_URL,
 });
