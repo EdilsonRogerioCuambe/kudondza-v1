@@ -4,6 +4,7 @@ import { AspectRatio } from "@/components/ui/aspect-ratio";
 import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
+import { Progress } from "@/components/ui/progress";
 import { Separator } from "@/components/ui/separator";
 import { motion } from "framer-motion";
 import {
@@ -21,10 +22,12 @@ import {
   Star,
   ThumbsUp,
   Users,
+  X,
 } from "lucide-react";
 import Image from "next/image";
 import Link from "next/link";
 import { useState } from "react";
+import { toast } from "sonner";
 import VideoPlayer from "../video-player";
 
 interface ModernCourseHeroProps {
@@ -74,6 +77,7 @@ export function ModernCourseHero({
 }: ModernCourseHeroProps) {
   const [isBookmarked, setIsBookmarked] = useState(false);
   const [isLiked, setIsLiked] = useState(false);
+  const [showCancelModal, setShowCancelModal] = useState(false);
 
   const hasDiscount =
     course.originalPrice && course.originalPrice > course.price;
@@ -97,6 +101,55 @@ export function ModernCourseHero({
     } else {
       // Fallback para copiar link
       navigator.clipboard.writeText(window.location.href);
+    }
+  };
+
+  const handleCancelSubscription = async () => {
+    try {
+      console.log("Cancelando assinatura para o curso:", course.id);
+
+      // Mostrar toast de loading
+      const loadingToast = toast.loading("Cancelando assinatura...");
+
+      // Buscar a assinatura ativa do usuário para este curso
+      const response = await fetch("/api/subscriptions/cancel", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify({
+          courseId: course.id,
+        }),
+      });
+
+      const result = await response.json();
+
+      // Dismiss loading toast
+      toast.dismiss(loadingToast);
+
+      if (result.success) {
+        // Sucesso - mostrar toast de sucesso e recarregar
+        toast.success("Assinatura cancelada com sucesso!", {
+          description: "Você perderá o acesso após o período atual.",
+        });
+
+        // Aguardar um pouco para o usuário ver o toast antes de recarregar
+        setTimeout(() => {
+          window.location.reload();
+        }, 1500);
+      } else {
+        // Erro - mostrar toast de erro
+        toast.error("Erro ao cancelar assinatura", {
+          description: result.error,
+        });
+      }
+
+      setShowCancelModal(false);
+    } catch (error) {
+      console.error("Erro ao cancelar assinatura:", error);
+      toast.error("Erro ao cancelar assinatura", {
+        description: "Tente novamente em alguns instantes.",
+      });
     }
   };
 
@@ -347,9 +400,33 @@ export function ModernCourseHero({
                   </CardTitle>
                 </CardHeader>
                 <CardContent className="space-y-6">
-                  {/* Preço */}
+                  {/* Preço ou Status de Inscrição */}
                   <div className="text-center">
-                    {course.price === 0 ? (
+                    {isEnrolled ? (
+                      <div className="space-y-4">
+                        <div className="space-y-2">
+                          <span className="text-3xl font-bold text-green-600">
+                            Matriculado
+                          </span>
+                          <p className="text-sm text-muted-foreground">
+                            Acesso ativo ao curso
+                          </p>
+                        </div>
+
+                        {/* Barra de Progresso */}
+                        {progress !== undefined && (
+                          <div className="space-y-2">
+                            <div className="flex items-center justify-between text-sm">
+                              <span className="font-medium">Progresso</span>
+                              <span className="text-muted-foreground">
+                                {progress}% concluído
+                              </span>
+                            </div>
+                            <Progress value={progress} className="h-2" />
+                          </div>
+                        )}
+                      </div>
+                    ) : course.price === 0 ? (
                       <div className="space-y-2">
                         <span className="text-3xl font-bold text-green-600">
                           Gratuito
@@ -408,6 +485,19 @@ export function ModernCourseHero({
                     </Link>
                   </Button>
 
+                  {/* Botão de cancelar assinatura */}
+                  {isEnrolled && !isCompleted && (
+                    <Button
+                      variant="outline"
+                      size="sm"
+                      className="w-full text-red-600 border-red-200 hover:bg-red-50 hover:border-red-300"
+                      onClick={() => setShowCancelModal(true)}
+                    >
+                      <X className="h-4 w-4 mr-2" />
+                      Cancelar assinatura
+                    </Button>
+                  )}
+
                   <Separator />
 
                   {/* Benefícios */}
@@ -456,6 +546,48 @@ export function ModernCourseHero({
           </div>
         </div>
       </div>
+
+      {/* Modal de Confirmação de Cancelamento */}
+      {showCancelModal && (
+        <div className="fixed inset-0 bg-black/50 flex items-center justify-center z-50 p-4">
+          <motion.div
+            initial={{ opacity: 0, scale: 0.95 }}
+            animate={{ opacity: 1, scale: 1 }}
+            exit={{ opacity: 0, scale: 0.95 }}
+            className="bg-background rounded-lg p-6 max-w-md w-full"
+          >
+            <div className="space-y-4">
+              <div className="text-center">
+                <div className="mx-auto w-12 h-12 bg-red-100 rounded-full flex items-center justify-center mb-4">
+                  <X className="h-6 w-6 text-red-600" />
+                </div>
+                <h3 className="text-lg font-semibold">Cancelar Assinatura</h3>
+                <p className="text-sm text-muted-foreground mt-2">
+                  Tem certeza que deseja cancelar sua assinatura deste curso?
+                  Você perderá o acesso após o período atual.
+                </p>
+              </div>
+
+              <div className="flex gap-3">
+                <Button
+                  variant="outline"
+                  className="flex-1"
+                  onClick={() => setShowCancelModal(false)}
+                >
+                  Manter assinatura
+                </Button>
+                <Button
+                  variant="destructive"
+                  className="flex-1"
+                  onClick={handleCancelSubscription}
+                >
+                  Cancelar assinatura
+                </Button>
+              </div>
+            </div>
+          </motion.div>
+        </div>
+      )}
     </div>
   );
 }

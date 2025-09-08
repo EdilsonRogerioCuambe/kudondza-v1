@@ -29,6 +29,10 @@ interface ModernCourseCardProps {
   previewLessons?: number;
   totalLessons?: number;
   className?: string;
+  // Novos props para progresso
+  enrollmentProgress?: number;
+  enrollmentStatus?: string;
+  completedAt?: Date | null;
 }
 
 export function ModernCourseCard({
@@ -51,6 +55,10 @@ export function ModernCourseCard({
   previewLessons,
   totalLessons,
   className,
+  // Novos props para progresso
+  enrollmentProgress,
+  enrollmentStatus: _enrollmentStatus,
+  completedAt,
 }: ModernCourseCardProps) {
   const hasDiscount = originalPrice && originalPrice > price;
   const discountPercentage = hasDiscount
@@ -183,10 +191,34 @@ export function ModernCourseCard({
             )}
           </div>
 
-          {/* Preço */}
+          {/* Barra de progresso para cursos matriculados */}
+          {isEnrolled && typeof enrollmentProgress === "number" && (
+            <div className="space-y-2">
+              <div className="flex items-center justify-between text-xs">
+                <span className="text-muted-foreground">Progresso</span>
+                <span className="font-medium">
+                  {Math.round(enrollmentProgress)}%
+                </span>
+              </div>
+              <div className="w-full bg-muted rounded-full h-2">
+                <motion.div
+                  className="bg-primary h-2 rounded-full"
+                  initial={{ width: 0 }}
+                  animate={{ width: `${enrollmentProgress}%` }}
+                  transition={{ duration: 0.8, delay: 0.5 }}
+                />
+              </div>
+            </div>
+          )}
+
+          {/* Preço ou status do curso */}
           <div className="flex items-center justify-between">
             <div className="flex items-baseline gap-2">
-              {price === 0 ? (
+              {isEnrolled ? (
+                <span className="text-lg font-bold text-green-600">
+                  {completedAt ? "Concluído" : "Matriculado"}
+                </span>
+              ) : price === 0 ? (
                 <span className="text-lg font-bold text-green-600">
                   Gratuito
                 </span>
@@ -217,7 +249,9 @@ export function ModernCourseCard({
             variant={isEnrolled ? "default" : "default"}
             asChild
           >
-            <Link href={`/courses/${slug}`}>
+            <Link
+              href={isEnrolled ? `/courses/${slug}/learn` : `/courses/${slug}`}
+            >
               {isCompleted ? (
                 <>
                   <CheckCircle className="h-4 w-4 mr-2" />
@@ -226,7 +260,7 @@ export function ModernCourseCard({
               ) : isEnrolled ? (
                 <>
                   <PlayCircle className="h-4 w-4 mr-2" />
-                  Continuar curso
+                  {completedAt ? "Revisar curso" : "Continuar aprendendo"}
                 </>
               ) : (
                 <>

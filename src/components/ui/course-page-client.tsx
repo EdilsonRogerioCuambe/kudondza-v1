@@ -72,6 +72,7 @@ export function CoursePageClient({
   previewLessons,
   averageRating,
   hasActiveSubscription = false,
+  userProgress = 0,
 }: CoursePageClientProps) {
   const [previewModalOpen, setPreviewModalOpen] = useState(false);
   const [selectedLesson, setSelectedLesson] = useState<Lesson | null>(null);
@@ -110,6 +111,7 @@ export function CoursePageClient({
           rating={averageRating}
           reviewCount={courseReviews.length}
           isEnrolled={hasActiveSubscription}
+          progress={userProgress}
         />
 
         <Separator className="my-12" />
@@ -233,7 +235,7 @@ export function CoursePageClient({
           reviewCount={courseReviews.length}
           level={course.level || ""}
           isEnrolled={hasActiveSubscription}
-          progress={0} // TODO: Implementar progresso do usuário
+          progress={userProgress}
         />
 
         <Separator className="my-12" />
@@ -272,10 +274,12 @@ export function CoursePageClient({
                       id={rel.targetCourse.id}
                       title={rel.targetCourse.title}
                       slug={rel.targetCourse.slug}
-                      thumbnail={rel.targetCourse.thumbnail}
+                      thumbnail={rel.targetCourse.thumbnail ?? undefined}
                       level={rel.targetCourse.level}
                       language={course.language || ""}
-                      shortDescription={rel.targetCourse.shortDescription}
+                      shortDescription={
+                        rel.targetCourse.shortDescription ?? undefined
+                      }
                       price={Number(rel.targetCourse.price ?? 0)}
                       originalPrice={
                         rel.targetCourse.originalPrice
@@ -283,8 +287,15 @@ export function CoursePageClient({
                           : undefined
                       }
                       currency={course.currency || ""}
-                      duration={rel.targetCourse.duration}
+                      duration={rel.targetCourse.duration ?? undefined}
                       enrollmentsCount={rel.targetCourse._count?.enrollments}
+                      // Novos props para progresso
+                      isEnrolled={hasActiveSubscription}
+                      enrollmentProgress={hasActiveSubscription ? 0 : 0} // TODO: Implementar progresso real
+                      enrollmentStatus={
+                        hasActiveSubscription ? "ACTIVE" : undefined
+                      }
+                      completedAt={null} // TODO: Implementar data de conclusão
                     />
                   </motion.div>
                 ) : null
