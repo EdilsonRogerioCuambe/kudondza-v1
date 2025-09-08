@@ -106,7 +106,7 @@ export function CourseUpsertForm({
           duration: undefined,
           price: 0,
           originalPrice: undefined,
-          currency: "MZN",
+          currency: "BRL",
           isPublic: false,
           isPremium: false,
           allowDownload: false,

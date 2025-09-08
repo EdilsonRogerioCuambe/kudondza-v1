@@ -84,6 +84,7 @@ export default function SettingsForm() {
                     </SelectTrigger>
                   </FormControl>
                   <SelectContent>
+                    <SelectItem value="BRL">BRL - Real</SelectItem>
                     <SelectItem value="MZN">MZN - Metical</SelectItem>
                     <SelectItem value="USD">USD - Dólar</SelectItem>
                     <SelectItem value="EUR">EUR - Euro</SelectItem>
