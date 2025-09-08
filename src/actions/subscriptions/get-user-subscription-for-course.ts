@@ -12,13 +12,14 @@ export async function getUserSubscriptionForCourse(courseId: string) {
       return { success: false, data: null };
     }
 
-    // Buscar assinatura ativa para o curso
+    // Buscar assinatura ativa para o curso (não marcada para cancelar)
     const subscription = await prisma.subscription.findFirst({
       where: {
         userId: session.user.id,
         status: {
           in: ["ACTIVE", "TRIALING"],
         },
+        cancelAtPeriodEnd: false,
         metadata: {
           path: ["courseId"],
           equals: courseId,
@@ -30,6 +31,7 @@ export async function getUserSubscriptionForCourse(courseId: string) {
         currentPeriodEnd: true,
         trialEnd: true,
         createdAt: true,
+        cancelAtPeriodEnd: true,
       },
     });
 
