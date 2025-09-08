@@ -3,7 +3,7 @@ import {
   PaymentStatus,
   SubscriptionStatus,
 } from "@/generated/prisma";
-import { sendEmailNotification } from "@/lib/email-service";
+import { queueEmail } from "@/lib/email-queue";
 import prisma from "./prisma";
 
 interface StripeWebhookEvent {
@@ -221,19 +221,33 @@ async function handleSubscriptionCreated(subscription: StripeSubscription) {
 
     // Enviar email de boas-vindas se for trial
     if (subscription.status === "trialing") {
-      await sendEmailNotification({
-        type: EmailNotificationType.WELCOME,
-        recipient: user.email,
+      await queueEmail({
+        to: user.email,
         subject: "Bem-vindo ao Kudondza! Seu período de teste começou",
-        content: `Olá ${user.name}! Seu período de teste de 7 dias começou. Aproveite todos os recursos premium!`,
-        template: "welcome-trial",
-        variables: {
-          userName: user.name,
-          trialEndDate: subscription.trial_end
-            ? new Date(subscription.trial_end * 1000).toLocaleDateString(
-                "pt-BR"
-              )
-            : null,
+        html: `
+          <h2>Bem-vindo ao Kudondza, ${user.name}!</h2>
+          <p>Seu período de teste de 7 dias começou. Aproveite todos os recursos premium!</p>
+          <p>Seu período de teste termina em: ${
+            subscription.trial_end
+              ? new Date(subscription.trial_end * 1000).toLocaleDateString(
+                  "pt-BR"
+                )
+              : "7 dias"
+          }</p>
+          <p>Durante este período, você terá acesso completo a:</p>
+          <ul>
+            <li>✅ Todos os cursos premium</li>
+            <li>✅ Certificados de conclusão</li>
+            <li>✅ Suporte da comunidade</li>
+            <li>✅ Atualizações futuras</li>
+          </ul>
+          <p>Se precisar de ajuda, não hesite em entrar em contato conosco!</p>
+        `,
+        priority: "high",
+        metadata: {
+          type: EmailNotificationType.WELCOME,
+          userId: user.id,
+          subscriptionId: subscription.id,
         },
       });
     }
@@ -352,16 +366,30 @@ async function handlePaymentSucceeded(invoice: StripeInvoice) {
     });
 
     if (user) {
-      await sendEmailNotification({
-        type: EmailNotificationType.PAYMENT_SUCCEEDED,
-        recipient: user.email,
+      await queueEmail({
+        to: user.email,
         subject: "Pagamento confirmado - Kudondza",
-        content: `Seu pagamento foi processado com sucesso! Obrigado por continuar conosco.`,
-        template: "payment-success",
-        variables: {
-          userName: user.name,
-          amount: (invoice.amount_paid / 100).toFixed(2),
-          currency: invoice.currency.toUpperCase(),
+        html: `
+          <h2>Pagamento Confirmado!</h2>
+          <p>Olá ${user.name},</p>
+          <p>Seu pagamento foi processado com sucesso! Obrigado por continuar conosco.</p>
+          <div style="background: #f0f9ff; padding: 20px; border-radius: 8px; margin: 20px 0;">
+            <h3>Detalhes do Pagamento:</h3>
+            <p><strong>Valor:</strong> ${(invoice.amount_paid / 100).toFixed(
+              2
+            )} ${invoice.currency.toUpperCase()}</p>
+            <p><strong>Data:</strong> ${new Date().toLocaleDateString(
+              "pt-BR"
+            )}</p>
+            <p><strong>Status:</strong> ✅ Confirmado</p>
+          </div>
+          <p>Seu acesso aos cursos premium foi renovado. Aproveite!</p>
+        `,
+        priority: "high",
+        metadata: {
+          type: EmailNotificationType.PAYMENT_SUCCEEDED,
+          userId: user.id,
+          invoiceId: invoice.id,
         },
       });
     }
@@ -415,16 +443,36 @@ async function handlePaymentFailed(invoice: StripeInvoice) {
     });
 
     if (user) {
-      await sendEmailNotification({
-        type: EmailNotificationType.PAYMENT_FAILED,
-        recipient: user.email,
+      await queueEmail({
+        to: user.email,
         subject: "Falha no pagamento - Kudondza",
-        content: `Houve um problema com o processamento do seu pagamento. Por favor, atualize seus dados de pagamento.`,
-        template: "payment-failed",
-        variables: {
-          userName: user.name,
-          amount: (invoice.amount_due / 100).toFixed(2),
-          currency: invoice.currency.toUpperCase(),
+        html: `
+          <h2>⚠️ Problema com Pagamento</h2>
+          <p>Olá ${user.name},</p>
+          <p>Houve um problema com o processamento do seu pagamento. Por favor, atualize seus dados de pagamento.</p>
+          <div style="background: #fef2f2; padding: 20px; border-radius: 8px; margin: 20px 0; border-left: 4px solid #ef4444;">
+            <h3>Detalhes:</h3>
+            <p><strong>Valor:</strong> ${(invoice.amount_due / 100).toFixed(
+              2
+            )} ${invoice.currency.toUpperCase()}</p>
+            <p><strong>Data:</strong> ${new Date().toLocaleDateString(
+              "pt-BR"
+            )}</p>
+            <p><strong>Status:</strong> ❌ Falhou</p>
+          </div>
+          <p>Para resolver este problema:</p>
+          <ol>
+            <li>Acesse sua conta no Kudondza</li>
+            <li>Vá para "Configurações de Pagamento"</li>
+            <li>Atualize seus dados de cartão</li>
+            <li>Ou entre em contato conosco se precisar de ajuda</li>
+          </ol>
+        `,
+        priority: "high",
+        metadata: {
+          type: EmailNotificationType.PAYMENT_FAILED,
+          userId: user.id,
+          invoiceId: invoice.id,
         },
       });
     }
@@ -470,20 +518,30 @@ async function handleInvoiceUpcoming(invoice: StripeInvoice) {
     );
 
     // Enviar email de lembrete
-    await sendEmailNotification({
-      type: EmailNotificationType.SUBSCRIPTION_RENEWAL_REMINDER,
-      recipient: user.email,
+    await queueEmail({
+      to: user.email,
       subject: `Renovação da assinatura em ${daysUntilDue} dias - Kudondza`,
-      content: `Sua assinatura será renovada em ${daysUntilDue} dias. Valor: ${(
-        invoice.amount_due / 100
-      ).toFixed(2)} ${invoice.currency.toUpperCase()}`,
-      template: "renewal-reminder",
-      variables: {
-        userName: user.name,
+      html: `
+        <h2>🔄 Renovação da Assinatura</h2>
+        <p>Olá ${user.name},</p>
+        <p>Sua assinatura será renovada em <strong>${daysUntilDue} dias</strong>.</p>
+        <div style="background: #f0f9ff; padding: 20px; border-radius: 8px; margin: 20px 0;">
+          <h3>Detalhes da Renovação:</h3>
+          <p><strong>Valor:</strong> ${(invoice.amount_due / 100).toFixed(
+            2
+          )} ${invoice.currency.toUpperCase()}</p>
+          <p><strong>Data de Renovação:</strong> ${dueDate.toLocaleDateString(
+            "pt-BR"
+          )}</p>
+          <p><strong>Dias Restantes:</strong> ${daysUntilDue}</p>
+        </div>
+        <p>Seus dados de pagamento atuais serão usados para a renovação. Se precisar atualizar, faça isso antes da data de renovação.</p>
+      `,
+      priority: "normal",
+      metadata: {
+        type: EmailNotificationType.SUBSCRIPTION_RENEWAL_REMINDER,
+        userId: user.id,
         daysUntilDue,
-        amount: (invoice.amount_due / 100).toFixed(2),
-        currency: invoice.currency.toUpperCase(),
-        dueDate: dueDate.toLocaleDateString("pt-BR"),
       },
     });
 
@@ -533,16 +591,35 @@ async function handleTrialWillEnd(subscription: StripeSubscription) {
     );
 
     // Enviar email de lembrete do trial
-    await sendEmailNotification({
-      type: EmailNotificationType.TRIAL_ENDING,
-      recipient: user.email,
+    await queueEmail({
+      to: user.email,
       subject: `Seu período de teste termina em ${daysUntilTrialEnd} dias - Kudondza`,
-      content: `Seu período de teste termina em ${daysUntilTrialEnd} dias. Adicione um método de pagamento para continuar usando o Kudondza.`,
-      template: "trial-ending",
-      variables: {
-        userName: user.name,
+      html: `
+        <h2>⏰ Período de Teste Terminando</h2>
+        <p>Olá ${user.name},</p>
+        <p>Seu período de teste termina em <strong>${daysUntilTrialEnd} dias</strong>.</p>
+        <div style="background: #fef3c7; padding: 20px; border-radius: 8px; margin: 20px 0; border-left: 4px solid #f59e0b;">
+          <h3>⚠️ Ação Necessária:</h3>
+          <p>Para continuar usando o Kudondza após o período de teste, você precisa adicionar um método de pagamento.</p>
+          <p><strong>Data de Término:</strong> ${trialEnd.toLocaleDateString(
+            "pt-BR"
+          )}</p>
+          <p><strong>Dias Restantes:</strong> ${daysUntilTrialEnd}</p>
+        </div>
+        <p>Adicione um método de pagamento agora para não perder o acesso aos seus cursos!</p>
+        <div style="text-align: center; margin: 30px 0;">
+          <a href="${
+            process.env.NEXT_PUBLIC_APP_URL
+          }/profile" style="background: #10b981; color: white; padding: 12px 24px; text-decoration: none; border-radius: 6px; display: inline-block;">
+            Adicionar Método de Pagamento
+          </a>
+        </div>
+      `,
+      priority: "high",
+      metadata: {
+        type: EmailNotificationType.TRIAL_ENDING,
+        userId: user.id,
         daysUntilTrialEnd,
-        trialEndDate: trialEnd.toLocaleDateString("pt-BR"),
       },
     });
 

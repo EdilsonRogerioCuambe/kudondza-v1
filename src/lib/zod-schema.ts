@@ -43,7 +43,7 @@ export const CreateCourseSchema = z.object({
     .optional(),
   thumbnail: z.string().url().optional(),
   trailer: z.string().url().optional(),
-  courseMaterials: z.string().url().optional(),
+  courseMaterials: z.string().optional(),
 
   // Metadados
   categoryId: z.string().min(1, "Categoria é obrigatória"),
@@ -66,7 +66,7 @@ export const CreateCourseSchema = z.object({
     .number()
     .min(0, "Preço original não pode ser negativo")
     .optional(),
-  currency: z.string().default("MZN"),
+  currency: z.string().default("BRL"),
   isPublic: z.boolean().default(false),
   isPremium: z.boolean().default(false),
   allowDownload: z.boolean().default(false),
@@ -403,7 +403,7 @@ export const CourseFormSchema = z.object({
     .number()
     .min(0, "Preço original não pode ser negativo")
     .optional(),
-  currency: z.string().default("MZN"),
+  currency: z.string().default("BRL"),
 
   // Configurações
   isPublic: z.boolean().default(false),

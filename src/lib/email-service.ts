@@ -23,15 +23,31 @@ class SMTPEmailService implements EmailService {
       .includes("smtp.gmail.com");
 
     if (isGmail) {
-      // Usa configuração padrão do Gmail para evitar conflitos de TLS/port
+      // Configuração otimizada para Gmail
       this.transporter = nodemailer.createTransport({
         service: "gmail",
         auth: {
           user: env.SMTP_USER,
           pass: env.SMTP_PASS,
         },
+        // Configurações de performance
+        pool: true, // Usar pool de conexões
+        maxConnections: 5, // Máximo de conexões simultâneas
+        maxMessages: 100, // Máximo de mensagens por conexão
+        rateDelta: 20000, // Intervalo entre envios (20s)
+        rateLimit: 5, // Máximo 5 emails por rateDelta
+        // Configurações de timeout
+        connectionTimeout: 60000, // 60s para conectar
+        greetingTimeout: 30000, // 30s para greeting
+        socketTimeout: 60000, // 60s para socket
+        // Configurações de TLS otimizadas
+        tls: {
+          rejectUnauthorized: false, // Para desenvolvimento
+          minVersion: "TLSv1.2",
+        },
       });
     } else {
+      // Configuração otimizada para outros provedores SMTP
       this.transporter = nodemailer.createTransport({
         host: env.SMTP_HOST,
         port: env.SMTP_PORT,
@@ -41,11 +57,40 @@ class SMTPEmailService implements EmailService {
           pass: env.SMTP_PASS,
         },
         requireTLS: !env.SMTP_SECURE,
+
+        // SPEED: keep connections warm & reuse them
+        pool: true,
+        maxConnections: 3, // 1–5 is typical for Gmail
+        maxMessages: Infinity, // reuse forever
+        // Optional gentle pacing so Gmail doesn’t frown:
+        rateDelta: 1000, // window (ms)
+        rateLimit: 5, // msgs per window (shared across connections)
+
+        // OBSERVABILITY & STABILITY
+        logger: true,
+        debug: true,
+        connectionTimeout: 20_000,
+        greetingTimeout: 10_000,
+        socketTimeout: 30_000,
+        // Configurações de TLS otimizadas
         tls: {
           minVersion: "TLSv1.2",
           servername: env.SMTP_HOST,
+          rejectUnauthorized: false, // Para desenvolvimento
         },
       });
+    }
+
+    // Verificar conexão na inicialização
+    this.verifyConnection();
+  }
+
+  private async verifyConnection() {
+    try {
+      await this.transporter.verify();
+      console.log("📧 Conexão SMTP verificada com sucesso");
+    } catch (error) {
+      console.error("❌ Erro na verificação da conexão SMTP:", error);
     }
   }
 
@@ -55,34 +100,60 @@ class SMTPEmailService implements EmailService {
     html: string;
     from?: string;
   }) {
-    try {
-      const mailOptions = {
-        from: options.from || `Kudondza <${env.SMTP_FROM_EMAIL}>`,
-        to: Array.isArray(options.to) ? options.to.join(", ") : options.to,
-        subject: options.subject,
-        html: options.html,
-      };
+    const maxRetries = 3;
+    let lastError: Error | null = null;
 
-      console.log("📧 Enviando email com opções:");
-      console.log("📧 From:", mailOptions.from);
-      console.log("📧 To:", mailOptions.to);
-      console.log("📧 Subject:", mailOptions.subject);
-      console.log("📧 SMTP User:", env.SMTP_USER);
+    for (let attempt = 1; attempt <= maxRetries; attempt++) {
+      try {
+        const mailOptions = {
+          from: options.from || `Kudondza <${env.SMTP_FROM_EMAIL}>`,
+          to: Array.isArray(options.to) ? options.to.join(", ") : options.to,
+          subject: options.subject,
+          html: options.html,
+          // Configurações adicionais para melhor entrega
+          headers: {
+            "X-Priority": "1", // Alta prioridade
+            "X-MSMail-Priority": "High",
+            Importance: "high",
+          },
+        };
 
-      const info = await this.transporter.sendMail(mailOptions);
+        console.log(`📧 Tentativa ${attempt}/${maxRetries} - Enviando email:`);
+        console.log("📧 From:", mailOptions.from);
+        console.log("📧 To:", mailOptions.to);
+        console.log("📧 Subject:", mailOptions.subject);
 
-      console.log("📧 Email enviado via SMTP:");
-      console.log("📧 Message ID:", info.messageId);
-      console.log("📧 Response:", info.response);
+        const startTime = Date.now();
+        const info = await this.transporter.sendMail(mailOptions);
+        const endTime = Date.now();
 
-      return {
-        success: true,
-        messageId: info.messageId,
-      };
-    } catch (error) {
-      console.error("❌ Erro ao enviar email via SMTP:", error);
-      return { success: false };
+        console.log(
+          `📧 ✅ Email enviado com sucesso em ${endTime - startTime}ms:`
+        );
+        console.log("📧 Message ID:", info.messageId);
+        console.log("📧 Response:", info.response);
+
+        return {
+          success: true,
+          messageId: info.messageId,
+        };
+      } catch (error) {
+        lastError = error as Error;
+        console.error(`❌ Tentativa ${attempt}/${maxRetries} falhou:`, error);
+
+        if (attempt < maxRetries) {
+          const delay = Math.pow(2, attempt) * 1000; // Backoff exponencial
+          console.log(`⏳ Aguardando ${delay}ms antes da próxima tentativa...`);
+          await new Promise((resolve) => setTimeout(resolve, delay));
+        }
+      }
     }
+
+    console.error("❌ Todas as tentativas de envio falharam:", lastError);
+    return {
+      success: false,
+      error: lastError?.message || "Erro desconhecido",
+    };
   }
 }
 

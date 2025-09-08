@@ -70,7 +70,7 @@ export const env = envSchema.parse({
   SMTP_USER: process.env.SMTP_USER,
   SMTP_PASS: process.env.SMTP_PASS,
   SMTP_FROM_EMAIL: process.env.SMTP_FROM_EMAIL,
-
+  
   // Cloudflare R2 Configuration
   R2_ACCOUNT_ID: process.env.R2_ACCOUNT_ID,
   R2_ACCESS_KEY_ID: process.env.R2_ACCESS_KEY_ID,
