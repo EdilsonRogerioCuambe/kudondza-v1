@@ -1,7 +1,9 @@
 "use client";
 
+import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
-import { Globe, Layers, Pickaxe, Tag, Users } from "lucide-react";
+import { Progress } from "@/components/ui/progress";
+import { Globe, Layers, Pickaxe, Play, Tag, Users } from "lucide-react";
 import Image from "next/image";
 import Link from "next/link";
 
@@ -23,10 +25,16 @@ export type CourseCardProps = {
   ratingsCount?: number;
   enrollmentsCount?: number;
   href?: string;
+  // Novos props para progresso
+  isEnrolled?: boolean;
+  enrollmentProgress?: number;
+  enrollmentStatus?: string;
+  completedAt?: Date | null;
 };
 
 export default function CourseCard(props: CourseCardProps) {
   const href = props.href ?? `/courses/${props.slug}`;
+
   return (
     <Card className="group overflow-hidden h-full flex flex-col pt-0">
       <CardHeader className="p-0">
@@ -40,7 +48,9 @@ export default function CourseCard(props: CourseCardProps) {
             />
           </div>
         ) : null}
-        <CardTitle className="line-clamp-2 text-base px-6">{props.title}</CardTitle>
+        <CardTitle className="line-clamp-2 text-base px-6">
+          {props.title}
+        </CardTitle>
       </CardHeader>
       <CardContent className="text-sm text-muted-foreground space-y-2 flex flex-col h-full">
         {props.instructorName || props.categoryName ? (
@@ -94,8 +104,26 @@ export default function CourseCard(props: CourseCardProps) {
 
         <div className="mt-auto" />
 
+        {/* Barra de progresso para cursos matriculados */}
+        {props.isEnrolled && typeof props.enrollmentProgress === "number" && (
+          <div className="space-y-2">
+            <div className="flex items-center justify-between text-xs">
+              <span className="text-muted-foreground">Progresso</span>
+              <span className="font-medium">
+                {Math.round(props.enrollmentProgress)}%
+              </span>
+            </div>
+            <Progress value={props.enrollmentProgress} className="h-2" />
+          </div>
+        )}
+
+        {/* Preço ou status do curso */}
         <div className="pt-1 flex items-baseline gap-2 text-foreground">
-          {props.price === 0 ? (
+          {props.isEnrolled ? (
+            <span className="text-green-600 font-semibold">
+              {props.completedAt ? "Concluído" : "Matriculado"}
+            </span>
+          ) : props.price === 0 ? (
             <span className="text-green-600 font-semibold">Gratuito</span>
           ) : (
             <>
@@ -112,12 +140,22 @@ export default function CourseCard(props: CourseCardProps) {
           )}
         </div>
 
-        <Link
-          href={href}
-          className="mt-2 inline-block text-primary hover:underline"
-        >
-          Ver curso
-        </Link>
+        {/* Botão de ação */}
+        {props.isEnrolled ? (
+          <Button asChild className="mt-2 w-full">
+            <Link href={`/courses/${props.slug}/learn`}>
+              <Play className="h-4 w-4 mr-2" />
+              {props.completedAt ? "Revisar curso" : "Continuar aprendendo"}
+            </Link>
+          </Button>
+        ) : (
+          <Link
+            href={href}
+            className="mt-2 inline-block text-primary hover:underline"
+          >
+            Ver curso
+          </Link>
+        )}
       </CardContent>
     </Card>
   );

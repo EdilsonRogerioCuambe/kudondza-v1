@@ -1,5 +1,5 @@
 import { getCategories } from "@/actions/categories/get-categories";
-import { getCourses } from "@/actions/courses/get-courses";
+import { getCoursesWithProgress } from "@/actions/courses/get-courses-with-progress";
 import { Badge } from "@/components/ui/badge";
 // removed unused UI imports after adopting CourseCard
 import {
@@ -26,40 +26,42 @@ function toNumber(value: string | string[] | undefined, fallback: number) {
 export default async function CoursesPage({
   searchParams,
 }: {
-  searchParams?: Record<string, string | string[] | undefined>;
+  searchParams?: Promise<Record<string, string | string[] | undefined>>;
 }) {
-  const page = toNumber(searchParams?.page, 1);
-  const limit = toNumber(searchParams?.limit, 12);
+  const resolvedSearchParams = await searchParams;
+
+  const page = toNumber(resolvedSearchParams?.page, 1);
+  const limit = toNumber(resolvedSearchParams?.limit, 12);
 
   const filters: CourseFilters = {
     page,
     limit,
-    search: (searchParams?.search as string) || undefined,
-    categoryId: (searchParams?.categoryId as string) || undefined,
-    subcategoryId: (searchParams?.subcategoryId as string) || undefined,
-    level: (searchParams?.level as CourseLevel) || undefined,
+    search: (resolvedSearchParams?.search as string) || undefined,
+    categoryId: (resolvedSearchParams?.categoryId as string) || undefined,
+    subcategoryId: (resolvedSearchParams?.subcategoryId as string) || undefined,
+    level: (resolvedSearchParams?.level as CourseLevel) || undefined,
     isPublic: true,
     isPremium:
-      (searchParams?.isPremium as string) === "true" ? true : undefined,
-    language: (searchParams?.language as string) || undefined,
+      (resolvedSearchParams?.isPremium as string) === "true" ? true : undefined,
+    language: (resolvedSearchParams?.language as string) || undefined,
     // eslint-disable-next-line @typescript-eslint/no-explicit-any
-    sortBy: (searchParams?.sortBy as any) || "createdAt",
-    sortOrder: (searchParams?.sortOrder as "asc" | "desc") || "desc",
-    minPrice: searchParams?.minPrice
-      ? Number(searchParams.minPrice)
+    sortBy: (resolvedSearchParams?.sortBy as any) || "createdAt",
+    sortOrder: (resolvedSearchParams?.sortOrder as "asc" | "desc") || "desc",
+    minPrice: resolvedSearchParams?.minPrice
+      ? Number(resolvedSearchParams.minPrice)
       : undefined,
-    maxPrice: searchParams?.maxPrice
-      ? Number(searchParams.maxPrice)
+    maxPrice: resolvedSearchParams?.maxPrice
+      ? Number(resolvedSearchParams.maxPrice)
       : undefined,
-    tags: searchParams?.tags
-      ? Array.isArray(searchParams.tags)
-        ? (searchParams.tags as string[])
-        : [searchParams.tags as string]
+    tags: resolvedSearchParams?.tags
+      ? Array.isArray(resolvedSearchParams.tags)
+        ? (resolvedSearchParams.tags as string[])
+        : [resolvedSearchParams.tags as string]
       : undefined,
   };
 
   const [coursesRes, categoriesRes] = await Promise.all([
-    getCourses(filters),
+    getCoursesWithProgress(filters),
     getCategories({
       page: 1,
       limit: 100,
@@ -115,6 +117,11 @@ export default async function CoursesPage({
             averageRating={undefined}
             ratingsCount={undefined}
             enrollmentsCount={c._count?.enrollments}
+            // Novos props para progresso
+            isEnrolled={c.isEnrolled}
+            enrollmentProgress={c.enrollmentProgress}
+            enrollmentStatus={c.enrollmentStatus}
+            completedAt={c.completedAt}
           />
         ))}
       </div>

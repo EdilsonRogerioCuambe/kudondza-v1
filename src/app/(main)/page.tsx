@@ -169,6 +169,11 @@ export default async function HomePage() {
               averageRating={c.averageRating}
               ratingsCount={c.ratingsCount}
               enrollmentsCount={c.enrollmentsCount}
+              // Novos props para progresso
+              isEnrolled={c.isEnrolled}
+              enrollmentProgress={c.enrollmentProgress}
+              enrollmentStatus={c.enrollmentStatus}
+              completedAt={c.completedAt}
             />
           ))}
         </div>
