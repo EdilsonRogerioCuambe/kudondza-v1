@@ -182,6 +182,7 @@ export interface CoursePageClientProps {
   previewLessons: number;
   averageRating: number;
   hasActiveSubscription?: boolean; // Added to check subscription status
+  userProgress?: number; // Added to pass user progress
 }
 
 export interface ModernCurriculumProps {

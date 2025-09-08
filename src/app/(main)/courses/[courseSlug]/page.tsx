@@ -1,5 +1,6 @@
 import { getCourse } from "@/actions/courses/get-course";
 import { getModulesWithLessonsByCourseId } from "@/actions/courses/modules/get-modules-with-lessons";
+import { getCourseProgress } from "@/actions/progress/get-course-progress";
 import { getPublicReviews } from "@/actions/reviews/get-public-reviews";
 import { getUserSubscriptionForCourse } from "@/actions/subscriptions/get-user-subscription-for-course";
 import { buttonVariants } from "@/components/ui/button";
@@ -49,7 +50,15 @@ export default async function Page({
   // Verificar se o usuário tem assinatura ativa para este curso
   const subscriptionRes = await getUserSubscriptionForCourse(raw.id);
   const hasActiveSubscription =
-    subscriptionRes.success && subscriptionRes.data !== null;
+    subscriptionRes.success &&
+    subscriptionRes.data !== null &&
+    subscriptionRes.data.cancelAtPeriodEnd !== true;
+
+  // Buscar progresso do usuário no curso
+  const progressRes = await getCourseProgress(courseSlug);
+  const userProgress = progressRes.success
+    ? progressRes.data?.progress?.percentage || 0
+    : 0;
 
   // Calcular estatísticas
   const totalLessons = modules.reduce(
@@ -81,6 +90,7 @@ export default async function Page({
       previewLessons={previewLessons}
       averageRating={averageRating}
       hasActiveSubscription={hasActiveSubscription} // Check if user has active subscription
+      userProgress={userProgress} // Pass user progress
     />
   );
 }
