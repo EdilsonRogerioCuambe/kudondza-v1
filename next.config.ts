@@ -29,6 +29,20 @@ const nextConfig: NextConfig = {
         port: "",
         pathname: "/**",
       },
+      // https://example.com/courses/nodejs-api.jpg
+      {
+        protocol: "https",
+        hostname: "example.com",
+        port: "",
+        pathname: "/**",
+      },
+      // https://avatars.githubusercontent.com/u/123284913?v=4
+      {
+        protocol: "https",
+        hostname: "avatars.githubusercontent.com",
+        port: "",
+        pathname: "/**",
+      },
     ],
   },
 };
